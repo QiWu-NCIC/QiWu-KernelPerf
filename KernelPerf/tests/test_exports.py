@@ -3,15 +3,15 @@ from __future__ import annotations
 import csv
 from pathlib import Path
 
-from kernelperf.app import create_app
 from kernelperf.exports import LocalResultExporter
 from kernelperf.models import BenchmarkResult, JobRecord, JobStatus, KernelArtifact
+from kernelperf.runtime import create_runtime
 
 
 def test_successful_spmv_job_is_exported_as_canonical_csv(tmp_path):
-    app = create_app(str(tmp_path / "perf.sqlite"), str(tmp_path / "contest.sqlite"))
-    backend = app.state.backends.backends()[0].info()
-    operator = app.state.benchmarks.get("spmv").operators()[0]
+    runtime_obj = create_runtime(database_path=tmp_path / "perf.sqlite", result_exports_path=tmp_path / "exports")
+    backend = runtime_obj.backends.backends()[0].info()
+    operator = runtime_obj.benchmarks.get("spmv").operators()[0]
     kernel = KernelArtifact(
         name="SELL-C32",
         source="candidate",
@@ -27,7 +27,7 @@ def test_successful_spmv_job_is_exported_as_canonical_csv(tmp_path):
         kernels=[kernel],
         status=JobStatus.succeeded,
     )
-    app.state.db.insert_result(BenchmarkResult(
+    runtime_obj.db.insert_result(BenchmarkResult(
         job_id=job.job_id,
         generator_id=job.generator_id,
         backend_id=backend.backend_id,
@@ -49,9 +49,9 @@ def test_successful_spmv_job_is_exported_as_canonical_csv(tmp_path):
     ))
     exporter = LocalResultExporter(
         tmp_path / "exports",
-        app.state.db,
-        app.state.backends,
-        app.state.benchmarks,
+        runtime_obj.db,
+        runtime_obj.backends,
+        runtime_obj.benchmarks,
     )
 
     paths = exporter.export_job(job)
@@ -72,16 +72,16 @@ def test_successful_spmv_job_is_exported_as_canonical_csv(tmp_path):
 
 
 def test_failed_job_does_not_export_csv(tmp_path):
-    app = create_app(str(tmp_path / "perf.sqlite"), str(tmp_path / "contest.sqlite"))
+    runtime = create_runtime(database_path=tmp_path / "perf.sqlite", result_exports_path=tmp_path / "exports")
     exporter = LocalResultExporter(
         tmp_path / "exports",
-        app.state.db,
-        app.state.backends,
-        app.state.benchmarks,
+        runtime.db,
+        runtime.backends,
+        runtime.benchmarks,
     )
     job = JobRecord(
         generator_id="failed",
-        backends=[app.state.backends.backends()[0].backend_id],
+        backends=[runtime.backends.backends()[0].backend_id],
         suites=["spmv"],
         kernels=[KernelArtifact(name="candidate")],
         status=JobStatus.failed,
@@ -92,9 +92,9 @@ def test_failed_job_does_not_export_csv(tmp_path):
 
 
 def test_multi_configuration_job_exports_candidates_and_per_matrix_best(tmp_path):
-    app = create_app(str(tmp_path / "perf.sqlite"), str(tmp_path / "contest.sqlite"))
-    backend = app.state.backends.backends()[0].info()
-    operator = app.state.benchmarks.get("spmv").operators()[0]
+    runtime_obj = create_runtime(database_path=tmp_path / "perf.sqlite", result_exports_path=tmp_path / "exports")
+    backend = runtime_obj.backends.backends()[0].info()
+    operator = runtime_obj.benchmarks.get("spmv").operators()[0]
     kernels = [
         KernelArtifact(
             name="cfg-a", source="candidate",
@@ -122,8 +122,8 @@ def test_multi_configuration_job_exports_candidates_and_per_matrix_best(tmp_path
         status=JobStatus.succeeded,
     )
     for kernel, timings in zip(kernels, ([1.0, 3.0], [2.0, 0.5])):
-        for matrix_id, runtime in zip(("m1", "m2"), timings):
-            app.state.db.insert_result(BenchmarkResult(
+        for matrix_id, elapsed in zip(("m1", "m2"), timings):
+            runtime_obj.db.insert_result(BenchmarkResult(
                 job_id=job.job_id,
                 generator_id=job.generator_id,
                 backend_id=backend.backend_id,
@@ -137,8 +137,8 @@ def test_multi_configuration_job_exports_candidates_and_per_matrix_best(tmp_path
                 cols=2,
                 nnz=4,
                 kernel_name=kernel.name,
-                runtime_ms=runtime,
-                gflops=8.0 / runtime,
+                runtime_ms=elapsed,
+                gflops=8.0 / elapsed,
                 arithmetic_intensity=0.0,
                 metadata={
                     "operations": 8,
@@ -152,7 +152,7 @@ def test_multi_configuration_job_exports_candidates_and_per_matrix_best(tmp_path
                 },
             ))
     exporter = LocalResultExporter(
-        tmp_path / "exports", app.state.db, app.state.backends, app.state.benchmarks
+        tmp_path / "exports", runtime_obj.db, runtime_obj.backends, runtime_obj.benchmarks
     )
     paths = exporter.export_job(job)
     assert len(paths) == 3

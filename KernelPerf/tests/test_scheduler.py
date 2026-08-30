@@ -5,7 +5,6 @@ import time
 
 from kernelperf.backends import Backend, BackendRegistry, SshBackend
 from kernelperf.benchmark import Benchmark, BenchmarkRegistry
-from kernelperf.contest import ContestDatabase
 from kernelperf.database import PerfDatabase
 from kernelperf.datasets import DatasetRegistry
 from kernelperf.models import (
@@ -161,7 +160,6 @@ def test_backend_tasks_run_concurrently_and_job_aggregates(tmp_path):
         backends,
         benchmarks,
         datasets,
-        ContestDatabase(tmp_path / "contest.sqlite"),
         on_job_finished=on_job_finished,
     )
     scheduler.start()

@@ -9,7 +9,6 @@ from typing import Callable
 
 from .backends import BackendRegistry
 from .benchmark import BenchmarkRegistry, failure_metadata
-from .contest import ContestDatabase
 from .database import PerfDatabase
 from .datasets import DatasetRegistry, NO_DATASET_CASE
 from .models import (
@@ -58,7 +57,6 @@ class Scheduler:
         backends: BackendRegistry,
         benchmarks: BenchmarkRegistry,
         datasets: DatasetRegistry,
-        contest_db: ContestDatabase | None = None,
         on_job_finished: Callable[[JobRecord], list[str]] | None = None,
         on_job_submitted: Callable[[JobRecord], None] | None = None,
     ) -> None:
@@ -66,7 +64,6 @@ class Scheduler:
         self.backends = backends
         self.benchmarks = benchmarks
         self.datasets = datasets
-        self.contest_db = contest_db
         self.on_job_finished = on_job_finished
         self.on_job_submitted = on_job_submitted
         self._jobs: dict[str, JobRecord] = {}
@@ -134,13 +131,12 @@ class Scheduler:
 
     def submit(self, request: JobSubmitRequest) -> tuple[JobRecord, int]:
         request = request.model_copy(deep=True)
-        nickname = self._resolve_contest_submission(request)
         if not request.suites:
             request.suites = [self.benchmarks.default().benchmark_id]
         if not request.generator_id:
-            raise ValueError("generator_id is required for non-contest submissions")
+            raise ValueError("generator_id is required")
         if not request.backends:
-            raise ValueError("backends is required for non-contest submissions")
+            raise ValueError("backends is required")
         request.backends = self.backends.resolve(request.backends)
         for benchmark_id in request.suites:
             self.benchmarks.get(benchmark_id).validate_submission(request)
@@ -148,15 +144,11 @@ class Scheduler:
         if request.dataset_id:
             self.datasets.get(request.dataset_id)
         payload = request.model_dump()
-        if nickname is not None:
-            payload["nickname"] = nickname
         job = JobRecord(**payload)
         tasks = [_Task(job.job_id, backend_id) for backend_id in job.backends]
         if self.on_job_submitted is not None:
             self.on_job_submitted(job)
         with self._lock:
-            if self.contest_db is not None and job.contest_id is not None:
-                self.contest_db.register_submission(job, nickname or job.generator_id)
             self._jobs[job.job_id] = job
             self._assignments[job.job_id] = set()
             for task in tasks:
@@ -188,60 +180,6 @@ class Scheduler:
                     raise ValueError(
                         f"backend {backend_id!r} does not provide build profile {profile!r}"
                     )
-
-    def _resolve_contest_submission(self, request: JobSubmitRequest) -> str | None:
-        if request.contest_id is None:
-            if request.nickname is not None:
-                raise ValueError("nick-name requires contest-id")
-            return None
-        if self.contest_db is None:
-            raise ValueError("contest support is not configured")
-        contest = self.contest_db.get_contest(request.contest_id)
-        if contest is None:
-            raise ValueError(f"Unknown contest: {request.contest_id}")
-        if datetime.fromisoformat(contest["start_time"]) > datetime.now(timezone.utc):
-            raise ValueError(f"contest has not started: {request.contest_id}")
-        if request.matrix_ids is not None:
-            raise ValueError(f"contest {request.contest_id} requires the complete fixed dataset")
-        fixed_operator_ids = list(contest.get("operator_ids") or [contest["operator_id"]])
-        if len(fixed_operator_ids) == 1:
-            if len(request.kernels) != 1:
-                raise ValueError("single-operator contest submissions require exactly one kernel")
-            target = self._kernel_operator_id(request.kernels[0])
-            if target is not None and target != fixed_operator_ids[0]:
-                raise ValueError(
-                    f"contest {request.contest_id} requires operator {fixed_operator_ids[0]!r}"
-                )
-        else:
-            submitted = [self._kernel_operator_id(kernel) for kernel in request.kernels]
-            if any(operator_id is None for operator_id in submitted):
-                raise ValueError(
-                    "multi-operator contest kernels must declare metadata.operator_id or metadata.problem_id"
-                )
-            if len(set(submitted)) != len(submitted):
-                raise ValueError("multi-operator contest submissions contain duplicate operator kernels")
-            if set(submitted) != set(fixed_operator_ids):
-                missing = sorted(set(fixed_operator_ids) - set(submitted))
-                unexpected = sorted(set(submitted) - set(fixed_operator_ids))
-                raise ValueError(
-                    f"contest {request.contest_id} requires its complete operator set; "
-                    f"missing={missing}, unexpected={unexpected}"
-                )
-        nickname = request.nickname or request.generator_id
-        if not nickname:
-            raise ValueError("contest submissions require nick-name")
-        request.generator_id = request.generator_id or nickname
-        request.nickname = nickname
-        request.backends = [contest["backend_id"]]
-        request.suites = [contest["suite"]]
-        request.dataset_id = contest["dataset_id"]
-        request.operator_ids = fixed_operator_ids
-        return nickname
-
-    @staticmethod
-    def _kernel_operator_id(kernel: object) -> str | None:
-        metadata = getattr(kernel, "metadata", {})
-        return metadata.get("operator_id") or metadata.get("problem_id")
 
     def get_job(self, job_id: str) -> JobRecord | None:
         with self._lock:
@@ -312,8 +250,6 @@ class Scheduler:
                 job.started_at = _now()
             job.assigned_worker = ",".join(sorted(self._assignments[task.job_id]))
             self.db.upsert_job(job)
-            if self.contest_db is not None:
-                self.contest_db.update_job(job)
             self._log(worker, f"claimed backend task {task.backend_id} for job {task.job_id}")
             return task
 
@@ -437,8 +373,6 @@ class Scheduler:
                 f"{value.backend_id}: {value.error}" for value in failures
             ) or None
             self.db.upsert_job(job)
-            if self.contest_db is not None:
-                self.contest_db.update_job(job)
             self.db.append_job_log(
                 job.job_id,
                 _now(),
@@ -536,8 +470,6 @@ class Scheduler:
         results = result_batch if isinstance(result_batch, list) else [result_batch]
         for result in results:
             self.db.insert_result(result)
-            if self.contest_db is not None:
-                self.contest_db.insert_result(job, result)
             detail = (
                 f"preprocess={result.preprocess_ms:.6g} ms, "
                 f"solve={result.runtime_ms:.6g} ms, {result.gflops:.6g} GFLOPS"

@@ -44,8 +44,7 @@ def create_runtime(
         db,
         backends,
         benchmarks,
-        datasets,
-        on_job_finished=exporter.export_job,
+        datasets, on_job_finished=exporter.export_job,
     )
     return EvaluationRuntime(
         config=config,
@@ -56,4 +55,3 @@ def create_runtime(
         exporter=exporter,
         scheduler=scheduler,
     )
-

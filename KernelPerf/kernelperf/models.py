@@ -5,7 +5,7 @@ from enum import Enum
 from typing import Any, Literal
 from uuid import uuid4
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+from pydantic import BaseModel, Field
 
 
 def utc_now_iso() -> str:
@@ -87,17 +87,12 @@ class KernelArtifact(BaseModel):
 
 
 class JobSubmitRequest(BaseModel):
-    model_config = ConfigDict(populate_by_name=True)
-
-    generator_id: str | None = Field(
-        default=None,
-        description="External AI kernel generator identifier; contest jobs default it to nick-name.",
-    )
+    generator_id: str | None = None
     submitter: str | None = None
     backends: list[str] | None = Field(
         default=None,
         min_length=1,
-        description="Backend IDs or backend kinds; inferred from contest configuration for contest jobs.",
+        description="Backend IDs or backend kinds.",
     )
     suites: list[str] = Field(
         default_factory=list,
@@ -107,37 +102,8 @@ class JobSubmitRequest(BaseModel):
     operator_ids: list[str] | None = Field(default=None, description="Optional operator filter.")
     matrix_ids: list[str] | None = Field(default=None, description="Optional dataset case filter.")
     kernels: list[KernelArtifact] = Field(..., min_length=1)
-    contest_id: str | None = Field(
-        default=None,
-        alias="contest-id",
-        description="Optional maintainer-created contest identifier.",
-    )
-    nickname: str | None = Field(
-        default=None,
-        alias="nick-name",
-        max_length=80,
-        description="Optional contest nickname; defaults to generator_id.",
-    )
     priority: int = 100
     tags: dict[str, str] = Field(default_factory=dict)
-
-    @field_validator("nickname")
-    @classmethod
-    def validate_nickname(cls, value: str | None) -> str | None:
-        if value is None:
-            return None
-        value = value.strip()
-        if not value:
-            raise ValueError("nick-name must not be empty")
-        return value
-
-
-class JobSubmitResponse(BaseModel):
-    accepted: bool
-    job_id: str
-    status_url: str
-    queue_position: int
-    message: str
 
 
 class JobRecord(BaseModel):
@@ -150,8 +116,6 @@ class JobRecord(BaseModel):
     operator_ids: list[str] | None = None
     matrix_ids: list[str] | None = None
     kernels: list[KernelArtifact]
-    contest_id: str | None = None
-    nickname: str | None = None
     priority: int = 100
     tags: dict[str, str] = Field(default_factory=dict)
     status: JobStatus = JobStatus.queued
@@ -208,59 +172,3 @@ class BenchmarkResult(BaseModel):
     arithmetic_intensity: float
     timestamp: str = Field(default_factory=utc_now_iso)
     metadata: dict[str, Any] = Field(default_factory=dict)
-
-
-class LeaderboardPublishRequest(BaseModel):
-    job_id: str
-    backend_id: str
-    suite: str
-    operator_id: str
-    configuration_id: str | None = None
-    candidate_group: str | None = None
-
-
-class ContestCreateRequest(BaseModel):
-    contest_id: str = Field(pattern=r"^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$")
-    name: str = Field(min_length=1, max_length=120)
-    start_time: datetime
-    created_at: datetime | None = None
-    backend_id: str
-    dataset_id: str
-    suite: str
-    operator_id: str | None = None
-    operator_ids: list[str] | None = Field(default=None, min_length=1)
-    all_operators: bool = False
-
-    @field_validator("name")
-    @classmethod
-    def validate_name(cls, value: str) -> str:
-        value = value.strip()
-        if not value:
-            raise ValueError("name must not be empty")
-        return value
-
-    @field_validator("start_time", "created_at")
-    @classmethod
-    def validate_timezone(cls, value: datetime | None) -> datetime | None:
-        if value is None:
-            return None
-        if value.tzinfo is None or value.utcoffset() is None:
-            raise ValueError("contest timestamps must include a timezone")
-        return value
-
-    @model_validator(mode="after")
-    def validate_operator_selection(self) -> "ContestCreateRequest":
-        modes = sum(
-            (
-                self.operator_id is not None,
-                self.operator_ids is not None,
-                self.all_operators,
-            )
-        )
-        if modes != 1:
-            raise ValueError(
-                "specify exactly one of operator_id, operator_ids, or all_operators"
-            )
-        if self.operator_ids is not None and len(set(self.operator_ids)) != len(self.operator_ids):
-            raise ValueError("operator_ids must not contain duplicates")
-        return self

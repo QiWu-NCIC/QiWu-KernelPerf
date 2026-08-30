@@ -4,7 +4,7 @@ import json
 import os
 from pathlib import Path
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -12,17 +12,11 @@ DEFAULT_CONFIG_PATH = PROJECT_ROOT / "config" / "service.json"
 
 
 class ServiceConfig(BaseModel):
-    host: str = "127.0.0.1"
-    port: int = Field(default=8080, ge=1, le=65535)
     database: str
-    contest_database: str = "data/contest.sqlite"
     workers: str
     benchmarks: str
     datasets: str
-    web: str = "web"
     result_exports: str = "data/result_exports"
-    source_submissions: str = "data/source"
-    leaderboard: dict[str, str] = Field(default_factory=dict)
 
     def resolve(self, value: str) -> Path:
         path = Path(value).expanduser()

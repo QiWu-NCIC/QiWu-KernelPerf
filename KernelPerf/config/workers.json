@@ -61,7 +61,7 @@
     "environment": {
       "path_prepend": ["/root/KernelPerf/.venv/bin", "/usr/local/cuda-12.9/bin", "/usr/local/cuda/bin"],
       "library_path_prepend": ["/usr/local/cuda-12.9/lib64", "/usr/local/cuda/lib64", "/opt/ghost-cuda/lib/ghost"],
-      "variables": {"CUDA_VISIBLE_DEVICES": "0"}
+      "variables": {"CUDA_VISIBLE_DEVICES": "0", "KERNELPERF_CUDA_VERSION": "12.9"}
     },
     "build_profiles": {
       "alphasparse-cuda": {
