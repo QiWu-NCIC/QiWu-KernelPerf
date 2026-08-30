@@ -6,7 +6,7 @@ CONFIG=${2:?service config}
 cd "$HOME/yjk/QiWu-KernelPerf/KernelPerf"
 set -e
 rm -rf "data/result_exports/${PLATFORM}" "data/source/${PLATFORM}"
-rm -f data/kernelperf-*.sqlite data/contest-*.sqlite
+rm -f data/kernelperf-*.sqlite
 mkdir -p data
 cd "$HOME/yjk/QiWu-KernelPerf/KernelPerf"
 

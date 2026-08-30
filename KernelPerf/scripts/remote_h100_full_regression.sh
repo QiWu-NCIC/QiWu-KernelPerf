@@ -6,15 +6,14 @@ set -euo pipefail
 # allocated H100 instead of failing its nvidia-smi health check on login01.
 cd "$HOME/yjk/QiWu-KernelPerf/KernelPerf"
 export PYTHONPATH="$HOME/yjk/pydeps:$HOME/yjk/QiWu-KernelPerf/KernelPerf"
-SERVICE_CONFIG=${SERVICE_CONFIG:-config/service-h100-real.json}
-API=${API:-http://127.0.0.1:18191}
-export SERVICE_CONFIG API
+SERVICE_CONFIG=${SERVICE_CONFIG:-config/service-h100.json}
+export SERVICE_CONFIG
 srun --account=ncic --gres=gpu:1 --cpus-per-task=32 --mem=64G --time=04:00:00 \
   bash -lc '
     set -euo pipefail
     cd "$HOME/yjk/QiWu-KernelPerf/KernelPerf"
     rm -rf data/result_exports/h100 data/source/h100
-    rm -f data/kernelperf-h100-real.sqlite data/contest-h100-real.sqlite
+    rm -f data/kernelperf-h100.sqlite
     mkdir -p data
     export PYTHONPATH="$HOME/yjk/pydeps:$HOME/yjk/QiWu-KernelPerf/KernelPerf"
     cd "$HOME/yjk/QiWu-KernelPerf/KernelPerf"
