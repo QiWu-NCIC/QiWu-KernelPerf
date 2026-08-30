@@ -4,6 +4,7 @@ set -u
 PLATFORM=${1:?platform name}
 CONFIG=${2:?service config}
 cd "$HOME/yjk/QiWu-KernelPerf/KernelPerf"
+export PYTHONPATH="$HOME/yjk/pydeps:$PWD"
 set -e
 rm -rf "data/result_exports/${PLATFORM}" "data/source/${PLATFORM}"
 rm -f data/kernelperf-*.sqlite
@@ -12,7 +13,7 @@ cd "$HOME/yjk/QiWu-KernelPerf/KernelPerf"
 
 run() {
   echo "===== $* ====="
-  if ! PYTHONPATH=. python3 -m kernelperf.cli evaluate --config "$CONFIG" --backend "$PLATFORM" --dataset-id suitesparse_sample_100 "$@" --timeout 14400; then
+  if ! python3 -m kernelperf.cli evaluate --config "$CONFIG" --backend "$PLATFORM" --dataset-id suitesparse_sample_100 "$@" --timeout 14400; then
     echo "candidate group failed; retaining its partial CSV exports" >&2
   fi
 }
