@@ -5,7 +5,7 @@ set -euo pipefail
 # clients inside one Slurm GPU allocation so the local worker executes on the
 # allocated H100 instead of failing its nvidia-smi health check on login01.
 cd "$HOME/yjk/QiWu-KernelPerf/KernelPerf"
-export PYTHONPATH="$HOME/yjk/pydeps:$HOME/yjk/QiWu-KernelPerf/KernelPerf"
+export PYTHONPATH="/public/home/yuanjunkang/yjk/pydeps:/public/home/yuanjunkang/yjk/QiWu-KernelPerf/KernelPerf"
 SERVICE_CONFIG=${SERVICE_CONFIG:-config/service-h100.json}
 export SERVICE_CONFIG
 srun --account=ncic --gres=gpu:1 --cpus-per-task=32 --mem=64G --time=04:00:00 \
@@ -15,7 +15,7 @@ srun --account=ncic --gres=gpu:1 --cpus-per-task=32 --mem=64G --time=04:00:00 \
     rm -rf data/result_exports/h100 data/source/h100
     rm -f data/kernelperf-h100.sqlite
     mkdir -p data
-    export PYTHONPATH="$HOME/yjk/pydeps:$HOME/yjk/QiWu-KernelPerf/KernelPerf"
+    export PYTHONPATH="/public/home/yuanjunkang/yjk/pydeps:/public/home/yuanjunkang/yjk/QiWu-KernelPerf/KernelPerf"
     cd "$HOME/yjk/QiWu-KernelPerf/KernelPerf"
     run() {
       echo "===== $* ====="
