@@ -21,6 +21,7 @@ def main() -> None:
     evaluate.add_argument("--dataset-id", required=True)
     evaluate.add_argument("--operator", default=None)
     evaluate.add_argument("--matrix-id", action="append", default=[])
+    evaluate.add_argument("--configuration-id", action="append", default=[])
     evaluate.add_argument("--timeout", type=int, default=14400)
     args = parser.parse_args()
     runtime = create_runtime(args.config)
@@ -35,6 +36,7 @@ def main() -> None:
         dataset_id=args.dataset_id,
         operator_id=args.operator,
         matrix_ids=args.matrix_id,
+        configuration_ids=args.configuration_id,
         cuda_version=cuda_version,
     )
     scheduler = runtime.scheduler

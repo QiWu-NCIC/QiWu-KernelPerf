@@ -52,6 +52,7 @@ def load_submission_artifacts(
     root: str | Path,
     *,
     operator_id: str | None = None,
+    configuration_ids: list[str] | None = None,
     cuda_version: str = "",
 ) -> list[KernelArtifact]:
     root = Path(root).resolve()
@@ -104,8 +105,11 @@ def load_submission_artifacts(
         if not isinstance(configurations, list) or not configurations:
             raise ValueError("configurations_file must contain a non-empty JSON list")
         artifacts = []
+        requested = set(configuration_ids or [])
         for configuration in configurations:
             configuration_id = str(configuration.get("configuration_id", "")).strip()
+            if requested and configuration_id not in requested:
+                continue
             configuration_entry = str(configuration.get("entry_source", "")).strip()
             if not configuration_id or configuration_entry not in paths:
                 raise ValueError(f"invalid configuration: {configuration}")
@@ -126,6 +130,8 @@ def load_submission_artifacts(
                 compile_units=compile_units,
                 metadata=metadata,
             ))
+        if requested and not artifacts:
+            raise ValueError("configuration_ids did not match any configuration")
         return artifacts
     if kind == "object":
         object_path = str(manifest.get("object_path", ""))
@@ -158,11 +164,15 @@ def request_for_submission(
     backend_id: str,
     dataset_id: str,
     operator_id: str | None = None,
+    configuration_ids: list[str] | None = None,
     matrix_ids: list[str] | None = None,
     cuda_version: str = "",
 ) -> JobSubmitRequest:
     kernels = load_submission_artifacts(
-        root, operator_id=operator_id, cuda_version=cuda_version
+        root,
+        operator_id=operator_id,
+        configuration_ids=configuration_ids,
+        cuda_version=cuda_version,
     )
     operator = str(kernels[0].metadata["operator_id"])
     suite = operator.split(".", 1)[0]
