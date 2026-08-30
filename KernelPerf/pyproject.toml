@@ -1,0 +1,30 @@
+[project]
+name = "kernelperf"
+version = "0.1.0"
+description = "Unified test service for AI-generated kernels across benchmark suites and hardware backends."
+requires-python = ">=3.10"
+dependencies = [
+  "fastapi>=0.111",
+  "uvicorn[standard]>=0.30",
+  "pydantic>=2.7",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "httpx>=0.27",
+]
+
+[project.scripts]
+kernelperf = "kernelperf.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["kernelperf*", "benchmarks*", "web*"]
+
+[tool.setuptools.package-data]
+benchmarks = ["**/*.cu", "**/*.cuh", "**/*.cpp", "**/*.h", "**/*.cl"]
+web = ["*.html", "*.js", "*.css"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

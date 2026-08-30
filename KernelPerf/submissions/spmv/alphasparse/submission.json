@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "kind": "source",
+  "method_name": "AlphaSparseLib CSR",
+  "operator_id": "spmv.csr.fp32",
+  "supported_operators": ["spmv.csr.fp32", "spmv.csr.fp64"],
+  "base_format": "csr",
+  "candidate_group": "AlphaSparseLib-CSR",
+  "entry_source": "adapter.cu",
+  "compile_units": [],
+  "configurations_file": "sweep.json"
+}

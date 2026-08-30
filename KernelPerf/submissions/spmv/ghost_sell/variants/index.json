@@ -1,0 +1,7 @@
+{
+  "format": "SELL-C-sigma",
+  "C": 32,
+  "sigma": [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072],
+  "entry_source_pattern": "variants/sell_c32_sigma_{sigma}.cu",
+  "build_profile": "ghost-cuda"
+}

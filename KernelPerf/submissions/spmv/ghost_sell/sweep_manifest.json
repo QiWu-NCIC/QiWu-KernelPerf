@@ -1,0 +1,20 @@
+[
+  {"configuration_id":"sigma-1","entry_source":"variants/sell_c32_sigma_1.cu","method_name":"GHOST SELL-C32 sigma 1"},
+  {"configuration_id":"sigma-2","entry_source":"variants/sell_c32_sigma_2.cu","method_name":"GHOST SELL-C32 sigma 2"},
+  {"configuration_id":"sigma-4","entry_source":"variants/sell_c32_sigma_4.cu","method_name":"GHOST SELL-C32 sigma 4"},
+  {"configuration_id":"sigma-8","entry_source":"variants/sell_c32_sigma_8.cu","method_name":"GHOST SELL-C32 sigma 8"},
+  {"configuration_id":"sigma-16","entry_source":"variants/sell_c32_sigma_16.cu","method_name":"GHOST SELL-C32 sigma 16"},
+  {"configuration_id":"sigma-32","entry_source":"variants/sell_c32_sigma_32.cu","method_name":"GHOST SELL-C32 sigma 32"},
+  {"configuration_id":"sigma-64","entry_source":"variants/sell_c32_sigma_64.cu","method_name":"GHOST SELL-C32 sigma 64"},
+  {"configuration_id":"sigma-128","entry_source":"variants/sell_c32_sigma_128.cu","method_name":"GHOST SELL-C32 sigma 128"},
+  {"configuration_id":"sigma-256","entry_source":"variants/sell_c32_sigma_256.cu","method_name":"GHOST SELL-C32 sigma 256"},
+  {"configuration_id":"sigma-512","entry_source":"variants/sell_c32_sigma_512.cu","method_name":"GHOST SELL-C32 sigma 512"},
+  {"configuration_id":"sigma-1024","entry_source":"variants/sell_c32_sigma_1024.cu","method_name":"GHOST SELL-C32 sigma 1024"},
+  {"configuration_id":"sigma-2048","entry_source":"variants/sell_c32_sigma_2048.cu","method_name":"GHOST SELL-C32 sigma 2048"},
+  {"configuration_id":"sigma-4096","entry_source":"variants/sell_c32_sigma_4096.cu","method_name":"GHOST SELL-C32 sigma 4096"},
+  {"configuration_id":"sigma-8192","entry_source":"variants/sell_c32_sigma_8192.cu","method_name":"GHOST SELL-C32 sigma 8192"},
+  {"configuration_id":"sigma-16384","entry_source":"variants/sell_c32_sigma_16384.cu","method_name":"GHOST SELL-C32 sigma 16384"},
+  {"configuration_id":"sigma-32768","entry_source":"variants/sell_c32_sigma_32768.cu","method_name":"GHOST SELL-C32 sigma 32768"},
+  {"configuration_id":"sigma-65536","entry_source":"variants/sell_c32_sigma_65536.cu","method_name":"GHOST SELL-C32 sigma 65536"},
+  {"configuration_id":"sigma-131072","entry_source":"variants/sell_c32_sigma_131072.cu","method_name":"GHOST SELL-C32 sigma 131072"}
+]

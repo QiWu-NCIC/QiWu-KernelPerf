@@ -1,0 +1,28 @@
+[
+  {
+    "worker_id": "worker-rtx5090-sl3061",
+    "backend_id": "RTX5090-SL3061",
+    "transport": "local",
+    "kind": "nvidia_gpu",
+    "name": "RTX 5090",
+    "vendor": "NVIDIA",
+    "device": "NVIDIA GeForce RTX 5090",
+    "peak_gflops": 104800.0,
+    "peak_gflops_by_dtype": {"fp32": 104800.0, "fp64": 1637.5},
+    "memory_bandwidth_gbs": 1792.0,
+    "supported_languages": ["cuda", "cpp", "ptx"],
+    "endpoint": "local://SL3061",
+    "command_timeout_seconds": 1200,
+    "healthcheck": {"command": ["nvidia-smi", "--query-gpu=name,memory.total", "--format=csv,noheader"], "timeout_seconds": 20},
+    "environment": {
+      "path_prepend": ["/usr/local/cuda-12.8/bin"],
+      "library_path_prepend": ["/usr/local/cuda-12.8/lib64", "/home/ubuntu/.local/ghost-cuda/lib/ghost", "/home/ubuntu/.local/ghost-cuda/lib/compat"],
+      "variables": {"KERNELPERF_CUDA_VERSION": "12.8", "CUDA_VISIBLE_DEVICES": "0"}
+    },
+    "build_profiles": {
+      "alphasparse-cuda": {"compile_options": ["-DKERNELPERF_ALPHASPARSE=1"], "link_options": []},
+      "ghost-cuda": {"compile_options": ["-DKERNELPERF_GHOST_CUDA=1", "-DKERNELPERF_SPMV_HOST_TIMING=1", "-cudart=shared", "-I/home/ubuntu/.local/ghost-cuda/include"], "link_options": ["-L/home/ubuntu/.local/ghost-cuda/lib/ghost", "-Xlinker", "-rpath", "-Xlinker", "/home/ubuntu/.local/ghost-cuda/lib/ghost", "-L/home/ubuntu/.local/ghost-cuda/lib/compat", "-Xlinker", "-rpath", "-Xlinker", "/home/ubuntu/.local/ghost-cuda/lib/compat", "-lghost", "-lhwloc", "-lhwloc-compat", "-lblas", "-lcublas", "-lcurand", "-lcusparse"]}
+    },
+    "labels": {"role": "entry-and-worker", "platform": "RTX5090-SL3061", "cuda_version": "12.8", "cuda_arch": "sm_120"}
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "kind": "source",
+  "method_name": "GHOST SELL-C-sigma",
+  "operator_id": "spmv.csr.fp32",
+  "supported_operators": ["spmv.csr.fp32", "spmv.csr.fp64"],
+  "base_format": "sell",
+  "candidate_group": "GHOST-SELL-C32-sigma",
+  "build_profile": "ghost-cuda",
+  "entry_source": "adapter.cu",
+  "compile_units": [],
+  "configurations_file": "sweep_manifest.json",
+  "upstream": {
+    "repository": "https://github.com/RRZE-HPC/GHOST",
+    "commit": "22a004dbbfb604d7b04b0bde813c8100d403cfcc"
+  }
+}

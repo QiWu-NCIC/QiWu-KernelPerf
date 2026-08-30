@@ -1,0 +1,3 @@
+﻿schema_version,submission_id,method_id,method_name,base_format,operator_id,dtype,backend_id,hardware,peak_gflops,job_id,dataset_id,matrix_id,matrix_name,rows,cols,nnz,status,operations,preprocess_ms,solve_ms,solve_gflops,solve_only_efficiency_percent,timestamp,source_kind
+2,example-submission,sell-c32,SELL C32,csr,spmv.csr.fp32,fp32,A100-SXM4-80GB,A100-SXM4-80GB,19500,example-job,suitesparse_validation_100,group/matrix,matrix,1024,1024,10000,pass,20000,0.12,0.05,0.4,0.002051,2026-08-14T00:00:00Z,source
+

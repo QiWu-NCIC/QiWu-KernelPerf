@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>KernelPerf Contest Leaderboard</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1 id="contestTitle">Contest leaderboard</h1>
+      <a class="header-link" href="/contest">All contests</a>
+    </header>
+    <main class="contest-main leaderboard-main">
+      <p id="contestEnvironment" class="contest-environment muted"></p>
+      <table class="contest-table leaderboard-table">
+        <thead>
+          <tr>
+            <th>rank</th>
+            <th>nickname</th>
+            <th>scatter plot</th>
+            <th>geometric mean GFLOPS</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboardRows"></tbody>
+      </table>
+      <p id="leaderboardEmpty" class="muted" hidden>No participants yet.</p>
+      <p id="leaderboardError" class="error-text" hidden></p>
+    </main>
+    <script src="/static/contest-ranking.js"></script>
+  </body>
+</html>

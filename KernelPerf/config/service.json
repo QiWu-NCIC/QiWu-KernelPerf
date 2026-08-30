@@ -1,0 +1,20 @@
+{
+  "host": "0.0.0.0",
+  "port": 8080,
+  "database": "data/kernelperf.sqlite",
+  "contest_database": "data/contest.sqlite",
+  "workers": "config/workers.json",
+  "benchmarks": "config/benchmarks.json",
+  "datasets": "config/datasets.json",
+  "web": "web",
+  "result_exports": "data/result_exports",
+  "source_submissions": "data/source",
+  "leaderboard": {
+    "repository": "QiWu-NCIC/databank-alpha",
+    "branch": "feature/kernelperf-online-leaderboard",
+    "data_prefix": "public/data/results",
+    "source_prefix": "public/source",
+    "manifest_path": "public/data/index.json",
+    "public_url": "https://qiwu-ncic.github.io/databank-alpha/#/spmv"
+  }
+}

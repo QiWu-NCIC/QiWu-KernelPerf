@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Submit · KernelPerf</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header-inner">
+        <a class="brand" href="/" aria-label="QiWu KernelPerf home">
+          <img class="brand-logo" src="/static/qiwu-logo.png" alt="QiWu" />
+          <span class="brand-product">KernelPerf</span>
+        </a>
+        <nav class="site-nav" aria-label="KernelPerf navigation">
+          <a class="site-nav-link" href="/">Results</a>
+          <a class="site-nav-link active" href="/submit">Submit</a>
+          <a class="site-nav-link" id="leaderboardLink" href="/">Leaderboard</a>
+        </nav>
+      </div>
+    </header>
+    <main class="submit-page">
+      <section class="page-heading submit-page-heading">
+        <div>
+          <p class="eyebrow">QiWu / KernelPerf</p>
+          <h1>Submit an implementation</h1>
+          <p class="page-copy">Configure and evaluate a CUDA SpMV implementation on a managed worker.</p>
+        </div>
+        <span class="contract-badge">SpMV lifecycle</span>
+      </section>
+      <section class="submit-panel">
+        <div class="form-heading">
+          <div>
+            <p class="eyebrow">Evaluation request</p>
+            <h2>Implementation details</h2>
+          </div>
+          <span class="muted">Required fields</span>
+        </div>
+        <form id="submitForm">
+          <div class="submit-grid">
+            <label>Method name<input id="methodName" required maxlength="120" placeholder="SELL C32" /></label>
+            <label>Base format<select id="baseFormat" required>
+              <option value="unmarked" selected>Unmarked</option>
+              <option value="csr">CSR</option>
+              <option value="coo">COO</option>
+              <option value="ell">ELL</option>
+              <option value="sell">SELL</option>
+              <option value="hyb">HYB</option>
+              <option value="bsr">BSR</option>
+              <option value="dia">DIA</option>
+              <option value="auto">Auto-tuned</option>
+            </select></label>
+            <label>Backend<select id="backend" required></select></label>
+            <label>Suite<select id="suite" required></select></label>
+            <label>Dataset<select id="dataset" required></select></label>
+            <label>Operator<select id="operator" required></select></label>
+            <label>Build profile<select id="buildProfile">
+              <option value="" selected>Default worker toolchain</option>
+            </select></label>
+            <label>Configuration ID<input id="configurationId" placeholder="csr-alg1" /></label>
+            <label>Candidate group<input id="candidateGroup" placeholder="cusparse" /></label>
+            <label>Artifact type<select id="artifactKind"><option value="source">Single source</option><option value="source-tree">Source directory</option><option value="object">CUDA relocatable .o</option></select></label>
+          </div>
+          <label id="sourceField">Source file<input id="sourceFile" type="file" accept=".cu,.cuh,.cpp,.c,.h,.cl,.txt" /></label>
+          <div id="sourceTreeFields" hidden>
+            <label>Source directory<input id="sourceDirectory" type="file" webkitdirectory multiple /></label>
+            <div class="submit-grid">
+              <label>Adapter entry<input id="entrySource" placeholder="adapter.cu" /></label>
+              <label>Compile units<textarea id="compileUnits" rows="4" placeholder="upstream/src/spmv.cu"></textarea></label>
+            </div>
+          </div>
+          <label id="objectField" hidden>Object file<input id="objectFile" type="file" accept=".o,application/octet-stream" /></label>
+          <label id="sourceTextField">Source text<textarea id="sourceText" rows="12" placeholder="Paste the lifecycle implementation or choose a source file."></textarea></label>
+          <label id="objectArchField" hidden>Object CUDA arch<input id="objectArch" placeholder="sm_80" /></label>
+          <div class="submit-actions">
+            <button class="primary-button" type="submit">Submit job</button>
+            <a class="secondary-link" href="/">Cancel</a>
+          </div>
+        </form>
+        <div id="submitStatus" class="submit-status" aria-live="polite"></div>
+        <div id="submitResult" class="submit-result" hidden></div>
+      </section>
+    </main>
+    <script src="/static/submit.js"></script>
+  </body>
+</html>

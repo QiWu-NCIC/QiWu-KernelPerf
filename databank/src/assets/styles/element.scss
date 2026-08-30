@@ -1,0 +1,28 @@
+@forward "element-plus/theme-chalk/src/common/var.scss" with (
+  $colors: (
+    "primary": (
+      //主色
+      "base": #0a55d5,
+    ),
+    "success": (
+      //成功色
+      "base": #67c23a,
+    ),
+    "warning": (
+      //警告色
+      "base": #ffce45,
+    ),
+    "danger": (
+      //危险色
+      "base": #f56c6c,
+    ),
+    "error": (
+      //错误色
+      "base": #909399,
+    ),
+  )
+);
+
+.el-button {
+  color: #020f53;
+}

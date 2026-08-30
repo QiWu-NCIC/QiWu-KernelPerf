@@ -1,0 +1,3 @@
+{
+  "host":"127.0.0.1","port":18091,"database":"data/kernelperf-h100.sqlite","contest_database":"data/contest-h100.sqlite","workers":"config/workers-h100.json","benchmarks":"config/benchmarks.json","datasets":"config/datasets-h100.json","web":"web","result_exports":"data/result_exports/h100","source_submissions":"data/source/h100","leaderboard":{}
+}

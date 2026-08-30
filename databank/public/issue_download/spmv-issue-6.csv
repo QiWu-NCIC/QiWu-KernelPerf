@@ -1,0 +1,2 @@
+Kernel,Machine&Compiler,DataType,Baseline tag,openSource,time phase,Matrix-all,Matrix,Time
+cuSPARSE,NVIDIA GeForce RTX 5090 / CUDA 12.9,float,T,T,solve_only,1,2cubes_sphere,0.01221

@@ -1,0 +1,1920 @@
+{
+  "dataset_id": "suitesparse_sample_100",
+  "selection": {
+    "index_url": "https://sparse.tamu.edu/files/ssstats.csv",
+    "index_sha256": "9bc797ab989331afbc9e0e51236d9145c2ac7f76c0913e9677ae07c4913a2aad",
+    "real_only": true,
+    "nnz_min": 100,
+    "nnz_max": 100000000,
+    "bin_quotas": {
+      "10^2": 10,
+      "10^3": 14,
+      "10^4": 18,
+      "10^5": 20,
+      "10^6": 20,
+      "10^7": 18
+    }
+  },
+  "matrices": [
+    {
+      "matrix_id": "Meszaros/p0033",
+      "name": "p0033",
+      "group": "Meszaros",
+      "rows": 15,
+      "cols": 48,
+      "nnz": 113,
+      "source_url": "https://sparse.tamu.edu/MM/Meszaros/p0033.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "linear programming problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 7.533333333333333,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "JGD_Homology/n3c6-b1",
+      "name": "n3c6-b1",
+      "group": "JGD_Homology",
+      "rows": 105,
+      "cols": 105,
+      "nnz": 210,
+      "source_url": "https://sparse.tamu.edu/MM/JGD_Homology/n3c6-b1.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "combinatorial problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0.08571428571428572",
+        "numerical_symmetry": "0.0761904761904762"
+      },
+      "avg_row_length": 2.0,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "HB/west0067",
+      "name": "west0067",
+      "group": "HB",
+      "rows": 67,
+      "cols": 67,
+      "nnz": 294,
+      "source_url": "https://sparse.tamu.edu/MM/HB/west0067.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "chemical process simulation problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0.03424657534246575",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 4.388059701492537,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "JGD_Homology/ch5-5-b1",
+      "name": "ch5-5-b1",
+      "group": "JGD_Homology",
+      "rows": 200,
+      "cols": 25,
+      "nnz": 400,
+      "source_url": "https://sparse.tamu.edu/MM/JGD_Homology/ch5-5-b1.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "combinatorial problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 2.0,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "HB/west0132",
+      "name": "west0132",
+      "group": "HB",
+      "rows": 132,
+      "cols": 132,
+      "nnz": 413,
+      "source_url": "https://sparse.tamu.edu/MM/HB/west0132.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "chemical process simulation problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0.0196078431372549",
+        "numerical_symmetry": "0.004914004914004914"
+      },
+      "avg_row_length": 3.128787878787879,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Mycielski/mycielskian6",
+      "name": "mycielskian6",
+      "group": "Mycielski",
+      "rows": 47,
+      "cols": 47,
+      "nnz": 472,
+      "source_url": "https://sparse.tamu.edu/MM/Mycielski/mycielskian6.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "undirected graph",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 10.042553191489361,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "HB/west0167",
+      "name": "west0167",
+      "group": "HB",
+      "rows": 167,
+      "cols": 167,
+      "nnz": 506,
+      "source_url": "https://sparse.tamu.edu/MM/HB/west0167.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "chemical process simulation problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0.01622718052738337",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 3.029940119760479,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "HB/dwt_87",
+      "name": "dwt_87",
+      "group": "HB",
+      "rows": 87,
+      "cols": 87,
+      "nnz": 541,
+      "source_url": "https://sparse.tamu.edu/MM/HB/dwt_87.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "structural problem",
+        "is2d3d": "1",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 6.218390804597701,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "HB/gent113",
+      "name": "gent113",
+      "group": "HB",
+      "rows": 113,
+      "cols": 113,
+      "nnz": 655,
+      "source_url": "https://sparse.tamu.edu/MM/HB/gent113.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "statistical/mathematical problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0.05663716814159292",
+        "numerical_symmetry": "0.05663716814159292"
+      },
+      "avg_row_length": 5.79646017699115,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "JGD_Homology/n4c6-b15",
+      "name": "n4c6-b15",
+      "group": "JGD_Homology",
+      "rows": 60,
+      "cols": 920,
+      "nnz": 960,
+      "source_url": "https://sparse.tamu.edu/MM/JGD_Homology/n4c6-b15.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "combinatorial problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 16.0,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "JGD_Margulies/flower_8_1",
+      "name": "flower_8_1",
+      "group": "JGD_Margulies",
+      "rows": 625,
+      "cols": 513,
+      "nnz": 1538,
+      "source_url": "https://sparse.tamu.edu/MM/JGD_Margulies/flower_8_1.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "combinatorial problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 2.4608,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "HB/west0497",
+      "name": "west0497",
+      "group": "HB",
+      "rows": 497,
+      "cols": 497,
+      "nnz": 1721,
+      "source_url": "https://sparse.tamu.edu/MM/HB/west0497.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "chemical process simulation problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0.006972690296339338",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 3.4627766599597587,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Bai/rw496",
+      "name": "rw496",
+      "group": "Bai",
+      "rows": 496,
+      "cols": 496,
+      "nnz": 1859,
+      "source_url": "https://sparse.tamu.edu/MM/Bai/rw496.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "statistical/mathematical problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0.4690693921463152",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 3.747983870967742,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "FEMLAB/poisson2D",
+      "name": "poisson2D",
+      "group": "FEMLAB",
+      "rows": 367,
+      "cols": 367,
+      "nnz": 2417,
+      "source_url": "https://sparse.tamu.edu/MM/FEMLAB/poisson2D.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "computational fluid dynamics problem",
+        "is2d3d": "1",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 6.5858310626703,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Meszaros/nemsafm",
+      "name": "nemsafm",
+      "group": "Meszaros",
+      "rows": 334,
+      "cols": 2348,
+      "nnz": 2826,
+      "source_url": "https://sparse.tamu.edu/MM/Meszaros/nemsafm.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "linear programming problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 8.461077844311378,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "HB/dwt_361",
+      "name": "dwt_361",
+      "group": "HB",
+      "rows": 361,
+      "cols": 361,
+      "nnz": 2953,
+      "source_url": "https://sparse.tamu.edu/MM/HB/dwt_361.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "structural problem",
+        "is2d3d": "1",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 8.18005540166205,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "HB/dwt_419",
+      "name": "dwt_419",
+      "group": "HB",
+      "rows": 419,
+      "cols": 419,
+      "nnz": 3563,
+      "source_url": "https://sparse.tamu.edu/MM/HB/dwt_419.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "structural problem",
+        "is2d3d": "1",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 8.503579952267303,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Grund/b_dyn",
+      "name": "b_dyn",
+      "group": "Grund",
+      "rows": 1089,
+      "cols": 1089,
+      "nnz": 4144,
+      "source_url": "https://sparse.tamu.edu/MM/Grund/b_dyn.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "chemical process simulation problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0.01454716095729704",
+        "numerical_symmetry": "0.0004828585224529213"
+      },
+      "avg_row_length": 3.805325987144169,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "JGD_GL6/GL6_D_7",
+      "name": "GL6_D_7",
+      "group": "JGD_GL6",
+      "rows": 636,
+      "cols": 470,
+      "nnz": 5378,
+      "source_url": "https://sparse.tamu.edu/MM/JGD_GL6/GL6_D_7.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "combinatorial problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 8.455974842767295,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Sandia/fpga_dcop_40",
+      "name": "fpga_dcop_40",
+      "group": "Sandia",
+      "rows": 1220,
+      "cols": 1220,
+      "nnz": 5892,
+      "source_url": "https://sparse.tamu.edu/MM/Sandia/fpga_dcop_40.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "subsequent circuit simulation problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0.8183347350714887",
+        "numerical_symmetry": "0.3313708999158957"
+      },
+      "avg_row_length": 4.829508196721312,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Bai/bfwb782",
+      "name": "bfwb782",
+      "group": "Bai",
+      "rows": 782,
+      "cols": 782,
+      "nnz": 5982,
+      "source_url": "https://sparse.tamu.edu/MM/Bai/bfwb782.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "electromagnetics problem",
+        "is2d3d": "1",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 7.649616368286445,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Gleich/minnesota",
+      "name": "minnesota",
+      "group": "Gleich",
+      "rows": 2642,
+      "cols": 2642,
+      "nnz": 6606,
+      "source_url": "https://sparse.tamu.edu/MM/Gleich/minnesota.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "undirected graph",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 2.5003785011355033,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "DRIVCAV/cavity03",
+      "name": "cavity03",
+      "group": "DRIVCAV",
+      "rows": 317,
+      "cols": 317,
+      "nnz": 7311,
+      "source_url": "https://sparse.tamu.edu/MM/DRIVCAV/cavity03.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "subsequent computational fluid dynamics problem",
+        "is2d3d": "1",
+        "posdef": "0",
+        "pattern_symmetry": "0.8037831733483908",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 23.063091482649842,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "VDOL/reorientation_1",
+      "name": "reorientation_1",
+      "group": "VDOL",
+      "rows": 677,
+      "cols": 677,
+      "nnz": 7326,
+      "source_url": "https://sparse.tamu.edu/MM/VDOL/reorientation_1.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "optimal control problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 10.821270310192023,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Rajat/rajat02",
+      "name": "rajat02",
+      "group": "Rajat",
+      "rows": 1960,
+      "cols": 1960,
+      "nnz": 11187,
+      "source_url": "https://sparse.tamu.edu/MM/Rajat/rajat02.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "circuit simulation problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 5.70765306122449,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Sandia/adder_dcop_31",
+      "name": "adder_dcop_31",
+      "group": "Sandia",
+      "rows": 1813,
+      "cols": 1813,
+      "nnz": 11246,
+      "source_url": "https://sparse.tamu.edu/MM/Sandia/adder_dcop_31.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "subsequent circuit simulation problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0.6481736368448915",
+        "numerical_symmetry": "0.007623080995235574"
+      },
+      "avg_row_length": 6.202978488692774,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "HB/can_1054",
+      "name": "can_1054",
+      "group": "HB",
+      "rows": 1054,
+      "cols": 1054,
+      "nnz": 12196,
+      "source_url": "https://sparse.tamu.edu/MM/HB/can_1054.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "structural problem",
+        "is2d3d": "1",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 11.571157495256166,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "AG-Monien/grid2_dual",
+      "name": "grid2_dual",
+      "group": "AG-Monien",
+      "rows": 3136,
+      "cols": 3136,
+      "nnz": 12224,
+      "source_url": "https://sparse.tamu.edu/MM/AG-Monien/grid2_dual.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "2D/3D problem",
+        "is2d3d": "1",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 3.8979591836734695,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "HB/bcsstm12",
+      "name": "bcsstm12",
+      "group": "HB",
+      "rows": 1473,
+      "cols": 1473,
+      "nnz": 19659,
+      "source_url": "https://sparse.tamu.edu/MM/HB/bcsstm12.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "structural problem",
+        "is2d3d": "1",
+        "posdef": "1",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 13.34623217922607,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "VDOL/spaceStation_13",
+      "name": "spaceStation_13",
+      "group": "VDOL",
+      "rows": 1617,
+      "cols": 1617,
+      "nnz": 23649,
+      "source_url": "https://sparse.tamu.edu/MM/VDOL/spaceStation_13.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "optimal control problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 14.625231910946196,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Meszaros/ch",
+      "name": "ch",
+      "group": "Meszaros",
+      "rows": 3700,
+      "cols": 8291,
+      "nnz": 24102,
+      "source_url": "https://sparse.tamu.edu/MM/Meszaros/ch.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "linear programming problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 6.514054054054054,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Gset/G3",
+      "name": "G3",
+      "group": "Gset",
+      "rows": 800,
+      "cols": 800,
+      "nnz": 38352,
+      "source_url": "https://sparse.tamu.edu/MM/Gset/G3.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "undirected random graph",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 47.94,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "VDOL/freeFlyingRobot_14",
+      "name": "freeFlyingRobot_14",
+      "group": "VDOL",
+      "rows": 5958,
+      "cols": 5958,
+      "nnz": 43298,
+      "source_url": "https://sparse.tamu.edu/MM/VDOL/freeFlyingRobot_14.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "optimal control problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 7.267203759650889,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Schenk_IBMNA/c-29",
+      "name": "c-29",
+      "group": "Schenk_IBMNA",
+      "rows": 5033,
+      "cols": 5033,
+      "nnz": 43731,
+      "source_url": "https://sparse.tamu.edu/MM/Schenk_IBMNA/c-29.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "optimization problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 8.688853566461354,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "JGD_Margulies/flower_5_4",
+      "name": "flower_5_4",
+      "group": "JGD_Margulies",
+      "rows": 5226,
+      "cols": 14721,
+      "nnz": 43942,
+      "source_url": "https://sparse.tamu.edu/MM/JGD_Margulies/flower_5_4.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "combinatorial problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 8.408342900880214,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Rommes/zeros_nopss_13k",
+      "name": "zeros_nopss_13k",
+      "group": "Rommes",
+      "rows": 13296,
+      "cols": 13296,
+      "nnz": 48827,
+      "source_url": "https://sparse.tamu.edu/MM/Rommes/zeros_nopss_13k.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "eigenvalue/model reduction problem",
+        "is2d3d": "1",
+        "posdef": "0",
+        "pattern_symmetry": "0.7083056110002218",
+        "numerical_symmetry": "0.5842204479929031"
+      },
+      "avg_row_length": 3.6723074608904933,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "SNAP/p2p-Gnutella25",
+      "name": "p2p-Gnutella25",
+      "group": "SNAP",
+      "rows": 22687,
+      "cols": 22687,
+      "nnz": 54705,
+      "source_url": "https://sparse.tamu.edu/MM/SNAP/p2p-Gnutella25.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "directed graph",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 2.4112928108608456,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "YCheng/psse1",
+      "name": "psse1",
+      "group": "YCheng",
+      "rows": 14318,
+      "cols": 11028,
+      "nnz": 57376,
+      "source_url": "https://sparse.tamu.edu/MM/YCheng/psse1.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "power network problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 4.0072635842994835,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Nasa/barth5",
+      "name": "barth5",
+      "group": "Nasa",
+      "rows": 15606,
+      "cols": 15606,
+      "nnz": 61484,
+      "source_url": "https://sparse.tamu.edu/MM/Nasa/barth5.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "duplicate structural problem",
+        "is2d3d": "1",
+        "posdef": "0",
+        "pattern_symmetry": "0",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 3.939766756375753,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Gaertner/big",
+      "name": "big",
+      "group": "Gaertner",
+      "rows": 13209,
+      "cols": 13209,
+      "nnz": 91465,
+      "source_url": "https://sparse.tamu.edu/MM/Gaertner/big.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "directed weighted graph",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "0.999974442854222"
+      },
+      "avg_row_length": 6.924445453857219,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Newman/as-22july06",
+      "name": "as-22july06",
+      "group": "Newman",
+      "rows": 22963,
+      "cols": 22963,
+      "nnz": 96872,
+      "source_url": "https://sparse.tamu.edu/MM/Newman/as-22july06.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "undirected graph",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 4.218612550624918,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "LPnetlib/lpi_gosh",
+      "name": "lpi_gosh",
+      "group": "LPnetlib",
+      "rows": 3792,
+      "cols": 13455,
+      "nnz": 99953,
+      "source_url": "https://sparse.tamu.edu/MM/LPnetlib/lpi_gosh.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "linear programming problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 26.358913502109704,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "CPM/cz10228",
+      "name": "cz10228",
+      "group": "CPM",
+      "rows": 10228,
+      "cols": 10228,
+      "nnz": 102876,
+      "source_url": "https://sparse.tamu.edu/MM/CPM/cz10228.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "2D/3D problem",
+        "is2d3d": "1",
+        "posdef": "0",
+        "pattern_symmetry": "0.4358431914342458",
+        "numerical_symmetry": "0.2371988602020551"
+      },
+      "avg_row_length": 10.058271411810715,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "DRIVCAV/cavity20",
+      "name": "cavity20",
+      "group": "DRIVCAV",
+      "rows": 4562,
+      "cols": 4562,
+      "nnz": 138040,
+      "source_url": "https://sparse.tamu.edu/MM/DRIVCAV/cavity20.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "subsequent computational fluid dynamics problem",
+        "is2d3d": "1",
+        "posdef": "0",
+        "pattern_symmetry": "0.9531982436361479",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 30.258658483121437,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Mallya/lhr07c",
+      "name": "lhr07c",
+      "group": "Mallya",
+      "rows": 7337,
+      "cols": 7337,
+      "nnz": 156508,
+      "source_url": "https://sparse.tamu.edu/MM/Mallya/lhr07c.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "chemical process simulation problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0.0173680609288971",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 21.331334332833585,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "HB/lock3491",
+      "name": "lock3491",
+      "group": "HB",
+      "rows": 3491,
+      "cols": 3491,
+      "nnz": 160444,
+      "source_url": "https://sparse.tamu.edu/MM/HB/lock3491.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "structural problem",
+        "is2d3d": "1",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 45.959323975938126,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Oberwolfach/t2dah",
+      "name": "t2dah",
+      "group": "Oberwolfach",
+      "rows": 11445,
+      "cols": 11445,
+      "nnz": 176117,
+      "source_url": "https://sparse.tamu.edu/MM/Oberwolfach/t2dah.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "model reduction problem",
+        "is2d3d": "1",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 15.388117081695063,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "JGD_Homology/ch7-8-b3",
+      "name": "ch7-8-b3",
+      "group": "JGD_Homology",
+      "rows": 58800,
+      "cols": 11760,
+      "nnz": 235200,
+      "source_url": "https://sparse.tamu.edu/MM/JGD_Homology/ch7-8-b3.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "combinatorial problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 4.0,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Mallya/lhr14c",
+      "name": "lhr14c",
+      "group": "Mallya",
+      "rows": 14270,
+      "cols": 14270,
+      "nnz": 307858,
+      "source_url": "https://sparse.tamu.edu/MM/Mallya/lhr14c.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "chemical process simulation problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0.006622946983926842",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 21.573791170287315,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Hollinger/mark3jac120",
+      "name": "mark3jac120",
+      "group": "Hollinger",
+      "rows": 54929,
+      "cols": 54929,
+      "nnz": 322483,
+      "source_url": "https://sparse.tamu.edu/MM/Hollinger/mark3jac120.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "economic problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0.07394990714529154",
+        "numerical_symmetry": "0.01415379562098285"
+      },
+      "avg_row_length": 5.870906078756213,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Schenk_IBMNA/c-65",
+      "name": "c-65",
+      "group": "Schenk_IBMNA",
+      "rows": 48066,
+      "cols": 48066,
+      "nnz": 360428,
+      "source_url": "https://sparse.tamu.edu/MM/Schenk_IBMNA/c-65.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "optimization problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 7.498606083302127,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Mallya/lhr17c",
+      "name": "lhr17c",
+      "group": "Mallya",
+      "rows": 17576,
+      "cols": 17576,
+      "nnz": 381975,
+      "source_url": "https://sparse.tamu.edu/MM/Mallya/lhr17c.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "chemical process simulation problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0.001513390098553639",
+        "numerical_symmetry": "5.236643939631969e-06"
+      },
+      "avg_row_length": 21.732760582612652,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Nemeth/nemeth03",
+      "name": "nemeth03",
+      "group": "Nemeth",
+      "rows": 9506,
+      "cols": 9506,
+      "nnz": 394808,
+      "source_url": "https://sparse.tamu.edu/MM/Nemeth/nemeth03.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "subsequent theoretical/quantum chemistry problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 41.53250578581948,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "SNAP/cit-HepPh",
+      "name": "cit-HepPh",
+      "group": "SNAP",
+      "rows": 34546,
+      "cols": 34546,
+      "nnz": 421578,
+      "source_url": "https://sparse.tamu.edu/MM/SNAP/cit-HepPh.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "directed graph",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0.003117186276789061",
+        "numerical_symmetry": "0.003117186276789061"
+      },
+      "avg_row_length": 12.203380999247381,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "GHS_psdef/wathen120",
+      "name": "wathen120",
+      "group": "GHS_psdef",
+      "rows": 36441,
+      "cols": 36441,
+      "nnz": 565761,
+      "source_url": "https://sparse.tamu.edu/MM/GHS_psdef/wathen120.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "random 2D/3D problem",
+        "is2d3d": "1",
+        "posdef": "1",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 15.52539721741994,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Mittelmann/pds-50",
+      "name": "pds-50",
+      "group": "Mittelmann",
+      "rows": 83060,
+      "cols": 275814,
+      "nnz": 590833,
+      "source_url": "https://sparse.tamu.edu/MM/Mittelmann/pds-50.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "linear programming problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 7.113327714904888,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Rajat/rajat20",
+      "name": "rajat20",
+      "group": "Rajat",
+      "rows": 86916,
+      "cols": 86916,
+      "nnz": 604299,
+      "source_url": "https://sparse.tamu.edu/MM/Rajat/rajat20.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "circuit simulation problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0.9906228863063395",
+        "numerical_symmetry": "0.1122042623922186"
+      },
+      "avg_row_length": 6.952678448156841,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "LPnetlib/lp_osa_30",
+      "name": "lp_osa_30",
+      "group": "LPnetlib",
+      "rows": 4350,
+      "cols": 104374,
+      "nnz": 604488,
+      "source_url": "https://sparse.tamu.edu/MM/LPnetlib/lp_osa_30.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "linear programming problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 138.96275862068964,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Norris/heart2",
+      "name": "heart2",
+      "group": "Norris",
+      "rows": 2339,
+      "cols": 2339,
+      "nnz": 680341,
+      "source_url": "https://sparse.tamu.edu/MM/Norris/heart2.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "2D/3D problem",
+        "is2d3d": "1",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 290.8683197947841,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "IBM_EDA/trans5",
+      "name": "trans5",
+      "group": "IBM_EDA",
+      "rows": 116835,
+      "cols": 116835,
+      "nnz": 749800,
+      "source_url": "https://sparse.tamu.edu/MM/IBM_EDA/trans5.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "subsequent circuit simulation problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0.8542477149952045",
+        "numerical_symmetry": "0.3018997890878642"
+      },
+      "avg_row_length": 6.417597466512603,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Yoshiyasu/mesh_deform",
+      "name": "mesh_deform",
+      "group": "Yoshiyasu",
+      "rows": 234023,
+      "cols": 9393,
+      "nnz": 853829,
+      "source_url": "https://sparse.tamu.edu/MM/Yoshiyasu/mesh_deform.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "computer graphics/vision problem",
+        "is2d3d": "1",
+        "posdef": "0",
+        "pattern_symmetry": "0",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 3.6484832687385427,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "DIMACS10/ar2010",
+      "name": "ar2010",
+      "group": "DIMACS10",
+      "rows": 186211,
+      "cols": 186211,
+      "nnz": 904310,
+      "source_url": "https://sparse.tamu.edu/MM/DIMACS10/ar2010.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "undirected weighted graph",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 4.856372609566567,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "VLSI/mosfet2",
+      "name": "mosfet2",
+      "group": "VLSI",
+      "rows": 46994,
+      "cols": 46994,
+      "nnz": 1013062,
+      "source_url": "https://sparse.tamu.edu/MM/VLSI/mosfet2.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "semiconductor device problem",
+        "is2d3d": "1",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "0.1797368301196189"
+      },
+      "avg_row_length": 21.557262629271822,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "FlowIPM22/Spielman_k100",
+      "name": "Spielman_k100",
+      "group": "FlowIPM22",
+      "rows": 338402,
+      "cols": 338402,
+      "nnz": 1025404,
+      "source_url": "https://sparse.tamu.edu/MM/FlowIPM22/Spielman_k100.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "undirected weighted graph",
+        "is2d3d": "0",
+        "posdef": "1",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 3.0301357556988435,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "UTEP/Dubcova2",
+      "name": "Dubcova2",
+      "group": "UTEP",
+      "rows": 65025,
+      "cols": 65025,
+      "nnz": 1030225,
+      "source_url": "https://sparse.tamu.edu/MM/UTEP/Dubcova2.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "2D/3D problem",
+        "is2d3d": "1",
+        "posdef": "1",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 15.843521722414456,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "QY/case39",
+      "name": "case39",
+      "group": "QY",
+      "rows": 40216,
+      "cols": 40216,
+      "nnz": 1042160,
+      "source_url": "https://sparse.tamu.edu/MM/QY/case39.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "power network problem sequence",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 25.91406405410782,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Meszaros/ts-palko",
+      "name": "ts-palko",
+      "group": "Meszaros",
+      "rows": 22002,
+      "cols": 47235,
+      "nnz": 1076903,
+      "source_url": "https://sparse.tamu.edu/MM/Meszaros/ts-palko.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "linear programming problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 48.94568675574948,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "DIMACS10/in2010",
+      "name": "in2010",
+      "group": "DIMACS10",
+      "rows": 267071,
+      "cols": 267071,
+      "nnz": 1281716,
+      "source_url": "https://sparse.tamu.edu/MM/DIMACS10/in2010.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "undirected weighted graph",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 4.799158276263615,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "POLYFLOW/invextr1_new",
+      "name": "invextr1_new",
+      "group": "POLYFLOW",
+      "rows": 30412,
+      "cols": 30412,
+      "nnz": 1793881,
+      "source_url": "https://sparse.tamu.edu/MM/POLYFLOW/invextr1_new.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "computational fluid dynamics problem",
+        "is2d3d": "1",
+        "posdef": "0",
+        "pattern_symmetry": "0.971442083756505",
+        "numerical_symmetry": "0.7213486599424203"
+      },
+      "avg_row_length": 58.985959489675125,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "TSOPF/TSOPF_FS_b39_c19",
+      "name": "TSOPF_FS_b39_c19",
+      "group": "TSOPF",
+      "rows": 76216,
+      "cols": 76216,
+      "nnz": 1977600,
+      "source_url": "https://sparse.tamu.edu/MM/TSOPF/TSOPF_FS_b39_c19.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "power network problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 25.9473076519366,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "SNAP/com-DBLP",
+      "name": "com-DBLP",
+      "group": "SNAP",
+      "rows": 317080,
+      "cols": 317080,
+      "nnz": 2099732,
+      "source_url": "https://sparse.tamu.edu/MM/SNAP/com-DBLP.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "undirected graph with communities",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 6.622089062697111,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Bova/rma10",
+      "name": "rma10",
+      "group": "Bova",
+      "rows": 46835,
+      "cols": 46835,
+      "nnz": 2329092,
+      "source_url": "https://sparse.tamu.edu/MM/Bova/rma10.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "computational fluid dynamics problem",
+        "is2d3d": "1",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "0.2355549300354827"
+      },
+      "avg_row_length": 49.729732038005764,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Bodendiek/CurlCurl_1",
+      "name": "CurlCurl_1",
+      "group": "Bodendiek",
+      "rows": 226451,
+      "cols": 226451,
+      "nnz": 2472071,
+      "source_url": "https://sparse.tamu.edu/MM/Bodendiek/CurlCurl_1.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "model reduction problem",
+        "is2d3d": "1",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 10.916582395308478,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Williams/cop20k_A",
+      "name": "cop20k_A",
+      "group": "Williams",
+      "rows": 121192,
+      "cols": 121192,
+      "nnz": 2624331,
+      "source_url": "https://sparse.tamu.edu/MM/Williams/cop20k_A.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "2D/3D problem",
+        "is2d3d": "1",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 21.65432536801109,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "TSOPF/TSOPF_FS_b39_c30",
+      "name": "TSOPF_FS_b39_c30",
+      "group": "TSOPF",
+      "rows": 120216,
+      "cols": 120216,
+      "nnz": 3121160,
+      "source_url": "https://sparse.tamu.edu/MM/TSOPF/TSOPF_FS_b39_c30.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "power network problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 25.96293338657084,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Embree/ifiss_mat",
+      "name": "ifiss_mat",
+      "group": "Embree",
+      "rows": 96307,
+      "cols": 96307,
+      "nnz": 3599932,
+      "source_url": "https://sparse.tamu.edu/MM/Embree/ifiss_mat.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "computational fluid dynamics",
+        "is2d3d": "1",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "0.2845118352876235"
+      },
+      "avg_row_length": 37.37975432730747,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Williams/cant",
+      "name": "cant",
+      "group": "Williams",
+      "rows": 62451,
+      "cols": 62451,
+      "nnz": 4007383,
+      "source_url": "https://sparse.tamu.edu/MM/Williams/cant.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "2D/3D problem",
+        "is2d3d": "1",
+        "posdef": "1",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 64.16843605386623,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Norris/torso3",
+      "name": "torso3",
+      "group": "Norris",
+      "rows": 259156,
+      "cols": 259156,
+      "nnz": 4429042,
+      "source_url": "https://sparse.tamu.edu/MM/Norris/torso3.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "2D/3D problem",
+        "is2d3d": "1",
+        "posdef": "0",
+        "pattern_symmetry": "0.9513722917125312",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 17.090254518513945,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "CEMW/tmt_sym",
+      "name": "tmt_sym",
+      "group": "CEMW",
+      "rows": 726713,
+      "cols": 726713,
+      "nnz": 5080961,
+      "source_url": "https://sparse.tamu.edu/MM/CEMW/tmt_sym.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "electromagnetics problem",
+        "is2d3d": "1",
+        "posdef": "1",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 6.991702363931841,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "SNAP/web-Google",
+      "name": "web-Google",
+      "group": "SNAP",
+      "rows": 916428,
+      "cols": 916428,
+      "nnz": 5105039,
+      "source_url": "https://sparse.tamu.edu/MM/SNAP/web-Google.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "directed graph",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0.3067510355944391",
+        "numerical_symmetry": "0.3067510355944391"
+      },
+      "avg_row_length": 5.570583832008625,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Brogan/specular",
+      "name": "specular",
+      "group": "Brogan",
+      "rows": 477976,
+      "cols": 1600,
+      "nnz": 7647040,
+      "source_url": "https://sparse.tamu.edu/MM/Brogan/specular.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "computer vision problem",
+        "is2d3d": "1",
+        "posdef": "0",
+        "pattern_symmetry": "0",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 15.998794918573317,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Rothberg/gearbox",
+      "name": "gearbox",
+      "group": "Rothberg",
+      "rows": 153746,
+      "cols": 153746,
+      "nnz": 9080404,
+      "source_url": "https://sparse.tamu.edu/MM/Rothberg/gearbox.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "structural problem",
+        "is2d3d": "1",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 59.06107475966854,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Freescale/Freescale2",
+      "name": "Freescale2",
+      "group": "Freescale",
+      "rows": 2999349,
+      "cols": 2999349,
+      "nnz": 14313235,
+      "source_url": "https://sparse.tamu.edu/MM/Freescale/Freescale2.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "circuit simulation matrix",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0.9853083953765489",
+        "numerical_symmetry": "0.5600838032920651"
+      },
+      "avg_row_length": 4.772113882045737,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "JGD_GL7d/GL7d16",
+      "name": "GL7d16",
+      "group": "JGD_GL7d",
+      "rows": 955128,
+      "cols": 460261,
+      "nnz": 14488881,
+      "source_url": "https://sparse.tamu.edu/MM/JGD_GL7d/GL7d16.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "combinatorial problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 15.169569942457974,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "DIMACS10/great-britain_osm",
+      "name": "great-britain_osm",
+      "group": "DIMACS10",
+      "rows": 7733822,
+      "cols": 7733822,
+      "nnz": 16313034,
+      "source_url": "https://sparse.tamu.edu/MM/DIMACS10/great-britain_osm.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "undirected graph",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 2.1093107651042393,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Schenk_AFE/af_4_k101",
+      "name": "af_4_k101",
+      "group": "Schenk_AFE",
+      "rows": 503625,
+      "cols": 503625,
+      "nnz": 17550675,
+      "source_url": "https://sparse.tamu.edu/MM/Schenk_AFE/af_4_k101.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "structural problem",
+        "is2d3d": "1",
+        "posdef": "1",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 34.848696947133284,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "DIMACS10/M6",
+      "name": "M6",
+      "group": "DIMACS10",
+      "rows": 3501776,
+      "cols": 3501776,
+      "nnz": 21003872,
+      "source_url": "https://sparse.tamu.edu/MM/DIMACS10/M6.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "undirected graph",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 5.998062697328441,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "SNAP/as-Skitter",
+      "name": "as-Skitter",
+      "group": "SNAP",
+      "rows": 1696415,
+      "cols": 1696415,
+      "nnz": 22190596,
+      "source_url": "https://sparse.tamu.edu/MM/SNAP/as-Skitter.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "undirected graph",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 13.080877025963575,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Buss/12month1",
+      "name": "12month1",
+      "group": "Buss",
+      "rows": 12471,
+      "cols": 872622,
+      "nnz": 22624727,
+      "source_url": "https://sparse.tamu.edu/MM/Buss/12month1.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "undirected bipartite graph",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0",
+        "numerical_symmetry": "0"
+      },
+      "avg_row_length": 1814.1870740117072,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "vanHeukelum/cage14",
+      "name": "cage14",
+      "group": "vanHeukelum",
+      "rows": 1505785,
+      "cols": 1505785,
+      "nnz": 27130349,
+      "source_url": "https://sparse.tamu.edu/MM/vanHeukelum/cage14.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "directed weighted graph",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "0.2073316837703073"
+      },
+      "avg_row_length": 18.017412180357752,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "DIMACS10/coPapersCiteseer",
+      "name": "coPapersCiteseer",
+      "group": "DIMACS10",
+      "rows": 434102,
+      "cols": 434102,
+      "nnz": 32073440,
+      "source_url": "https://sparse.tamu.edu/MM/DIMACS10/coPapersCiteseer.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "undirected graph",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 73.88457090729828,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "DIMACS10/hugetrace-00010",
+      "name": "hugetrace-00010",
+      "group": "DIMACS10",
+      "rows": 12057441,
+      "cols": 12057441,
+      "nnz": 36164358,
+      "source_url": "https://sparse.tamu.edu/MM/DIMACS10/hugetrace-00010.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "undirected graph",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 2.9993394120692773,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "SNAP/sx-stackoverflow",
+      "name": "sx-stackoverflow",
+      "group": "SNAP",
+      "rows": 2601977,
+      "cols": 2601977,
+      "nnz": 36233450,
+      "source_url": "https://sparse.tamu.edu/MM/SNAP/sx-stackoverflow.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "directed temporal multigraph",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0.3837726021373516",
+        "numerical_symmetry": "0.2153393177894375"
+      },
+      "avg_row_length": 13.925353682987975,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "GHS_psdef/inline_1",
+      "name": "inline_1",
+      "group": "GHS_psdef",
+      "rows": 503712,
+      "cols": 503712,
+      "nnz": 36816170,
+      "source_url": "https://sparse.tamu.edu/MM/GHS_psdef/inline_1.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "structural problem",
+        "is2d3d": "1",
+        "posdef": "1",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 73.0897219045804,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Gleich/wikipedia-20060925",
+      "name": "wikipedia-20060925",
+      "group": "Gleich",
+      "rows": 2983494,
+      "cols": 2983494,
+      "nnz": 37269096,
+      "source_url": "https://sparse.tamu.edu/MM/Gleich/wikipedia-20060925.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "directed graph",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0.1182841447575249",
+        "numerical_symmetry": "0.1182841447575249"
+      },
+      "avg_row_length": 12.491761672723324,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Gleich/wikipedia-20070206",
+      "name": "wikipedia-20070206",
+      "group": "Gleich",
+      "rows": 3566907,
+      "cols": 3566907,
+      "nnz": 45030389,
+      "source_url": "https://sparse.tamu.edu/MM/Gleich/wikipedia-20070206.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "directed graph",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0.1171832378930545",
+        "numerical_symmetry": "0.1171832378930545"
+      },
+      "avg_row_length": 12.624492031892057,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "FlowIPM22/Spielman_k400",
+      "name": "Spielman_k400",
+      "group": "FlowIPM22",
+      "rows": 21413602,
+      "cols": 21413602,
+      "nnz": 64401604,
+      "source_url": "https://sparse.tamu.edu/MM/FlowIPM22/Spielman_k400.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "undirected weighted graph",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 3.0075091523602615,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "SNAP/soc-LiveJournal1",
+      "name": "soc-LiveJournal1",
+      "group": "SNAP",
+      "rows": 4847571,
+      "cols": 4847571,
+      "nnz": 68993773,
+      "source_url": "https://sparse.tamu.edu/MM/SNAP/soc-LiveJournal1.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "directed graph",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "0.7484193555024753",
+        "numerical_symmetry": "0.7484193555024753"
+      },
+      "avg_row_length": 14.232648268586473,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "Schenk/nlpkkt120",
+      "name": "nlpkkt120",
+      "group": "Schenk",
+      "rows": 3542400,
+      "cols": 3542400,
+      "nnz": 95117792,
+      "source_url": "https://sparse.tamu.edu/MM/Schenk/nlpkkt120.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "optimization problem",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "1"
+      },
+      "avg_row_length": 26.85122854561879,
+      "row_length_variance": null
+    },
+    {
+      "matrix_id": "vanHeukelum/cage15",
+      "name": "cage15",
+      "group": "vanHeukelum",
+      "rows": 5154859,
+      "cols": 5154859,
+      "nnz": 99199551,
+      "source_url": "https://sparse.tamu.edu/MM/vanHeukelum/cage15.tar.gz",
+      "real": true,
+      "pattern": {
+        "kind": "directed weighted graph",
+        "is2d3d": "0",
+        "posdef": "0",
+        "pattern_symmetry": "1",
+        "numerical_symmetry": "0.2131193964673732"
+      },
+      "avg_row_length": 19.24389221897243,
+      "row_length_variance": null
+    }
+  ]
+}

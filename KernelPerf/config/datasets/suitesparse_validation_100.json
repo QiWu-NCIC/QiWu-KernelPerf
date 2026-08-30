@@ -1,0 +1,1002 @@
+﻿[
+    {
+        "matrix_id":  "JGD_Kocay/Trec3",
+        "name":  "Trec3",
+        "group":  "JGD_Kocay",
+        "rows":  1,
+        "cols":  2,
+        "nnz":  1,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Kocay/Trec3.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Mycielski/mycielskian2",
+        "name":  "mycielskian2",
+        "group":  "Mycielski",
+        "rows":  2,
+        "cols":  2,
+        "nnz":  2,
+        "source_url":  "https://sparse.tamu.edu/MM/Mycielski/mycielskian2.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Kocay/Trec4",
+        "name":  "Trec4",
+        "group":  "JGD_Kocay",
+        "rows":  2,
+        "cols":  3,
+        "nnz":  3,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Kocay/Trec4.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_GL7d/GL7d10",
+        "name":  "GL7d10",
+        "group":  "JGD_GL7d",
+        "rows":  1,
+        "cols":  60,
+        "nnz":  8,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_GL7d/GL7d10.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Mycielski/mycielskian3",
+        "name":  "mycielskian3",
+        "group":  "Mycielski",
+        "rows":  5,
+        "cols":  5,
+        "nnz":  10,
+        "source_url":  "https://sparse.tamu.edu/MM/Mycielski/mycielskian3.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Kocay/Trec5",
+        "name":  "Trec5",
+        "group":  "JGD_Kocay",
+        "rows":  3,
+        "cols":  7,
+        "nnz":  12,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Kocay/Trec5.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Grund/b1_ss",
+        "name":  "b1_ss",
+        "group":  "Grund",
+        "rows":  7,
+        "cols":  7,
+        "nnz":  15,
+        "source_url":  "https://sparse.tamu.edu/MM/Grund/b1_ss.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Homology/ch3-3-b2",
+        "name":  "ch3-3-b2",
+        "group":  "JGD_Homology",
+        "rows":  6,
+        "cols":  18,
+        "nnz":  18,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Homology/ch3-3-b2.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Relat/rel3",
+        "name":  "rel3",
+        "group":  "JGD_Relat",
+        "rows":  12,
+        "cols":  5,
+        "nnz":  18,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Relat/rel3.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "vanHeukelum/cage3",
+        "name":  "cage3",
+        "group":  "vanHeukelum",
+        "rows":  5,
+        "cols":  5,
+        "nnz":  19,
+        "source_url":  "https://sparse.tamu.edu/MM/vanHeukelum/cage3.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "LPnetlib/lpi_galenet",
+        "name":  "lpi_galenet",
+        "group":  "LPnetlib",
+        "rows":  8,
+        "cols":  14,
+        "nnz":  22,
+        "source_url":  "https://sparse.tamu.edu/MM/LPnetlib/lpi_galenet.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "HB/bcsstm01",
+        "name":  "bcsstm01",
+        "group":  "HB",
+        "rows":  48,
+        "cols":  48,
+        "nnz":  24,
+        "source_url":  "https://sparse.tamu.edu/MM/HB/bcsstm01.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Relat/relat3",
+        "name":  "relat3",
+        "group":  "JGD_Relat",
+        "rows":  12,
+        "cols":  5,
+        "nnz":  24,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Relat/relat3.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "LPnetlib/lpi_itest2",
+        "name":  "lpi_itest2",
+        "group":  "LPnetlib",
+        "rows":  9,
+        "cols":  13,
+        "nnz":  26,
+        "source_url":  "https://sparse.tamu.edu/MM/LPnetlib/lpi_itest2.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "LPnetlib/lpi_itest6",
+        "name":  "lpi_itest6",
+        "group":  "LPnetlib",
+        "rows":  11,
+        "cols":  17,
+        "nnz":  29,
+        "source_url":  "https://sparse.tamu.edu/MM/LPnetlib/lpi_itest6.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Pajek/Tina_AskCal",
+        "name":  "Tina_AskCal",
+        "group":  "Pajek",
+        "rows":  11,
+        "cols":  11,
+        "nnz":  29,
+        "source_url":  "https://sparse.tamu.edu/MM/Pajek/Tina_AskCal.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Homology/n3c4-b1",
+        "name":  "n3c4-b1",
+        "group":  "JGD_Homology",
+        "rows":  15,
+        "cols":  6,
+        "nnz":  30,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Homology/n3c4-b1.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Homology/n3c4-b4",
+        "name":  "n3c4-b4",
+        "group":  "JGD_Homology",
+        "rows":  6,
+        "cols":  15,
+        "nnz":  30,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Homology/n3c4-b4.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Pajek/Tina_AskCog",
+        "name":  "Tina_AskCog",
+        "group":  "Pajek",
+        "rows":  11,
+        "cols":  11,
+        "nnz":  36,
+        "source_url":  "https://sparse.tamu.edu/MM/Pajek/Tina_AskCog.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Homology/ch3-3-b1",
+        "name":  "ch3-3-b1",
+        "group":  "JGD_Homology",
+        "rows":  18,
+        "cols":  9,
+        "nnz":  36,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Homology/ch3-3-b1.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Pajek/GD01_b",
+        "name":  "GD01_b",
+        "group":  "Pajek",
+        "rows":  18,
+        "cols":  18,
+        "nnz":  37,
+        "source_url":  "https://sparse.tamu.edu/MM/Pajek/GD01_b.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Kocay/Trec6",
+        "name":  "Trec6",
+        "group":  "JGD_Kocay",
+        "rows":  6,
+        "cols":  15,
+        "nnz":  40,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Kocay/Trec6.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Mycielski/mycielskian4",
+        "name":  "mycielskian4",
+        "group":  "Mycielski",
+        "rows":  11,
+        "cols":  11,
+        "nnz":  40,
+        "source_url":  "https://sparse.tamu.edu/MM/Mycielski/mycielskian4.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Pajek/Tina_DisCal",
+        "name":  "Tina_DisCal",
+        "group":  "Pajek",
+        "rows":  11,
+        "cols":  11,
+        "nnz":  41,
+        "source_url":  "https://sparse.tamu.edu/MM/Pajek/Tina_DisCal.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Meszaros/farm",
+        "name":  "farm",
+        "group":  "Meszaros",
+        "rows":  7,
+        "cols":  17,
+        "nnz":  41,
+        "source_url":  "https://sparse.tamu.edu/MM/Meszaros/farm.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Meszaros/kleemin",
+        "name":  "kleemin",
+        "group":  "Meszaros",
+        "rows":  8,
+        "cols":  16,
+        "nnz":  44,
+        "source_url":  "https://sparse.tamu.edu/MM/Meszaros/kleemin.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Oberwolfach/LFAT5",
+        "name":  "LFAT5",
+        "group":  "Oberwolfach",
+        "rows":  14,
+        "cols":  14,
+        "nnz":  46,
+        "source_url":  "https://sparse.tamu.edu/MM/Oberwolfach/LFAT5.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Pajek/Tina_DisCog",
+        "name":  "Tina_DisCog",
+        "group":  "Pajek",
+        "rows":  11,
+        "cols":  11,
+        "nnz":  48,
+        "source_url":  "https://sparse.tamu.edu/MM/Pajek/Tina_DisCog.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "vanHeukelum/cage4",
+        "name":  "cage4",
+        "group":  "vanHeukelum",
+        "rows":  9,
+        "cols":  9,
+        "nnz":  49,
+        "source_url":  "https://sparse.tamu.edu/MM/vanHeukelum/cage4.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "HB/jgl009",
+        "name":  "jgl009",
+        "group":  "HB",
+        "rows":  9,
+        "cols":  9,
+        "nnz":  50,
+        "source_url":  "https://sparse.tamu.edu/MM/HB/jgl009.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Pajek/GD98_a",
+        "name":  "GD98_a",
+        "group":  "Pajek",
+        "rows":  38,
+        "cols":  38,
+        "nnz":  50,
+        "source_url":  "https://sparse.tamu.edu/MM/Pajek/GD98_a.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Pajek/GD95_a",
+        "name":  "GD95_a",
+        "group":  "Pajek",
+        "rows":  36,
+        "cols":  36,
+        "nnz":  57,
+        "source_url":  "https://sparse.tamu.edu/MM/Pajek/GD95_a.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Homology/klein-b1",
+        "name":  "klein-b1",
+        "group":  "JGD_Homology",
+        "rows":  30,
+        "cols":  10,
+        "nnz":  60,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Homology/klein-b1.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Homology/klein-b2",
+        "name":  "klein-b2",
+        "group":  "JGD_Homology",
+        "rows":  20,
+        "cols":  30,
+        "nnz":  60,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Homology/klein-b2.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Homology/n3c4-b2",
+        "name":  "n3c4-b2",
+        "group":  "JGD_Homology",
+        "rows":  20,
+        "cols":  15,
+        "nnz":  60,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Homology/n3c4-b2.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Homology/n3c4-b3",
+        "name":  "n3c4-b3",
+        "group":  "JGD_Homology",
+        "rows":  15,
+        "cols":  20,
+        "nnz":  60,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Homology/n3c4-b3.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Pajek/Ragusa18",
+        "name":  "Ragusa18",
+        "group":  "Pajek",
+        "rows":  23,
+        "cols":  23,
+        "nnz":  64,
+        "source_url":  "https://sparse.tamu.edu/MM/Pajek/Ragusa18.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "HB/bcsstm02",
+        "name":  "bcsstm02",
+        "group":  "HB",
+        "rows":  66,
+        "cols":  66,
+        "nnz":  66,
+        "source_url":  "https://sparse.tamu.edu/MM/HB/bcsstm02.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "HB/bcsstm04",
+        "name":  "bcsstm04",
+        "group":  "HB",
+        "rows":  132,
+        "cols":  132,
+        "nnz":  66,
+        "source_url":  "https://sparse.tamu.edu/MM/HB/bcsstm04.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "LPnetlib/lpi_bgprtr",
+        "name":  "lpi_bgprtr",
+        "group":  "LPnetlib",
+        "rows":  20,
+        "cols":  40,
+        "nnz":  70,
+        "source_url":  "https://sparse.tamu.edu/MM/LPnetlib/lpi_bgprtr.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "HB/bcsstm03",
+        "name":  "bcsstm03",
+        "group":  "HB",
+        "rows":  112,
+        "cols":  112,
+        "nnz":  72,
+        "source_url":  "https://sparse.tamu.edu/MM/HB/bcsstm03.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Margulies/wheel_3_1",
+        "name":  "wheel_3_1",
+        "group":  "JGD_Margulies",
+        "rows":  21,
+        "cols":  25,
+        "nnz":  74,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Margulies/wheel_3_1.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "HB/jgl011",
+        "name":  "jgl011",
+        "group":  "HB",
+        "rows":  11,
+        "cols":  11,
+        "nnz":  76,
+        "source_url":  "https://sparse.tamu.edu/MM/HB/jgl011.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "HB/rgg010",
+        "name":  "rgg010",
+        "group":  "HB",
+        "rows":  10,
+        "cols":  10,
+        "nnz":  76,
+        "source_url":  "https://sparse.tamu.edu/MM/HB/rgg010.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Pajek/Ragusa16",
+        "name":  "Ragusa16",
+        "group":  "Pajek",
+        "rows":  24,
+        "cols":  24,
+        "nnz":  81,
+        "source_url":  "https://sparse.tamu.edu/MM/Pajek/Ragusa16.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Oberwolfach/LF10",
+        "name":  "LF10",
+        "group":  "Oberwolfach",
+        "rows":  18,
+        "cols":  18,
+        "nnz":  82,
+        "source_url":  "https://sparse.tamu.edu/MM/Oberwolfach/LF10.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Meszaros/problem",
+        "name":  "problem",
+        "group":  "Meszaros",
+        "rows":  12,
+        "cols":  46,
+        "nnz":  86,
+        "source_url":  "https://sparse.tamu.edu/MM/Meszaros/problem.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Pajek/GD02_a",
+        "name":  "GD02_a",
+        "group":  "Pajek",
+        "rows":  23,
+        "cols":  23,
+        "nnz":  87,
+        "source_url":  "https://sparse.tamu.edu/MM/Pajek/GD02_a.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Pajek/Stranke94",
+        "name":  "Stranke94",
+        "group":  "Pajek",
+        "rows":  10,
+        "cols":  10,
+        "nnz":  90,
+        "source_url":  "https://sparse.tamu.edu/MM/Pajek/Stranke94.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Homology/n3c5-b1",
+        "name":  "n3c5-b1",
+        "group":  "JGD_Homology",
+        "rows":  45,
+        "cols":  10,
+        "nnz":  90,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Homology/n3c5-b1.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Pajek/GD95_b",
+        "name":  "GD95_b",
+        "group":  "Pajek",
+        "rows":  73,
+        "cols":  73,
+        "nnz":  96,
+        "source_url":  "https://sparse.tamu.edu/MM/Pajek/GD95_b.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Homology/ch4-4-b3",
+        "name":  "ch4-4-b3",
+        "group":  "JGD_Homology",
+        "rows":  24,
+        "cols":  96,
+        "nnz":  96,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Homology/ch4-4-b3.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Hamrle/Hamrle1",
+        "name":  "Hamrle1",
+        "group":  "Hamrle",
+        "rows":  32,
+        "cols":  32,
+        "nnz":  98,
+        "source_url":  "https://sparse.tamu.edu/MM/Hamrle/Hamrle1.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "LPnetlib/lp_afiro",
+        "name":  "lp_afiro",
+        "group":  "LPnetlib",
+        "rows":  27,
+        "cols":  51,
+        "nnz":  102,
+        "source_url":  "https://sparse.tamu.edu/MM/LPnetlib/lp_afiro.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Relat/rel4",
+        "name":  "rel4",
+        "group":  "JGD_Relat",
+        "rows":  66,
+        "cols":  12,
+        "nnz":  104,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Relat/rel4.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Meszaros/p0033",
+        "name":  "p0033",
+        "group":  "Meszaros",
+        "rows":  15,
+        "cols":  48,
+        "nnz":  113,
+        "source_url":  "https://sparse.tamu.edu/MM/Meszaros/p0033.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Pajek/football",
+        "name":  "football",
+        "group":  "Pajek",
+        "rows":  35,
+        "cols":  35,
+        "nnz":  118,
+        "source_url":  "https://sparse.tamu.edu/MM/Pajek/football.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Homology/n4c5-b11",
+        "name":  "n4c5-b11",
+        "group":  "JGD_Homology",
+        "rows":  10,
+        "cols":  120,
+        "nnz":  120,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Homology/n4c5-b11.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Pajek/GlossGT",
+        "name":  "GlossGT",
+        "group":  "Pajek",
+        "rows":  72,
+        "cols":  72,
+        "nnz":  122,
+        "source_url":  "https://sparse.tamu.edu/MM/Pajek/GlossGT.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Margulies/wheel_4_1",
+        "name":  "wheel_4_1",
+        "group":  "JGD_Margulies",
+        "rows":  36,
+        "cols":  41,
+        "nnz":  122,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Margulies/wheel_4_1.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "HB/ibm32",
+        "name":  "ibm32",
+        "group":  "HB",
+        "rows":  32,
+        "cols":  32,
+        "nnz":  126,
+        "source_url":  "https://sparse.tamu.edu/MM/HB/ibm32.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "HB/bcspwr01",
+        "name":  "bcspwr01",
+        "group":  "HB",
+        "rows":  39,
+        "cols":  39,
+        "nnz":  131,
+        "source_url":  "https://sparse.tamu.edu/MM/HB/bcspwr01.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Meszaros/p0040",
+        "name":  "p0040",
+        "group":  "Meszaros",
+        "rows":  23,
+        "cols":  63,
+        "nnz":  133,
+        "source_url":  "https://sparse.tamu.edu/MM/Meszaros/p0040.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Pajek/GD01_c",
+        "name":  "GD01_c",
+        "group":  "Pajek",
+        "rows":  33,
+        "cols":  33,
+        "nnz":  135,
+        "source_url":  "https://sparse.tamu.edu/MM/Pajek/GD01_c.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "HB/bcsstm22",
+        "name":  "bcsstm22",
+        "group":  "HB",
+        "rows":  138,
+        "cols":  138,
+        "nnz":  138,
+        "source_url":  "https://sparse.tamu.edu/MM/HB/bcsstm22.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "LPnetlib/lpi_woodinfe",
+        "name":  "lpi_woodinfe",
+        "group":  "LPnetlib",
+        "rows":  35,
+        "cols":  89,
+        "nnz":  140,
+        "source_url":  "https://sparse.tamu.edu/MM/LPnetlib/lpi_woodinfe.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Mycielski/mycielskian5",
+        "name":  "mycielskian5",
+        "group":  "Mycielski",
+        "rows":  23,
+        "cols":  23,
+        "nnz":  142,
+        "source_url":  "https://sparse.tamu.edu/MM/Mycielski/mycielskian5.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Grund/d_ss",
+        "name":  "d_ss",
+        "group":  "Grund",
+        "rows":  53,
+        "cols":  53,
+        "nnz":  144,
+        "source_url":  "https://sparse.tamu.edu/MM/Grund/d_ss.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Homology/ch4-4-b1",
+        "name":  "ch4-4-b1",
+        "group":  "JGD_Homology",
+        "rows":  72,
+        "cols":  16,
+        "nnz":  144,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Homology/ch4-4-b1.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Kocay/Trec7",
+        "name":  "Trec7",
+        "group":  "JGD_Kocay",
+        "rows":  11,
+        "cols":  36,
+        "nnz":  147,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Kocay/Trec7.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Trefethen/Trefethen_20b",
+        "name":  "Trefethen_20b",
+        "group":  "JGD_Trefethen",
+        "rows":  19,
+        "cols":  19,
+        "nnz":  147,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Trefethen/Trefethen_20b.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "LPnetlib/lp_sc50b",
+        "name":  "lp_sc50b",
+        "group":  "LPnetlib",
+        "rows":  50,
+        "cols":  78,
+        "nnz":  148,
+        "source_url":  "https://sparse.tamu.edu/MM/LPnetlib/lp_sc50b.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Pajek/GD99_c",
+        "name":  "GD99_c",
+        "group":  "Pajek",
+        "rows":  105,
+        "cols":  105,
+        "nnz":  149,
+        "source_url":  "https://sparse.tamu.edu/MM/Pajek/GD99_c.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "HB/bcsstm05",
+        "name":  "bcsstm05",
+        "group":  "HB",
+        "rows":  153,
+        "cols":  153,
+        "nnz":  153,
+        "source_url":  "https://sparse.tamu.edu/MM/HB/bcsstm05.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Meszaros/refine",
+        "name":  "refine",
+        "group":  "Meszaros",
+        "rows":  29,
+        "cols":  62,
+        "nnz":  153,
+        "source_url":  "https://sparse.tamu.edu/MM/Meszaros/refine.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Newman/karate",
+        "name":  "karate",
+        "group":  "Newman",
+        "rows":  34,
+        "cols":  34,
+        "nnz":  156,
+        "source_url":  "https://sparse.tamu.edu/MM/Newman/karate.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Trefethen/Trefethen_20",
+        "name":  "Trefethen_20",
+        "group":  "JGD_Trefethen",
+        "rows":  20,
+        "cols":  20,
+        "nnz":  158,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Trefethen/Trefethen_20.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "HB/can_24",
+        "name":  "can_24",
+        "group":  "HB",
+        "rows":  24,
+        "cols":  24,
+        "nnz":  160,
+        "source_url":  "https://sparse.tamu.edu/MM/HB/can_24.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "LPnetlib/lp_sc50a",
+        "name":  "lp_sc50a",
+        "group":  "LPnetlib",
+        "rows":  50,
+        "cols":  78,
+        "nnz":  160,
+        "source_url":  "https://sparse.tamu.edu/MM/LPnetlib/lp_sc50a.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "HB/bcspwr02",
+        "name":  "bcspwr02",
+        "group":  "HB",
+        "rows":  49,
+        "cols":  49,
+        "nnz":  167,
+        "source_url":  "https://sparse.tamu.edu/MM/HB/bcspwr02.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "HB/lap_25",
+        "name":  "lap_25",
+        "group":  "HB",
+        "rows":  25,
+        "cols":  25,
+        "nnz":  169,
+        "source_url":  "https://sparse.tamu.edu/MM/HB/lap_25.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Relat/relat4",
+        "name":  "relat4",
+        "group":  "JGD_Relat",
+        "rows":  66,
+        "cols":  12,
+        "nnz":  172,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Relat/relat4.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "HB/pores_1",
+        "name":  "pores_1",
+        "group":  "HB",
+        "rows":  30,
+        "cols":  30,
+        "nnz":  180,
+        "source_url":  "https://sparse.tamu.edu/MM/HB/pores_1.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Margulies/wheel_5_1",
+        "name":  "wheel_5_1",
+        "group":  "JGD_Margulies",
+        "rows":  57,
+        "cols":  61,
+        "nnz":  182,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Margulies/wheel_5_1.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Pajek/GD96_b",
+        "name":  "GD96_b",
+        "group":  "Pajek",
+        "rows":  111,
+        "cols":  111,
+        "nnz":  193,
+        "source_url":  "https://sparse.tamu.edu/MM/Pajek/GD96_b.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Pajek/GD98_b",
+        "name":  "GD98_b",
+        "group":  "Pajek",
+        "rows":  121,
+        "cols":  121,
+        "nnz":  207,
+        "source_url":  "https://sparse.tamu.edu/MM/Pajek/GD98_b.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Homology/n2c6-b1",
+        "name":  "n2c6-b1",
+        "group":  "JGD_Homology",
+        "rows":  105,
+        "cols":  15,
+        "nnz":  210,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Homology/n2c6-b1.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Homology/n3c6-b1",
+        "name":  "n3c6-b1",
+        "group":  "JGD_Homology",
+        "rows":  105,
+        "cols":  105,
+        "nnz":  210,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Homology/n3c6-b1.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Homology/n4c5-b1",
+        "name":  "n4c5-b1",
+        "group":  "JGD_Homology",
+        "rows":  105,
+        "cols":  15,
+        "nnz":  210,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Homology/n4c5-b1.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "HB/can_62",
+        "name":  "can_62",
+        "group":  "HB",
+        "rows":  62,
+        "cols":  62,
+        "nnz":  218,
+        "source_url":  "https://sparse.tamu.edu/MM/HB/can_62.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "HB/dwt_72",
+        "name":  "dwt_72",
+        "group":  "HB",
+        "rows":  72,
+        "cols":  72,
+        "nnz":  222,
+        "source_url":  "https://sparse.tamu.edu/MM/HB/dwt_72.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Pajek/divorce",
+        "name":  "divorce",
+        "group":  "Pajek",
+        "rows":  50,
+        "cols":  9,
+        "nnz":  225,
+        "source_url":  "https://sparse.tamu.edu/MM/Pajek/divorce.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Pajek/GD96_d",
+        "name":  "GD96_d",
+        "group":  "Pajek",
+        "rows":  180,
+        "cols":  180,
+        "nnz":  229,
+        "source_url":  "https://sparse.tamu.edu/MM/Pajek/GD96_d.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Grund/d_dyn",
+        "name":  "d_dyn",
+        "group":  "Grund",
+        "rows":  87,
+        "cols":  87,
+        "nnz":  230,
+        "source_url":  "https://sparse.tamu.edu/MM/Grund/d_dyn.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Grund/d_dyn1",
+        "name":  "d_dyn1",
+        "group":  "Grund",
+        "rows":  87,
+        "cols":  87,
+        "nnz":  232,
+        "source_url":  "https://sparse.tamu.edu/MM/Grund/d_dyn1.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "Pajek/GD02_b",
+        "name":  "GD02_b",
+        "group":  "Pajek",
+        "rows":  80,
+        "cols":  80,
+        "nnz":  232,
+        "source_url":  "https://sparse.tamu.edu/MM/Pajek/GD02_b.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "vanHeukelum/cage5",
+        "name":  "cage5",
+        "group":  "vanHeukelum",
+        "rows":  37,
+        "cols":  37,
+        "nnz":  233,
+        "source_url":  "https://sparse.tamu.edu/MM/vanHeukelum/cage5.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "NYPA/Maragal_1",
+        "name":  "Maragal_1",
+        "group":  "NYPA",
+        "rows":  32,
+        "cols":  14,
+        "nnz":  234,
+        "source_url":  "https://sparse.tamu.edu/MM/NYPA/Maragal_1.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "JGD_Homology/n3c5-b7",
+        "name":  "n3c5-b7",
+        "group":  "JGD_Homology",
+        "rows":  30,
+        "cols":  120,
+        "nnz":  240,
+        "source_url":  "https://sparse.tamu.edu/MM/JGD_Homology/n3c5-b7.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    },
+    {
+        "matrix_id":  "LPnetlib/lpi_forest6",
+        "name":  "lpi_forest6",
+        "group":  "LPnetlib",
+        "rows":  66,
+        "cols":  131,
+        "nnz":  246,
+        "source_url":  "https://sparse.tamu.edu/MM/LPnetlib/lpi_forest6.tar.gz",
+        "dataset_id":  "suitesparse_validation_100"
+    }
+]

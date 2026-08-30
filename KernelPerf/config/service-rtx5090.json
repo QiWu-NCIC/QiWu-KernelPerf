@@ -1,0 +1,3 @@
+{
+  "host":"0.0.0.0","port":18092,"database":"data/kernelperf-rtx5090.sqlite","contest_database":"data/contest-rtx5090.sqlite","workers":"config/workers-rtx5090.json","benchmarks":"config/benchmarks.json","datasets":"config/datasets-rtx5090.json","web":"web","result_exports":"data/result_exports/rtx5090","source_submissions":"data/source/rtx5090","leaderboard":{}
+}

@@ -1,0 +1,28 @@
+[
+  {
+    "worker_id": "worker-h100-login01",
+    "backend_id": "H100-SXM5-80GB",
+    "transport": "local",
+    "kind": "nvidia_gpu",
+    "name": "H100 80GB",
+    "vendor": "NVIDIA",
+    "device": "NVIDIA H100 80GB HBM3",
+    "peak_gflops": 67000.0,
+    "peak_gflops_by_dtype": {"fp32": 67000.0, "fp64": 33500.0},
+    "memory_bandwidth_gbs": 3350.0,
+    "supported_languages": ["cuda", "cpp", "ptx"],
+    "endpoint": "local://h100-login01",
+    "command_timeout_seconds": 1200,
+    "healthcheck": {"command": ["nvidia-smi", "--query-gpu=name,memory.total", "--format=csv,noheader"], "timeout_seconds": 20},
+    "environment": {
+      "path_prepend": ["/public/software/cuda/12.8.2/bin"],
+      "library_path_prepend": ["/public/software/cuda/12.8.2/lib64", "/public/home/yuanjunkang/.local/ghost-cuda/lib/ghost", "/public/home/yuanjunkang/.local/ghost-cuda/lib/compat"],
+      "variables": {"KERNELPERF_CUDA_VERSION": "12.8.2", "CUDA_VISIBLE_DEVICES": "0"}
+    },
+    "build_profiles": {
+      "alphasparse-cuda": {"compile_options": ["-DKERNELPERF_ALPHASPARSE=1"], "link_options": []},
+      "ghost-cuda": {"compile_options": ["-DKERNELPERF_GHOST_CUDA=1", "-DKERNELPERF_SPMV_HOST_TIMING=1", "-cudart=shared", "-I/public/home/yuanjunkang/.local/ghost-cuda/include"], "link_options": ["-L/public/home/yuanjunkang/.local/ghost-cuda/lib/ghost", "-Xlinker", "-rpath", "-Xlinker", "/public/home/yuanjunkang/.local/ghost-cuda/lib/ghost", "-lghost", "-lhwloc", "-lblas", "-lcublas", "-lcurand", "-lcusparse"]}
+    },
+    "labels": {"role": "entry-and-worker", "platform": "H100-SXM5-80GB", "cuda_version": "12.8.2", "cuda_arch": "sm_90"}
+  }
+]
