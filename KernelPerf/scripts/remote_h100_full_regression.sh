@@ -19,7 +19,7 @@ srun --account=ncic --gres=gpu:1 --cpus-per-task=32 --mem=64G --time=04:00:00 \
     cd "$HOME/yjk/QiWu-KernelPerf/KernelPerf"
     run() {
       echo "===== $* ====="
-      if ! PYTHONPATH=. python3 -m kernelperf.cli evaluate --config "$SERVICE_CONFIG" \
+      if ! python3 -m kernelperf.cli evaluate --config "$SERVICE_CONFIG" \
         --backend H100-SXM5-80GB --dataset-id suitesparse_sample_100 "$@" \
         --timeout 14400; then
         echo "candidate group failed; retaining its partial CSV exports" >&2
