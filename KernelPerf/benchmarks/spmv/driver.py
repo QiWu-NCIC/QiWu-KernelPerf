@@ -39,6 +39,7 @@ _FAILURE_STAGES = {"setup", "preprocess", "warmup", "solve", "validate", "destro
 BASE_FORMAT_CHOICES = frozenset({
     "csr",
     "coo",
+    "csc",
     "ell",
     "sell",
     "hyb",

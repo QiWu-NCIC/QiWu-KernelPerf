@@ -105,6 +105,12 @@ def test_multi_file_source_tree_allows_lifecycle_in_included_adapter_header():
     validate_kernel(kernel, driver.options)
 
 
+def test_csc_base_format_is_allowed():
+    driver = benchmark()
+    kernel = make_kernel(metadata={"operator_id": "spmv.csr.fp32", "base_format": "csc"})
+    validate_kernel(kernel, driver.options)
+
+
 @pytest.mark.parametrize(
     ("changes", "message"),
     [
