@@ -55,8 +55,12 @@ class LocalResultExporter:
             )
         kernel = candidates[0]
         identity = configuration_id or self._config_id(kernel) or kernel.name
-        submission_id = slug(f"{job.job_id}-{backend_id}-{operator_id}-{identity}")
-        target = self.root / slug(suite) / slug(backend_id) / f"{submission_id}.csv"
+        dtype = str(operator.dtype)
+        method_id = slug(kernel.name)
+        dataset_id = slug(job.dataset_id or "none")
+        target = self.root / slug(suite) / slug(backend_id) / (
+            f"{method_id}-{slug(backend_id)}-{dataset_id}-{dtype}.csv"
+        )
         return backend, operator, kernel, target
 
     def export_selection(
@@ -164,7 +168,7 @@ class LocalResultExporter:
             base_format="auto",
         )
         target = self.root / slug(suite) / slug(backend_id) / (
-            f"{slug(job.job_id + '-' + backend_id + '-' + operator.op_id + '-' + group + '-best')}.csv"
+            f"{method_id}-{slug(backend_id)}-{slug(job.dataset_id or 'none')}-{operator.dtype}.csv"
         )
         self._atomic_write(target, csv_content)
         return target.resolve()

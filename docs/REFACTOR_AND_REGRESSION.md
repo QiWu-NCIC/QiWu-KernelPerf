@@ -54,6 +54,10 @@ The H100 full regression is launched with
 `scripts/remote_h100_full_regression.sh`; it preserves partial CSV exports and
 records failed or missing matrices rather than fabricating successful cases.
 
+CSV export filenames are deterministic and contain only method, backend, dataset,
+and dtype (`method_id-backend_id-dataset_id-dtype.csv`); the transient job ID is
+kept as a column for traceability but is not part of the filename.
+
 ## Known operational constraints
 
 The four largest SuiteSparse archives may require a direct network path or a
