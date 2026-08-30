@@ -17,6 +17,7 @@ import io
 import json
 import math
 import tarfile
+from collections import Counter
 from pathlib import Path
 from urllib.request import ProxyHandler, Request, build_opener
 
@@ -143,6 +144,12 @@ def select(entries: list[dict[str, str]], count: int, inspect_root: Path | None)
     selected.sort(key=lambda item: (int(item["nnz"]), str(item["matrix_id"])))
     if len(selected) != count:
         raise RuntimeError(f"selected {len(selected)} matrices, expected {count}")
+    # The downloader uses ``<root>/<name>`` as its stable local directory.
+    # Reject a collision here instead of silently overwriting one archive.
+    names = [str(item["name"]) for item in selected]
+    if len(set(names)) != len(names):
+        duplicates = sorted(name for name, occurrences in Counter(names).items() if occurrences > 1)
+        raise RuntimeError(f"selected matrices have duplicate names: {', '.join(duplicates)}")
     return selected
 
 
