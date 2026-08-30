@@ -14,6 +14,7 @@ import json
 import shutil
 import tarfile
 import tempfile
+import time
 from pathlib import Path, PurePosixPath
 from urllib.request import ProxyHandler, Request, build_opener
 
@@ -29,15 +30,22 @@ def _matrix_member(archive: tarfile.TarFile, name: str) -> tarfile.TarInfo:
     raise RuntimeError(f"archive does not contain an unambiguous .mtx file for {name}")
 
 
-def download_item(opener, item: dict, root: Path, force: bool) -> Path:
+def download_item(opener, item: dict, root: Path, force: bool, retries: int) -> Path:
     name = str(item["name"])
     destination = root / name / f"{name}.mtx"
     if destination.is_file() and not force:
         return destination
     destination.parent.mkdir(parents=True, exist_ok=True)
     request = Request(str(item["source_url"]), headers={"User-Agent": "QiWu-KernelPerf/1.0"})
-    with opener.open(request, timeout=180) as response:
-        payload = response.read()
+    for attempt in range(retries + 1):
+        try:
+            with opener.open(request, timeout=180) as response:
+                payload = response.read()
+            break
+        except Exception:
+            if attempt == retries:
+                raise
+            time.sleep(min(2**attempt, 30))
     with tarfile.open(fileobj=io.BytesIO(payload), mode="r:gz") as archive:
         member = _matrix_member(archive, name)
         extracted = archive.extractfile(member)
@@ -56,6 +64,7 @@ def main() -> int:
     parser.add_argument("--root", type=Path, required=True)
     parser.add_argument("--proxy", help="HTTP proxy URL, e.g. http://127.0.0.1:17890")
     parser.add_argument("--limit", type=int, default=0, help="download only the first N entries")
+    parser.add_argument("--retries", type=int, default=5)
     parser.add_argument("--force", action="store_true")
     args = parser.parse_args()
     manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
@@ -66,7 +75,7 @@ def main() -> int:
     entries = manifest[: args.limit] if args.limit > 0 else manifest
     args.root.mkdir(parents=True, exist_ok=True)
     for index, item in enumerate(entries, 1):
-        output = download_item(opener, item, args.root, args.force)
+        output = download_item(opener, item, args.root, args.force, args.retries)
         print(f"[{index}/{len(entries)}] {item['matrix_id']} -> {output}", flush=True)
     return 0
 
