@@ -34,7 +34,7 @@ This is the maintenance boundary for the unified repository.
   only active catalog. `databank/public/data/archive` is not loaded by the site.
 - `databank/public/issue_download` is not a runtime input and is absent from the
   published tree. Its legacy attachments are retained under
-  `docs/archive/issue_download`; new issue attachments must enter through the
+  `databank/docs/archive/issue_download`; new issue attachments must enter through the
   reviewed result import workflow.
 - The former HTTP helper (`KernelPerf/scripts/common.py`) was unused after the
   evaluator became CLI-only and is deleted. The object-build helpers under

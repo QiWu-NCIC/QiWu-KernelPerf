@@ -46,8 +46,8 @@ candidate CSVs that were not referenced by the manifest are moved to
 `public/data/archive/candidate-pool/unreferenced/`; they are not loaded by the
 site. The archive is only for provenance and is not an input to curation.
 
-`public/issue_download` is not part of the current data contract. Its legacy
-attachments are retained under `docs/archive/issue_download` for provenance;
-the site has no reference to them. New issue attachments should be handled by
-the normal review/import workflow instead of being published as a second data
-source.
+`databank/public/issue_download` is not part of the current data contract. Its
+legacy attachments are retained under `databank/docs/archive/issue_download`
+for provenance; the site has no reference to them. New issue attachments
+should be handled by the normal review/import workflow instead of being
+published as a second data source.
