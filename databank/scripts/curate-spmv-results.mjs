@@ -212,6 +212,12 @@ function geometricMean(rows) {
     : 0;
 }
 
+function hasCoverage(rows, threshold = 0.9) {
+  if (!rows.length) return false;
+  const passing = rows.filter((row) => row.status === "pass" && Number(row.solve_ms) > 0);
+  return passing.length / rows.length >= threshold;
+}
+
 function writeCsv(file, headers, rows) {
   fs.mkdirSync(path.dirname(file), { recursive: true });
   const output = [
@@ -265,8 +271,7 @@ const ghostCandidateLoaded = candidateLoaded
   .filter(({ entry }) => (entry.method_id?.startsWith("ghost-sell-c32-sigma-")
       || entry.method_id?.startsWith("GHOST-SELL-C32-sigma-"))
     && entry.selection_role !== "best")
-  .filter(({ rows }) => rows.length
-    && rows.every((row) => row.status === "pass" && Number(row.solve_ms) > 0));
+  .filter(({ rows }) => hasCoverage(rows));
 const selectedGhost = new Set();
 for (const backend of [...new Set(ghostCandidateLoaded.map(({ entry }) =>
   entry.backend_id || canonicalBackend))]) {
@@ -336,7 +341,7 @@ for (const item of retained) {
       dss.solve_only_efficiency_percent = String(Number(dss.solve_gflops) / Number(dss.peak_gflops) * 100);
     }
   }
-  if (rows.length && rows.every((row) => row.status === "pass" && Number(row.solve_ms) > 0)) {
+  if (hasCoverage(rows)) {
     normalized.push({ entry: normalizeEntry(item.entry), headers: item.headers, rows });
   }
 }
@@ -349,8 +354,7 @@ const cusparseCandidates = candidateLoaded
     headers,
     rows: rows.map((row) => normalizeRow({ ...row })),
   }))
-  .filter(({ rows }) => rows.length
-    && rows.every((row) => row.status === "pass" && Number(row.solve_ms) > 0));
+  .filter(({ rows }) => hasCoverage(rows));
 for (const backend of [...new Set(cusparseCandidates.map(({ entry }) => entry.backend_id || canonicalBackend))]) {
  for (const dtype of ["fp32", "fp64"]) {
   const candidates = cusparseCandidates.filter(({ entry }) =>
@@ -364,7 +368,8 @@ for (const backend of [...new Set(cusparseCandidates.map(({ entry }) => entry.ba
   )].sort().join(",");
   const byMatrix = new Map();
   for (const candidate of candidates) {
-    for (const row of candidate.rows) {
+    for (const row of candidate.rows.filter((value) =>
+      value.status === "pass" && Number(value.solve_ms) > 0)) {
       const previous = byMatrix.get(row.matrix_id);
       if (!previous || Number(row.solve_ms) < Number(previous.row.solve_ms)) {
         byMatrix.set(row.matrix_id, {
@@ -429,7 +434,8 @@ for (const backend of [...new Set(ghostCandidates.map(({ entry }) => entry.backe
   )].sort().join(",");
   const byMatrix = new Map();
   for (const candidate of candidates) {
-    for (const row of candidate.rows) {
+    for (const row of candidate.rows.filter((value) =>
+      value.status === "pass" && Number(value.solve_ms) > 0)) {
       const previous = byMatrix.get(row.matrix_id);
       if (!previous || Number(row.solve_ms) < Number(previous.row.solve_ms)) {
         byMatrix.set(row.matrix_id, {

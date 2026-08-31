@@ -8,17 +8,13 @@ GHOST SELL-C-sigma during `preprocess`, with `C=32` and the variant's sigma.
 The example below evaluates sigma 128:
 
 ```bash
-python scripts/submit_spmv.py \
-  --api http://127.0.0.1:18081 \
+python -m kernelperf.cli evaluate \
+  --config config/service.json \
   --backend A100-SXM4-80GB \
   --dataset-id suitesparse_sample_100 \
   --operator spmv.csr.fp32 \
-  --method-name ghost_sell_c32_sigma_128 \
-  --base-format sell \
-  --build-profile ghost-cuda \
-  --source-dir examples/ghost_sell_submission \
-  --entry-source variants/sell_c32_sigma_128.cu \
-  --wait
+  --submission submissions/spmv/ghost_sell \
+  --configuration-id sigma-128
 ```
 
 The directory contains one entry source for every sigma in

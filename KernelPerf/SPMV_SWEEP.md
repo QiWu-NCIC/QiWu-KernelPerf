@@ -1,30 +1,20 @@
-# SpMV Configuration Sweeps
+# SpMV configuration sweeps
 
-A sweep submits several `KernelArtifact` entries for the same operator. Every
-entry must declare a unique `metadata.configuration_id`; entries that should be
-compared must share `metadata.candidate_group`.
-
-The service evaluates every configuration on every selected matrix. At terminal
-job completion it writes one candidate CSV per configuration and, when a group
-has at least two configurations, one additional CSV with
-`configuration_id=per-matrix-best`. For each matrix, BEST keeps the passing row
-with the smallest `solve_ms`; ties are resolved by configuration ID.
-
-The CLI accepts a JSON sweep manifest:
+Give every candidate a unique `configuration_id` and put comparable variants
+in one `candidate_group`. Select one or more configurations with the CLI:
 
 ```bash
-python scripts/submit_spmv.py \
-  --api http://127.0.0.1:18081 \
+python -m kernelperf.cli evaluate \
+  --config config/service.json \
+  --submission submissions/spmv/cusparse \
   --backend A100-SXM4-80GB \
+  --dataset-id suitesparse_sample_100 \
   --operator spmv.csr.fp32 \
-  --base-format csr \
-  --candidate-group alpha-csr \
-  --source-dir examples/alphasparse_submission \
-  --sweep-manifest examples/alphasparse_submission/sweep.json \
-  --wait --publish
+  --configuration-id csr-default \
+  --configuration-id csr-alg1
 ```
 
-The generated BEST CSV can be downloaded with
-`configuration_id=per-matrix-best` and published through the same API. Static
-databank entries retain `selected_from` so the selected candidate set remains
-auditable.
+Each configuration gets its own CSV. The maintainer-side BEST aggregation
+selects the smallest passing `solve_ms` per matrix and records the selected
+configuration ID. See `scripts/aggregate_best.py` and
+[`docs/REGRESSION.md`](../docs/REGRESSION.md).

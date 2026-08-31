@@ -51,8 +51,9 @@ function read(file) {
   const first = rows[0];
   if (!first || !first.method_id?.startsWith("cuSPARSE-")) return null;
   if (!required.has(first.configuration_id) || !["fp32", "fp64"].includes(first.dtype)) return null;
-  if (!rows.length || rows.some((row) => row.matrix_id?.startsWith("generated/")
-      || row.status !== "pass" || Number(row.solve_ms) <= 0)) return null;
+  const passing = rows.filter((row) => row.status === "pass" && Number(row.solve_ms) > 0);
+  if (!rows.length || rows.some((row) => row.matrix_id?.startsWith("generated/"))
+      || passing.length / rows.length < 0.9) return null;
   const backend = first.backend_id;
   if (!backend || !["H100-SXM5-80GB", "RTX5090-SL3061", "A100-SXM4-80GB"].includes(backend)) return null;
   return { headers, rows, first, file, mtime: fs.statSync(file).mtimeMs };

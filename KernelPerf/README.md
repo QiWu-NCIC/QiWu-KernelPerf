@@ -1,19 +1,17 @@
-# KernelPerf
+# KernelPerf evaluator
 
-KernelPerf is the maintainer-run evaluator used by QiWu-KernelPerf. Reviewed
-submission directories live under `submissions/<operator>/` and are evaluated
-with the CLI after a pull request is merged or manually checked out.
+This directory contains the maintainer-run Python evaluator. Start with the
+repository [README](../README.md), then read [`docs/PLUGINS.md`](../docs/PLUGINS.md)
+for the source contract and [`docs/REGRESSION.md`](../docs/REGRESSION.md) for
+worker execution.
+
+Install and test from this directory:
 
 ```bash
 python -m pip install -e '.[dev]'
-python -m kernelperf.cli evaluate \
-  --config config/service.json \
-  --submission submissions/spmv/cusparse \
-  --backend A100-SXM4-80GB \
-  --dataset-id suitesparse_sample_100 \
-  --operator spmv.csr.fp32
+pytest -q
+python scripts/validate_submissions.py submissions
 ```
 
-The evaluator writes one normalized CSV per method/backend/dataset/dtype under
-`data/result_exports/`. The static site in the sibling `databank/` directory
-consumes those files; no HTTP submission service is part of this repository.
+The CLI evaluates reviewed submissions and writes deterministic CSV exports;
+there is no HTTP submission server in this repository.

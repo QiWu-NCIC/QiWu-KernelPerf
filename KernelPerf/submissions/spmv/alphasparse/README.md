@@ -14,16 +14,12 @@ entry source only selects one upstream algorithm family:
 Example:
 
 ```bash
-python scripts/submit_spmv.py \
-  --api http://127.0.0.1:18081 \
+python -m kernelperf.cli evaluate \
+  --config config/service.json \
   --backend A100-SXM4-80GB \
   --operator spmv.csr.fp32 \
-  --method-name AlphaSparseLib-CSR-Vector \
-  --base-format csr \
-  --build-profile alphasparse-cuda \
-  --source-dir examples/alphasparse_submission \
-  --entry-source variants/vector.cu \
-  --wait
+  --submission submissions/spmv/alphasparse \
+  --configuration-id vector
 ```
 
 The adapter keeps CSR data in the framework-owned device buffers. Merge uses a
@@ -45,6 +41,5 @@ To evaluate all seven configurations in one job, create a manifest such as:
 ]
 ```
 
-Submit it with `--sweep-manifest` and `--candidate-group AlphaSparseLib-CSR`.
-The service writes one CSV per configuration and a separate
-`per-matrix-best` CSV.
+Evaluate each configuration with `--configuration-id`; the maintainer can then
+run `scripts/aggregate_best.py` over the resulting candidate CSVs.

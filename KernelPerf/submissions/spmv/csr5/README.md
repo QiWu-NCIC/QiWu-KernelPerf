@@ -12,30 +12,23 @@ so the adapter synchronizes that stream after each solve. This makes the
 submission compatible with the current evaluator, while a future upstream
 stream-aware API can remove that synchronization.
 
-From `PlayGround/`, submit the directory through the same CLI used for every
-other source submission (replace the API and backend with your deployment):
+Evaluate the reviewed directory with the same CLI used for every source
+submission:
 
 ```powershell
-python scripts/submit_spmv.py `
-  --api http://127.0.0.1:18081 `
+python -m kernelperf.cli evaluate `
+  --config config/service.json `
   --backend A100-SXM4-80GB `
   --dataset-id suitesparse_sample_100 `
   --operator spmv.csr.fp32 `
-  --method-name CSR5-adapter `
-  --base-format csr `
-  --source-dir examples/csr5_submission `
-  --entry-source adapter.cu `
-  --wait
+  --submission submissions/spmv/csr5
 ```
 
 The resulting artifact has `kind: "source"`, `entry_source: "adapter.cu"`,
 and no additional compile units because the CSR5 implementation is a
-header-based template library. The web page offers the same fields: select **Source
-directory**, choose this directory, set `base_format` to `CSR`, and select
-`FP32` or `FP64` plus the desired `solve-only`, `pre+solve`, or
-`pre/iteration+solve` timing mode.
+header-based template library. Repeat the command with `spmv.csr.fp64` for
+the FP64 build.
 
 The evaluator compiles `adapter.cu` as an independent plugin translation unit
-and links it with the managed runner. The archived source package includes the
-public header, CMake build, and a standalone caller under
-`data/source/<job-id>/spmv/`.
+and links it with the managed runner. The databank source package includes the
+public header, CMake build and standalone caller.

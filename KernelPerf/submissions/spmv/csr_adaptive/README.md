@@ -14,15 +14,11 @@ the evaluator-owned device buffers.
 Example FP32 submission:
 
 ```bash
-python scripts/submit_spmv.py \
-  --api http://127.0.0.1:18081 \
+python -m kernelperf.cli evaluate \
+  --config config/service.json \
   --backend A100-SXM4-80GB \
   --operator spmv.csr.fp32 \
-  --method-name csr-adaptive-cuda \
-  --base-format csr \
-  --source-dir examples/csr_adaptive_submission \
-  --entry-source adapter.cu \
-  --wait
+  --submission submissions/spmv/csr_adaptive
 ```
 
 Use `spmv.csr.fp64` for the FP64 candidate.

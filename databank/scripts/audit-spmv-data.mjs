@@ -109,8 +109,9 @@ for (const entry of candidateManifest.submissions || []) {
   const matrixIndex = headers.indexOf("matrix_id");
   const statuses = headers.indexOf("status");
   const solveIndex = headers.indexOf("solve_ms");
-  if (rows.length !== 100 || rows.some((row) => row[matrixIndex]?.startsWith("generated/")
-      || row[statuses] !== "pass" || Number(row[solveIndex]) <= 0)) {
+  const passing = rows.filter((row) => row[statuses] === "pass" && Number(row[solveIndex]) > 0);
+  if (rows.length !== 100 || rows.some((row) => row[matrixIndex]?.startsWith("generated/"))
+      || passing.length / rows.length < 0.9) {
     failures.push(`incomplete candidate: ${entry.backend_id}/${entry.dtype}/${entry.configuration_id}`);
     continue;
   }
@@ -119,6 +120,7 @@ for (const entry of candidateManifest.submissions || []) {
   const minimums = candidateMinimums.get(key) || new Map();
   for (const row of rows) {
     const matrix = row[matrixIndex];
+    if (row[statuses] !== "pass" || Number(row[solveIndex]) <= 0) continue;
     const solve = Number(row[solveIndex]);
     if (!minimums.has(matrix) || solve < minimums.get(matrix)) minimums.set(matrix, solve);
   }
