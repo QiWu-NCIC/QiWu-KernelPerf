@@ -115,6 +115,7 @@ be built without importing the Python evaluator. See
 - [`docs/OPERATIONS.md`](docs/OPERATIONS.md): maintainer workflow and data ownership.
 - [`docs/PR_EVALUATION.md`](docs/PR_EVALUATION.md): contribution and maintainer evaluation policy.
 - [`docs/DATASET_SELECTION.md`](docs/DATASET_SELECTION.md): corpus selection and download.
+- [`docs/DATA_LAYOUT.md`](docs/DATA_LAYOUT.md): result and candidate-pool layout and migration.
 - [`docs/REGRESSION.md`](docs/REGRESSION.md): platform regression procedure and status.
 - [`docs/FUTURE_REMOTE_ACTIONS.md`](docs/FUTURE_REMOTE_ACTIONS.md): explicitly deferred protected-runner design.
 - [`docs/REPOSITORY_REVIEW.md`](docs/REPOSITORY_REVIEW.md): file inventory and cleanup decisions.
