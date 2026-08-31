@@ -77,7 +77,7 @@ The published catalog uses the same identity in its directory layout:
 `databank/public/data/results/<operator>/<backend>/<dataset>/` for ranked
 results and `databank/public/data/candidate-pool/<operator>/<backend>/<dataset>/`
 for complete configuration sweeps. The JSON manifests are authoritative; see
-[`docs/DATA_LAYOUT.md`](docs/DATA_LAYOUT.md).
+[`docs/DATA.md`](docs/DATA.md).
 
 ## Current scope
 
@@ -92,7 +92,7 @@ The performance corpus is `suitesparse_sample_100`, a deterministic set of 100
 real SuiteSparse matrices with `10^2 <= nnz <= 10^8`. The smaller
 `suitesparse_validation_100` corpus is retained for correctness and smoke
 checks. Selection and download instructions are in
-[`docs/DATASET_SELECTION.md`](docs/DATASET_SELECTION.md).
+[`docs/DATA.md`](docs/DATA.md).
 
 ## Contribution and release flow
 
@@ -106,16 +106,11 @@ Plugins expose the source-level `qiwu_spmv_preprocess`,
 `qiwu_spmv_solve` and `qiwu_spmv_destroy` functions. The downloaded package
 contains its own public header, adapter and standalone CMake example, so it can
 be built without importing the Python evaluator. See
-[`docs/PLUGINS.md`](docs/PLUGINS.md) and
-[`docs/PR_EVALUATION.md`](docs/PR_EVALUATION.md).
+[`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md).
 
 ## Documentation map
 
-- [`docs/PLUGINS.md`](docs/PLUGINS.md): standalone plugin contract and package contents.
+- [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md): plugin contract and pull requests.
 - [`docs/OPERATIONS.md`](docs/OPERATIONS.md): maintainer workflow and data ownership.
-- [`docs/PR_EVALUATION.md`](docs/PR_EVALUATION.md): contribution and maintainer evaluation policy.
-- [`docs/DATASET_SELECTION.md`](docs/DATASET_SELECTION.md): corpus selection and download.
-- [`docs/DATA_LAYOUT.md`](docs/DATA_LAYOUT.md): result and candidate-pool layout and migration.
-- [`docs/REGRESSION.md`](docs/REGRESSION.md): platform regression procedure and status.
+- [`docs/DATA.md`](docs/DATA.md): datasets, CSV data and download layout.
 - [`docs/FUTURE_REMOTE_ACTIONS.md`](docs/FUTURE_REMOTE_ACTIONS.md): explicitly deferred protected-runner design.
-- [`docs/REPOSITORY_REVIEW.md`](docs/REPOSITORY_REVIEW.md): file inventory and cleanup decisions.

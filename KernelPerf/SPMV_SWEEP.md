@@ -17,4 +17,4 @@ python -m kernelperf.cli evaluate \
 Each configuration gets its own CSV. The maintainer-side BEST aggregation
 selects the smallest passing `solve_ms` per matrix and records the selected
 configuration ID. See `scripts/aggregate_best.py` and
-[`docs/REGRESSION.md`](../docs/REGRESSION.md).
+[`docs/OPERATIONS.md`](../docs/OPERATIONS.md).

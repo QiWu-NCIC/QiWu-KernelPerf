@@ -1,47 +1,46 @@
-# Operations Guide
+# Maintainer Operations
 
-## Repository responsibilities
+`KernelPerf/kernelperf` is the evaluator and scheduler. `KernelPerf/submissions`
+contains reviewed plugins. `KernelPerf/data` is ignored runtime state.
+`databank/public/data` is the versioned CSV catalog and `public/source` is
+generated from canonical submissions.
 
-- `KernelPerf/kernelperf/` is the evaluator runtime and scheduler. It has no
-  public HTTP submission endpoint.
-- `KernelPerf/benchmarks/` contains operator drivers and templates.
-- `KernelPerf/submissions/<operator>/<method>/` contains reviewed adapters and
-  source/object artifacts. `submission.json` is the only evaluator manifest.
-- `KernelPerf/config/` contains checked-in benchmark, dataset, and worker
-  profiles. Machine-specific credentials and temporary fallback profiles stay
-  outside the repository.
-- `KernelPerf/data/` is runtime state. SQLite files and result exports are
-  generated outputs and are ignored by git.
-- `databank/public/data/` is the publishable CSV catalog. `databank/public/source/`
-  is generated from the canonical submissions and should not be edited by hand.
+## Evaluate and publish
 
-## Maintainer workflow
+From `KernelPerf/`, evaluate each requested dtype and platform:
 
-1. Review a pull request and run the GitHub Actions validation workflow.
-2. On an isolated worker, run `python -m kernelperf.cli evaluate` for each
-   requested operator and dtype. Keep the checked-out PR source read-only.
-3. Copy the generated CSV files from `KernelPerf/data/result_exports/` into the
-   matching `databank/public/data/results/<operator>/<backend>/<dataset>/`
-   directory. Use `npm run add:spmv` when importing a single result so its
-   canonical path and filename are generated automatically.
-4. Keep full configuration sweeps in
-   `databank/public/data/candidate-pool/<operator>/<backend>/<dataset>/` and
-   update its manifest before running curation.
-5. Run `npm run audit:spmv` in `databank`, then build the static site. Commit the
-   CSV files, index metadata, and generated source package together.
+```bash
+python -m kernelperf.cli evaluate \
+  --config config/service.json \
+  --backend A100-SXM4-80GB \
+  --dataset-id suitesparse_sample_100 \
+  --submission submissions/spmv/my-method \
+  --operator spmv.csr.fp32
+```
 
-The evaluator writes one file per method, backend, dataset, and dtype. A
-transient job ID remains in each row for traceability but is deliberately absent
-from the final filename.
+Repeat for FP64 and each reviewed baseline. Isolate long sweeps with independent
+SQLite and export directories; preserve rows for failed matrices. Exports are
+written below `KernelPerf/data/result_exports/<suite>/<backend>/<dataset>/`.
 
-## Remote profiles
+Copy accepted results into the matching databank scope. Use
+`npm run add:spmv -- <file.csv>` for a single public result, or
+`--candidate` for a configuration sweep. Then run:
 
-The checked-in worker profiles describe the normal CUDA workers. If a login
-node must be used temporarily, create an untracked service/worker profile with
-an explicit backend ID, CUDA version, dataset root, and result directory. Do
-not replace the checked-in profile or publish fallback measurements without
-recording the actual CUDA/toolkit version in the result metadata.
+```bash
+cd databank
+npm run curate:spmv
+npm run audit:spmv
+npm run build
+```
 
-Large SuiteSparse archives should be downloaded once into the configured root
-and reused by all baseline groups. The downloader is resumable; verify all 100
-manifest names before starting a full regression.
+Commit CSV files, JSON indexes, and generated source packages together. The
+browser performs GFLOP/s, efficiency, geometric-mean, coverage and BEST
+calculation from these GitHub-hosted files.
+
+## Platform notes
+
+Use the checked-in worker profiles and record the exact worker label, CUDA
+version, dataset manifest hash, commit SHA, configuration IDs and pass/fail
+counts. Credentials, temporary fallback profiles and downloaded matrix archives
+stay outside Git. Use a Slurm GPU allocation on platforms whose login node has
+no GPU, and give parallel batches independent SQLite and export paths.
