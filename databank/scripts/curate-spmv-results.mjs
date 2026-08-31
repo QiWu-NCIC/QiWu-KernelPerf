@@ -12,14 +12,6 @@ const requiredGhostConfigurations = Array.from(
   { length: 18 },
   (_, exponent) => "sigma-" + (2 ** exponent),
 );
-const requiredCusparseConfigurations = [
-  ...["coo", "csr", "csc"].flatMap((format) =>
-    ["default", "alg1", "alg2"].map((algorithm) => `${format}-${algorithm}`)),
-  ...[1, 2, 4, 8, 16, 32, 64, 128].flatMap((sliceSize) =>
-    ["default", "alg1"].map((algorithm) => `sell-c${sliceSize}-${algorithm}`)),
-  "sell-nrows-default",
-  "sell-nrows-alg1",
-];
 const publicCusparseConfigurations = new Set([
   ...["coo", "csr", "csc"].flatMap((format) =>
     ["default", "alg1", "alg2"].map((algorithm) => `${format}-${algorithm}`)),
