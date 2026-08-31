@@ -167,11 +167,16 @@ if (sourceDir) {
   entry.source_manifest = path.posix.join("source", sourcePackage.source_sha256, "plugin.json");
 }
 const normalizedCsv = serializeCsv(headers, rows);
-const existingEntry = (manifest.submissions || []).find(
-  (item) => item.submission_id === submissionId,
+const logicalKey = [operatorId, first.method_id, backendId, datasetId, first.dtype].join("|");
+const existingEntries = (manifest.submissions || []).filter((item) =>
+  [String(item.operator_id || "spmv").split(".")[0] || "spmv", item.method_id,
+    item.backend_id, item.dataset_id, item.dtype].join("|") === logicalKey
+  || item.submission_id === submissionId,
 );
+const existingEntry = existingEntries[0];
 const unchanged = Boolean(
   existingEntry
+  && existingEntries.length === 1
   && fs.existsSync(target)
   && fs.readFileSync(target, "utf8") === normalizedCsv
   && Object.entries(entry).every(([key, value]) => existingEntry[key] === value)
@@ -179,7 +184,7 @@ const unchanged = Boolean(
 );
 if (!unchanged) {
   manifest.submissions = (manifest.submissions || []).filter(
-    (item) => item.submission_id !== submissionId,
+    (item) => !existingEntries.includes(item),
   );
   manifest.submissions.push(entry);
   manifest.generated_at = new Date().toISOString();
@@ -197,9 +202,11 @@ const summary = {
 if (!dryRun && !unchanged) {
   fs.mkdirSync(outputDir, { recursive: true });
   fs.writeFileSync(target, normalizedCsv);
-  if (existingEntry?.path && existingEntry.path !== path.relative("public", target).replaceAll("\\", "/")) {
-    const previous = path.join("public", existingEntry.path.replaceAll("/", path.sep));
-    if (fs.existsSync(previous)) fs.rmSync(previous);
+  for (const previousEntry of existingEntries) {
+    if (previousEntry.path && previousEntry.path !== path.relative("public", target).replaceAll("\\", "/")) {
+      const previous = path.join("public", previousEntry.path.replaceAll("/", path.sep));
+      if (fs.existsSync(previous)) fs.rmSync(previous);
+    }
   }
   if (sourceDir && !fs.existsSync(sourceTarget)) {
     fs.cpSync(sourceDir, sourceTarget, { recursive: true });
