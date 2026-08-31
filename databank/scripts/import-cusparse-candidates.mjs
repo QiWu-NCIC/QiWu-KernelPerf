@@ -9,7 +9,7 @@ if (!rootArg || !inputDirs.length) {
 
 const root = path.resolve(rootArg);
 const manifestPath = path.join(root, "data", "candidate-pool", "index.json");
-const candidateRoot = path.join(root, "data", "candidate-pool", "spmv");
+const candidateRoot = path.join(root, "data", "candidate-pool");
 const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
 manifest.schema_version = 2;
 manifest.result_schema = "kernelperf-spmv-v2";

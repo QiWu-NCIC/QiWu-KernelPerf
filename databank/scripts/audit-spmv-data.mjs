@@ -170,24 +170,27 @@ for (const entry of manifest.submissions || []) {
     }
   }
 }
-const candidateOperators = [...new Set((candidateManifest.submissions || []).map((entry) => operatorOf(entry.operator_id)))];
-const candidateDatasets = [...new Set((candidateManifest.submissions || []).map((entry) => datasetOf(entry.dataset_id)))];
-for (const operator of candidateOperators) {
- for (const backend of ["A100-SXM4-80GB", "RTX5090-SL3061", "H100-SXM5-80GB"]) {
-  for (const dataset of candidateDatasets) {
-   for (const dtype of ["fp32", "fp64"]) {
-    const entries = (candidateManifest.submissions || []).filter((entry) =>
-      entry.candidate_group === "cusparse" && canonicalBackend(entry.backend_id) === backend
-        && operatorOf(entry.operator_id) === operator && datasetOf(entry.dataset_id) === dataset
-        && entry.dtype === dtype,
-    );
-    const configurations = new Set(entries.map((entry) => entry.configuration_id));
-    if (required.size !== configurations.size || [...required].some((value) => !configurations.has(value))) {
-      failures.push(`candidate scope mismatch: ${operator}/${backend}/${dataset}/${dtype} (${configurations.size}/${required.size})`);
-    }
-   }
-  }
+const observedCandidateScopes = new Map();
+for (const entry of candidateManifest.submissions || []) {
+  if (entry.candidate_group !== "cusparse") continue;
+  const key = `${operatorOf(entry.operator_id)}|${canonicalBackend(entry.backend_id)}|${datasetOf(entry.dataset_id)}|${entry.dtype}`;
+  if (!observedCandidateScopes.has(key)) observedCandidateScopes.set(key, new Set());
+  observedCandidateScopes.get(key).add(entry.configuration_id);
 }
+for (const [key, configurations] of observedCandidateScopes) {
+  if ([...configurations].some((value) => !required.has(value))) {
+    failures.push(`unknown candidate configuration: ${key}`);
+  }
+  const [operator, backend, dataset, dtype] = key.split("|");
+  const publishesBest = (manifest.submissions || []).some((entry) =>
+    entry.method_id === "cusparse-best" && operatorOf(entry.operator_id) === operator
+      && canonicalBackend(entry.backend_id) === backend && datasetOf(entry.dataset_id) === dataset
+      && entry.dtype === dtype,
+  );
+  if (publishesBest && (required.size !== configurations.size
+      || [...required].some((value) => !configurations.has(value)))) {
+    failures.push(`BEST uses incomplete candidate scope: ${key} (${configurations.size}/${required.size})`);
+  }
 }
 for (const file of walkCsv(path.join(publicRoot, "data", "results"))) {
   if (!publicPaths.has(path.resolve(file))) failures.push(`unindexed public CSV: ${file}`);

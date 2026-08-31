@@ -18,6 +18,14 @@ const publicCusparseConfigurations = new Set([
   "sell-nrows-default",
   "sell-nrows-alg1",
 ]);
+const requiredCusparseConfigurations = new Set([
+  ...["coo", "csr", "csc"].flatMap((format) =>
+    ["default", "alg1", "alg2"].map((algorithm) => `${format}-${algorithm}`)),
+  ...[1, 2, 4, 8, 16, 32, 64, 128].flatMap((c) =>
+    ["default", "alg1"].map((algorithm) => `sell-c${c}-${algorithm}`)),
+  "sell-nrows-default",
+  "sell-nrows-alg1",
+]);
 
 const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
 manifest.schema_version = 2;
@@ -142,6 +150,8 @@ function normalizeRow(row) {
     ? platformOf({ backend_id: row.hardware, hardware: row.hardware })
     : row.backend_id;
   row.method_id = canonicalMethodId(row.method_id);
+  if (row.method_id === "CSR5") row.method_id = "csr5";
+  if (row.method_id === "CSR-Adaptive") row.method_id = "csr-adaptive-cuda";
   if (row.method_id?.startsWith("AlphaSparse-")) {
     row.method_id = row.method_id.replace(/^AlphaSparse-/, "AlphaSparseLib-");
   }
@@ -179,6 +189,8 @@ function normalizeEntry(entry) {
     ? platformOf({ backend_id: normalized.hardware, hardware: normalized.hardware })
     : normalized.backend_id;
   normalized.method_id = canonicalMethodId(normalized.method_id);
+  if (normalized.method_id === "CSR5") normalized.method_id = "csr5";
+  if (normalized.method_id === "CSR-Adaptive") normalized.method_id = "csr-adaptive-cuda";
   normalized.source_manifest = sourceManifestFor(normalized);
   if (normalized.method_id?.startsWith("AlphaSparse-")) {
     normalized.method_id = normalized.method_id.replace(/^AlphaSparse-/, "AlphaSparseLib-");
@@ -254,6 +266,19 @@ function resultFileStem(entry) {
     .join("-");
 }
 
+function isBaselineEntry(entry) {
+  const group = String(entry.candidate_group || "").toLowerCase();
+  const method = String(entry.method_id || "").toLowerCase();
+  return group === "baseline-regression"
+    || group === "csr5"
+    || group === "csr-adaptive"
+    || group === "alphasparse-csr"
+    || group === "alphasparselib-csr"
+    || method === "csr5"
+    || method === "csr-adaptive"
+    || method.startsWith("alphasparse");
+}
+
 const loaded = sourceEntries.map(readEntry).filter(Boolean);
 const candidateLoaded = candidateEntries.length
   ? candidateEntries.map(readEntry).filter(Boolean)
@@ -262,10 +287,14 @@ const selectedSell = new Set();
 for (const algorithm of ["ALG1", "DEFAULT"]) {
   const candidates = candidateLoaded.filter(({ entry }) =>
     isSellCandidate(entry) && sellKey(entry) === algorithm);
-  const backends = [...new Set(candidates.map(({ entry }) => platformOf(entry)))];
-  for (const backend of backends) {
+  const scopes = [...new Set(candidates.map(({ entry }) =>
+    `${operatorOf(entry)}|${platformOf(entry)}|${datasetOf(entry)}`))];
+  for (const scope of scopes) {
+    const [operator, backend, dataset] = scope.split("|");
     const byC = new Map();
-    for (const candidate of candidates.filter(({ entry }) => platformOf(entry) === backend)) {
+    for (const candidate of candidates.filter(({ entry }) =>
+      operatorOf(entry) === operator && platformOf(entry) === backend
+        && datasetOf(entry) === dataset)) {
       const c = sellC(candidate.entry);
       if (!byC.has(c)) byC.set(c, []);
       byC.get(c).push(candidate);
@@ -323,7 +352,7 @@ for (const scope of ghostScopes) {
 }
 
 const retained = loaded.filter(({ entry }) => {
-  if (entry.candidate_group === "baseline-regression") return true;
+  if (isBaselineEntry(entry)) return true;
   if (["alphasparse-csr", "AlphaSparseLib-CSR"].includes(entry.candidate_group)) return true;
   if (isSellCandidate(entry)) return selectedSell.has(sellSelectionKey(entry));
   if (["ghost-sell", "GHOST-SELL-C32-sigma"].includes(entry.candidate_group)
@@ -333,6 +362,17 @@ const retained = loaded.filter(({ entry }) => {
   return entry.candidate_group === "cusparse"
     && entry.selection_role !== "best";
 });
+const retainedBaselineKeys = new Set(retained.map(({ entry }) =>
+  `${operatorOf(entry)}:${platformOf(entry)}:${datasetOf(entry)}:${entry.dtype}:${entry.method_id}:${entry.configuration_id || ""}`));
+for (const candidate of candidateLoaded) {
+  const entry = candidate.entry;
+  const key = `${operatorOf(entry)}:${platformOf(entry)}:${datasetOf(entry)}:${entry.dtype}:${entry.method_id}:${entry.configuration_id || ""}`;
+  if (isBaselineEntry(entry) && hasCoverage(candidate.rows)
+      && !retainedBaselineKeys.has(key)) {
+    retained.push(candidate);
+    retainedBaselineKeys.add(key);
+  }
+}
 const retainedCusparseKeys = new Set(retained
   .filter(({ entry }) => entry.candidate_group === "cusparse")
   .map(({ entry }) => `${operatorOf(entry)}:${platformOf(entry)}:${datasetOf(entry)}:${entry.dtype}:${entry.configuration_id}`));
@@ -405,7 +445,10 @@ for (const scope of cusparseScopes) {
   const availableConfigurations = new Set(
     candidates.map(({ entry }) => entry.configuration_id),
   );
-  if (!candidates.length) continue;
+  if (!candidates.length
+      || requiredCusparseConfigurations.size !== availableConfigurations.size
+      || [...requiredCusparseConfigurations].some(
+        (value) => !availableConfigurations.has(value))) continue;
   const selectedFrom = [...new Set(
     candidates.map(({ entry }) => entry.configuration_id).filter(Boolean),
   )].sort().join(",");

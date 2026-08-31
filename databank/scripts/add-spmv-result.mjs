@@ -16,13 +16,17 @@ const requestedSubmissionId = option("--submission-id");
 const requestedBackendId = option("--backend");
 const sourceDir = option("--source-dir");
 const dryRun = args.includes("--dry-run");
-const indexPath = "public/data/index.json";
+const candidateMode = args.includes("--candidate");
+const catalogDirectory = candidateMode ? "candidate-pool" : "results";
+const indexPath = candidateMode
+  ? "public/data/candidate-pool/index.json"
+  : "public/data/index.json";
 const safe = (value) => String(value || "unknown").replace(/[^A-Za-z0-9._-]+/g, "-");
 
 if (!inputPath) {
   console.error(
     "Usage: npm run add:spmv -- result.csv [--backend a100-server] " +
-    "[--submission-id ID] [--source-dir DIR] [--dry-run]",
+    "[--submission-id ID] [--source-dir DIR] [--candidate] [--dry-run]",
   );
   process.exit(1);
 }
@@ -112,7 +116,7 @@ const operatorId = String(first.operator_id || "spmv").split(".")[0] || "spmv";
 const datasetId = first.dataset_id || "unknown";
 const fileName = [first.method_id, backendId, datasetId, first.dtype]
   .map(safe).join("-") + ".csv";
-const outputDir = path.join("public/data/results", operatorId, backendId, datasetId);
+const outputDir = path.join("public/data", catalogDirectory, operatorId, backendId, datasetId);
 const target = path.join(outputDir, fileName);
 let sourcePackage = null;
 let sourceTarget = null;
