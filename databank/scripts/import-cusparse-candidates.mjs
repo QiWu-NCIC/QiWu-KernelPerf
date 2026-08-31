@@ -26,7 +26,8 @@ const required = new Set([
 const safe = (value) => String(value || "unknown").replace(/[^A-Za-z0-9._-]+/g, "-");
 const operatorOf = (value) => String(value || "spmv").split(".")[0] || "spmv";
 const datasetOf = (value) => String(value || "unknown");
-const fileStem = (entry) => [entry.method_id, entry.backend_id, entry.dataset_id, entry.dtype]
+const canonicalMethodId = (value) => String(value || "").replace(/^cuSPARSE-CUDA-[0-9.]+-/i, "cuSPARSE-");
+const fileStem = (entry) => [canonicalMethodId(entry.method_id), entry.backend_id, entry.dataset_id, entry.dtype]
   .map(safe).join("-");
 
 function parseCsv(text) {
@@ -65,6 +66,15 @@ function read(file) {
   return { headers, rows, first, file, mtime: fs.statSync(file).mtimeMs };
 }
 
+const csvValue = (value) => {
+  const text = String(value ?? "");
+  return /[",\n\r]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
+};
+const serialize = (headers, rows) => [
+  headers.join(","),
+  ...rows.map((row) => headers.map((header) => csvValue(row[header])).join(",")),
+].join("\n") + "\n";
+
 const candidates = new Map();
 for (const dir of inputDirs.map((value) => path.resolve(value))) {
   if (!fs.existsSync(dir)) continue;
@@ -88,7 +98,7 @@ for (const [key, item] of candidates) {
   const [operator, backend, dataset, dtype, configuration] = key.split("|");
   const sourceId = String(item.first.submission_id || path.basename(item.file, ".csv"));
   const fileName = `${fileStem({
-    method_id: item.first.method_id,
+    method_id: canonicalMethodId(item.first.method_id),
     backend_id: backend,
     dataset_id: dataset,
     dtype,
@@ -96,11 +106,18 @@ for (const [key, item] of candidates) {
   const targetDir = path.join(candidateRoot, operator, backend, dataset);
   const target = path.join(targetDir, fileName);
   fs.mkdirSync(targetDir, { recursive: true });
-  fs.copyFileSync(item.file, target);
+  const rows = item.rows.map((row) => ({
+    ...row,
+    method_id: canonicalMethodId(row.method_id),
+    backend_id: backend,
+    hardware: backend,
+    dataset_id: dataset,
+  }));
+  fs.writeFileSync(target, serialize(item.headers, rows));
   const entry = {
     submission_id: sourceId,
     path: path.posix.join("data", "candidate-pool", operator, backend, dataset, fileName),
-    method_id: item.first.method_id,
+    method_id: canonicalMethodId(item.first.method_id),
     method_name: item.first.method_name,
     configuration_id: configuration,
     candidate_group: "cusparse",
@@ -110,7 +127,7 @@ for (const [key, item] of candidates) {
     operator_id: item.first.operator_id,
     dtype,
     backend_id: backend,
-    hardware: item.first.hardware || backend,
+    hardware: backend,
     peak_gflops: Number(item.first.peak_gflops),
     dataset_id: item.first.dataset_id,
     source_kind: "source",

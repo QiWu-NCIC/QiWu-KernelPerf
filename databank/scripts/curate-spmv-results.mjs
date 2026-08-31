@@ -44,6 +44,10 @@ function datasetOf(value) {
   return String(value.dataset_id || "unknown");
 }
 
+function canonicalMethodId(value) {
+  return String(value || "").replace(/^cuSPARSE-CUDA-[0-9.]+-/i, "cuSPARSE-");
+}
+
 function cuSparseName(backend, suffix) {
   const version = backend === canonicalBackend ? "12.9" : "12.8";
   return `cuSPARSE CUDA ${version} ${suffix}`;
@@ -136,7 +140,10 @@ function readEntry(entry) {
 function normalizeRow(row) {
   row.schema_version = "2";
   row.backend_id = platformOf(row);
-  row.hardware = row.hardware || row.backend_id;
+  row.hardware = row.hardware
+    ? platformOf({ backend_id: row.hardware, hardware: row.hardware })
+    : row.backend_id;
+  row.method_id = canonicalMethodId(row.method_id);
   if (row.method_id?.startsWith("AlphaSparse-")) {
     row.method_id = row.method_id.replace(/^AlphaSparse-/, "AlphaSparseLib-");
   }
@@ -170,7 +177,10 @@ function normalizeEntry(entry) {
     ? submissionId
     : submissionId.replace(/ict-a100(?:-gpu\d+|-opencl)?/gi, canonicalBackend);
   normalized.backend_id = platformOf(normalized);
-  normalized.hardware = normalized.hardware || normalized.backend_id;
+  normalized.hardware = normalized.hardware
+    ? platformOf({ backend_id: normalized.hardware, hardware: normalized.hardware })
+    : normalized.backend_id;
+  normalized.method_id = canonicalMethodId(normalized.method_id);
   normalized.source_manifest = sourceManifestFor(normalized);
   if (normalized.method_id?.startsWith("AlphaSparse-")) {
     normalized.method_id = normalized.method_id.replace(/^AlphaSparse-/, "AlphaSparseLib-");
