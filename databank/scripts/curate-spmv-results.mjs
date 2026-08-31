@@ -20,6 +20,12 @@ const requiredCusparseConfigurations = [
   "sell-nrows-default",
   "sell-nrows-alg1",
 ];
+const publicCusparseConfigurations = new Set([
+  ...["coo", "csr", "csc"].flatMap((format) =>
+    ["default", "alg1", "alg2"].map((algorithm) => `${format}-${algorithm}`)),
+  "sell-nrows-default",
+  "sell-nrows-alg1",
+]);
 
 const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
 manifest.schema_version = 2;
@@ -335,6 +341,21 @@ const retained = loaded.filter(({ entry }) => {
   return entry.candidate_group === "cusparse"
     && entry.selection_role !== "best";
 });
+const retainedCusparseKeys = new Set(retained
+  .filter(({ entry }) => entry.candidate_group === "cusparse")
+  .map(({ entry }) => `${operatorOf(entry)}:${platformOf(entry)}:${datasetOf(entry)}:${entry.dtype}:${entry.configuration_id}`));
+for (const candidate of candidateLoaded) {
+  const entry = candidate.entry;
+  if (entry.candidate_group !== "cusparse"
+      || entry.selection_role === "best"
+      || !publicCusparseConfigurations.has(entry.configuration_id)
+      || !hasCoverage(candidate.rows)) continue;
+  const key = `${operatorOf(entry)}:${platformOf(entry)}:${datasetOf(entry)}:${entry.dtype}:${entry.configuration_id}`;
+  if (!retainedCusparseKeys.has(key)) {
+    retained.push(candidate);
+    retainedCusparseKeys.add(key);
+  }
+}
 const retainedSellKeys = new Set(
   retained.filter(({ entry }) => isSellCandidate(entry)).map(({ entry }) => sellSelectionKey(entry)),
 );
