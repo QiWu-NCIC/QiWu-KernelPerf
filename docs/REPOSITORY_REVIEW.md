@@ -50,3 +50,19 @@ Before a release, run `git status --short`, `pytest -q`,
 `python scripts/validate_submissions.py submissions`, `npm run audit:spmv`, and
 the Node 20 production build. Any proposed deletion outside this list should
 be checked against the source manifest, result index and reproducibility docs.
+
+## Directory decisions
+
+| Area | Decision | Reason |
+| --- | --- | --- |
+| `KernelPerf/kernelperf` | Keep | Stable evaluator and scheduler boundary. |
+| `KernelPerf/benchmarks` | Keep | Operator-specific code stays out of the core. |
+| `KernelPerf/config` | Keep | Declarative platform and dataset metadata. |
+| `KernelPerf/submissions` | Keep | Single reviewed source of truth for plugins. |
+| `KernelPerf/scripts` | Keep and review per release | Operational tools are useful, but worker-only scripts must not become APIs. |
+| `KernelPerf/scripts/playground` | Keep temporarily | Object helpers are still useful; move to `scripts/objects` before making objects a primary mode. |
+| `KernelPerf/tests` | Keep | Contract and regression protection for evaluator changes. |
+| `databank/src` | Keep | Presentation and client-side aggregation only. |
+| `databank/public/data` | Keep and append | Published results are immutable, incremental data artifacts. |
+| `databank/public/source` | Generate | Rebuild from canonical submissions; never hand-edit. |
+| `databank/node_modules`, `dist`, runtime data | Ignore | Reproducible build outputs, not release inputs. |
