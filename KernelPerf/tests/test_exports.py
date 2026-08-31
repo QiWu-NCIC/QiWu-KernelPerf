@@ -91,6 +91,55 @@ def test_failed_job_does_not_export_csv(tmp_path):
     assert not (tmp_path / "exports").exists()
 
 
+def test_datasets_have_independent_export_paths(tmp_path):
+    runtime = create_runtime(database_path=tmp_path / "perf.sqlite", result_exports_path=tmp_path / "exports")
+    backend = runtime.backends.backends()[0].info()
+    operator = runtime.benchmarks.get("spmv").operators()[0]
+    kernel = KernelArtifact(
+        name="candidate", source="candidate",
+        metadata={"operator_id": operator.op_id, "base_format": "csr"},
+    )
+    exporter = LocalResultExporter(
+        tmp_path / "exports", runtime.db, runtime.backends, runtime.benchmarks
+    )
+    paths = []
+    for dataset_id, job_id in (("suite-a", "job-a"), ("suite-b", "job-b")):
+        job = JobRecord(
+            job_id=job_id,
+            generator_id="candidate",
+            backends=[backend.backend_id],
+            suites=["spmv"],
+            dataset_id=dataset_id,
+            operator_ids=[operator.op_id],
+            kernels=[kernel],
+            status=JobStatus.succeeded,
+        )
+        runtime.db.insert_result(BenchmarkResult(
+            job_id=job_id,
+            generator_id="candidate",
+            backend_id=backend.backend_id,
+            backend_kind=backend.kind,
+            suite="spmv",
+            operator_id=operator.op_id,
+            operator_name=operator.name,
+            matrix_id="group/matrix",
+            matrix_name="matrix",
+            rows=2,
+            cols=2,
+            nnz=2,
+            kernel_name=kernel.name,
+            runtime_ms=1.0,
+            gflops=0.004,
+            arithmetic_intensity=0.0,
+            metadata={"operations": 4, "dtype": operator.dtype},
+        ))
+        paths.extend(exporter.export_job(job))
+
+    assert len(paths) == 2
+    assert {Path(path).parent.name for path in paths} == {"suite-a", "suite-b"}
+    assert all(Path(path).is_file() for path in paths)
+
+
 def test_multi_configuration_job_exports_candidates_and_per_matrix_best(tmp_path):
     runtime_obj = create_runtime(database_path=tmp_path / "perf.sqlite", result_exports_path=tmp_path / "exports")
     backend = runtime_obj.backends.backends()[0].info()
