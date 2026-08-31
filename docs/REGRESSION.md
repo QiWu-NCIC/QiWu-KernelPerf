@@ -10,7 +10,7 @@ From `KernelPerf/`, use the platform-specific service and worker profile:
 
 ```bash
 python -m kernelperf.cli evaluate \
-  --config config/service-a100.json \
+  --config config/service.json \
   --backend A100-SXM4-80GB \
   --dataset-id suitesparse_sample_100 \
   --submission submissions/spmv/cusparse \
