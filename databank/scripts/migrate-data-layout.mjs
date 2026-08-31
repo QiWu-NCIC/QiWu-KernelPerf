@@ -123,10 +123,9 @@ const referenced = new Set([
 const unreferenced = listCsv(absolute("data/candidate-pool"))
   .filter((file) => !referenced.has(path.resolve(file)));
 for (const source of unreferenced) {
-  const target = absolute(path.posix.join(
-    "data", "archive", "candidate-pool", "unreferenced", path.basename(source),
-  ));
-  move(source, target);
+  // Unreferenced legacy files are intentionally removed: the published
+  // catalog is the only supported source of downloadable benchmark data.
+  if (!dryRun) fs.rmSync(source);
 }
 
 if (!dryRun) {
@@ -145,5 +144,5 @@ console.log(JSON.stringify({
   dry_run: dryRun,
   results: { entries: result.entries, moved: result.moved },
   candidates: { entries: candidates.entries, moved: candidates.moved },
-  archived_unreferenced_candidates: unreferenced.length,
+  removed_unreferenced_candidates: unreferenced.length,
 }, null, 2));

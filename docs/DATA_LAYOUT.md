@@ -49,15 +49,15 @@ npm run audit:spmv
 ```
 
 The migration is collision-checked and preserves byte-identical files. Old
-candidate CSVs that were not referenced by the manifest are moved to
-`public/data/archive/candidate-pool/unreferenced/`; they are not loaded by the
-site. The archive is only for provenance and is not an input to curation.
+candidate CSVs that are not referenced by the manifest are removed; they are
+not part of the published data contract. Keep any required historical copy
+outside the repository.
 
 `databank/public/issue_download` is not part of the current data contract. Its
-legacy attachments are retained under `databank/docs/archive/issue_download`
-for provenance; the site has no reference to them. New issue attachments
-should be handled by the normal review/import workflow instead of being
-published as a second data source.
+legacy attachments are not tracked in this repository and have no reference
+from the site. Keep them in external issue storage if provenance is required;
+new issue attachments should enter through the normal review/import workflow
+instead of becoming a second data source.
 
 The evaluator's `KernelPerf/data/` directory is runtime state and is ignored by
 Git. Its exports follow the same `<suite>/<backend>/<dataset>` partition before

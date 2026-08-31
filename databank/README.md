@@ -21,7 +21,8 @@ public/data/results/<operator>/<backend>/<dataset>/<method>-<backend>-<dataset>-
 public/data/candidate-pool/<operator>/<backend>/<dataset>/<method>-<backend>-<dataset>-<dtype>.csv
 ```
 
-The JSON manifests are authoritative. Run `npm run migrate:data-layout` once
+The JSON manifests are authoritative and are committed with the CSV files so
+GitHub Pages can download them directly. Run `npm run migrate:data-layout` once
 when importing an older flat catalog, then `npm run audit:spmv` before building.
 See [`docs/DATA_LAYOUT.md`](../docs/DATA_LAYOUT.md) for the migration and
-archive policy.
+external-history policy.
