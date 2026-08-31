@@ -58,7 +58,7 @@ class LocalResultExporter:
         dtype = str(operator.dtype)
         method_id = slug(kernel.name)
         dataset_id = slug(job.dataset_id or "none")
-        target = self.root / slug(suite) / slug(backend_id) / (
+        target = self.root / slug(suite) / slug(backend_id) / dataset_id / (
             f"{method_id}-{slug(backend_id)}-{dataset_id}-{dtype}.csv"
         )
         return backend, operator, kernel, target
@@ -167,8 +167,9 @@ class LocalResultExporter:
             source_kind="derived",
             base_format="auto",
         )
-        target = self.root / slug(suite) / slug(backend_id) / (
-            f"{method_id}-{slug(backend_id)}-{slug(job.dataset_id or 'none')}-{operator.dtype}.csv"
+        dataset_id = slug(job.dataset_id or "none")
+        target = self.root / slug(suite) / slug(backend_id) / dataset_id / (
+            f"{method_id}-{slug(backend_id)}-{dataset_id}-{operator.dtype}.csv"
         )
         self._atomic_write(target, csv_content)
         return target.resolve()

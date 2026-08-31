@@ -58,7 +58,7 @@ def test_successful_spmv_job_is_exported_as_canonical_csv(tmp_path):
 
     assert len(paths) == 1
     result_path = Path(paths[0])
-    assert result_path.parent == tmp_path / "exports" / "spmv" / backend.backend_id
+    assert result_path.parent == tmp_path / "exports" / "spmv" / backend.backend_id / "suitesparse_sample_100"
     with result_path.open(newline="", encoding="utf-8") as result_file:
         rows = list(csv.DictReader(result_file))
     assert rows[0]["job_id"] == job.job_id

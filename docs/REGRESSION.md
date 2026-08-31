@@ -25,7 +25,7 @@ must be represented by a row instead of being silently removed.
 ## Results
 
 The evaluator writes CSVs under
-`KernelPerf/data/result_exports/<suite>/spmv/<backend>/`. The filename contains
+`KernelPerf/data/result_exports/<suite>/<backend>/<dataset>/`. The filename contains
 only method, backend, dataset and dtype. The CSV keeps the transient job ID for
 traceability. Before publishing, generate per-matrix BEST files from passing
 rows only, copy the accepted files to

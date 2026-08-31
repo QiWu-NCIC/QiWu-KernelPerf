@@ -56,7 +56,7 @@ python -m kernelperf.cli evaluate \
 
 The evaluator owns matrix loading, correctness checks, warmup/repeat timing and
 CSV export. Result files are written below
-`KernelPerf/data/result_exports/<suite>/spmv/<backend>/` with the canonical
+`KernelPerf/data/result_exports/<suite>/<backend>/<dataset>/` with the canonical
 name `method_id-backend_id-dataset_id-dtype.csv`.
 
 ### Static databank

@@ -64,12 +64,12 @@ without mixing preprocessing into solve timing:
 
 ```bash
 python scripts/aggregate_best.py \
-  --input-root data/result_exports/suitesparse_sample_100/spmv/A100-SXM4-80GB \
+  --input-root data/result_exports/spmv/A100-SXM4-80GB/suitesparse_sample_100 \
   --backend A100-SXM4-80GB \
   --dataset suitesparse_sample_100 \
   --dtype fp32 \
   --candidate-group cusparse \
-  --output data/result_exports/cusparse-best-A100-SXM4-80GB-suitesparse_sample_100-fp32.csv
+  --output data/result_exports/spmv/A100-SXM4-80GB/suitesparse_sample_100/cusparse-best-A100-SXM4-80GB-suitesparse_sample_100-fp32.csv
 ```
 
 The selector keeps the fastest passing row for each matrix and marks the
