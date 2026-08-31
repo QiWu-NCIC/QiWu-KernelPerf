@@ -17,6 +17,7 @@ const requestedBackendId = option("--backend");
 const sourceDir = option("--source-dir");
 const dryRun = args.includes("--dry-run");
 const indexPath = "public/data/index.json";
+const safe = (value) => String(value || "unknown").replace(/[^A-Za-z0-9._-]+/g, "-");
 
 if (!inputPath) {
   console.error(
@@ -107,8 +108,12 @@ rows.forEach((row, index) => {
   }
 });
 
-const outputDir = path.join("public/data/results/spmv", backendId);
-const target = path.join(outputDir, submissionId + ".csv");
+const operatorId = String(first.operator_id || "spmv").split(".")[0] || "spmv";
+const datasetId = first.dataset_id || "unknown";
+const fileName = [first.method_id, backendId, datasetId, first.dtype]
+  .map(safe).join("-") + ".csv";
+const outputDir = path.join("public/data/results", operatorId, backendId, datasetId);
+const target = path.join(outputDir, fileName);
 let sourcePackage = null;
 let sourceTarget = null;
 const manifest = JSON.parse(fs.readFileSync(indexPath, "utf8"));
@@ -192,6 +197,10 @@ const summary = {
 if (!dryRun && !unchanged) {
   fs.mkdirSync(outputDir, { recursive: true });
   fs.writeFileSync(target, normalizedCsv);
+  if (existingEntry?.path && existingEntry.path !== path.relative("public", target).replaceAll("\\", "/")) {
+    const previous = path.join("public", existingEntry.path.replaceAll("/", path.sep));
+    if (fs.existsSync(previous)) fs.rmSync(previous);
+  }
   if (sourceDir && !fs.existsSync(sourceTarget)) {
     fs.cpSync(sourceDir, sourceTarget, { recursive: true });
   }

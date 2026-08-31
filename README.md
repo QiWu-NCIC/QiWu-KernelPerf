@@ -73,6 +73,12 @@ solve-only efficiency, geometric means and coverage from the CSV data. A
 method with at least 90% successful cases for both FP32 and FP64 is rankable;
 partial methods remain visible with their failed-case count.
 
+The published catalog uses the same identity in its directory layout:
+`databank/public/data/results/<operator>/<backend>/<dataset>/` for ranked
+results and `databank/public/data/candidate-pool/<operator>/<backend>/<dataset>/`
+for complete configuration sweeps. The JSON manifests are authoritative; see
+[`docs/DATA_LAYOUT.md`](docs/DATA_LAYOUT.md).
+
 ## Current scope
 
 The reference operator is CSR-input SpMV with FP32 and FP64 variants. The

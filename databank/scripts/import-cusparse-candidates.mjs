@@ -23,6 +23,12 @@ const required = new Set([
   "sell-nrows-alg1",
 ]);
 
+const safe = (value) => String(value || "unknown").replace(/[^A-Za-z0-9._-]+/g, "-");
+const operatorOf = (value) => String(value || "spmv").split(".")[0] || "spmv";
+const datasetOf = (value) => String(value || "unknown");
+const fileStem = (entry) => [entry.method_id, entry.backend_id, entry.dataset_id, entry.dtype]
+  .map(safe).join("-");
+
 function parseCsv(text) {
   const rows = [];
   let row = [], value = "", quoted = false;
@@ -67,7 +73,7 @@ for (const dir of inputDirs.map((value) => path.resolve(value))) {
     if (!full.toLowerCase().endsWith(".csv") || !fs.statSync(full).isFile()) continue;
     const item = read(full);
     if (!item) continue;
-    const key = `${item.first.backend_id}|${item.first.dtype}|${item.first.configuration_id}`;
+    const key = `${operatorOf(item.first.operator_id)}|${item.first.backend_id}|${datasetOf(item.first.dataset_id)}|${item.first.dtype}|${item.first.configuration_id}`;
     const previous = candidates.get(key);
     if (!previous || item.rows.length > previous.rows.length
         || (item.rows.length === previous.rows.length && item.mtime > previous.mtime)) {
@@ -77,17 +83,23 @@ for (const dir of inputDirs.map((value) => path.resolve(value))) {
 }
 
 const existing = new Map(submissions.map((entry) =>
-  [`${entry.backend_id}|${entry.dtype}|${entry.configuration_id}`, entry]));
+  [`${operatorOf(entry.operator_id)}|${entry.backend_id}|${datasetOf(entry.dataset_id)}|${entry.dtype}|${entry.configuration_id}`, entry]));
 for (const [key, item] of candidates) {
-  const [backend, dtype, configuration] = key.split("|");
+  const [operator, backend, dataset, dtype, configuration] = key.split("|");
   const sourceId = String(item.first.submission_id || path.basename(item.file, ".csv"));
-  const fileName = `${sourceId}.csv`;
-  const target = path.join(candidateRoot, fileName);
-  fs.mkdirSync(candidateRoot, { recursive: true });
+  const fileName = `${fileStem({
+    method_id: item.first.method_id,
+    backend_id: backend,
+    dataset_id: dataset,
+    dtype,
+  })}.csv`;
+  const targetDir = path.join(candidateRoot, operator, backend, dataset);
+  const target = path.join(targetDir, fileName);
+  fs.mkdirSync(targetDir, { recursive: true });
   fs.copyFileSync(item.file, target);
   const entry = {
     submission_id: sourceId,
-    path: path.posix.join("data", "candidate-pool", "spmv", fileName),
+    path: path.posix.join("data", "candidate-pool", operator, backend, dataset, fileName),
     method_id: item.first.method_id,
     method_name: item.first.method_name,
     configuration_id: configuration,
@@ -109,14 +121,14 @@ for (const [key, item] of candidates) {
 }
 
 manifest.submissions = [...existing.values()].sort((a, b) =>
-  `${a.backend_id}|${a.dtype}|${a.configuration_id}`.localeCompare(
-    `${b.backend_id}|${b.dtype}|${b.configuration_id}`));
+  `${operatorOf(a.operator_id)}|${a.backend_id}|${datasetOf(a.dataset_id)}|${a.dtype}|${a.configuration_id}`.localeCompare(
+    `${operatorOf(b.operator_id)}|${b.backend_id}|${datasetOf(b.dataset_id)}|${b.dtype}|${b.configuration_id}`));
 manifest.generated_at = new Date().toISOString();
 fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + "\n");
 const counts = {};
 for (const entry of manifest.submissions) {
   if (entry.candidate_group !== "cusparse") continue;
-  const key = `${entry.backend_id}|${entry.dtype}`;
+  const key = `${operatorOf(entry.operator_id)}|${entry.backend_id}|${datasetOf(entry.dataset_id)}|${entry.dtype}`;
   counts[key] = (counts[key] || 0) + 1;
 }
 console.log(JSON.stringify({ imported: candidates.size, cusparse_counts: counts }, null, 2));

@@ -20,9 +20,11 @@ python -m kernelperf.cli evaluate \
 ```
 
 The evaluator writes canonical CSV files below `KernelPerf/data/result_exports/`.
-The maintainer copies those CSVs into `databank/public/data/results/`, updates
-`databank/public/data/index.json`, runs the audit, and commits the result.
+The maintainer imports those CSVs into
+`databank/public/data/results/<operator>/<backend>/<dataset>/`, updates
+`databank/public/data/index.json`, runs the audit, and commits the result. Full
+configuration sweeps belong under the matching
+`databank/public/data/candidate-pool/<operator>/<backend>/<dataset>/` scope.
 
 All execution of PR code must use a restricted worker account, a read-only source
 checkout, no network access, and explicit process/time limits.
-

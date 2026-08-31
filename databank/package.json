@@ -13,6 +13,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "add:spmv": "node scripts/add-spmv-result.mjs",
+    "migrate:data-layout": "node scripts/migrate-data-layout.mjs",
     "curate:spmv": "node scripts/curate-spmv-results.mjs",
     "preaudit:spmv": "node scripts/prepare-submission-sources.mjs",
     "audit:spmv": "node scripts/audit-spmv-data.mjs public"

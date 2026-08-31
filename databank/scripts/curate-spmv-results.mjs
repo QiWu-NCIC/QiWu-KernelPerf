@@ -36,6 +36,19 @@ function platformOf(value) {
   return value.backend_id || canonicalBackend;
 }
 
+function operatorOf(value) {
+  return String(value.operator_id || "spmv").split(".")[0] || "spmv";
+}
+
+function datasetOf(value) {
+  return String(value.dataset_id || "unknown");
+}
+
+function cuSparseName(backend, suffix) {
+  const version = backend === canonicalBackend ? "12.9" : "12.8";
+  return `cuSPARSE CUDA ${version} ${suffix}`;
+}
+
 function sourceManifestFor(entry) {
   if (entry.source_manifest) return entry.source_manifest;
   const method = String(entry.method_id || "").toLowerCase();
@@ -49,11 +62,11 @@ function sourceManifestFor(entry) {
 }
 
 // Prefer the curated candidate-pool file over an older public copy with the
-// same logical platform, dtype, method, and configuration.
+// same logical operator, platform, dataset, dtype, method, and configuration.
 const candidateKeys = new Set(candidateEntries.map((entry) =>
-  `${platformOf(entry)}|${entry.dtype || ""}|${entry.candidate_group || ""}|${entry.method_id || ""}|${entry.configuration_id || ""}`));
+  `${operatorOf(entry)}|${platformOf(entry)}|${datasetOf(entry)}|${entry.dtype || ""}|${entry.candidate_group || ""}|${entry.method_id || ""}|${entry.configuration_id || ""}`));
 for (const entry of sourceEntries) {
-  const key = `${platformOf(entry)}|${entry.dtype || ""}|${entry.candidate_group || ""}|${entry.method_id || ""}|${entry.configuration_id || ""}`;
+  const key = `${operatorOf(entry)}|${platformOf(entry)}|${datasetOf(entry)}|${entry.dtype || ""}|${entry.candidate_group || ""}|${entry.method_id || ""}|${entry.configuration_id || ""}`;
   if (!candidateKeys.has(key)) {
     candidateEntries.push(entry);
     candidateKeys.add(key);
@@ -200,7 +213,7 @@ function sellC(entry) {
 }
 
 function sellSelectionKey(entry) {
-  return `${platformOf(entry)}:${entry.dtype}:${entry.configuration_id}`;
+  return `${operatorOf(entry)}:${platformOf(entry)}:${datasetOf(entry)}:${entry.dtype}:${entry.configuration_id}`;
 }
 
 function geometricMean(rows) {
@@ -273,11 +286,14 @@ const ghostCandidateLoaded = candidateLoaded
     && entry.selection_role !== "best")
   .filter(({ rows }) => hasCoverage(rows));
 const selectedGhost = new Set();
-for (const backend of [...new Set(ghostCandidateLoaded.map(({ entry }) =>
-  entry.backend_id || canonicalBackend))]) {
+const ghostScopes = new Set(ghostCandidateLoaded.map(({ entry }) =>
+  `${operatorOf(entry)}:${entry.backend_id || canonicalBackend}:${datasetOf(entry)}`));
+for (const scope of ghostScopes) {
+  const [operator, backend, dataset] = scope.split(":");
   const byConfiguration = new Map();
   for (const candidate of ghostCandidateLoaded.filter(({ entry }) =>
-    (entry.backend_id || canonicalBackend) === backend)) {
+    operatorOf(entry) === operator && (entry.backend_id || canonicalBackend) === backend
+      && datasetOf(entry) === dataset)) {
     const key = candidate.entry.configuration_id;
     if (!byConfiguration.has(key)) byConfiguration.set(key, []);
     byConfiguration.get(key).push(candidate);
@@ -293,7 +309,7 @@ for (const backend of [...new Set(ghostCandidateLoaded.map(({ entry }) =>
       || String(a.configuration).localeCompare(String(b.configuration)))[0];
   if (winner) {
     for (const candidate of winner.group) {
-      selectedGhost.add(`${backend}:${candidate.entry.dtype}:${winner.configuration}`);
+      selectedGhost.add(`${operator}:${backend}:${dataset}:${candidate.entry.dtype}:${winner.configuration}`);
     }
   }
 }
@@ -304,7 +320,7 @@ const retained = loaded.filter(({ entry }) => {
   if (isSellCandidate(entry)) return selectedSell.has(sellSelectionKey(entry));
   if (["ghost-sell", "GHOST-SELL-C32-sigma"].includes(entry.candidate_group)
     && entry.selection_role !== "best") {
-    return selectedGhost.has(`${platformOf(entry)}:${entry.dtype}:${entry.configuration_id}`);
+    return selectedGhost.has(`${operatorOf(entry)}:${platformOf(entry)}:${datasetOf(entry)}:${entry.dtype}:${entry.configuration_id}`);
   }
   return entry.candidate_group === "cusparse"
     && entry.selection_role !== "best";
@@ -321,9 +337,9 @@ for (const candidate of candidateLoaded) {
 }
 const retainedGhostKeys = new Set(retained
   .filter(({ entry }) => ["ghost-sell", "GHOST-SELL-C32-sigma"].includes(entry.candidate_group))
-  .map(({ entry }) => `${platformOf(entry)}:${entry.dtype}:${entry.configuration_id}`));
+  .map(({ entry }) => `${operatorOf(entry)}:${platformOf(entry)}:${datasetOf(entry)}:${entry.dtype}:${entry.configuration_id}`));
 for (const candidate of ghostCandidateLoaded) {
-  const key = `${candidate.entry.backend_id}:${candidate.entry.dtype}:${candidate.entry.configuration_id}`;
+  const key = `${operatorOf(candidate.entry)}:${candidate.entry.backend_id}:${datasetOf(candidate.entry)}:${candidate.entry.dtype}:${candidate.entry.configuration_id}`;
   if (selectedGhost.has(key) && !retainedGhostKeys.has(key)) {
     retained.push(candidate);
     retainedGhostKeys.add(key);
@@ -355,10 +371,14 @@ const cusparseCandidates = candidateLoaded
     rows: rows.map((row) => normalizeRow({ ...row })),
   }))
   .filter(({ rows }) => hasCoverage(rows));
-for (const backend of [...new Set(cusparseCandidates.map(({ entry }) => entry.backend_id || canonicalBackend))]) {
+const cusparseScopes = new Set(cusparseCandidates.map(({ entry }) =>
+  `${operatorOf(entry)}:${entry.backend_id || canonicalBackend}:${datasetOf(entry)}`));
+for (const scope of cusparseScopes) {
+ const [operator, backend, dataset] = scope.split(":");
  for (const dtype of ["fp32", "fp64"]) {
   const candidates = cusparseCandidates.filter(({ entry }) =>
-    (entry.backend_id || canonicalBackend) === backend && entry.dtype === dtype);
+    (entry.backend_id || canonicalBackend) === backend
+      && operatorOf(entry) === operator && datasetOf(entry) === dataset && entry.dtype === dtype);
   const availableConfigurations = new Set(
     candidates.map(({ entry }) => entry.configuration_id),
   );
@@ -381,7 +401,7 @@ for (const backend of [...new Set(cusparseCandidates.map(({ entry }) => entry.ba
   }
   const rows = [...byMatrix.values()].map(({ row, configuration }) => {
     row.method_id = "cusparse-best";
-    row.method_name = "cuSPARSE BEST";
+    row.method_name = cuSparseName(backend, "BEST");
     row.configuration_id = "per-matrix-best";
     row.candidate_group = "cusparse";
     row.selection_role = "best";
@@ -397,7 +417,7 @@ for (const backend of [...new Set(cusparseCandidates.map(({ entry }) => entry.ba
       entry: {
         submission_id: submissionId,
         method_id: "cusparse-best",
-        method_name: "cuSPARSE BEST",
+        method_name: cuSparseName(backend, "BEST"),
         configuration_id: "per-matrix-best",
         candidate_group: "cusparse",
         selection_role: "best",
@@ -421,10 +441,14 @@ for (const backend of [...new Set(cusparseCandidates.map(({ entry }) => entry.ba
 }
 
 const ghostCandidates = ghostCandidateLoaded;
-for (const backend of [...new Set(ghostCandidates.map(({ entry }) => entry.backend_id || canonicalBackend))]) {
+const ghostBestScopes = new Set(ghostCandidates.map(({ entry }) =>
+  `${operatorOf(entry)}:${entry.backend_id || canonicalBackend}:${datasetOf(entry)}`));
+for (const scope of ghostBestScopes) {
+ const [operator, backend, dataset] = scope.split(":");
  for (const dtype of ["fp32", "fp64"]) {
   const candidates = ghostCandidates.filter(({ entry }) =>
-    (entry.backend_id || canonicalBackend) === backend && entry.dtype === dtype);
+    (entry.backend_id || canonicalBackend) === backend
+      && operatorOf(entry) === operator && datasetOf(entry) === dataset && entry.dtype === dtype);
   const availableConfigurations = new Set(
     candidates.map(({ entry }) => entry.configuration_id),
   );
@@ -499,7 +523,7 @@ for (const item of normalized) {
   const backend = entry.backend_id || canonicalBackend;
   entry.backend_id = backend;
   const fileName = resultFileStem({ ...entry, backend_id: backend }) + ".csv";
-  const relative = path.posix.join("data", "results", "spmv", backend, fileName);
+  const relative = path.posix.join("data", "results", operatorOf(entry), backend, datasetOf(entry), fileName);
   const target = path.join(root, relative.replaceAll("/", path.sep));
   writeCsv(target, item.headers, rows);
   const first = rows[0];

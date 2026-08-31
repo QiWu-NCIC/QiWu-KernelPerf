@@ -14,3 +14,14 @@ Node.js 20+ is required. The browser calculates GFLOP/s, efficiency, geometric
 means and the 90% coverage rule. A method below 90% successful coverage remains
 visible with failure counts but is marked `Unranked`.
 
+Result files are partitioned by `operator/backend/dataset`:
+
+```text
+public/data/results/<operator>/<backend>/<dataset>/<method>-<backend>-<dataset>-<dtype>.csv
+public/data/candidate-pool/<operator>/<backend>/<dataset>/<method>-<backend>-<dataset>-<dtype>.csv
+```
+
+The JSON manifests are authoritative. Run `npm run migrate:data-layout` once
+when importing an older flat catalog, then `npm run audit:spmv` before building.
+See [`docs/DATA_LAYOUT.md`](../docs/DATA_LAYOUT.md) for the migration and
+archive policy.

@@ -21,8 +21,13 @@
 2. On an isolated worker, run `python -m kernelperf.cli evaluate` for each
    requested operator and dtype. Keep the checked-out PR source read-only.
 3. Copy the generated CSV files from `KernelPerf/data/result_exports/` into the
-   matching `databank/public/data/results/<operator>/<backend>/` directory.
-4. Run `npm run audit:spmv` in `databank`, then build the static site. Commit the
+   matching `databank/public/data/results/<operator>/<backend>/<dataset>/`
+   directory. Use `npm run add:spmv` when importing a single result so its
+   canonical path and filename are generated automatically.
+4. Keep full configuration sweeps in
+   `databank/public/data/candidate-pool/<operator>/<backend>/<dataset>/` and
+   update its manifest before running curation.
+5. Run `npm run audit:spmv` in `databank`, then build the static site. Commit the
    CSV files, index metadata, and generated source package together.
 
 The evaluator writes one file per method, backend, dataset, and dtype. A
@@ -40,4 +45,3 @@ recording the actual CUDA/toolkit version in the result metadata.
 Large SuiteSparse archives should be downloaded once into the configured root
 and reused by all baseline groups. The downloader is resumable; verify all 100
 manifest names before starting a full regression.
-

@@ -29,6 +29,13 @@ This is the maintenance boundary for the unified repository.
   the standalone plugin header.
 - Old UUID-based result filenames are historical data only. New exports use
   `method_id-backend_id-dataset_id-dtype.csv`.
+- `databank/public/data/results` and `databank/public/data/candidate-pool` are
+  partitioned by operator, backend, and dataset; their JSON manifests are the
+  only active catalog. `databank/public/data/archive` is not loaded by the site.
+- `databank/public/issue_download` is not a runtime input and is absent from the
+  published tree. Its legacy attachments are retained under
+  `docs/archive/issue_download`; new issue attachments must enter through the
+  reviewed result import workflow.
 - The former HTTP helper (`KernelPerf/scripts/common.py`) was unused after the
   evaluator became CLI-only and is deleted. The object-build helpers under
   `KernelPerf/scripts/playground/` are retained for now because they support
@@ -63,6 +70,8 @@ be checked against the source manifest, result index and reproducibility docs.
 | `KernelPerf/scripts/playground` | Keep temporarily | Object helpers are still useful; move to `scripts/objects` before making objects a primary mode. |
 | `KernelPerf/tests` | Keep | Contract and regression protection for evaluator changes. |
 | `databank/src` | Keep | Presentation and client-side aggregation only. |
-| `databank/public/data` | Keep and append | Published results are immutable, incremental data artifacts. |
+| `databank/public/data` | Keep and append | Published results and candidate sweeps are immutable, incremental artifacts partitioned by operator/backend/dataset. |
+| `databank/public/data/archive` | Keep outside manifests | Retains unreferenced historical CSVs for provenance; never loaded or ranked. |
+| `databank/public/issue_download` | Move to `docs/archive` | Not referenced by the static site or import/audit workflow; retain legacy attachments outside published data. |
 | `databank/public/source` | Generate | Rebuild from canonical submissions; never hand-edit. |
 | `databank/node_modules`, `dist`, runtime data | Ignore | Reproducible build outputs, not release inputs. |

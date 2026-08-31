@@ -24,15 +24,29 @@ const required = new Set([
 ]);
 const canonicalBackend = (value) => /ict-a100/i.test(String(value || ""))
   ? "A100-SXM4-80GB" : value;
+const datasetOf = (value) => String(value || "unknown");
+const operatorOf = (value) => String(value || "spmv").split(".")[0] || "spmv";
 const publicRoot = root;
+function walkCsv(directory) {
+  if (!fs.existsSync(directory)) return [];
+  return fs.readdirSync(directory, { withFileTypes: true }).flatMap((item) => {
+    const file = path.join(directory, item.name);
+    if (item.isDirectory()) return walkCsv(file);
+    return item.name.endsWith(".csv") ? [file] : [];
+  });
+}
 const publicKeys = new Set();
+const publicPaths = new Set();
 const sourceManifests = new Set();
 for (const entry of manifest.submissions || []) {
-  const key = `${entry.method_id}|${entry.backend_id}|${entry.dataset_id}|${entry.dtype}`;
+  const key = `${operatorOf(entry.operator_id)}|${entry.method_id}|${entry.backend_id}|${entry.dataset_id}|${entry.dtype}`;
   if (publicKeys.has(key)) failures.push(`duplicate public key: ${key}`);
   publicKeys.add(key);
   const file = path.join(publicRoot, entry.path.replaceAll("/", path.sep));
+  publicPaths.add(path.resolve(file));
   if (!fs.existsSync(file)) failures.push(`missing public CSV: ${entry.path}`);
+  const expectedPrefix = `data/results/${operatorOf(entry.operator_id)}/${canonicalBackend(entry.backend_id)}/${datasetOf(entry.dataset_id)}/`;
+  if (!entry.path.startsWith(expectedPrefix)) failures.push(`public CSV is outside dataset scope: ${entry.path}`);
   if (/smoke/i.test(entry.path) || /generated\//i.test(entry.path)) failures.push(`temporary public entry: ${entry.path}`);
   if (!entry.source_manifest) failures.push(`missing source manifest: ${key}`);
   else sourceManifests.add(entry.source_manifest);
@@ -94,9 +108,11 @@ for (const relativeManifest of sourceManifests) {
 }
 const groups = new Map();
 const candidateMinimums = new Map();
+const candidatePaths = new Set();
 for (const entry of candidateManifest.submissions || []) {
-  if (entry.candidate_group !== "cusparse" || !required.has(entry.configuration_id)) continue;
   const file = path.join(publicRoot, entry.path.replaceAll("/", path.sep));
+  candidatePaths.add(path.resolve(file));
+  if (entry.candidate_group !== "cusparse" || !required.has(entry.configuration_id)) continue;
   if (!fs.existsSync(file)) { failures.push(`missing candidate CSV: ${entry.path}`); continue; }
   const lines = fs.readFileSync(file, "utf8").trim().split(/\r?\n/);
   const headers = lines[0].split(",");
@@ -115,7 +131,9 @@ for (const entry of candidateManifest.submissions || []) {
     failures.push(`incomplete candidate: ${entry.backend_id}/${entry.dtype}/${entry.configuration_id}`);
     continue;
   }
-  const key = `${canonicalBackend(entry.backend_id)}|${entry.dtype}`;
+  const key = `${operatorOf(entry.operator_id)}|${canonicalBackend(entry.backend_id)}|${datasetOf(entry.dataset_id)}|${entry.dtype}`;
+  const expectedPrefix = `data/candidate-pool/${operatorOf(entry.operator_id)}/${canonicalBackend(entry.backend_id)}/${datasetOf(entry.dataset_id)}/`;
+  if (!entry.path.startsWith(expectedPrefix)) failures.push(`candidate CSV is outside dataset scope: ${entry.path}`);
   const ids = rows.map((row) => row[matrixIndex]).sort();
   const minimums = candidateMinimums.get(key) || new Map();
   for (const row of rows) {
@@ -142,7 +160,7 @@ for (const entry of manifest.submissions || []) {
   }
   const matrixIndex = headers.indexOf("matrix_id");
   const solveIndex = headers.indexOf("solve_ms");
-  const minimums = candidateMinimums.get(`${canonicalBackend(entry.backend_id)}|${entry.dtype}`);
+  const minimums = candidateMinimums.get(`${operatorOf(entry.operator_id)}|${canonicalBackend(entry.backend_id)}|${datasetOf(entry.dataset_id)}|${entry.dtype}`);
   for (const line of lines.slice(1)) {
     const row = line.split(",");
     if (row[schemaIndex] !== "2") failures.push(`invalid schema row: ${entry.path}`);
@@ -152,16 +170,30 @@ for (const entry of manifest.submissions || []) {
     }
   }
 }
-for (const backend of ["A100-SXM4-80GB", "RTX5090-SL3061", "H100-SXM5-80GB"]) {
-  for (const dtype of ["fp32", "fp64"]) {
+const candidateOperators = [...new Set((candidateManifest.submissions || []).map((entry) => operatorOf(entry.operator_id)))];
+const candidateDatasets = [...new Set((candidateManifest.submissions || []).map((entry) => datasetOf(entry.dataset_id)))];
+for (const operator of candidateOperators) {
+ for (const backend of ["A100-SXM4-80GB", "RTX5090-SL3061", "H100-SXM5-80GB"]) {
+  for (const dataset of candidateDatasets) {
+   for (const dtype of ["fp32", "fp64"]) {
     const entries = (candidateManifest.submissions || []).filter((entry) =>
-      entry.candidate_group === "cusparse" && canonicalBackend(entry.backend_id) === backend && entry.dtype === dtype,
+      entry.candidate_group === "cusparse" && canonicalBackend(entry.backend_id) === backend
+        && operatorOf(entry.operator_id) === operator && datasetOf(entry.dataset_id) === dataset
+        && entry.dtype === dtype,
     );
     const configurations = new Set(entries.map((entry) => entry.configuration_id));
     if (required.size !== configurations.size || [...required].some((value) => !configurations.has(value))) {
-      failures.push(`candidate scope mismatch: ${backend}/${dtype} (${configurations.size}/${required.size})`);
+      failures.push(`candidate scope mismatch: ${operator}/${backend}/${dataset}/${dtype} (${configurations.size}/${required.size})`);
     }
+   }
   }
+}
+}
+for (const file of walkCsv(path.join(publicRoot, "data", "results"))) {
+  if (!publicPaths.has(path.resolve(file))) failures.push(`unindexed public CSV: ${file}`);
+}
+for (const file of walkCsv(path.join(publicRoot, "data", "candidate-pool"))) {
+  if (!candidatePaths.has(path.resolve(file))) failures.push(`unindexed candidate CSV: ${file}`);
 }
 const result = {
   public_submissions: (manifest.submissions || []).length,

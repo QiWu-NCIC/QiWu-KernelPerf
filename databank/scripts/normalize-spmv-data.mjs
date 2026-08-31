@@ -23,9 +23,7 @@ function normalizeEntry(entry) {
       `cuSPARSE CUDA ${cudaVersion(backend)} `,
     );
   }
-  if (entry.dataset_id === "suitesparse_sample_100") entry.dataset_id = "suitesparse_validation_100";
   if (entry.path) {
-    entry.path = entry.path.replaceAll("suitesparse_sample_100", "suitesparse_validation_100");
     entry.path = entry.path.replace(/ICT[^/]*|RTX 5090|H100 80GB/g, backend);
   }
   return entry;
@@ -47,7 +45,6 @@ function normalizeCsv(file) {
     .replaceAll("ICT A100 SXM4 80GB", "A100-SXM4-80GB")
     .replaceAll("RTX 5090", "RTX5090-SL3061")
     .replaceAll("H100 80GB", "H100-SXM5-80GB")
-    .replaceAll("suitesparse_sample_100", "suitesparse_validation_100")
     .replace(/,cuSPARSE(?: CUDA [0-9.]+)* /g, `,cuSPARSE CUDA ${version} `);
   fs.writeFileSync(file, text);
 }

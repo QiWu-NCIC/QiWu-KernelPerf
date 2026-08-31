@@ -1,12 +1,12 @@
 {
   "schema_version": 2,
   "result_schema": "kernelperf-spmv-v2",
-  "generated_at": "2026-08-26T14:40:25.8230792Z",
+  "generated_at": "2026-08-31T03:43:11.899Z",
   "candidate_group": "cusparse",
   "submissions": [
     {
       "submission_id": "ghost-a100-sigma-fp32-1",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp32-1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-1-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-1",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=1)",
       "configuration_id": "sigma-1",
@@ -25,7 +25,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp32-1024",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp32-1024.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-1024-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-1024",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=1024)",
       "configuration_id": "sigma-1024",
@@ -44,7 +44,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp32-128",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp32-128.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-128-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-128",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=128)",
       "configuration_id": "sigma-128",
@@ -63,7 +63,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp32-131072",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp32-131072.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-131072-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-131072",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=131072)",
       "configuration_id": "sigma-131072",
@@ -82,7 +82,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp32-16",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp32-16.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-16-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-16",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=16)",
       "configuration_id": "sigma-16",
@@ -101,7 +101,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp32-16384",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp32-16384.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-16384-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-16384",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=16384)",
       "configuration_id": "sigma-16384",
@@ -120,7 +120,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp32-2",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp32-2.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-2-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-2",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=2)",
       "configuration_id": "sigma-2",
@@ -139,7 +139,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp32-2048",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp32-2048.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-2048-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-2048",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=2048)",
       "configuration_id": "sigma-2048",
@@ -158,7 +158,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp32-256",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp32-256.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-256-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-256",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=256)",
       "configuration_id": "sigma-256",
@@ -177,7 +177,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp32-32",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp32-32.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-32-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-32",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=32)",
       "configuration_id": "sigma-32",
@@ -196,7 +196,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp32-32768",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp32-32768.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-32768-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-32768",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=32768)",
       "configuration_id": "sigma-32768",
@@ -215,7 +215,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp32-4",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp32-4.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-4-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-4",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=4)",
       "configuration_id": "sigma-4",
@@ -234,7 +234,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp32-4096",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp32-4096.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-4096-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-4096",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=4096)",
       "configuration_id": "sigma-4096",
@@ -253,7 +253,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp32-512",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp32-512.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-512-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-512",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=512)",
       "configuration_id": "sigma-512",
@@ -272,7 +272,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp32-64",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp32-64.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-64-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-64",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=64)",
       "configuration_id": "sigma-64",
@@ -291,7 +291,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp32-65536",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp32-65536.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-65536-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-65536",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=65536)",
       "configuration_id": "sigma-65536",
@@ -310,7 +310,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp32-8",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp32-8.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-8-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-8",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=8)",
       "configuration_id": "sigma-8",
@@ -329,7 +329,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp32-8192",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp32-8192.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-8192-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-8192",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=8192)",
       "configuration_id": "sigma-8192",
@@ -348,7 +348,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp64-1",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp64-1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-1-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-1",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=1)",
       "configuration_id": "sigma-1",
@@ -367,7 +367,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp64-1024",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp64-1024.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-1024-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-1024",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=1024)",
       "configuration_id": "sigma-1024",
@@ -386,7 +386,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp64-128",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp64-128.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-128-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-128",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=128)",
       "configuration_id": "sigma-128",
@@ -405,7 +405,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp64-131072",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp64-131072.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-131072-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-131072",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=131072)",
       "configuration_id": "sigma-131072",
@@ -424,7 +424,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp64-16",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp64-16.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-16-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-16",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=16)",
       "configuration_id": "sigma-16",
@@ -443,7 +443,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp64-16384",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp64-16384.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-16384-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-16384",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=16384)",
       "configuration_id": "sigma-16384",
@@ -462,7 +462,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp64-2",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp64-2.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-2-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-2",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=2)",
       "configuration_id": "sigma-2",
@@ -481,7 +481,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp64-2048",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp64-2048.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-2048-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-2048",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=2048)",
       "configuration_id": "sigma-2048",
@@ -500,7 +500,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp64-256",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp64-256.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-256-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-256",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=256)",
       "configuration_id": "sigma-256",
@@ -519,7 +519,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp64-32",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp64-32.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-32-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-32",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=32)",
       "configuration_id": "sigma-32",
@@ -538,7 +538,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp64-32768",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp64-32768.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-32768-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-32768",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=32768)",
       "configuration_id": "sigma-32768",
@@ -557,7 +557,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp64-4",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp64-4.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-4-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-4",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=4)",
       "configuration_id": "sigma-4",
@@ -576,7 +576,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp64-4096",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp64-4096.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-4096-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-4096",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=4096)",
       "configuration_id": "sigma-4096",
@@ -595,7 +595,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp64-512",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp64-512.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-512-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-512",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=512)",
       "configuration_id": "sigma-512",
@@ -614,7 +614,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp64-64",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp64-64.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-64-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-64",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=64)",
       "configuration_id": "sigma-64",
@@ -633,7 +633,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp64-65536",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp64-65536.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-65536-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-65536",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=65536)",
       "configuration_id": "sigma-65536",
@@ -652,7 +652,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp64-8",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp64-8.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-8-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-8",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=8)",
       "configuration_id": "sigma-8",
@@ -671,7 +671,7 @@
     },
     {
       "submission_id": "ghost-a100-sigma-fp64-8192",
-      "path": "data/candidate-pool/spmv/ghost-a100-sigma-fp64-8192.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-8192-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-8192",
       "method_name": "GHOST SELL-C-sigma (C=32, sigma=8192)",
       "configuration_id": "sigma-8192",
@@ -690,7 +690,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-coo-alg1",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-coo-alg1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-COO-ALG1-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-COO-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 COO ALG1",
       "configuration_id": "coo-alg1",
@@ -710,7 +710,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-coo-alg2",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-coo-alg2.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-COO-ALG2-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-COO-ALG2",
       "method_name": "cuSPARSE CUDA 12.8 COO ALG2",
       "configuration_id": "coo-alg2",
@@ -730,7 +730,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-coo-default",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-coo-default.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-COO-DEFAULT-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-COO-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 COO DEFAULT",
       "configuration_id": "coo-default",
@@ -750,7 +750,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-csc-alg1",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-csc-alg1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-CSC-ALG1-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-CSC-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 CSC ALG1",
       "configuration_id": "csc-alg1",
@@ -770,7 +770,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-csc-alg2",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-csc-alg2.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-CSC-ALG2-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-CSC-ALG2",
       "method_name": "cuSPARSE CUDA 12.8 CSC ALG2",
       "configuration_id": "csc-alg2",
@@ -790,7 +790,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-csc-default",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-csc-default.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-CSC-DEFAULT-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-CSC-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 CSC DEFAULT",
       "configuration_id": "csc-default",
@@ -810,7 +810,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-csr-alg1",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-csr-alg1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-CSR-ALG1-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-CSR-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 CSR ALG1",
       "configuration_id": "csr-alg1",
@@ -830,7 +830,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-csr-alg2",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-csr-alg2.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-CSR-ALG2-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-CSR-ALG2",
       "method_name": "cuSPARSE CUDA 12.8 CSR ALG2",
       "configuration_id": "csr-alg2",
@@ -850,7 +850,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-csr-default",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-csr-default.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-CSR-DEFAULT-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-CSR-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 CSR DEFAULT",
       "configuration_id": "csr-default",
@@ -870,7 +870,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c1-alg1",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c1-alg1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C1-ALG1-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C1-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C1 ALG1",
       "configuration_id": "sell-c1-alg1",
@@ -890,7 +890,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c1-default",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c1-default.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C1-DEFAULT-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C1-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C1 DEFAULT",
       "configuration_id": "sell-c1-default",
@@ -910,7 +910,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c128-alg1",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c128-alg1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C128-ALG1-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C128-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C128 ALG1",
       "configuration_id": "sell-c128-alg1",
@@ -930,7 +930,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c128-default",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c128-default.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C128-DEFAULT-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C128-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C128 DEFAULT",
       "configuration_id": "sell-c128-default",
@@ -950,7 +950,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c16-alg1",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c16-alg1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C16-ALG1-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C16-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C16 ALG1",
       "configuration_id": "sell-c16-alg1",
@@ -970,7 +970,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c16-default",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c16-default.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C16-DEFAULT-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C16-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C16 DEFAULT",
       "configuration_id": "sell-c16-default",
@@ -990,7 +990,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c2-alg1",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c2-alg1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C2-ALG1-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C2-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C2 ALG1",
       "configuration_id": "sell-c2-alg1",
@@ -1010,7 +1010,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c2-default",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c2-default.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C2-DEFAULT-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C2-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C2 DEFAULT",
       "configuration_id": "sell-c2-default",
@@ -1030,7 +1030,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c32-alg1",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c32-alg1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C32-ALG1-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C32-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C32 ALG1",
       "configuration_id": "sell-c32-alg1",
@@ -1050,7 +1050,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c32-default",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c32-default.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C32-DEFAULT-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C32-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C32 DEFAULT",
       "configuration_id": "sell-c32-default",
@@ -1070,7 +1070,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c4-alg1",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c4-alg1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C4-ALG1-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C4-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C4 ALG1",
       "configuration_id": "sell-c4-alg1",
@@ -1090,7 +1090,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c4-default",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c4-default.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C4-DEFAULT-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C4-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C4 DEFAULT",
       "configuration_id": "sell-c4-default",
@@ -1110,7 +1110,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c64-alg1",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c64-alg1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C64-ALG1-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C64-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C64 ALG1",
       "configuration_id": "sell-c64-alg1",
@@ -1130,7 +1130,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c64-default",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c64-default.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C64-DEFAULT-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C64-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C64 DEFAULT",
       "configuration_id": "sell-c64-default",
@@ -1150,7 +1150,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c8-alg1",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c8-alg1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C8-ALG1-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C8-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C8 ALG1",
       "configuration_id": "sell-c8-alg1",
@@ -1170,7 +1170,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c8-default",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-c8-default.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C8-DEFAULT-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C8-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C8 DEFAULT",
       "configuration_id": "sell-c8-default",
@@ -1190,7 +1190,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-nrows-alg1",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-nrows-alg1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-NROWS-ALG1-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-NROWS-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL-NROWS ALG1",
       "configuration_id": "sell-nrows-alg1",
@@ -1210,7 +1210,7 @@
     },
     {
       "submission_id": "d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-nrows-default",
-      "path": "data/candidate-pool/spmv/d5223743-4422-4bc9-b03d-919a62b90a91-H100-SXM5-80GB-spmv.csr.fp32-sell-nrows-default.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-NROWS-DEFAULT-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-NROWS-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL-NROWS DEFAULT",
       "configuration_id": "sell-nrows-default",
@@ -1230,7 +1230,7 @@
     },
     {
       "submission_id": "h100-ghost-fp32-sigma-1",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp32-sigma-1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-1-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-1",
       "method_name": "GHOST SELL-C32 sigma 1",
       "configuration_id": "sigma-1",
@@ -1249,7 +1249,7 @@
     },
     {
       "submission_id": "h100-ghost-fp32-sigma-1024",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp32-sigma-1024.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-1024-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-1024",
       "method_name": "GHOST SELL-C32 sigma 1024",
       "configuration_id": "sigma-1024",
@@ -1268,7 +1268,7 @@
     },
     {
       "submission_id": "h100-ghost-fp32-sigma-128",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp32-sigma-128.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-128-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-128",
       "method_name": "GHOST SELL-C32 sigma 128",
       "configuration_id": "sigma-128",
@@ -1287,7 +1287,7 @@
     },
     {
       "submission_id": "h100-ghost-fp32-sigma-131072",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp32-sigma-131072.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-131072-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-131072",
       "method_name": "GHOST SELL-C32 sigma 131072",
       "configuration_id": "sigma-131072",
@@ -1306,7 +1306,7 @@
     },
     {
       "submission_id": "h100-ghost-fp32-sigma-16",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp32-sigma-16.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-16-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-16",
       "method_name": "GHOST SELL-C32 sigma 16",
       "configuration_id": "sigma-16",
@@ -1325,7 +1325,7 @@
     },
     {
       "submission_id": "h100-ghost-fp32-sigma-16384",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp32-sigma-16384.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-16384-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-16384",
       "method_name": "GHOST SELL-C32 sigma 16384",
       "configuration_id": "sigma-16384",
@@ -1344,7 +1344,7 @@
     },
     {
       "submission_id": "h100-ghost-fp32-sigma-2",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp32-sigma-2.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-2-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-2",
       "method_name": "GHOST SELL-C32 sigma 2",
       "configuration_id": "sigma-2",
@@ -1363,7 +1363,7 @@
     },
     {
       "submission_id": "h100-ghost-fp32-sigma-2048",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp32-sigma-2048.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-2048-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-2048",
       "method_name": "GHOST SELL-C32 sigma 2048",
       "configuration_id": "sigma-2048",
@@ -1382,7 +1382,7 @@
     },
     {
       "submission_id": "h100-ghost-fp32-sigma-256",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp32-sigma-256.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-256-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-256",
       "method_name": "GHOST SELL-C32 sigma 256",
       "configuration_id": "sigma-256",
@@ -1401,7 +1401,7 @@
     },
     {
       "submission_id": "h100-ghost-fp32-sigma-32",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp32-sigma-32.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-32-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-32",
       "method_name": "GHOST SELL-C32 sigma 32",
       "configuration_id": "sigma-32",
@@ -1420,7 +1420,7 @@
     },
     {
       "submission_id": "h100-ghost-fp32-sigma-32768",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp32-sigma-32768.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-32768-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-32768",
       "method_name": "GHOST SELL-C32 sigma 32768",
       "configuration_id": "sigma-32768",
@@ -1439,7 +1439,7 @@
     },
     {
       "submission_id": "h100-ghost-fp32-sigma-4",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp32-sigma-4.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-4-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-4",
       "method_name": "GHOST SELL-C32 sigma 4",
       "configuration_id": "sigma-4",
@@ -1458,7 +1458,7 @@
     },
     {
       "submission_id": "h100-ghost-fp32-sigma-4096",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp32-sigma-4096.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-4096-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-4096",
       "method_name": "GHOST SELL-C32 sigma 4096",
       "configuration_id": "sigma-4096",
@@ -1477,7 +1477,7 @@
     },
     {
       "submission_id": "h100-ghost-fp32-sigma-512",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp32-sigma-512.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-512-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-512",
       "method_name": "GHOST SELL-C32 sigma 512",
       "configuration_id": "sigma-512",
@@ -1496,7 +1496,7 @@
     },
     {
       "submission_id": "h100-ghost-fp32-sigma-64",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp32-sigma-64.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-64-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-64",
       "method_name": "GHOST SELL-C32 sigma 64",
       "configuration_id": "sigma-64",
@@ -1515,7 +1515,7 @@
     },
     {
       "submission_id": "h100-ghost-fp32-sigma-65536",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp32-sigma-65536.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-65536-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-65536",
       "method_name": "GHOST SELL-C32 sigma 65536",
       "configuration_id": "sigma-65536",
@@ -1534,7 +1534,7 @@
     },
     {
       "submission_id": "h100-ghost-fp32-sigma-8",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp32-sigma-8.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-8-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-8",
       "method_name": "GHOST SELL-C32 sigma 8",
       "configuration_id": "sigma-8",
@@ -1553,7 +1553,7 @@
     },
     {
       "submission_id": "h100-ghost-fp32-sigma-8192",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp32-sigma-8192.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-8192-H100-SXM5-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "ghost-sell-c32-sigma-8192",
       "method_name": "GHOST SELL-C32 sigma 8192",
       "configuration_id": "sigma-8192",
@@ -1572,7 +1572,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-coo-alg1",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-coo-alg1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-COO-ALG1-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-COO-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 COO ALG1",
       "configuration_id": "coo-alg1",
@@ -1592,7 +1592,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-coo-alg2",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-coo-alg2.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-COO-ALG2-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-COO-ALG2",
       "method_name": "cuSPARSE CUDA 12.8 COO ALG2",
       "configuration_id": "coo-alg2",
@@ -1612,7 +1612,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-coo-default",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-coo-default.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-COO-DEFAULT-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-COO-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 COO DEFAULT",
       "configuration_id": "coo-default",
@@ -1632,7 +1632,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-csc-alg1",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-csc-alg1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-CSC-ALG1-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-CSC-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 CSC ALG1",
       "configuration_id": "csc-alg1",
@@ -1652,7 +1652,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-csc-alg2",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-csc-alg2.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-CSC-ALG2-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-CSC-ALG2",
       "method_name": "cuSPARSE CUDA 12.8 CSC ALG2",
       "configuration_id": "csc-alg2",
@@ -1672,7 +1672,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-csc-default",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-csc-default.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-CSC-DEFAULT-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-CSC-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 CSC DEFAULT",
       "configuration_id": "csc-default",
@@ -1692,7 +1692,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-csr-alg1",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-csr-alg1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-CSR-ALG1-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-CSR-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 CSR ALG1",
       "configuration_id": "csr-alg1",
@@ -1712,7 +1712,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-csr-alg2",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-csr-alg2.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-CSR-ALG2-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-CSR-ALG2",
       "method_name": "cuSPARSE CUDA 12.8 CSR ALG2",
       "configuration_id": "csr-alg2",
@@ -1732,7 +1732,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-csr-default",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-csr-default.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-CSR-DEFAULT-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-CSR-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 CSR DEFAULT",
       "configuration_id": "csr-default",
@@ -1752,7 +1752,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c1-alg1",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c1-alg1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C1-ALG1-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C1-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C1 ALG1",
       "configuration_id": "sell-c1-alg1",
@@ -1772,7 +1772,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c1-default",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c1-default.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C1-DEFAULT-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C1-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C1 DEFAULT",
       "configuration_id": "sell-c1-default",
@@ -1792,7 +1792,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c128-alg1",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c128-alg1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C128-ALG1-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C128-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C128 ALG1",
       "configuration_id": "sell-c128-alg1",
@@ -1812,7 +1812,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c128-default",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c128-default.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C128-DEFAULT-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C128-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C128 DEFAULT",
       "configuration_id": "sell-c128-default",
@@ -1832,7 +1832,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c16-alg1",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c16-alg1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C16-ALG1-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C16-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C16 ALG1",
       "configuration_id": "sell-c16-alg1",
@@ -1852,7 +1852,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c16-default",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c16-default.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C16-DEFAULT-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C16-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C16 DEFAULT",
       "configuration_id": "sell-c16-default",
@@ -1872,7 +1872,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c2-alg1",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c2-alg1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C2-ALG1-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C2-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C2 ALG1",
       "configuration_id": "sell-c2-alg1",
@@ -1892,7 +1892,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c2-default",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c2-default.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C2-DEFAULT-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C2-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C2 DEFAULT",
       "configuration_id": "sell-c2-default",
@@ -1912,7 +1912,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c32-alg1",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c32-alg1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C32-ALG1-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C32-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C32 ALG1",
       "configuration_id": "sell-c32-alg1",
@@ -1932,7 +1932,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c32-default",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c32-default.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C32-DEFAULT-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C32-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C32 DEFAULT",
       "configuration_id": "sell-c32-default",
@@ -1952,7 +1952,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c4-alg1",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c4-alg1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C4-ALG1-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C4-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C4 ALG1",
       "configuration_id": "sell-c4-alg1",
@@ -1972,7 +1972,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c4-default",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c4-default.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C4-DEFAULT-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C4-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C4 DEFAULT",
       "configuration_id": "sell-c4-default",
@@ -1992,7 +1992,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c64-alg1",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c64-alg1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C64-ALG1-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C64-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C64 ALG1",
       "configuration_id": "sell-c64-alg1",
@@ -2012,7 +2012,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c64-default",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c64-default.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C64-DEFAULT-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C64-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C64 DEFAULT",
       "configuration_id": "sell-c64-default",
@@ -2032,7 +2032,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c8-alg1",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c8-alg1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C8-ALG1-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C8-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C8 ALG1",
       "configuration_id": "sell-c8-alg1",
@@ -2052,7 +2052,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c8-default",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-c8-default.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-C8-DEFAULT-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C8-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C8 DEFAULT",
       "configuration_id": "sell-c8-default",
@@ -2072,7 +2072,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-nrows-alg1",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-nrows-alg1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-NROWS-ALG1-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-NROWS-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL-NROWS ALG1",
       "configuration_id": "sell-nrows-alg1",
@@ -2092,7 +2092,7 @@
     },
     {
       "submission_id": "92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-nrows-default",
-      "path": "data/candidate-pool/spmv/92ada090-3165-4180-8333-9d85204404e6-H100-SXM5-80GB-spmv.csr.fp64-sell-nrows-default.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/cuSPARSE-SELL-NROWS-DEFAULT-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-NROWS-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL-NROWS DEFAULT",
       "configuration_id": "sell-nrows-default",
@@ -2112,7 +2112,7 @@
     },
     {
       "submission_id": "h100-ghost-fp64-sigma-1",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp64-sigma-1.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-1-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-1",
       "method_name": "GHOST SELL-C32 sigma 1",
       "configuration_id": "sigma-1",
@@ -2131,7 +2131,7 @@
     },
     {
       "submission_id": "h100-ghost-fp64-sigma-1024",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp64-sigma-1024.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-1024-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-1024",
       "method_name": "GHOST SELL-C32 sigma 1024",
       "configuration_id": "sigma-1024",
@@ -2150,7 +2150,7 @@
     },
     {
       "submission_id": "h100-ghost-fp64-sigma-128",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp64-sigma-128.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-128-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-128",
       "method_name": "GHOST SELL-C32 sigma 128",
       "configuration_id": "sigma-128",
@@ -2169,7 +2169,7 @@
     },
     {
       "submission_id": "h100-ghost-fp64-sigma-131072",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp64-sigma-131072.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-131072-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-131072",
       "method_name": "GHOST SELL-C32 sigma 131072",
       "configuration_id": "sigma-131072",
@@ -2188,7 +2188,7 @@
     },
     {
       "submission_id": "h100-ghost-fp64-sigma-16",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp64-sigma-16.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-16-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-16",
       "method_name": "GHOST SELL-C32 sigma 16",
       "configuration_id": "sigma-16",
@@ -2207,7 +2207,7 @@
     },
     {
       "submission_id": "h100-ghost-fp64-sigma-16384",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp64-sigma-16384.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-16384-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-16384",
       "method_name": "GHOST SELL-C32 sigma 16384",
       "configuration_id": "sigma-16384",
@@ -2226,7 +2226,7 @@
     },
     {
       "submission_id": "h100-ghost-fp64-sigma-2",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp64-sigma-2.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-2-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-2",
       "method_name": "GHOST SELL-C32 sigma 2",
       "configuration_id": "sigma-2",
@@ -2245,7 +2245,7 @@
     },
     {
       "submission_id": "h100-ghost-fp64-sigma-2048",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp64-sigma-2048.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-2048-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-2048",
       "method_name": "GHOST SELL-C32 sigma 2048",
       "configuration_id": "sigma-2048",
@@ -2264,7 +2264,7 @@
     },
     {
       "submission_id": "h100-ghost-fp64-sigma-256",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp64-sigma-256.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-256-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-256",
       "method_name": "GHOST SELL-C32 sigma 256",
       "configuration_id": "sigma-256",
@@ -2283,7 +2283,7 @@
     },
     {
       "submission_id": "h100-ghost-fp64-sigma-32",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp64-sigma-32.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-32-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-32",
       "method_name": "GHOST SELL-C32 sigma 32",
       "configuration_id": "sigma-32",
@@ -2302,7 +2302,7 @@
     },
     {
       "submission_id": "h100-ghost-fp64-sigma-32768",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp64-sigma-32768.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-32768-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-32768",
       "method_name": "GHOST SELL-C32 sigma 32768",
       "configuration_id": "sigma-32768",
@@ -2321,7 +2321,7 @@
     },
     {
       "submission_id": "h100-ghost-fp64-sigma-4",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp64-sigma-4.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-4-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-4",
       "method_name": "GHOST SELL-C32 sigma 4",
       "configuration_id": "sigma-4",
@@ -2340,7 +2340,7 @@
     },
     {
       "submission_id": "h100-ghost-fp64-sigma-4096",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp64-sigma-4096.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-4096-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-4096",
       "method_name": "GHOST SELL-C32 sigma 4096",
       "configuration_id": "sigma-4096",
@@ -2359,7 +2359,7 @@
     },
     {
       "submission_id": "h100-ghost-fp64-sigma-512",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp64-sigma-512.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-512-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-512",
       "method_name": "GHOST SELL-C32 sigma 512",
       "configuration_id": "sigma-512",
@@ -2378,7 +2378,7 @@
     },
     {
       "submission_id": "h100-ghost-fp64-sigma-64",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp64-sigma-64.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-64-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-64",
       "method_name": "GHOST SELL-C32 sigma 64",
       "configuration_id": "sigma-64",
@@ -2397,7 +2397,7 @@
     },
     {
       "submission_id": "h100-ghost-fp64-sigma-65536",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp64-sigma-65536.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-65536-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-65536",
       "method_name": "GHOST SELL-C32 sigma 65536",
       "configuration_id": "sigma-65536",
@@ -2416,7 +2416,7 @@
     },
     {
       "submission_id": "h100-ghost-fp64-sigma-8",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp64-sigma-8.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-8-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-8",
       "method_name": "GHOST SELL-C32 sigma 8",
       "configuration_id": "sigma-8",
@@ -2435,7 +2435,7 @@
     },
     {
       "submission_id": "h100-ghost-fp64-sigma-8192",
-      "path": "data/candidate-pool/spmv/h100-ghost-fp64-sigma-8192.csv",
+      "path": "data/candidate-pool/spmv/H100-SXM5-80GB/suitesparse_validation_100/ghost-sell-c32-sigma-8192-H100-SXM5-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "ghost-sell-c32-sigma-8192",
       "method_name": "GHOST SELL-C32 sigma 8192",
       "configuration_id": "sigma-8192",
@@ -2454,7 +2454,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-coo-alg1",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-coo-alg1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-COO-ALG1-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-COO-ALG1",
       "method_name": "cuSPARSE CUDA 12.9 COO ALG1",
       "configuration_id": "coo-alg1",
@@ -2474,7 +2474,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-coo-alg2",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-coo-alg2.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-COO-ALG2-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-COO-ALG2",
       "method_name": "cuSPARSE CUDA 12.9 COO ALG2",
       "configuration_id": "coo-alg2",
@@ -2494,7 +2494,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-coo-default",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-coo-default.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-COO-DEFAULT-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-COO-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.9 COO DEFAULT",
       "configuration_id": "coo-default",
@@ -2514,7 +2514,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-csc-alg1",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-csc-alg1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-CSC-ALG1-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-CSC-ALG1",
       "method_name": "cuSPARSE CUDA 12.9 CSC ALG1",
       "configuration_id": "csc-alg1",
@@ -2534,7 +2534,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-csc-alg2",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-csc-alg2.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-CSC-ALG2-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-CSC-ALG2",
       "method_name": "cuSPARSE CUDA 12.9 CSC ALG2",
       "configuration_id": "csc-alg2",
@@ -2554,7 +2554,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-csc-default",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-csc-default.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-CSC-DEFAULT-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-CSC-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.9 CSC DEFAULT",
       "configuration_id": "csc-default",
@@ -2574,7 +2574,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-csr-alg1",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-csr-alg1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-CSR-ALG1-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-CSR-ALG1",
       "method_name": "cuSPARSE CUDA 12.9 CSR ALG1",
       "configuration_id": "csr-alg1",
@@ -2594,7 +2594,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-csr-alg2",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-csr-alg2.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-CSR-ALG2-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-CSR-ALG2",
       "method_name": "cuSPARSE CUDA 12.9 CSR ALG2",
       "configuration_id": "csr-alg2",
@@ -2614,7 +2614,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-csr-default",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-csr-default.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-CSR-DEFAULT-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-CSR-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.9 CSR DEFAULT",
       "configuration_id": "csr-default",
@@ -2634,7 +2634,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-sell-c1-alg1",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-sell-c1-alg1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C1-ALG1-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C1-ALG1",
       "method_name": "cuSPARSE CUDA 12.9 SELL C1 ALG1",
       "configuration_id": "sell-c1-alg1",
@@ -2654,7 +2654,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-sell-c1-default",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-sell-c1-default.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C1-DEFAULT-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C1-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.9 SELL C1 DEFAULT",
       "configuration_id": "sell-c1-default",
@@ -2674,7 +2674,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-sell-c128-alg1",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-sell-c128-alg1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C128-ALG1-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C128-ALG1",
       "method_name": "cuSPARSE CUDA 12.9 SELL C128 ALG1",
       "configuration_id": "sell-c128-alg1",
@@ -2694,7 +2694,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-sell-c128-default",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-sell-c128-default.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C128-DEFAULT-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C128-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.9 SELL C128 DEFAULT",
       "configuration_id": "sell-c128-default",
@@ -2714,7 +2714,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-sell-c16-alg1",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-sell-c16-alg1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C16-ALG1-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C16-ALG1",
       "method_name": "cuSPARSE CUDA 12.9 SELL C16 ALG1",
       "configuration_id": "sell-c16-alg1",
@@ -2734,7 +2734,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-sell-c16-default",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-sell-c16-default.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C16-DEFAULT-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C16-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.9 SELL C16 DEFAULT",
       "configuration_id": "sell-c16-default",
@@ -2754,7 +2754,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-sell-c2-alg1",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-sell-c2-alg1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C2-ALG1-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C2-ALG1",
       "method_name": "cuSPARSE CUDA 12.9 SELL C2 ALG1",
       "configuration_id": "sell-c2-alg1",
@@ -2774,7 +2774,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-sell-c2-default",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-sell-c2-default.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C2-DEFAULT-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C2-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.9 SELL C2 DEFAULT",
       "configuration_id": "sell-c2-default",
@@ -2794,7 +2794,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-sell-c32-alg1",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-sell-c32-alg1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C32-ALG1-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C32-ALG1",
       "method_name": "cuSPARSE CUDA 12.9 SELL C32 ALG1",
       "configuration_id": "sell-c32-alg1",
@@ -2814,7 +2814,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-sell-c32-default",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-sell-c32-default.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C32-DEFAULT-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C32-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.9 SELL C32 DEFAULT",
       "configuration_id": "sell-c32-default",
@@ -2834,7 +2834,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-sell-c4-alg1",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-sell-c4-alg1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C4-ALG1-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C4-ALG1",
       "method_name": "cuSPARSE CUDA 12.9 SELL C4 ALG1",
       "configuration_id": "sell-c4-alg1",
@@ -2854,7 +2854,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-sell-c4-default",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-sell-c4-default.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C4-DEFAULT-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C4-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.9 SELL C4 DEFAULT",
       "configuration_id": "sell-c4-default",
@@ -2874,7 +2874,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-sell-c64-alg1",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-sell-c64-alg1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C64-ALG1-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C64-ALG1",
       "method_name": "cuSPARSE CUDA 12.9 SELL C64 ALG1",
       "configuration_id": "sell-c64-alg1",
@@ -2894,7 +2894,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-sell-c64-default",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-sell-c64-default.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C64-DEFAULT-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C64-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.9 SELL C64 DEFAULT",
       "configuration_id": "sell-c64-default",
@@ -2914,7 +2914,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-sell-c8-alg1",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-sell-c8-alg1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C8-ALG1-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C8-ALG1",
       "method_name": "cuSPARSE CUDA 12.9 SELL C8 ALG1",
       "configuration_id": "sell-c8-alg1",
@@ -2934,7 +2934,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-sell-c8-default",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-sell-c8-default.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C8-DEFAULT-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C8-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.9 SELL C8 DEFAULT",
       "configuration_id": "sell-c8-default",
@@ -2954,7 +2954,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-sell-nrows-alg1",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-sell-nrows-alg1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-NROWS-ALG1-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-NROWS-ALG1",
       "method_name": "cuSPARSE CUDA 12.9 SELL-NROWS ALG1",
       "configuration_id": "sell-nrows-alg1",
@@ -2974,7 +2974,7 @@
     },
     {
       "submission_id": "c5412e5f-0152-4546-9239-748d0c048e51-ict-a100-spmv.csr.fp32-sell-nrows-default",
-      "path": "data/candidate-pool/spmv/c5412e5f-0152-4546-9239-748d0c048e51-A100-SXM4-80GB-spmv.csr.fp32-sell-nrows-default.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-NROWS-DEFAULT-A100-SXM4-80GB-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-NROWS-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.9 SELL-NROWS DEFAULT",
       "configuration_id": "sell-nrows-default",
@@ -2994,7 +2994,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-coo-alg1",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-coo-alg1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-COO-ALG1-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-COO-ALG1",
       "method_name": "cuSPARSE CUDA 12.9 COO ALG1",
       "configuration_id": "coo-alg1",
@@ -3014,7 +3014,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-coo-alg2",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-coo-alg2.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-COO-ALG2-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-COO-ALG2",
       "method_name": "cuSPARSE CUDA 12.9 COO ALG2",
       "configuration_id": "coo-alg2",
@@ -3034,7 +3034,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-coo-default",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-coo-default.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-COO-DEFAULT-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-COO-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.9 COO DEFAULT",
       "configuration_id": "coo-default",
@@ -3054,7 +3054,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-csc-alg1",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-csc-alg1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-CSC-ALG1-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-CSC-ALG1",
       "method_name": "cuSPARSE CUDA 12.9 CSC ALG1",
       "configuration_id": "csc-alg1",
@@ -3074,7 +3074,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-csc-alg2",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-csc-alg2.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-CSC-ALG2-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-CSC-ALG2",
       "method_name": "cuSPARSE CUDA 12.9 CSC ALG2",
       "configuration_id": "csc-alg2",
@@ -3094,7 +3094,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-csc-default",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-csc-default.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-CSC-DEFAULT-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-CSC-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.9 CSC DEFAULT",
       "configuration_id": "csc-default",
@@ -3114,7 +3114,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-csr-alg1",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-csr-alg1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-CSR-ALG1-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-CSR-ALG1",
       "method_name": "cuSPARSE CUDA 12.9 CSR ALG1",
       "configuration_id": "csr-alg1",
@@ -3134,7 +3134,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-csr-alg2",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-csr-alg2.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-CSR-ALG2-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-CSR-ALG2",
       "method_name": "cuSPARSE CUDA 12.9 CSR ALG2",
       "configuration_id": "csr-alg2",
@@ -3154,7 +3154,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-csr-default",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-csr-default.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-CSR-DEFAULT-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-CSR-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.9 CSR DEFAULT",
       "configuration_id": "csr-default",
@@ -3174,7 +3174,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-sell-c1-alg1",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-sell-c1-alg1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C1-ALG1-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C1-ALG1",
       "method_name": "cuSPARSE CUDA 12.9 SELL C1 ALG1",
       "configuration_id": "sell-c1-alg1",
@@ -3194,7 +3194,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-sell-c1-default",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-sell-c1-default.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C1-DEFAULT-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C1-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.9 SELL C1 DEFAULT",
       "configuration_id": "sell-c1-default",
@@ -3214,7 +3214,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-sell-c128-alg1",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-sell-c128-alg1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C128-ALG1-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C128-ALG1",
       "method_name": "cuSPARSE CUDA 12.9 SELL C128 ALG1",
       "configuration_id": "sell-c128-alg1",
@@ -3234,7 +3234,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-sell-c128-default",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-sell-c128-default.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C128-DEFAULT-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C128-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.9 SELL C128 DEFAULT",
       "configuration_id": "sell-c128-default",
@@ -3254,7 +3254,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-sell-c16-alg1",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-sell-c16-alg1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C16-ALG1-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C16-ALG1",
       "method_name": "cuSPARSE CUDA 12.9 SELL C16 ALG1",
       "configuration_id": "sell-c16-alg1",
@@ -3274,7 +3274,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-sell-c16-default",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-sell-c16-default.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C16-DEFAULT-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C16-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.9 SELL C16 DEFAULT",
       "configuration_id": "sell-c16-default",
@@ -3294,7 +3294,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-sell-c2-alg1",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-sell-c2-alg1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C2-ALG1-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C2-ALG1",
       "method_name": "cuSPARSE CUDA 12.9 SELL C2 ALG1",
       "configuration_id": "sell-c2-alg1",
@@ -3314,7 +3314,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-sell-c2-default",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-sell-c2-default.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C2-DEFAULT-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C2-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.9 SELL C2 DEFAULT",
       "configuration_id": "sell-c2-default",
@@ -3334,7 +3334,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-sell-c32-alg1",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-sell-c32-alg1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C32-ALG1-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C32-ALG1",
       "method_name": "cuSPARSE CUDA 12.9 SELL C32 ALG1",
       "configuration_id": "sell-c32-alg1",
@@ -3354,7 +3354,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-sell-c32-default",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-sell-c32-default.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C32-DEFAULT-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C32-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.9 SELL C32 DEFAULT",
       "configuration_id": "sell-c32-default",
@@ -3374,7 +3374,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-sell-c4-alg1",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-sell-c4-alg1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C4-ALG1-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C4-ALG1",
       "method_name": "cuSPARSE CUDA 12.9 SELL C4 ALG1",
       "configuration_id": "sell-c4-alg1",
@@ -3394,7 +3394,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-sell-c4-default",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-sell-c4-default.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C4-DEFAULT-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C4-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.9 SELL C4 DEFAULT",
       "configuration_id": "sell-c4-default",
@@ -3414,7 +3414,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-sell-c64-alg1",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-sell-c64-alg1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C64-ALG1-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C64-ALG1",
       "method_name": "cuSPARSE CUDA 12.9 SELL C64 ALG1",
       "configuration_id": "sell-c64-alg1",
@@ -3434,7 +3434,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-sell-c64-default",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-sell-c64-default.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C64-DEFAULT-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C64-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.9 SELL C64 DEFAULT",
       "configuration_id": "sell-c64-default",
@@ -3454,7 +3454,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-sell-c8-alg1",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-sell-c8-alg1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C8-ALG1-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C8-ALG1",
       "method_name": "cuSPARSE CUDA 12.9 SELL C8 ALG1",
       "configuration_id": "sell-c8-alg1",
@@ -3474,7 +3474,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-sell-c8-default",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-sell-c8-default.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-C8-DEFAULT-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C8-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.9 SELL C8 DEFAULT",
       "configuration_id": "sell-c8-default",
@@ -3494,7 +3494,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-sell-nrows-alg1",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-sell-nrows-alg1.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-NROWS-ALG1-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-NROWS-ALG1",
       "method_name": "cuSPARSE CUDA 12.9 SELL-NROWS ALG1",
       "configuration_id": "sell-nrows-alg1",
@@ -3514,7 +3514,7 @@
     },
     {
       "submission_id": "64a7d939-8201-47f7-9d7f-5c167a6bf2c5-ict-a100-spmv.csr.fp64-sell-nrows-default",
-      "path": "data/candidate-pool/spmv/64a7d939-8201-47f7-9d7f-5c167a6bf2c5-A100-SXM4-80GB-spmv.csr.fp64-sell-nrows-default.csv",
+      "path": "data/candidate-pool/spmv/A100-SXM4-80GB/suitesparse_validation_100/cuSPARSE-SELL-NROWS-DEFAULT-A100-SXM4-80GB-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-NROWS-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.9 SELL-NROWS DEFAULT",
       "configuration_id": "sell-nrows-default",
@@ -3534,7 +3534,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-coo-alg1",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-coo-alg1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-COO-ALG1-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-COO-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 COO ALG1",
       "configuration_id": "coo-alg1",
@@ -3554,7 +3554,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-coo-alg2",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-coo-alg2.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-COO-ALG2-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-COO-ALG2",
       "method_name": "cuSPARSE CUDA 12.8 COO ALG2",
       "configuration_id": "coo-alg2",
@@ -3574,7 +3574,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-coo-default",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-coo-default.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-COO-DEFAULT-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-COO-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 COO DEFAULT",
       "configuration_id": "coo-default",
@@ -3594,7 +3594,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-csc-alg1",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-csc-alg1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-CSC-ALG1-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-CSC-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 CSC ALG1",
       "configuration_id": "csc-alg1",
@@ -3614,7 +3614,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-csc-alg2",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-csc-alg2.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-CSC-ALG2-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-CSC-ALG2",
       "method_name": "cuSPARSE CUDA 12.8 CSC ALG2",
       "configuration_id": "csc-alg2",
@@ -3634,7 +3634,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-csc-default",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-csc-default.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-CSC-DEFAULT-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-CSC-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 CSC DEFAULT",
       "configuration_id": "csc-default",
@@ -3654,7 +3654,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-csr-alg1",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-csr-alg1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-CSR-ALG1-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-CSR-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 CSR ALG1",
       "configuration_id": "csr-alg1",
@@ -3674,7 +3674,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-csr-alg2",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-csr-alg2.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-CSR-ALG2-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-CSR-ALG2",
       "method_name": "cuSPARSE CUDA 12.8 CSR ALG2",
       "configuration_id": "csr-alg2",
@@ -3694,7 +3694,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-csr-default",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-csr-default.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-CSR-DEFAULT-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-CSR-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 CSR DEFAULT",
       "configuration_id": "csr-default",
@@ -3714,7 +3714,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c1-alg1",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c1-alg1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C1-ALG1-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C1-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C1 ALG1",
       "configuration_id": "sell-c1-alg1",
@@ -3734,7 +3734,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c1-default",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c1-default.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C1-DEFAULT-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C1-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C1 DEFAULT",
       "configuration_id": "sell-c1-default",
@@ -3754,7 +3754,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c128-alg1",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c128-alg1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C128-ALG1-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C128-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C128 ALG1",
       "configuration_id": "sell-c128-alg1",
@@ -3774,7 +3774,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c128-default",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c128-default.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C128-DEFAULT-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C128-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C128 DEFAULT",
       "configuration_id": "sell-c128-default",
@@ -3794,7 +3794,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c16-alg1",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c16-alg1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C16-ALG1-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C16-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C16 ALG1",
       "configuration_id": "sell-c16-alg1",
@@ -3814,7 +3814,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c16-default",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c16-default.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C16-DEFAULT-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C16-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C16 DEFAULT",
       "configuration_id": "sell-c16-default",
@@ -3834,7 +3834,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c2-alg1",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c2-alg1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C2-ALG1-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C2-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C2 ALG1",
       "configuration_id": "sell-c2-alg1",
@@ -3854,7 +3854,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c2-default",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c2-default.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C2-DEFAULT-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C2-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C2 DEFAULT",
       "configuration_id": "sell-c2-default",
@@ -3874,7 +3874,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c32-alg1",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c32-alg1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C32-ALG1-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C32-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C32 ALG1",
       "configuration_id": "sell-c32-alg1",
@@ -3894,7 +3894,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c32-default",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c32-default.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C32-DEFAULT-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C32-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C32 DEFAULT",
       "configuration_id": "sell-c32-default",
@@ -3914,7 +3914,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c4-alg1",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c4-alg1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C4-ALG1-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C4-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C4 ALG1",
       "configuration_id": "sell-c4-alg1",
@@ -3934,7 +3934,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c4-default",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c4-default.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C4-DEFAULT-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C4-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C4 DEFAULT",
       "configuration_id": "sell-c4-default",
@@ -3954,7 +3954,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c64-alg1",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c64-alg1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C64-ALG1-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C64-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C64 ALG1",
       "configuration_id": "sell-c64-alg1",
@@ -3974,7 +3974,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c64-default",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c64-default.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C64-DEFAULT-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C64-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C64 DEFAULT",
       "configuration_id": "sell-c64-default",
@@ -3994,7 +3994,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c8-alg1",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c8-alg1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C8-ALG1-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C8-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C8 ALG1",
       "configuration_id": "sell-c8-alg1",
@@ -4014,7 +4014,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c8-default",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-c8-default.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C8-DEFAULT-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-C8-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C8 DEFAULT",
       "configuration_id": "sell-c8-default",
@@ -4034,7 +4034,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-nrows-alg1",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-nrows-alg1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-NROWS-ALG1-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-NROWS-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL-NROWS ALG1",
       "configuration_id": "sell-nrows-alg1",
@@ -4054,7 +4054,7 @@
     },
     {
       "submission_id": "b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-nrows-default",
-      "path": "data/candidate-pool/spmv/b670013c-9ecd-4ddf-96b7-d049cb0847dd-RTX5090-SL3061-spmv.csr.fp32-sell-nrows-default.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-NROWS-DEFAULT-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "cuSPARSE-SELL-NROWS-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL-NROWS DEFAULT",
       "configuration_id": "sell-nrows-default",
@@ -4074,7 +4074,7 @@
     },
     {
       "submission_id": "0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-1",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-1-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "GHOST-SELL-C32-sigma-1",
       "method_name": "GHOST SELL-C32 sigma 1",
       "configuration_id": "sigma-1",
@@ -4093,7 +4093,7 @@
     },
     {
       "submission_id": "0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-1024",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-1024.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-1024-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "GHOST-SELL-C32-sigma-1024",
       "method_name": "GHOST SELL-C32 sigma 1024",
       "configuration_id": "sigma-1024",
@@ -4112,7 +4112,7 @@
     },
     {
       "submission_id": "0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-128",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-128.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-128-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "GHOST-SELL-C32-sigma-128",
       "method_name": "GHOST SELL-C32 sigma 128",
       "configuration_id": "sigma-128",
@@ -4131,7 +4131,7 @@
     },
     {
       "submission_id": "0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-131072",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-131072.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-131072-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "GHOST-SELL-C32-sigma-131072",
       "method_name": "GHOST SELL-C32 sigma 131072",
       "configuration_id": "sigma-131072",
@@ -4150,7 +4150,7 @@
     },
     {
       "submission_id": "0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-16",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-16.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-16-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "GHOST-SELL-C32-sigma-16",
       "method_name": "GHOST SELL-C32 sigma 16",
       "configuration_id": "sigma-16",
@@ -4169,7 +4169,7 @@
     },
     {
       "submission_id": "0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-16384",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-16384.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-16384-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "GHOST-SELL-C32-sigma-16384",
       "method_name": "GHOST SELL-C32 sigma 16384",
       "configuration_id": "sigma-16384",
@@ -4188,7 +4188,7 @@
     },
     {
       "submission_id": "0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-2",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-2.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-2-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "GHOST-SELL-C32-sigma-2",
       "method_name": "GHOST SELL-C32 sigma 2",
       "configuration_id": "sigma-2",
@@ -4207,7 +4207,7 @@
     },
     {
       "submission_id": "0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-2048",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-2048.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-2048-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "GHOST-SELL-C32-sigma-2048",
       "method_name": "GHOST SELL-C32 sigma 2048",
       "configuration_id": "sigma-2048",
@@ -4226,7 +4226,7 @@
     },
     {
       "submission_id": "0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-256",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-256.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-256-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "GHOST-SELL-C32-sigma-256",
       "method_name": "GHOST SELL-C32 sigma 256",
       "configuration_id": "sigma-256",
@@ -4245,7 +4245,7 @@
     },
     {
       "submission_id": "0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-32",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-32.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-32-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "GHOST-SELL-C32-sigma-32",
       "method_name": "GHOST SELL-C32 sigma 32",
       "configuration_id": "sigma-32",
@@ -4264,7 +4264,7 @@
     },
     {
       "submission_id": "0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-32768",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-32768.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-32768-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "GHOST-SELL-C32-sigma-32768",
       "method_name": "GHOST SELL-C32 sigma 32768",
       "configuration_id": "sigma-32768",
@@ -4283,7 +4283,7 @@
     },
     {
       "submission_id": "0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-4",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-4.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-4-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "GHOST-SELL-C32-sigma-4",
       "method_name": "GHOST SELL-C32 sigma 4",
       "configuration_id": "sigma-4",
@@ -4302,7 +4302,7 @@
     },
     {
       "submission_id": "0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-4096",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-4096.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-4096-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "GHOST-SELL-C32-sigma-4096",
       "method_name": "GHOST SELL-C32 sigma 4096",
       "configuration_id": "sigma-4096",
@@ -4321,7 +4321,7 @@
     },
     {
       "submission_id": "0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-512",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-512.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-512-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "GHOST-SELL-C32-sigma-512",
       "method_name": "GHOST SELL-C32 sigma 512",
       "configuration_id": "sigma-512",
@@ -4340,7 +4340,7 @@
     },
     {
       "submission_id": "0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-64",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-64.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-64-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "GHOST-SELL-C32-sigma-64",
       "method_name": "GHOST SELL-C32 sigma 64",
       "configuration_id": "sigma-64",
@@ -4359,7 +4359,7 @@
     },
     {
       "submission_id": "0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-65536",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-65536.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-65536-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "GHOST-SELL-C32-sigma-65536",
       "method_name": "GHOST SELL-C32 sigma 65536",
       "configuration_id": "sigma-65536",
@@ -4378,7 +4378,7 @@
     },
     {
       "submission_id": "0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-8",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-8.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-8-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "GHOST-SELL-C32-sigma-8",
       "method_name": "GHOST SELL-C32 sigma 8",
       "configuration_id": "sigma-8",
@@ -4397,7 +4397,7 @@
     },
     {
       "submission_id": "0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-8192",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/0a7ac21e-c481-4680-977b-52804c9092e5-RTX5090-SL3061-spmv.csr.fp32-sigma-8192.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-8192-RTX5090-SL3061-suitesparse_validation_100-fp32.csv",
       "method_id": "GHOST-SELL-C32-sigma-8192",
       "method_name": "GHOST SELL-C32 sigma 8192",
       "configuration_id": "sigma-8192",
@@ -4416,7 +4416,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-coo-alg1",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-coo-alg1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-COO-ALG1-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-COO-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 COO ALG1",
       "configuration_id": "coo-alg1",
@@ -4436,7 +4436,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-coo-alg2",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-coo-alg2.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-COO-ALG2-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-COO-ALG2",
       "method_name": "cuSPARSE CUDA 12.8 COO ALG2",
       "configuration_id": "coo-alg2",
@@ -4456,7 +4456,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-coo-default",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-coo-default.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-COO-DEFAULT-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-COO-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 COO DEFAULT",
       "configuration_id": "coo-default",
@@ -4476,7 +4476,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-csc-alg1",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-csc-alg1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-CSC-ALG1-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-CSC-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 CSC ALG1",
       "configuration_id": "csc-alg1",
@@ -4496,7 +4496,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-csc-alg2",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-csc-alg2.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-CSC-ALG2-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-CSC-ALG2",
       "method_name": "cuSPARSE CUDA 12.8 CSC ALG2",
       "configuration_id": "csc-alg2",
@@ -4516,7 +4516,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-csc-default",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-csc-default.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-CSC-DEFAULT-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-CSC-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 CSC DEFAULT",
       "configuration_id": "csc-default",
@@ -4536,7 +4536,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-csr-alg1",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-csr-alg1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-CSR-ALG1-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-CSR-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 CSR ALG1",
       "configuration_id": "csr-alg1",
@@ -4556,7 +4556,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-csr-alg2",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-csr-alg2.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-CSR-ALG2-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-CSR-ALG2",
       "method_name": "cuSPARSE CUDA 12.8 CSR ALG2",
       "configuration_id": "csr-alg2",
@@ -4576,7 +4576,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-csr-default",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-csr-default.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-CSR-DEFAULT-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-CSR-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 CSR DEFAULT",
       "configuration_id": "csr-default",
@@ -4596,7 +4596,7 @@
     },
     {
       "submission_id": "62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-per-matrix-best",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-per-matrix-best.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-best-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "GHOST-SELL-C32-sigma-best",
       "method_name": "GHOST-SELL-C32-sigma BEST",
       "configuration_id": "per-matrix-best",
@@ -4615,7 +4615,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c1-alg1",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c1-alg1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C1-ALG1-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C1-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C1 ALG1",
       "configuration_id": "sell-c1-alg1",
@@ -4635,7 +4635,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c1-default",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c1-default.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C1-DEFAULT-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C1-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C1 DEFAULT",
       "configuration_id": "sell-c1-default",
@@ -4655,7 +4655,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c128-alg1",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c128-alg1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C128-ALG1-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C128-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C128 ALG1",
       "configuration_id": "sell-c128-alg1",
@@ -4675,7 +4675,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c128-default",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c128-default.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C128-DEFAULT-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C128-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C128 DEFAULT",
       "configuration_id": "sell-c128-default",
@@ -4695,7 +4695,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c16-alg1",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c16-alg1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C16-ALG1-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C16-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C16 ALG1",
       "configuration_id": "sell-c16-alg1",
@@ -4715,7 +4715,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c16-default",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c16-default.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C16-DEFAULT-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C16-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C16 DEFAULT",
       "configuration_id": "sell-c16-default",
@@ -4735,7 +4735,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c2-alg1",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c2-alg1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C2-ALG1-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C2-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C2 ALG1",
       "configuration_id": "sell-c2-alg1",
@@ -4755,7 +4755,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c2-default",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c2-default.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C2-DEFAULT-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C2-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C2 DEFAULT",
       "configuration_id": "sell-c2-default",
@@ -4775,7 +4775,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c32-alg1",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c32-alg1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C32-ALG1-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C32-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C32 ALG1",
       "configuration_id": "sell-c32-alg1",
@@ -4795,7 +4795,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c32-default",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c32-default.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C32-DEFAULT-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C32-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C32 DEFAULT",
       "configuration_id": "sell-c32-default",
@@ -4815,7 +4815,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c4-alg1",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c4-alg1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C4-ALG1-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C4-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C4 ALG1",
       "configuration_id": "sell-c4-alg1",
@@ -4835,7 +4835,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c4-default",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c4-default.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C4-DEFAULT-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C4-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C4 DEFAULT",
       "configuration_id": "sell-c4-default",
@@ -4855,7 +4855,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c64-alg1",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c64-alg1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C64-ALG1-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C64-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C64 ALG1",
       "configuration_id": "sell-c64-alg1",
@@ -4875,7 +4875,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c64-default",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c64-default.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C64-DEFAULT-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C64-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C64 DEFAULT",
       "configuration_id": "sell-c64-default",
@@ -4895,7 +4895,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c8-alg1",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c8-alg1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C8-ALG1-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C8-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL C8 ALG1",
       "configuration_id": "sell-c8-alg1",
@@ -4915,7 +4915,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c8-default",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-c8-default.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-C8-DEFAULT-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-C8-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL C8 DEFAULT",
       "configuration_id": "sell-c8-default",
@@ -4935,7 +4935,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-nrows-alg1",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-nrows-alg1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-NROWS-ALG1-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-NROWS-ALG1",
       "method_name": "cuSPARSE CUDA 12.8 SELL-NROWS ALG1",
       "configuration_id": "sell-nrows-alg1",
@@ -4955,7 +4955,7 @@
     },
     {
       "submission_id": "65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-nrows-default",
-      "path": "data/candidate-pool/spmv/65892e2c-b084-4b7e-a296-bdee47120807-RTX5090-SL3061-spmv.csr.fp64-sell-nrows-default.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/cuSPARSE-SELL-NROWS-DEFAULT-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "cuSPARSE-SELL-NROWS-DEFAULT",
       "method_name": "cuSPARSE CUDA 12.8 SELL-NROWS DEFAULT",
       "configuration_id": "sell-nrows-default",
@@ -4975,7 +4975,7 @@
     },
     {
       "submission_id": "62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-1",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-1.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-1-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "GHOST-SELL-C32-sigma-1",
       "method_name": "GHOST SELL-C32 sigma 1",
       "configuration_id": "sigma-1",
@@ -4994,7 +4994,7 @@
     },
     {
       "submission_id": "62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-1024",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-1024.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-1024-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "GHOST-SELL-C32-sigma-1024",
       "method_name": "GHOST SELL-C32 sigma 1024",
       "configuration_id": "sigma-1024",
@@ -5013,7 +5013,7 @@
     },
     {
       "submission_id": "62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-128",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-128.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-128-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "GHOST-SELL-C32-sigma-128",
       "method_name": "GHOST SELL-C32 sigma 128",
       "configuration_id": "sigma-128",
@@ -5032,7 +5032,7 @@
     },
     {
       "submission_id": "62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-131072",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-131072.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-131072-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "GHOST-SELL-C32-sigma-131072",
       "method_name": "GHOST SELL-C32 sigma 131072",
       "configuration_id": "sigma-131072",
@@ -5051,7 +5051,7 @@
     },
     {
       "submission_id": "62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-16",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-16.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-16-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "GHOST-SELL-C32-sigma-16",
       "method_name": "GHOST SELL-C32 sigma 16",
       "configuration_id": "sigma-16",
@@ -5070,7 +5070,7 @@
     },
     {
       "submission_id": "62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-16384",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-16384.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-16384-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "GHOST-SELL-C32-sigma-16384",
       "method_name": "GHOST SELL-C32 sigma 16384",
       "configuration_id": "sigma-16384",
@@ -5089,7 +5089,7 @@
     },
     {
       "submission_id": "62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-2",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-2.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-2-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "GHOST-SELL-C32-sigma-2",
       "method_name": "GHOST SELL-C32 sigma 2",
       "configuration_id": "sigma-2",
@@ -5108,7 +5108,7 @@
     },
     {
       "submission_id": "62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-2048",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-2048.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-2048-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "GHOST-SELL-C32-sigma-2048",
       "method_name": "GHOST SELL-C32 sigma 2048",
       "configuration_id": "sigma-2048",
@@ -5127,7 +5127,7 @@
     },
     {
       "submission_id": "62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-256",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-256.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-256-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "GHOST-SELL-C32-sigma-256",
       "method_name": "GHOST SELL-C32 sigma 256",
       "configuration_id": "sigma-256",
@@ -5146,7 +5146,7 @@
     },
     {
       "submission_id": "62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-32",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-32.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-32-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "GHOST-SELL-C32-sigma-32",
       "method_name": "GHOST SELL-C32 sigma 32",
       "configuration_id": "sigma-32",
@@ -5165,7 +5165,7 @@
     },
     {
       "submission_id": "62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-32768",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-32768.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-32768-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "GHOST-SELL-C32-sigma-32768",
       "method_name": "GHOST SELL-C32 sigma 32768",
       "configuration_id": "sigma-32768",
@@ -5184,7 +5184,7 @@
     },
     {
       "submission_id": "62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-4",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-4.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-4-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "GHOST-SELL-C32-sigma-4",
       "method_name": "GHOST SELL-C32 sigma 4",
       "configuration_id": "sigma-4",
@@ -5203,7 +5203,7 @@
     },
     {
       "submission_id": "62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-4096",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-4096.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-4096-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "GHOST-SELL-C32-sigma-4096",
       "method_name": "GHOST SELL-C32 sigma 4096",
       "configuration_id": "sigma-4096",
@@ -5222,7 +5222,7 @@
     },
     {
       "submission_id": "62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-512",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-512.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-512-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "GHOST-SELL-C32-sigma-512",
       "method_name": "GHOST SELL-C32 sigma 512",
       "configuration_id": "sigma-512",
@@ -5241,7 +5241,7 @@
     },
     {
       "submission_id": "62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-64",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-64.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-64-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "GHOST-SELL-C32-sigma-64",
       "method_name": "GHOST SELL-C32 sigma 64",
       "configuration_id": "sigma-64",
@@ -5260,7 +5260,7 @@
     },
     {
       "submission_id": "62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-65536",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-65536.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-65536-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "GHOST-SELL-C32-sigma-65536",
       "method_name": "GHOST SELL-C32 sigma 65536",
       "configuration_id": "sigma-65536",
@@ -5279,7 +5279,7 @@
     },
     {
       "submission_id": "62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-8",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-8.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-8-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "GHOST-SELL-C32-sigma-8",
       "method_name": "GHOST SELL-C32 sigma 8",
       "configuration_id": "sigma-8",
@@ -5298,7 +5298,7 @@
     },
     {
       "submission_id": "62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-8192",
-      "path": "data/candidate-pool/spmv/RTX5090-SL3061/62326b0c-da4d-41a4-a562-ee7dad26c845-RTX5090-SL3061-spmv.csr.fp64-sigma-8192.csv",
+      "path": "data/candidate-pool/spmv/RTX5090-SL3061/suitesparse_validation_100/GHOST-SELL-C32-sigma-8192-RTX5090-SL3061-suitesparse_validation_100-fp64.csv",
       "method_id": "GHOST-SELL-C32-sigma-8192",
       "method_name": "GHOST SELL-C32 sigma 8192",
       "configuration_id": "sigma-8192",
