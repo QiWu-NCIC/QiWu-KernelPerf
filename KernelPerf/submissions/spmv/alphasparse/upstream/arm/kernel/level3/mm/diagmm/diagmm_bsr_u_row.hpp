@@ -8,7 +8,7 @@ alphasparseStatus_t diagmm_bsr_u_row(const J alpha, const internal_spmat mat, co
     ALPHA_INT rowC = mat->rows * mat->block_dim;
     ALPHA_INT colC = columns;
 
-    for (ALPHA_INT r = 0; r < rowC; ++r) //遍历的时候和col优先相反
+    for (ALPHA_INT r = 0; r < rowC; ++r) // The traversal order is the reverse of column-major
     {
         for (ALPHA_INT c = 0; c < colC; ++c)
         {

@@ -71,7 +71,7 @@ alphasparseStatus_t gemv_s_sell_csigma(const float alpha, const spmat_sell_csigm
 // alphasparseStatus_t gemm_s_sell_csigma_row_conj(const float alpha, const spmat_sell_csigma_s_t *mat, const float *x, const ALPHA_INT columns, const ALPHA_INT ldx, const float beta, float *y, const ALPHA_INT ldy);
 // alphasparseStatus_t gemm_s_sell_csigma_col_conj(const float alpha, const spmat_sell_csigma_s_t *mat, const float *x, const ALPHA_INT columns, const ALPHA_INT ldx, const float beta, float *y, const ALPHA_INT ldy);
 
-// // alpha*（L+D+L')^T*B + beta*C
+// // alpha*(L+D+L')^T*B + beta*C
 // alphasparseStatus_t symm_s_sell_csigma_n_lo_row(const float alpha, const spmat_sell_csigma_s_t *mat, const float *x, const ALPHA_INT columns, const ALPHA_INT ldx, const float beta, float *y, const ALPHA_INT ldy);
 // // alpha*(L+I+L')*B + beta*C
 // alphasparseStatus_t symm_s_sell_csigma_u_lo_row(const float alpha, const spmat_sell_csigma_s_t *mat, const float *x, const ALPHA_INT columns, const ALPHA_INT ldx, const float beta, float *y, const ALPHA_INT ldy);
@@ -80,7 +80,7 @@ alphasparseStatus_t gemv_s_sell_csigma(const float alpha, const spmat_sell_csigm
 // // alpha*(U'+I+U)*B + beta*C
 // alphasparseStatus_t symm_s_sell_csigma_u_hi_row(const float alpha, const spmat_sell_csigma_s_t *mat, const float *x, const ALPHA_INT columns, const ALPHA_INT ldx, const float beta, float *y, const ALPHA_INT ldy);
 
-// // alpha*（L+D+L')^T*B + beta*C
+// // alpha*(L+D+L')^T*B + beta*C
 // alphasparseStatus_t symm_s_sell_csigma_n_lo_col(const float alpha, const spmat_sell_csigma_s_t *mat, const float *x, const ALPHA_INT columns, const ALPHA_INT ldx, const float beta, float *y, const ALPHA_INT ldy);
 // // alpha*(L+I+L')*B + beta*C
 // alphasparseStatus_t symm_s_sell_csigma_u_lo_col(const float alpha, const spmat_sell_csigma_s_t *mat, const float *x, const ALPHA_INT columns, const ALPHA_INT ldx, const float beta, float *y, const ALPHA_INT ldy);

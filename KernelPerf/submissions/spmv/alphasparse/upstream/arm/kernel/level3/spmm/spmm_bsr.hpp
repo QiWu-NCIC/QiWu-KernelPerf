@@ -22,12 +22,12 @@ alphasparseStatus_t spmm_bsr(const internal_spmat A, const internal_spmat B, int
     ALPHA_INT m = A->rows;
     ALPHA_INT n = B->cols;
     ALPHA_INT bs = A->block_dim;
-    // ��������ռ�
+    // Compute the required space
     bool *flag = (bool *)alpha_memalign(sizeof(bool) * n, DEFAULT_ALIGNMENT);
-    ALPHA_INT nnz = 0; //��¼matC�з���Ԫ�صĸ���
+    ALPHA_INT nnz = 0; // Record the number of non-zero elements in matC
     for (ALPHA_INT ar = 0; ar < m; ar++)
     {
-        memset(flag, '\0', sizeof(bool) * n); //flagһ�α��mat��һ��
+        memset(flag, '\0', sizeof(bool) * n); // flag corresponds one-to-one with a row of mat
         for (ALPHA_INT ai = A->row_data[ar]; ai < A->row_data[ar+1]; ai++)
         {
             ALPHA_INT br = A->col_data[ai];
@@ -86,10 +86,10 @@ alphasparseStatus_t spmm_bsr(const internal_spmat A, const internal_spmat B, int
     mat->row_data[0] = 0;
     for (ALPHA_INT ar = 0; ar < m; ar++)
     {
-        bool *flaggg = (bool *)alpha_memalign(sizeof(bool) * n, DEFAULT_ALIGNMENT); //��mkl���
+        bool *flaggg = (bool *)alpha_memalign(sizeof(bool) * n, DEFAULT_ALIGNMENT); // Same as MKL
 	    memset(flaggg, '\0', sizeof(bool) * n);
 	    memset(values, '\0', sizeof(TYPE) * n * bs * bs);
-        for (ALPHA_INT ai = A->row_data[ar]; ai < A->row_data[ar+1]; ai++) //��A�ĵ�ar��������˷�
+        for (ALPHA_INT ai = A->row_data[ar]; ai < A->row_data[ar+1]; ai++) // Traverse the non-zero elements in row ar of A
         {
             ALPHA_INT br = A->col_data[ai];
             //TYPE av = ((TYPE *)A->val_data)[ai];
@@ -141,10 +141,10 @@ alphasparseStatus_t spmm_bsr(const internal_spmat A, const internal_spmat B, int
                 }
             }
         }
-        for (ALPHA_INT c = 0; c < n; c++)// ��matC�ĵ�ar�еķ���Ԫ�ر����csr
+        for (ALPHA_INT c = 0; c < n; c++)// Store the non-zero elements of row ar of matC into CSR
         {
             /*bool flag = false;
-            // ��c��block�Ƿ�Ϊ�����
+            // Check whether block c is empty
             for(ALPHA_INT i = 0; i < bs*bs; i++)
             {
                 if(values[c*bs*bs+i] != 0.)

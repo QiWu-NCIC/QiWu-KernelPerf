@@ -8,8 +8,8 @@ template <typename TYPE>
 alphasparseStatus_t spmm_bsr_conj(const internal_spmat A, const internal_spmat B, internal_spmat *matC)
 {
     internal_spmat conjugated_mat;
-    transpose_conj_bsr<TYPE>(A, &conjugated_mat); //��matת��
-    alphasparseStatus_t status = spmm_bsr<TYPE>(conjugated_mat, B, matC); //�ٵ��ó˷�
+    transpose_conj_bsr<TYPE>(A, &conjugated_mat); // Conjugate-transpose mat
+    alphasparseStatus_t status = spmm_bsr<TYPE>(conjugated_mat, B, matC); // Then call the multiplication
     destroy_bsr(conjugated_mat);
     return status;
 }

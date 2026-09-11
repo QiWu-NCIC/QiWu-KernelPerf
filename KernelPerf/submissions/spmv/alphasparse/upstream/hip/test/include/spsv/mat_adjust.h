@@ -3,7 +3,7 @@
 
 /*
     description:
-        coo格式的矩阵A作为输入，在A的基础上进行修改，将A裁剪成正方形，若对角线无元素则在该对角线位置补1
+Take the COO matrix A as input and modify it in place: crop A into a square matrix and fill the diagonal with 1 wherever it has no element
 */
 template<typename T>
 void mat_patch_trim_s(
@@ -14,7 +14,7 @@ void mat_patch_trim_s(
     T **coo_col_idx, 
     float **coo_val
 ) {
-    int len = (*m > *n) ? *n : *m;      // 尽可能大地获取矩阵A的行列以取正方形矩阵
+    int len = (*m > *n) ? *n : *m;      // Take as many rows and columns of A as possible to obtain a square matrix
     T *tmp_row_idx = (T *)malloc(sizeof(T) * (*nnz + len));
     T *tmp_col_idx = (T *)malloc(sizeof(T) * (*nnz + len));
     float *tmp_val = (float *)malloc(sizeof(float) * (*nnz + len));
@@ -22,9 +22,9 @@ void mat_patch_trim_s(
     T ptr = 0;
     T cnt = 0;
     for (int row = 0; row < len; row++) {
-        cnt = 0;    // 记录当前行有效NNZ数目
+        cnt = 0;    // Record the number of valid NNZ in the current row
         while (ptr < (*nnz) && (*coo_row_idx)[ptr] == row && (*coo_col_idx)[ptr] < row) {   
-            // 对角线左侧位置NNZ进行存储
+            // Store the NNZ located to the left of the diagonal
             tmp_row_idx[tmp_nnz] = (*coo_row_idx)[ptr];
             tmp_col_idx[tmp_nnz] = (*coo_col_idx)[ptr];
             tmp_val[tmp_nnz] = (*coo_val)[ptr];
@@ -33,7 +33,7 @@ void mat_patch_trim_s(
             ptr++;
         }
         if (ptr >= (*nnz) || ((*coo_row_idx)[ptr] != row || (*coo_col_idx)[ptr] != row)) {   
-            // 移动ptr过程中，扫描到当前行的对角线位置，发现此位置没有NNZ，需补充元素进行存储
+            // While moving ptr, the diagonal position of the current row is reached and found to hold no NNZ, so an element must be filled in
             tmp_row_idx[tmp_nnz] = row;
             tmp_col_idx[tmp_nnz] = row;
             tmp_val[tmp_nnz] = 1.f;
@@ -41,7 +41,7 @@ void mat_patch_trim_s(
             cnt++;
         }
         while (ptr < (*nnz) && (*coo_row_idx)[ptr] == row) {    
-            // 对角线右侧位置NNZ进行存储
+            // Store the NNZ located to the right of the diagonal
             if ((*coo_col_idx)[ptr] < len) {
                 tmp_row_idx[tmp_nnz] = (*coo_row_idx)[ptr];
                 tmp_col_idx[tmp_nnz] = (*coo_col_idx)[ptr];
@@ -52,7 +52,7 @@ void mat_patch_trim_s(
             ptr++;
         }
         if (cnt == 0) { 
-            // 当前行没有NNZ，必须在对角线位置补充元素进行存储
+            // The current row has no NNZ, so an element must be filled in at the diagonal position
             tmp_row_idx[tmp_nnz] = row;
             tmp_col_idx[tmp_nnz] = row;
             tmp_val[tmp_nnz] = 1.f;
@@ -90,7 +90,7 @@ void mat_patch_trim_d(
     T **coo_col_idx, 
     double **coo_val
 ) {
-    int len = (*m > *n) ? *n : *m;      // 尽可能大地获取矩阵A的行列以取正方形矩阵
+    int len = (*m > *n) ? *n : *m;      // Take as many rows and columns of A as possible to obtain a square matrix
     T *tmp_row_idx = (T *)malloc(sizeof(T) * (*nnz + len));
     T *tmp_col_idx = (T *)malloc(sizeof(T) * (*nnz + len));
     double *tmp_val = (double *)malloc(sizeof(double) * (*nnz + len));
@@ -98,9 +98,9 @@ void mat_patch_trim_d(
     T ptr = 0;
     T cnt = 0;
     for (int row = 0; row < len; row++) {
-        cnt = 0;    // 记录当前行有效NNZ数目
+        cnt = 0;    // Record the number of valid NNZ in the current row
         while (ptr < (*nnz) && (*coo_row_idx)[ptr] == row && (*coo_col_idx)[ptr] < row) {   
-            // 对角线左侧位置NNZ进行存储
+            // Store the NNZ located to the left of the diagonal
             tmp_row_idx[tmp_nnz] = (*coo_row_idx)[ptr];
             tmp_col_idx[tmp_nnz] = (*coo_col_idx)[ptr];
             tmp_val[tmp_nnz] = (*coo_val)[ptr];
@@ -109,7 +109,7 @@ void mat_patch_trim_d(
             ptr++;
         }
         if (ptr >= (*nnz) || ((*coo_row_idx)[ptr] != row || (*coo_col_idx)[ptr] != row)) {   
-            // 移动ptr过程中，扫描到当前行的对角线位置，发现此位置没有NNZ，需补充元素进行存储
+            // While moving ptr, the diagonal position of the current row is reached and found to hold no NNZ, so an element must be filled in
             tmp_row_idx[tmp_nnz] = row;
             tmp_col_idx[tmp_nnz] = row;
             tmp_val[tmp_nnz] = 1.0;
@@ -117,7 +117,7 @@ void mat_patch_trim_d(
             cnt++;
         }
         while (ptr < (*nnz) && (*coo_row_idx)[ptr] == row) {    
-            // 对角线右侧位置NNZ进行存储
+            // Store the NNZ located to the right of the diagonal
             if ((*coo_col_idx)[ptr] < len) {
                 tmp_row_idx[tmp_nnz] = (*coo_row_idx)[ptr];
                 tmp_col_idx[tmp_nnz] = (*coo_col_idx)[ptr];
@@ -128,7 +128,7 @@ void mat_patch_trim_d(
             ptr++;
         }
         if (cnt == 0) { 
-            // 当前行没有NNZ，必须在对角线位置补充元素进行存储
+            // The current row has no NNZ, so an element must be filled in at the diagonal position
             tmp_row_idx[tmp_nnz] = row;
             tmp_col_idx[tmp_nnz] = row;
             tmp_val[tmp_nnz] = 1.0;
@@ -165,7 +165,7 @@ void mat_patch_trim_c(
     T **coo_col_idx, 
     hipFloatComplex **coo_val
 ) {
-    int len = (*m > *n) ? *n : *m;      // 尽可能大地获取矩阵A的行列以取正方形矩阵
+    int len = (*m > *n) ? *n : *m;      // Take as many rows and columns of A as possible to obtain a square matrix
     T *tmp_row_idx = (T *)malloc(sizeof(T) * (*nnz + len));
     T *tmp_col_idx = (T *)malloc(sizeof(T) * (*nnz + len));
     hipFloatComplex *tmp_val = (hipFloatComplex *)malloc(sizeof(hipFloatComplex) * (*nnz + len));
@@ -173,9 +173,9 @@ void mat_patch_trim_c(
     T ptr = 0;
     T cnt = 0;
     for (int row = 0; row < len; row++) {
-        cnt = 0;    // 记录当前行有效NNZ数目
+        cnt = 0;    // Record the number of valid NNZ in the current row
         while (ptr < (*nnz) && (*coo_row_idx)[ptr] == row && (*coo_col_idx)[ptr] < row) {   
-            // 对角线左侧位置NNZ进行存储
+            // Store the NNZ located to the left of the diagonal
             tmp_row_idx[tmp_nnz] = (*coo_row_idx)[ptr];
             tmp_col_idx[tmp_nnz] = (*coo_col_idx)[ptr];
             tmp_val[tmp_nnz] = (*coo_val)[ptr];
@@ -184,7 +184,7 @@ void mat_patch_trim_c(
             ptr++;
         }
         if (ptr >= (*nnz) || ((*coo_row_idx)[ptr] != row || (*coo_col_idx)[ptr] != row)) {   
-            // 移动ptr过程中，扫描到当前行的对角线位置，发现此位置没有NNZ，需补充元素进行存储
+            // While moving ptr, the diagonal position of the current row is reached and found to hold no NNZ, so an element must be filled in
             tmp_row_idx[tmp_nnz] = row;
             tmp_col_idx[tmp_nnz] = row;
             tmp_val[tmp_nnz] = make_hipFloatComplex(1.f, 1.f);
@@ -192,7 +192,7 @@ void mat_patch_trim_c(
             cnt++;
         }
         while (ptr < (*nnz) && (*coo_row_idx)[ptr] == row) {    
-            // 对角线右侧位置NNZ进行存储
+            // Store the NNZ located to the right of the diagonal
             if ((*coo_col_idx)[ptr] < len) {
                 tmp_row_idx[tmp_nnz] = (*coo_row_idx)[ptr];
                 tmp_col_idx[tmp_nnz] = (*coo_col_idx)[ptr];
@@ -203,7 +203,7 @@ void mat_patch_trim_c(
             ptr++;
         }
         if (cnt == 0) { 
-            // 当前行没有NNZ，必须在对角线位置补充元素进行存储
+            // The current row has no NNZ, so an element must be filled in at the diagonal position
             tmp_row_idx[tmp_nnz] = row;
             tmp_col_idx[tmp_nnz] = row;
             tmp_val[tmp_nnz] = make_hipFloatComplex(1.f, 1.f);
@@ -240,7 +240,7 @@ void mat_patch_trim_z(
     T **coo_col_idx, 
     hipDoubleComplex **coo_val
 ) {
-    int len = (*m > *n) ? *n : *m;      // 尽可能大地获取矩阵A的行列以取正方形矩阵
+    int len = (*m > *n) ? *n : *m;      // Take as many rows and columns of A as possible to obtain a square matrix
     T *tmp_row_idx = (T *)malloc(sizeof(T) * (*nnz + len));
     T *tmp_col_idx = (T *)malloc(sizeof(T) * (*nnz + len));
     hipDoubleComplex *tmp_val = (hipDoubleComplex *)malloc(sizeof(hipDoubleComplex) * (*nnz + len));
@@ -248,9 +248,9 @@ void mat_patch_trim_z(
     T ptr = 0;
     T cnt = 0;
     for (int row = 0; row < len; row++) {
-        cnt = 0;    // 记录当前行有效NNZ数目
+        cnt = 0;    // Record the number of valid NNZ in the current row
         while (ptr < (*nnz) && (*coo_row_idx)[ptr] == row && (*coo_col_idx)[ptr] < row) {   
-            // 对角线左侧位置NNZ进行存储
+            // Store the NNZ located to the left of the diagonal
             tmp_row_idx[tmp_nnz] = (*coo_row_idx)[ptr];
             tmp_col_idx[tmp_nnz] = (*coo_col_idx)[ptr];
             tmp_val[tmp_nnz] = (*coo_val)[ptr];
@@ -259,7 +259,7 @@ void mat_patch_trim_z(
             ptr++;
         }
         if (ptr >= (*nnz) || ((*coo_row_idx)[ptr] != row || (*coo_col_idx)[ptr] != row)) {   
-            // 移动ptr过程中，扫描到当前行的对角线位置，发现此位置没有NNZ，需补充元素进行存储
+            // While moving ptr, the diagonal position of the current row is reached and found to hold no NNZ, so an element must be filled in
             tmp_row_idx[tmp_nnz] = row;
             tmp_col_idx[tmp_nnz] = row;
             tmp_val[tmp_nnz] = make_hipDoubleComplex(1.f, 1.f);
@@ -267,7 +267,7 @@ void mat_patch_trim_z(
             cnt++;
         }
         while (ptr < (*nnz) && (*coo_row_idx)[ptr] == row) {    
-            // 对角线右侧位置NNZ进行存储
+            // Store the NNZ located to the right of the diagonal
             if ((*coo_col_idx)[ptr] < len) {
                 tmp_row_idx[tmp_nnz] = (*coo_row_idx)[ptr];
                 tmp_col_idx[tmp_nnz] = (*coo_col_idx)[ptr];
@@ -278,7 +278,7 @@ void mat_patch_trim_z(
             ptr++;
         }
         if (cnt == 0) { 
-            // 当前行没有NNZ，必须在对角线位置补充元素进行存储
+            // The current row has no NNZ, so an element must be filled in at the diagonal position
             tmp_row_idx[tmp_nnz] = row;
             tmp_col_idx[tmp_nnz] = row;
             tmp_val[tmp_nnz] = make_hipDoubleComplex(1.f, 1.f);
@@ -308,7 +308,7 @@ void mat_patch_trim_z(
 
 /*
     description:
-        coo格式的矩阵A每行元素求和归一化
+Normalize the COO matrix A by the sum of the elements in each row
         a_{ii} = \sum_{j = 0}^{n - 1} {a_{ij}} + 1, for all i in [0, m)
         a_{ij} /= a_{ii}, for all {i, j} in [{0, 0}, {m, n})
 */
@@ -510,7 +510,7 @@ void mat_adjust_nnz_z(
 
 /*
     description:
-        检查coo格式的矩阵A是否存在没有非零元的行
+Check whether the COO matrix A has rows without any non-zero element
 */
 template <typename T>
 bool has_coo_zero_row(
@@ -528,7 +528,7 @@ bool has_coo_zero_row(
 
 /*
     description:
-        检查coo格式的矩阵A是否存在有对角线元素没有非零元的情况
+Check whether the COO matrix A has diagonal positions without a non-zero element
 */
 template <typename T>
 bool has_coo_zero_diag(

@@ -24,7 +24,7 @@
 # parameters:
 __spmv_csr_serial_host_plain_float:
 .LFB2:
-	movups	.LC1(%rip), %xmm4 # xmm4是 8 个 0xffffffff
+movups .LC1(%rip), %xmm4 # xmm4 holds eight 0xffffffff
 .LCFI0:
 	pushq	%r14
 	movq	%rdx, %r14 // r14 = col_indx
@@ -49,9 +49,9 @@ __spmv_csr_serial_host_plain_float:
 
 
 .L17:
-	cmpl	%ebp, %esi  // 和 sub %ebp, %esi 一样 (esi - ebp)
+	cmpl	%ebp, %esi  // Same as sub %ebp, %esi (esi - ebp)
 	jge	.L10
-	movslq	%esi,%rax            //i:行号
+	movslq	%esi,%rax            // i: row index
 	leaq	0(,%rax,4), %rdx       //i*4
 	movl	(%rbx,%rax,4), %r10d   // row_start[i]
 	movl	4(%rbx,%rdx), %ecx     // row_start[i+1]
@@ -104,13 +104,13 @@ __spmv_csr_serial_host_plain_float:
 
   movss  (%r8,%rax,4),%xmm2   // x[col_indx[2]]
   movss  (%r8,%r9,4),%xmm3   // x[col_indx[3]]
-  addl   $4,  %r10d           // r10d 是循环变量(),    每次加 4
-  addq   $16, %rdx            // rdx  是&col_idx[i],每次+16
+  addl   $4,  %r10d           // r10d is the loop variable, incremented by 4 each time
+  addq   $16, %rdx            // rdx is &col_idx[i], +16 each time
 	
-  vfmadd231ps	%xmm0, %xmm4, %xmm8 // xmm8是中间累加器, fma比mul+add慢===无语
-  vfmadd231ps	%xmm1, %xmm5, %xmm9 // xmm8是中间累加器, fma比mul+add慢===无语
-  vfmadd231ps	%xmm2, %xmm6, %xmm10 // xmm8是中间累加器, fma比mul+add慢===无语
-  vfmadd231ps	%xmm3, %xmm7, %xmm11 // xmm8是中间累加器, fma比mul+add慢===无语
+  vfmadd231ps	%xmm0, %xmm4, %xmm8 // xmm8 is the intermediate accumulator; fma is slower than mul+add
+  vfmadd231ps	%xmm1, %xmm5, %xmm9 // xmm8 is the intermediate accumulator; fma is slower than mul+add
+  vfmadd231ps	%xmm2, %xmm6, %xmm10 // xmm8 is the intermediate accumulator; fma is slower than mul+add
+  vfmadd231ps	%xmm3, %xmm7, %xmm11 // xmm8 is the intermediate accumulator; fma is slower than mul+add
 
   // mulss %xmm0, %xmm4
   // mulss %xmm1, %xmm5
@@ -123,7 +123,7 @@ __spmv_csr_serial_host_plain_float:
   // addss %xmm7,%xmm11
 
 
-  addq  $16, %r11       // r11  是&value[i],  每次 +16
+  addq  $16, %r11       // r11 is &value[i], +16 each time
 	cmpl	%r10d, %ecx     // ecx = nnz_row - 3
 	jg	.L6
 ########################end loop########################
@@ -134,41 +134,41 @@ __spmv_csr_serial_host_plain_float:
   movaps %xmm11,%xmm10
   #endif
 .L7:
-  // nnz个数加回来
-  addl  $3, %ecx // ecx 现在是 rows_end[i]
+  // Add the nnz count back
+  addl  $3, %ecx // ecx now holds rows_end[i]
 .L8:
-  // 如果还没算完了就跳至 .L4, r10d存的是已经遍历的nz个数
-	cmpl	%r10d, %ecx          // rows_end[i] 等于 rows_start[i]就跳走,否则执行 .L9
+  // If the computation is not finished, jump to .L4; r10d holds the number of nz already traversed
+	cmpl	%r10d, %ecx          // If rows_end[i] equals rows_start[i], jump away, otherwise execute .L9
   jle .L4
 .L9:
-  subl %r10d, %ecx           // 还剩多少?
+  subl %r10d, %ecx           // How many are left?
 	movslq	(%rdx),%rax        // col_idx[jj]
 	movss	(%r8,%rax,4), %xmm0  // x[] 
 	mulss	(%r11), %xmm0        // value
 	addss	%xmm0, %xmm10        // xmm10 = sum
 	cmpl	$1, %ecx           
-	je	.L4                    //剩1个
+	je	.L4                    // 1 left
 
   movslq	0x4(%rdx),%rax        // col_idx[jj]
 	movss	(%r8,%rax,4), %xmm0     // x[] 
 	mulss	0x4(%r11), %xmm0        // value
 	addss	%xmm0, %xmm10           // xmm10 = sum
 	cmpl	$2, %ecx               
-	je	.L4                       //剩2个
+	je	.L4                       // 2 left
 
   movslq	0x8(%rdx),%rax        // col_idx[jj]
 	movss	(%r8,%rax,4), %xmm0     // x[] 
 	mulss	0x8(%r11), %xmm0        // value
 	addss	%xmm0, %xmm10           // xmm10 = sum
 	cmpl	$3, %ecx              
-	je	.L4                       //剩3个
+	je	.L4                       // 3 left
 .L4:
   vmulss (%rdi),%xmm15,%xmm1        // sum = y[i] * beta + 0 
-	incl	%esi                        // 下一行
+	incl	%esi                        // Next row
   vmulss	%xmm10, %xmm14,%xmm13           // sum * alpha
 	addss	%xmm13, %xmm1           
   // vfmadd231ss %xmm10, %xmm14, %xmm1 // y[i] = sum * alpha + y[i] 
-	movss	%xmm1, (%rdi)        // 写回y[i]
+	movss	%xmm1, (%rdi)        // Write back y[i]
 	jmp	.L17
 .L10:
 	popq	%rbx

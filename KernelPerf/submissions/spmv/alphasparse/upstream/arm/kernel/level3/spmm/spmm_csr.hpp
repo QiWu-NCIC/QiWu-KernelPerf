@@ -20,7 +20,7 @@ alphasparseStatus_t spmm_csr(const internal_spmat A, const internal_spmat B, int
 
     ALPHA_INT m = A->rows;
     ALPHA_INT n = B->cols;
-    // 计算所需空间
+    // Compute the required space
     ALPHA_INT64 flop[m];
     memset(flop,'\0',m*sizeof(ALPHA_INT64));
     ALPHA_INT *row_offset = (ALPHA_INT *)alpha_memalign(sizeof(ALPHA_INT) * (m + 1), DEFAULT_ALIGNMENT);

@@ -26,11 +26,11 @@ bsrsv2_u_hi_plain(alphasparseDirection_t dir,
         for (int ai = bsrRowPtrA[r + 1]-1; ai >= bsrRowPtrA[r]; ai--)
         {
             int ac = bsrColIndA[ai];
-            if(ac == r) //对角块
+            if(ac == r) // Diagonal block
             {
                 for(int block_r = bs-1; block_r>=0 ; block_r--)
                 {
-                    for(int block_c = bs-1; block_c >= 0; block_c--) //块内上三角
+                    for(int block_c = bs-1; block_c >= 0; block_c--) // Upper triangle within the block
                     {
 			            if(block_r == block_c)
                         {
@@ -51,7 +51,7 @@ bsrsv2_u_hi_plain(alphasparseDirection_t dir,
                     }
                 }
             }
-            else if (ac > r) //上三角块
+            else if (ac > r) // Upper triangular block
             {
                 for(int block_r = 0; block_r < bs; block_r++)
                 {
@@ -99,11 +99,11 @@ bsrsv2_u_lo_plain(alphasparseDirection_t dir,
         for (int ai = bsrRowPtrA[r]; ai < bsrRowPtrA[r + 1]; ai++)
         {
             int ac = bsrColIndA[ai];
-            if(ac == r) //对角块
+            if(ac == r) // Diagonal block
             {
                 for(int block_r = 0; block_r < bs; block_r++)
                 {
-                    for(int block_c = 0; block_c <= block_r; block_c++) //块内下三角
+                    for(int block_c = 0; block_c <= block_r; block_c++) // Lower triangle within the block
                     {
 			            if(block_r == block_c)
                         {
@@ -123,7 +123,7 @@ bsrsv2_u_lo_plain(alphasparseDirection_t dir,
                     }
                 }
             }
-            else if (ac < r) //下三角块
+            else if (ac < r) // Lower triangular block
             {
                 for(int block_r = 0; block_r < bs; block_r++)
                 {
@@ -171,9 +171,9 @@ bsrsv2_n_hi_plain(alphasparseDirection_t dir,
     {
         for (int ai = bsrRowPtrA[ar]; ai < bsrRowPtrA[ar + 1]; ++ai)
         {
-            if (bsrColIndA[ai] == ar) //对角块
+            if (bsrColIndA[ai] == ar) // Diagonal block
             {
-                for(int block_i = 0; block_i < bs; block_i++) //访问块内对角元素
+                for(int block_i = 0; block_i < bs; block_i++) // Access the diagonal elements inside the block
                 {
                     diag[ar * bs + block_i] = bsrValA[ai * bs * bs + block_i * bs + block_i];
                 }
@@ -186,11 +186,11 @@ bsrsv2_n_hi_plain(alphasparseDirection_t dir,
         for (int ai = bsrRowPtrA[r + 1]-1; ai >= bsrRowPtrA[r]; ai--)
         {
             int ac = bsrColIndA[ai];
-            if(ac == r) //对角块
+            if(ac == r) // Diagonal block
             {
                 for(int block_r = bs-1; block_r>=0 ; block_r--)
                 {
-                    for(int block_c = bs-1; block_c >= 0; block_c--) //块内上三角
+                    for(int block_c = bs-1; block_c >= 0; block_c--) // Upper triangle within the block
                     {
 			            if(block_r == block_c)
                         {
@@ -211,7 +211,7 @@ bsrsv2_n_hi_plain(alphasparseDirection_t dir,
                     }
                 }
             }
-            else if (ac > r) //上三角块
+            else if (ac > r) // Upper triangular block
             {
                 for(int block_r = 0; block_r < bs; block_r++)
                 {
@@ -259,9 +259,9 @@ bsrsv2_n_lo_plain(alphasparseDirection_t dir,
     {
         for (int ai = bsrRowPtrA[ar]; ai < bsrRowPtrA[ar + 1]; ++ai)
         {
-            if (bsrColIndA[ai] == ar) //对角块
+            if (bsrColIndA[ai] == ar) // Diagonal block
             {
-                for(int block_i = 0; block_i < bs; block_i++) //访问块内对角元素
+                for(int block_i = 0; block_i < bs; block_i++) // Access the diagonal elements inside the block
                 {
                     diag[ar * bs + block_i] = bsrValA[ai * bs * bs + block_i * bs + block_i];
                 }
@@ -274,11 +274,11 @@ bsrsv2_n_lo_plain(alphasparseDirection_t dir,
         for (int ai = bsrRowPtrA[r]; ai < bsrRowPtrA[r + 1]; ai++)
         {
             int ac = bsrColIndA[ai];
-            if(ac == r) //对角块
+            if(ac == r) // Diagonal block
             {
                 for(int block_r = 0; block_r < bs; block_r++)
                 {
-                    for(int block_c = 0; block_c <= block_r; block_c++) //块内下三角
+                    for(int block_c = 0; block_c <= block_r; block_c++) // Lower triangle within the block
                     {
 			            if(block_r == block_c)
                         {
@@ -298,7 +298,7 @@ bsrsv2_n_lo_plain(alphasparseDirection_t dir,
                     }
                 }
             }
-            else if (ac < r) //下三角块
+            else if (ac < r) // Lower triangular block
             {
                 for(int block_r = 0; block_r < bs; block_r++)
                 {

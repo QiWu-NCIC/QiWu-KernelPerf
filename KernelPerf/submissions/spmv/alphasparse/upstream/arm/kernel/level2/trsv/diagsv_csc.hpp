@@ -10,7 +10,7 @@ alphasparseStatus_t diagsv_csc_n(const TYPE alpha, const internal_spmat A, const
 
     memset(diag, '\0', A->cols * sizeof(TYPE));
 
-    for (ALPHA_INT c = 0; c < A->cols; c++)// ��ȡ�Խ���
+    for (ALPHA_INT c = 0; c < A->cols; c++)// Extract the diagonal elements
     {
         for (ALPHA_INT ai = A->col_data[c]; ai < A->col_data[c+1]; ai++)
         {
@@ -36,7 +36,7 @@ alphasparseStatus_t diagsv_csc_n(const TYPE alpha, const internal_spmat A, const
 template <typename TYPE>
 alphasparseStatus_t diagsv_csc_u(const TYPE alpha, const internal_spmat A, const TYPE *x, TYPE *y)
 {
-    for (ALPHA_INT r = 0; r < A->rows; r++) //����unit���Խ���Ԫ�ض�����ȡ��
+    for (ALPHA_INT r = 0; r < A->rows; r++) // With a unit diagonal the diagonal element is taken as 1
     {
         //y[r] = alpha * x[r];
         y[r] = alpha_mul(alpha, x[r]);

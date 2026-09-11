@@ -26,7 +26,7 @@ __spmv_csr_serial_host_gather4_float:
 	movq	%rsi, %rbx  // rbx = rows_start
 	xorl	%esi, %esi  // i 
 	.p2align 4,,7
-	movups	.MASK(%rip), %xmm5  // 8 个 0xffffffff
+	movups	.MASK(%rip), %xmm5  // Eight 0xffffffff
 
   movaps %xmm0, %xmm14 // alpha
   movaps %xmm1, %xmm15 // beta
@@ -36,11 +36,11 @@ __spmv_csr_serial_host_gather4_float:
 // reg : c expression
 
 /* loop var :
- * esi: 外循环变量 行号 i
+* esi: outer loop variable, row index i
  * ebp : rows
  * rdx : i * 4
 
- * r10d: 内循环变量 nz编号 ai
+* r10d: inner loop variable, nz index ai
  * ecx : rows_end[i] - 3
  */
 
@@ -51,13 +51,13 @@ __spmv_csr_serial_host_gather4_float:
  * r8: x
  * rbx : rows_start
  * r14 : col_indx
- * rdx : 当前col_idx. (col_idx + ai)
+* rdx: current col_idx (col_idx + ai)
  * r13 : values
- * r11 : 当前values. (values + ai)
+* r11: current values (values + ai)
 */
-	cmpl	%ebp, %esi  // 和 sub %ebp, %esi 一样 (esi - ebp)
+	cmpl	%ebp, %esi  // Same as sub %ebp, %esi (esi - ebp)
 	jge	.L10
-	movslq	%esi,%rax            //i:行号
+	movslq	%esi,%rax            // i: row index
 	leaq	0(,%rax,4), %rdx       //i*4
 	movl	(%rbx,%rax,4), %r10d   // row_start[i]
 	movl	4(%rbx,%rdx), %ecx     // row_start[i+1]
@@ -82,17 +82,17 @@ __spmv_csr_serial_host_gather4_float:
  // values -> xmm6
 
   movdqu (%rdx),%xmm0          // col_indx[0,1,2,3]
-  addl   $4,  %r10d           // r10d 是循环变量(),    每次加 4
+  addl   $4,  %r10d           // r10d is the loop variable, incremented by 4 each time
   movups  (%r11), %xmm6       // value
-  addq   $16, %rdx            // rdx  是&col_idx[i],每次+16
+  addq   $16, %rdx            // rdx is &col_idx[i], +16 each time
   movaps %xmm5,%xmm3          // mask bit
-  VGATHERDPS %xmm3,(%r8,%xmm0,4),%xmm2 // xmm3:mask, r8:x首地址, xmm0:col_idx, xmm2:目标寄存器
-	vfmadd231ps	%xmm6, %xmm2, %xmm8 // xmm8是中间累加器, 
-  addq  $16, %r11       // r11  是&value[i],  每次 +16
+  VGATHERDPS %xmm3,(%r8,%xmm0,4),%xmm2 // xmm3: mask, r8: base address of x, xmm0: col_idx, xmm2: destination register
+	vfmadd231ps	%xmm6, %xmm2, %xmm8 // xmm8 is the intermediate accumulator,
+  addq  $16, %r11       // r11 is &value[i], +16 each time
 	cmpl	%r10d, %ecx     // ecx = nnz_row - 3
 	jg	.L6
 // ########################end loop########################
-  // 121-128 行做xmm8规约,结果放在 xmm10
+  // Lines 121-128 reduce xmm8, with the result in xmm10
 #if 1
   movaps    %xmm8, %xmm9                                 
   shufps    $0xb1,%xmm8,%xmm9
@@ -102,22 +102,22 @@ __spmv_csr_serial_host_gather4_float:
   addss     %xmm9,%xmm10
 #endif
 .L7:
-  subl %r10d, %ecx           // 跳出来的时候 ecx + 3 - r10d 即剩余的nnz个数字, 可能值是 0,1,2,3; 即 ecx - r10d 可能值是 -3, -2, -1, 0
+  subl %r10d, %ecx           // On exit, ecx + 3 - r10d is the number of remaining nnz, possible values 0,1,2,3; that is, ecx - r10d may be -3, -2, -1, 0
   cmpl	$-3, %ecx           
-	jle	.L4                    //剩0个
+	jle	.L4                    // 0 left
 
 	movslq	(%rdx),%rax        // col_idx[jj]
 	movss	(%r8,%rax,4), %xmm0  // x[] 
   vfmadd231ss (%r11), %xmm0, %xmm10 // val[0] * x[0] + accu
 
   cmpl	$-2, %ecx           
-	jle	.L4                      //剩1个
+	jle	.L4                      // 1 left
 
   movslq	0x4(%rdx),%r9        // col_idx[jj]
 	movss	(%r8,%r9,4), %xmm2     // x[] 
   vfmadd231ss 0x4(%r11), %xmm2, %xmm10 // val[1] * x[1] + accu
 	cmpl	$-1, %ecx               
-	jle	.L4                      //剩2个
+	jle	.L4                      // 2 left
 
   movslq	0x8(%rdx),%rcx       // col_idx[jj]
 	movss	(%r8,%rcx,4), %xmm3    // x[] 
@@ -125,9 +125,9 @@ __spmv_csr_serial_host_gather4_float:
 
 .L4:
   vmulss (%rdi),%xmm15,%xmm1        // y[i] * beta
-	incl	%esi                        // 下一行
+	incl	%esi                        // Next row
   vfmadd231ss %xmm10, %xmm14, %xmm1 // y[i] = sum * alpha + y[i] 
-	movss	%xmm1, (%rdi)        // 写回y[i]
+	movss	%xmm1, (%rdi)        // Write back y[i]
 	jmp	.L17
 .L10:
 	popq	%rbx

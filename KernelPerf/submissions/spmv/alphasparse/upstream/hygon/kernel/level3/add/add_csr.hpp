@@ -26,7 +26,7 @@ alphasparseStatus_t add_csr(const internal_spmat A, const TYPE alpha, const inte
     mat->row_data = rows_offset;
     ALPHA_INT * rows_end = rows_offset + 1;
 
-    // 计算需要结果需要的空间
+    // Compute the space required by the result
     size_t count = 0;
     for (ALPHA_INT r = 0; r < rowA; ++r)
     {

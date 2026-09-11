@@ -10,7 +10,7 @@ import sys
 
 filename = sys.argv[1]
 
-# 创建自定义字体管理器
+# Create a custom font manager
 
 df = pd.read_csv(filename)
 # df["speed_up"] = df["unroll_hygon"]/df["shuffle_hygon"]
@@ -24,18 +24,18 @@ data_min = step * (df["speed_up"].min() // step)
 data_max = step * math.ceil(df["speed_up"].max() / step)
 # data_max = 20
 
-# 创建一个包含1的边界列表
+# Create a boundary list containing 1
 bins_list = list(np.arange(data_min, 1, step)) + [1] + list(np.arange(1 + step, data_max + step, step))
 
 plt.hist(df["speed_up"], bins=bins_list, edgecolor="black", color="gray")
 plt.title("SpGEMM-CSR-f32")
 
-# 在横坐标为1.0的位置绘制一条红色虚线
+# Draw a red dashed line at x = 1.0
 plt.axvline(x=1.0, color='green', linestyle='--', linewidth=1)
 plt.axvline(x=0.8, color='yellow', linestyle='--', linewidth=1)
 # plt.axvline(x=1.25, color='violet', linestyle='--', linewidth=1)
 
-# 设置x轴范围
+# Set the x-axis range
 plt.xlim(None, 18)
 plt.xlabel("SpeedUp")
 plt.ylabel("#. of Matix")

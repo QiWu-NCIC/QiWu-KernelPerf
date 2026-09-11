@@ -22,7 +22,7 @@ template <typename TYPE>
 static int cmp_coord(const void *a, const void *b) {
   return ((const coord_t<TYPE> *)a)->col_idx - ((const coord_t<TYPE> *)b)->col_idx;
 }
-// TODO 不应该依赖排序的CSR
+// TODO: should not depend on a sorted CSR
 template <typename I, typename J, typename T>
 alphasparseStatus_t convert_bsr_coo(const T *source, T **dest, 
                           const ALPHA_INT block_size, const alphasparse_layout_t block_layout) {
@@ -119,7 +119,7 @@ alphasparseStatus_t convert_bsr_coo(const T *source, T **dest,
       }
       coord_t<J> *points_current_rowblk = (coord_t<J> *)alpha_malloc(sizeof(coord_t<J>) * total_nnz);
       ALPHA_INT *bsr_col_index = &mat->col_data[mat->row_data[br]];
-      // points_current_rowblk 存储原始矩阵的列坐标 / block_size
+      // points_current_rowblk stores the column index of the original matrix / block_size
       for (ALPHA_INT ir = 0, nnz = 0; ir < block_size; ir++) {
         ALPHA_INT r = br * block_size + ir;
         ALPHA_INT start = csr->row_data[r];
@@ -144,7 +144,7 @@ alphasparseStatus_t convert_bsr_coo(const T *source, T **dest,
 
       if (block_layout == ALPHA_SPARSE_LAYOUT_ROW_MAJOR) {
         values_current_blk[ir * block_size + ic] = points_current_rowblk[0].value;
-        //  points_current_rowblk存储每个nnz对应 bsr当前行中具体哪一个块
+        // points_current_rowblk stores which block in the current BSR row each nnz belongs to
         for (ALPHA_INT nnz = 1; nnz < total_nnz; nnz++) {
           // next blk
           if (pre != points_current_rowblk[nnz].col_idx / block_size) {
@@ -159,7 +159,7 @@ alphasparseStatus_t convert_bsr_coo(const T *source, T **dest,
         }
       } else {
         values_current_blk[ic * block_size + ir] = points_current_rowblk->value;
-        //  points_current_rowblk存储每个nnz对应 bsr当前行中具体哪一个块
+        // points_current_rowblk stores which block in the current BSR row each nnz belongs to
         for (ALPHA_INT nnz = 1; nnz < total_nnz; nnz++) {
           if (pre != points_current_rowblk[nnz].col_idx / block_size) {
             idx++;

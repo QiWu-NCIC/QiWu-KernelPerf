@@ -28,15 +28,15 @@ __spmv_sell_c8_serial_host_fma256_double:
     vbroadcastsd	%xmm1, %ymm11 // beta
     vmovapd	%ymm11, %ymm1 // beta
     sall  $3, %edi                   // num_chunks * 8
-    movl %edi, %ebp                  // 行数  num_chunks * 4
+    movl %edi, %ebp                  // Row count: num_chunks * 4
     xorl	%edx, %edx
   // outer loop on chunks,
 
   /*
-    rdx : 外层循环变量  行号 lrs,每层循环 + 4
-    rbp : 外循环上界    行数 num_chunks * 4
-    rdi : 内层循环变量 values地址
-    r11 : 内层循环上界  下一列values地址
+rdx: outer loop variable, row index lrs, +4 per iteration
+rbp: outer loop bound, row count num_chunks * 4
+rdi: inner loop variable, address of values
+r11: inner loop bound, address of the next column of values
   */
 .L5:
     movq %rdx,%rax
@@ -48,8 +48,8 @@ __spmv_sell_c8_serial_host_fma256_double:
     sarl	$3, %r10d             // width = nnz_chunk / 8
     leaq	0(,%r11,), %rdi       // chunk_start
     leaq	(%rbx,%rdi,4), %rax   // &col_indices[chunk_start]
-    testl	%r10d, %r10d          // width 等于 0?
-    jle	.L6                     // 没有内层循环
+    testl	%r10d, %r10d          // Is width equal to 0?
+    jle	.L6                     // No inner loop
     leaq	(%rcx,%rdi,8), %rdi   // &values[chunk_start]
     leaq	(%rcx,%r12,8), %r11   // &values[chunk_start]
     vxorpd	%ymm7, %ymm7,%ymm7        // y[0:7]
@@ -81,9 +81,9 @@ __spmv_sell_c8_serial_host_fma256_double:
     VINSERTF128 $1,%xmm9,%ymm8,%ymm8  // x[idx7,idx6,idx5,idx4]
     vfmadd231pd	32(%rdi), %ymm8, %ymm7 // acc += values[] * x[]
 
-    addq	$64, %rdi                  // values  下一列
-    addq	$32, %rax                  // indices 下一列
-    cmpq	%rdi, %r11                 // rdi 是循环变量, r11是下一列 values 地址
+    addq	$64, %rdi                  // values, next column
+    addq	$32, %rax                  // indices, next column
+    cmpq	%rdi, %r11                 // rdi is the loop variable, r11 is the address of the next column of values
     jne	.L4
 .L3:
     vmulpd	(%r9,%rdx,8), %ymm1, %ymm0   // y[0-3] *= beta
@@ -92,8 +92,8 @@ __spmv_sell_c8_serial_host_fma256_double:
     vfmadd132pd	%ymm5, %ymm2, %ymm7      // y[4-7] += alpha * acc
     vmovupd	%ymm3, (%r9,%rdx,8)          // store(y[0-3])
     vmovupd	%ymm7, 32(%r9,%rdx,8)          // store(y[0-3])
-    addq	$8, %rdx                       // 跳8
-    cmpq	%rdx, %rbp                     // 结束?
+    addq	$8, %rdx                       // Skip 8
+    cmpq	%rdx, %rbp                     // Finished?
     jne	.L5
     popq	%rbx
     popq	%rbp
@@ -102,7 +102,7 @@ __spmv_sell_c8_serial_host_fma256_double:
     popq	%r13
     popq	%r12
     ret
-.L6:                                  // 防止当前行没有nnz
+.L6:                                  // Guard against the current row having no nnz
     vxorpd	%ymm7, %ymm7, %ymm7
     vxorpd	%ymm3, %ymm3, %ymm3
     jmp	.L3

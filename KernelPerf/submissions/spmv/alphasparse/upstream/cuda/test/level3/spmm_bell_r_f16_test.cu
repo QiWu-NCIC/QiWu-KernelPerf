@@ -297,7 +297,7 @@ main(int argc, const char* argv[])
   alpha_read_coo<half>(
     file, &A_rows, &A_cols, &rnnz, &coo_row_index, &coo_col_index, &coo_values);
   coo_order<int32_t, half>(rnnz, coo_row_index, coo_col_index, coo_values);
-  columns = args_get_cols(argc, argv, A_cols); // 默认C是方阵
+  columns = args_get_cols(argc, argv, A_cols); // By default C is a square matrix
   if (get_meta_flag) {
     printf("%d,%d\n", A_rows, A_cols);
   } else {
@@ -323,7 +323,7 @@ main(int argc, const char* argv[])
         B_cols = columns;
         ldb = A_rows;
         ldc = C_rows;
-      } else // transB, conjB, B转置就用方阵测
+      } else // transB, conjB: when B is transposed, test with a square matrix
       {
         C_rows = A_rows;
         C_cols = columns;

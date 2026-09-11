@@ -24,7 +24,7 @@
 // parameters:
 __spmv_csr_serial_host_sse_complex_double:
 .LFB2:
-	movups	.LC1(%rip), %xmm4 # xmm4是 8 个 0xffffffff
+movups .LC1(%rip), %xmm4 # xmm4 holds eight 0xffffffff
 .LCFI0:
 	pushq	%r14
 	movq	%rdx, %r14 // r14 = col_indx
@@ -45,14 +45,14 @@ __spmv_csr_serial_host_sse_complex_double:
   movlhps %xmm3, %xmm2  //[beta.r,beta.i]
   movapd %xmm2, %xmm15
 .L17:
-	cmpl	%ebp, %esi  // 和 sub %ebp, %esi 一样 (esi - ebp)
+	cmpl	%ebp, %esi  // Same as sub %ebp, %esi (esi - ebp)
 	jge	.L10
-	movslq	%esi,%rax            //i:行号
+	movslq	%esi,%rax            // i: row index
 	leaq	0(,%rax,4), %rdx       //i*4
 	movl	(%rbx,%rax,4), %r10d   // row_start[i]
 	movl	4(%rbx,%rdx), %ecx     // row_start[i+1]
 
-	leaq	(%r12,%rdx,4), %rdi      // y+i 行*16 字节
+	leaq	(%r12,%rdx,4), %rdi      // y + i rows * 16 bytes
 
   xorps %xmm8,%xmm8
   xorps %xmm12,%xmm12
@@ -73,7 +73,7 @@ __spmv_csr_serial_host_sse_complex_double:
 // r12 : y
 // rdi : y + i
 // r11 : value + i
-// r10 : 循环变量
+// r10: loop variable
 // r9 :?
 // r8 : x
 // rsi: current row, i
@@ -81,18 +81,18 @@ __spmv_csr_serial_host_sse_complex_double:
 // rdx : col_idx + i
 // rcx : rows_end[i] - 3
 .L6:
- // 向量寄存器 [ar,ai]: 左->右 == 低->高
+ // Vector register [ar,ai]: left->right == low->high
  // x -> xmm2
  // values -> xmm6
   movslq (%rdx),%rax          // col_indx[0]
 	salq	$4, %rax                  // addr of x[col_indx[0]]
   movupd  (%r11), %xmm6        // value: a 
-  incl %r10d                   // r10d 是循环变量(),    每次++
-  addq  $16, %r11              // r11  是&value[i],  每次 +16字节
+  incl %r10d                   // r10d is the loop variable, incremented by 1 each time
+  addq  $16, %r11              // r11 is &value[i], +16 bytes each time
 
-  movupd  (%r8,%rax),%xmm2   // x[col_indx[0]], 加载两个double到xmm2的低位
+  movupd  (%r8,%rax),%xmm2   // x[col_indx[0]]: load two doubles into the low half of xmm2
   
-  addq   $4, %rdx              // rdx  是&col_idx[i],每次+4字节
+  addq   $4, %rdx              // rdx is &col_idx[i], +4 bytes each time
 
   vshufpd $0x5,%xmm2,%xmm2,%xmm3 // TR(x): bSwap
   vshufpd $0xf,%xmm6,%xmm6,%xmm7    // Im(value): aIm
@@ -100,18 +100,18 @@ __spmv_csr_serial_host_sse_complex_double:
 
   mulpd %xmm7, %xmm3             // Im(value) * TR(x): aIm_bSwap
   vfmaddsub231pd %xmm9,%xmm2,%xmm3
-  // 累加到xmm8上
+  // Accumulate into xmm8
   addpd %xmm3,%xmm8
 
 	cmpl	%r10d, %ecx     // ecx = nnz_row - 1
 	jg	.L6
 // ########################end loop########################
-  // 规约
-  // movhlps %xmm8,%xmm10  //高位复数
+  // Reduction
+  // movhlps %xmm8,%xmm10 // High half, complex
   movapd %xmm8,%xmm10    
 .L7:
 .L4:
-	incl	%esi                        // 下一行
+	incl	%esi                        // Next row
   movupd (%rdi),%xmm0              // y[i]
   vshufpd $0x5,%xmm15,%xmm15,%xmm13 
   vshufpd $0xf,%xmm0,%xmm0,%xmm7     
@@ -125,7 +125,7 @@ __spmv_csr_serial_host_sse_complex_double:
   mulpd %xmm6, %xmm12              
   vfmaddsub231pd %xmm8,%xmm14,%xmm12 // alpha * xmm10
   addpd %xmm13, %xmm12
-	movupd	%xmm12, (%rdi)        // 写回y[i]
+	movupd	%xmm12, (%rdi)        // Write back y[i]
 	jmp	.L17
 .L10:
 	popq	%rbx

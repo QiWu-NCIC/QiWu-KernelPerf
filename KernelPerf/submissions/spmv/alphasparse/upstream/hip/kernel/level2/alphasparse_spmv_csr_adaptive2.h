@@ -77,11 +77,11 @@ __global__ void csrmv_kernel_block_per_row2(const T m,
             sum += val * x[col];
         }
 
-        // 将每个线程的局部和存储到共享内存
+        // Store each thread's partial sum into shared memory
         smem[tid] = sum;
         __syncthreads();
 
-        // 使用二叉树规约方法进行求和
+        // Sum with a binary tree reduction
         for (int stride = blockDim.x / 2; stride > 0; stride >>= 1)
         {
             if (tid < stride)
@@ -91,7 +91,7 @@ __global__ void csrmv_kernel_block_per_row2(const T m,
             __syncthreads();
         }
 
-        // 将最终结果写入输出向量y
+        // Write the final result to the output vector y
         if (tid == 0)
         {
             y[row] = y[row] * beta + smem[0] * alpha;
@@ -330,7 +330,7 @@ alphasparseStatus_t spmv_csr_adaptive2(alphasparseHandle_t handle,
                                                 y,
                                                 d_rows_type3,
                                                 d_num_rows_type3);
-    // 等待所有流完成
+    // Wait for all streams to finish
     for (int i = 0; i < num_streams; ++i)
     {
         hipStreamSynchronize(streams[i]);
@@ -338,7 +338,7 @@ alphasparseStatus_t spmv_csr_adaptive2(alphasparseHandle_t handle,
     GPU_TIMER_END(elapsed_time, event_start, event_stop);
     printf("csrmv_kernel_block_per_row2: %f\n", elapsed_time);
 
-    // 释放流资源
+    // Release the stream resources
     for (int i = 0; i < num_streams; ++i)
     {
         hipStreamDestroy(streams[i]);

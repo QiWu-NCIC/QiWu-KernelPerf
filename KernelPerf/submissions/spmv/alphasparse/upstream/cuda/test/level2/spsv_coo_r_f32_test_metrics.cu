@@ -345,10 +345,10 @@ main(int argc, const char* argv[]) {
   coo_order<int32_t, DATA_TYPE>(nnz, coo_row_index, coo_col_index, coo_values);
   
   if (alpha_diagtype == ALPHA_SPARSE_DIAG_NON_UNIT) {
-    // 补充对角线元素
+    // Fill in the diagonal elements
     mat_patch_trim_s<int32_t>(&m, &n, &nnz, &coo_row_index, &coo_col_index, &coo_values);
   }
-  // 矩阵行元素求和归一化
+  // Normalize by the sum of the elements in each matrix row
   mat_adjust_nnz_s(coo_row_index, coo_col_index, coo_values, m, n, nnz, alpha_fillmode, alpha_diagtype);
 
   // init x y
@@ -356,8 +356,8 @@ main(int argc, const char* argv[]) {
 
   alpha_fill_random(x_val, 0, n);
 
-    // int execute_type = 0;    // 单独跑一个算法
-    int execute_type = 1;       // 跑alphasparse的一个或多个算法与cuSPARSE的算法做比较
+    // int execute_type = 0; // Run a single algorithm
+    int execute_type = 1;       // Run one or more alphasparse algorithms and compare them with cuSPARSE
     if (execute_type == 0) {
         if (algo_num < 0) {
             // printf("\n%s,", filename);

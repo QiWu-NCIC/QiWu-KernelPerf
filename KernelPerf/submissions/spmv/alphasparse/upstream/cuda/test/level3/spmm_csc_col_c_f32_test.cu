@@ -332,7 +332,7 @@ main(int argc, const char* argv[])
   alpha_read_coo<cuFloatComplex>(
     file, &A_rows, &A_cols, &rnnz, &coo_row_index, &coo_col_index, &coo_values);
   coo_order<int32_t, cuFloatComplex>(rnnz, coo_row_index, coo_col_index, coo_values);
-  columns = args_get_cols(argc, argv, A_rows); // 默认C是方阵
+  columns = args_get_cols(argc, argv, A_rows); // By default C is a square matrix
   C_rows = A_rows;
   C_cols = columns;
   B_cols = columns;

@@ -392,10 +392,10 @@ int main(int argc, const char *argv[])
 
     if (alpha_diagtype == ALPHA_SPARSE_DIAG_NON_UNIT)
     {
-        // 补充对角线元素
+        // Fill in the diagonal elements
         mat_patch_trim_s<int32_t>(&m, &n, &nnz, &coo_row_index, &coo_col_index, &coo_values);
     }
-    // 矩阵行元素求和归一化
+    // Normalize by the sum of the elements in each matrix row
     mat_adjust_nnz_s(coo_row_index, coo_col_index, coo_values, m, n, nnz, alpha_fillmode, alpha_diagtype);
 
     // init x y

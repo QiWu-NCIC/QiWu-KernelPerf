@@ -280,16 +280,16 @@ int main(int argc, const char *argv[]) {
   alpha_read_coo(file, &rm, &rk, &rnnz, &coo_row_index, &coo_col_index,
                &coo_values);
 
-  // 创建coo格式稀疏矩阵
+  // Create a sparse matrix in COO format
   alpha_call_exit(
       alphasparse_s_create_coo(&coo, ALPHA_SPARSE_INDEX_BASE_ZERO, rm, rk, rnnz,
                               coo_row_index, coo_col_index, coo_values),
       "alphasparse_s_create_coo");
-  // 将稀疏矩阵从coo格式转换成csr格式
+  // Convert the sparse matrix from COO to CSR format
   alpha_call_exit(
       alphasparse_convert_csr(coo, ALPHA_SPARSE_OPERATION_NON_TRANSPOSE, &csr),
       "alphasparse_convert_csr");
-  // 获取csr格式里的数据
+  // Get the data held in CSR format
   alpha_call_exit(
       alphasparse_s_export_csr(csr, &csr_index, &rm, &rk, &csr_row_ptr,
                               &csr_row_ptr_end, &csr_col_index, &csr_values),

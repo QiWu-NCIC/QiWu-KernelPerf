@@ -71,7 +71,7 @@ alphasparseStatus_t gemv_c_gebsr(const ALPHA_Complex8 alpha, const spmat_gebsr_c
 // alphasparseStatus_t gemm_c_gebsr_row_conj(const ALPHA_Complex8 alpha, const spmat_gebsr_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
 // alphasparseStatus_t gemm_c_gebsr_col_conj(const ALPHA_Complex8 alpha, const spmat_gebsr_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
 
-// // alpha*（L+D+L')^T*B + beta*C
+// // alpha*(L+D+L')^T*B + beta*C
 // alphasparseStatus_t symm_c_gebsr_n_lo_row(const ALPHA_Complex8 alpha, const spmat_gebsr_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
 // // alpha*(L+I+L')*B + beta*C
 // alphasparseStatus_t symm_c_gebsr_u_lo_row(const ALPHA_Complex8 alpha, const spmat_gebsr_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
@@ -80,7 +80,7 @@ alphasparseStatus_t gemv_c_gebsr(const ALPHA_Complex8 alpha, const spmat_gebsr_c
 // // alpha*(U'+I+U)*B + beta*C
 // alphasparseStatus_t symm_c_gebsr_u_hi_row(const ALPHA_Complex8 alpha, const spmat_gebsr_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
 
-// // alpha*（L+D+L')^T*B + beta*C
+// // alpha*(L+D+L')^T*B + beta*C
 // alphasparseStatus_t symm_c_gebsr_n_lo_col(const ALPHA_Complex8 alpha, const spmat_gebsr_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
 // // alpha*(L+I+L')*B + beta*C
 // alphasparseStatus_t symm_c_gebsr_u_lo_col(const ALPHA_Complex8 alpha, const spmat_gebsr_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);

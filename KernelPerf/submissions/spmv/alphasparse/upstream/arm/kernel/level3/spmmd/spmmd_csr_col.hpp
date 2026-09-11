@@ -17,7 +17,7 @@ alphasparseStatus_t spmmd_csr_col(const internal_spmat matA, const internal_spma
         {
             matC[index2(j, i, ldc)] = alpha_setzero(matC[index2(j, i, ldc)]);
         }
-    // 计算
+    // Compute
     {
         for (ALPHA_INT ar = 0; ar < m; ar++)
         {

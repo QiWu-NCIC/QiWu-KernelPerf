@@ -2,92 +2,92 @@
 
 ## Table of Contents
 
-- [项目简介](about:blank#page-intro)
-- [架构概览](about:blank#page-arch-overview)
-- [支持的稀疏矩阵格式](about:blank#page-matrix-formats)
-- [构建指南](about:blank#page-build-guide)
-- [Level 2 函数 (SpMV)](about:blank#page-api-level2)
-- [Level 3 函数 (SpMM)](about:blank#page-api-level3)
-- [CUDA 后端实现](about:blank#page-backend-cuda)
-- [HIP 后端实现](about:blank#page-backend-hip)
-- [CPU 后端实现 (ARM & Hygon)](about:blank#page-backend-cpu)
-- [测试指南](about:blank#page-testing-guide)
-- [工具脚本](about:blank#page-utils)
+- [Project Introduction](about:blank#page-intro)
+- [Architecture Overview](about:blank#page-arch-overview)
+- [Supported Sparse Matrix Formats](about:blank#page-matrix-formats)
+- [Build Guide](about:blank#page-build-guide)
+- [Level 2 Functions (SpMV)](about:blank#page-api-level2)
+- [Level 3 Functions (SpMM)](about:blank#page-api-level3)
+- [CUDA Backend Implementation](about:blank#page-backend-cuda)
+- [HIP Backend Implementation](about:blank#page-backend-hip)
+- [CPU Backend Implementation (ARM & Hygon)](about:blank#page-backend-cpu)
+- [Testing Guide](about:blank#page-testing-guide)
+- [Utility Scripts](about:blank#page-utils)
 
-# 项目简介
+# Project Introduction
 
-AlphaSparse 是一个专为高性能计算设计的稀疏矩阵计算库。它旨在提供一套功能丰富、跨平台的稀疏 BLAS (Basic Linear Algebra Subprograms) 例程。该库支持多种主流硬件架构，包括 x86 (Hygon)、ARM 和 GPU (NVIDIA CUDA, Hygon DCU)，并为不同的稀疏矩阵存储格式提供了专门的内核实现，以实现最优性能。
+AlphaSparse is a sparse matrix computation library designed for high-performance computing. It aims to provide a rich set of cross-platform sparse BLAS (Basic Linear Algebra Subprograms) routines. The library supports multiple mainstream hardware architectures, including x86 (Hygon), ARM, and GPU (NVIDIA CUDA, Hygon DCU), and provides specialized kernel implementations for different sparse matrix storage formats to achieve optimal performance.
 
-该项目通过 CMake 进行构建管理，为不同平台提供了独立的构建配置，能够灵活地链接到特定于平台的后端库，如 Intel MKL、NVIDIA cuSPARSE 等。其 API 设计涵盖了从基本的向量操作到复杂的稀疏矩阵-矩阵乘法和求解器功能，支持多种数据类型，包括单精度/双精度浮点数和复数。
+The project is built and managed via CMake, providing independent build configurations for different platforms and flexibly linking to platform-specific backend libraries such as Intel MKL and NVIDIA cuSPARSE. Its API design covers everything from basic vector operations to complex sparse matrix-matrix multiplication and solver functions, supporting multiple data types including single-precision/double-precision floating-point numbers and complex numbers.
 
-## 核心功能
+## Core Features
 
-AlphaSparse 库提供了一系列符合稀疏 BLAS 标准的计算例程。这些功能是库的核心，涵盖了 Level 2 和 Level 3 的主要操作。
+The AlphaSparse library provides a set of computational routines that comply with the sparse BLAS standard. These features form the core of the library and cover the main operations of Level 2 and Level 3.
 
-### 主要运算例程
+### Main Computational Routines
 
-下表总结了该库支持的主要运算类型，这些运算通过在头文件中声明的各种内核函数来实现。
+The following table summarizes the main operation types supported by the library, which are implemented through various kernel functions declared in the header files.
 
-| 运算类别 | 函数前缀示例 | 描述 |
+| Operation Category | Function Prefix Example | Description |
 | --- | --- | --- |
-| **通用矩阵-向量乘法** | `gemv_` | 计算 `y = alpha*A*x + beta*y`，支持转置和共轭转置。 |
-| **对称矩阵-向量乘法** | `symv_` | 计算对称稀疏矩阵与向量的乘积。 |
-| **厄米矩阵-向量乘法** | `hermv_` | 计算厄米稀疏矩阵与向量的乘积。 |
-| **三角矩阵-向量乘法** | `trmv_` | 计算三角稀疏矩阵与向量的乘积。 |
-| **三角方程求解** | `trsv_` / `spsv_` | 求解 `op(A)*x = alpha*y` 形式的三角系统。 |
-| **通用矩阵-矩阵乘法** | `gemm_` / `spmm_` | 稀疏矩阵与稠密矩阵的乘法。 |
-| **三角矩阵-矩阵求解** | `trsm_` / `spsm_` | 稀疏三角矩阵与稠密矩阵的求解。 |
-| **稀疏矩阵-稀疏矩阵乘法** | `spgemm_` | 两个稀疏矩阵之间的乘法。 |
-| **矩阵加法** | `add_` | 计算两个稀疏矩阵的和 `C = A + alpha*B`。 |
+| **General Matrix-Vector Multiplication** | `gemv_` | Computes `y = alpha*A*x + beta*y`, supporting transpose and conjugate transpose. |
+| **Symmetric Matrix-Vector Multiplication** | `symv_` | Computes the product of a symmetric sparse matrix and a vector. |
+| **Hermitian Matrix-Vector Multiplication** | `hermv_` | Computes the product of a Hermitian sparse matrix and a vector. |
+| **Triangular Matrix-Vector Multiplication** | `trmv_` | Computes the product of a triangular sparse matrix and a vector. |
+| **Triangular System Solve** | `trsv_` / `spsv_` | Solves a triangular system of the form `op(A)*x = alpha*y`. |
+| **General Matrix-Matrix Multiplication** | `gemm_` / `spmm_` | Multiplication of a sparse matrix and a dense matrix. |
+| **Triangular Matrix-Matrix Solve** | `trsm_` / `spsm_` | Solve of a sparse triangular matrix and a dense matrix. |
+| **Sparse Matrix-Sparse Matrix Multiplication** | `spgemm_` | Multiplication between two sparse matrices. |
+| **Matrix Addition** | `add_` | Computes the sum of two sparse matrices `C = A + alpha*B`. |
 
 *Sources: include/alphasparse/kernel_plain/kernel_csr_c.h, include/alphasparse/kernel_plain/kernel_bsr_c.h, cuda/test/CMakeLists.txt:240-244*
 
-### API 设计理念
+### API Design Philosophy
 
-AlphaSparse 的 API 遵循一套系统化的命名约定，以便清晰地表达函数的功能。
+The AlphaSparse API follows a systematic naming convention so that the function's purpose is clearly expressed.
 
-- **函数前缀**：通常包含数据类型（如 `c_` 代表单精度复数）和矩阵格式（如 `csr_`）。
-- **操作名称**：核心部分是 BLAS 操作名（如 `gemv`, `trsm`）。
-- **函数后缀**：
-    - `_plain`: 表示通用的、无特殊优化的实现。
-    - `_trans`: 表示矩阵转置操作。
-    - `_conj`: 表示共轭操作。
-- **平台特定前缀**：
-    - `dcu_`: 表示针对 Hygon DCU 平台的实现。
+- **Function prefix**: Usually contains the data type (e.g., `c_` for single-precision complex) and the matrix format (e.g., `csr_`).
+- **Operation name**: The core part is the BLAS operation name (e.g., `gemv`, `trsm`).
+- **Function suffix**:
+    - `_plain`: Indicates a generic implementation without special optimization.
+    - `_trans`: Indicates a matrix transpose operation.
+    - `_conj`: Indicates a conjugate operation.
+- **Platform-specific prefix**:
+    - `dcu_`: Indicates an implementation for the Hygon DCU platform.
 
-此外，库的公开接口通过一系列枚举类型来定义操作参数，例如矩阵布局、操作类型、填充模式和对角线类型，这些定义可以在测试辅助头文件 `args.h` 中找到。
+In addition, the library's public interface defines operation parameters through a series of enumeration types, such as matrix layout, operation type, fill mode, and diagonal type. These definitions can be found in the test helper header file `args.h`.
 
-| 枚举类型 | 描述 |
+| Enumeration Type | Description |
 | --- | --- |
-| `alphasparse_layout_t` | 定义矩阵数据是按行主序还是列主序存储。 |
-| `alphasparseOperation_t` | 定义矩阵操作，如非转置、转置或共轭转置。 |
-| `alphasparse_fill_mode_t` | 定义矩阵的上三角或下三角部分被填充。 |
-| `alphasparse_diag_type_t` | 定义矩阵对角线是单位对角线还是非单位对-角线。 |
+| `alphasparse_layout_t` | Defines whether matrix data is stored in row-major or column-major order. |
+| `alphasparseOperation_t` | Defines the matrix operation, such as non-transpose, transpose, or conjugate transpose. |
+| `alphasparse_fill_mode_t` | Defines whether the upper or lower triangular part of the matrix is filled. |
+| `alphasparse_diag_type_t` | Defines whether the matrix diagonal is a unit diagonal or a non-unit diagonal. |
 
 *Sources: hip/test/include/args.h:20-26, include/alphasparse/kernel_dcu/kernel_csr_c_dcu.h:23-26, include/alphasparse/kernel_plain/kernel_dia_c.h:112-115*
 
-## 支持的硬件平台与构建系统
+## Supported Hardware Platforms and Build System
 
-该项目的一个关键特性是其跨平台能力。通过 CMake 构建系统，可以为多种硬件后端生成构建文件。
+A key feature of the project is its cross-platform capability. Through the CMake build system, build files can be generated for multiple hardware backends.
 
-下面的流程图展示了项目的多平台构建流程。
+The following flowchart illustrates the project's multi-platform build process.
 
 ```mermaid
 graph TD
-  subgraph 构建流程
-    A[AlphaSparse 源代码] --> B{CMake 配置}
-    B --> C{选择目标平台}
+  subgraph Build Process
+    A[AlphaSparse Source Code] --> B{CMake Configuration}
+    B --> C{Select Target Platform}
     C --> D["Hygon (x86)"]
     C --> E["ARM"]
     C --> F["NVIDIA CUDA"]
     C --> G["Hygon DCU"]
   end
 
-  subgraph 平台依赖
-    D --> D_LIB[链接 Intel MKL]
-    E --> E_LIB[链接 标准库 m, dl]
-    F --> F_LIB[链接 cudart, cusparse]
-    G --> G_LIB[链接 HIP/DCU 库]
+  subgraph Platform Dependencies
+    D --> D_LIB[Link Intel MKL]
+    E --> E_LIB[Link Standard Libraries m, dl]
+    F --> F_LIB[Link cudart, cusparse]
+    G --> G_LIB[Link HIP/DCU Libraries]
   end
 
 ```
@@ -96,7 +96,7 @@ graph TD
 
 ### Hygon (x86)
 
-针对 Hygon x86 平台，项目严重依赖 Intel Math Kernel Library (MKL) 来优化性能。CMake 配置文件明确指定了链接到 MKL 的多个组件。
+For the Hygon x86 platform, the project heavily relies on the Intel Math Kernel Library (MKL) to optimize performance. The CMake configuration files explicitly specify linking to multiple MKL components.
 
 ```
 # hygon/test/CMakeLists.txt:13-22target_link_libraries(${TEST_TARGET} PUBLIC    alphasparse
@@ -113,13 +113,13 @@ graph TD
 
 ### ARM
 
-ARM 平台的构建配置相对简单，不依赖于特定的商业数学库，而是链接到标准的数学库 (`m`) 和动态链接库 (`dl`)。这表明 ARM 后端可能包含一套独立的、平台优化的内核实现。
+The build configuration for the ARM platform is relatively simple. It does not depend on a specific commercial math library, but instead links to the standard math library (`m`) and the dynamic linking library (`dl`). This suggests that the ARM backend may contain a separate set of platform-optimized kernel implementations.
 
 *Sources: arm/test/CMakeLists.txt:13-18*
 
 ### NVIDIA CUDA
 
-为了利用 NVIDIA GPU 的并行计算能力，项目集成了对 CUDA 的支持。测试代码被编译为 CUDA 可执行文件，并链接到 `cudart` 和 `cusparse` 库。构建系统还允许通过 `CUDA_ARCH` 变量指定目标 GPU 架构，从而启用针对特定硬件（如支持 `bf16` 的 Ampere 架构）的优化。
+To leverage the parallel computing capability of NVIDIA GPUs, the project integrates CUDA support. The test code is compiled as CUDA executables and linked to the `cudart` and `cusparse` libraries. The build system also allows specifying the target GPU architecture via the `CUDA_ARCH` variable, thereby enabling optimizations for specific hardware (such as the Ampere architecture that supports `bf16`).
 
 ```
 # cuda/test/CMakeLists.txt:14-20target_link_libraries(${TEST_TARGET} PUBLIC    CUDA::cudart    CUDA::cudart_static    CUDA::cusparse    CUDA::cusparse_static    alphasparse
@@ -130,56 +130,56 @@ ARM 平台的构建配置相对简单，不依赖于特定的商业数学库，�
 
 ### Hygon DCU
 
-通过 `dcu_` 前缀的函数和 `hip/` 目录的存在，可以推断项目也支持基于 HIP (Heterogeneous-compute Interface for Portability) 的 Hygon DCU 平台。这使得代码能够在 AMD 和 Hygon 的 GPU 上运行，实现了代码的可移植性。
+From the existence of functions with the `dcu_` prefix and the `hip/` directory, it can be inferred that the project also supports the Hygon DCU platform based on HIP (Heterogeneous-compute Interface for Portability). This enables the code to run on both AMD and Hygon GPUs, achieving code portability.
 
 *Sources: include/alphasparse/kernel_dcu/kernel_bsr_c_dcu.h, hip/test/include/args.h*
 
-## 支持的稀疏矩阵格式与数据类型
+## Supported Sparse Matrix Formats and Data Types
 
-AlphaSparse 为多种常见的稀疏矩阵存储格式提供了支持，以适应不同稀疏模式和算法的需求。
+AlphaSparse provides support for a variety of common sparse matrix storage formats to accommodate different sparsity patterns and algorithm requirements.
 
-### 矩阵格式
+### Matrix Formats
 
-| 格式 | 头文件示例 | 描述 |
+| Format | Header File Example | Description |
 | --- | --- | --- |
-| **CSR** (Compressed Sparse Row) | `kernel_csr_c.h` | 压缩行存储，适用于行操作。 |
-| **CSC** (Compressed Sparse Column) | `kernel_csc_c.h` | 压缩列存储，适用于列操作。 |
-| **COO** (Coordinate) | `kernel_coo_c.h` | 坐标格式，易于构造。 |
-| **DIA** (Diagonal) | `kernel_dia_c.h` | 对角线格式，适用于对角结构化矩阵。 |
-| **BSR** (Block Sparse Row) | `kernel_bsr_c.h` | 块压缩行存储，适用于具有块状非零模式的矩阵。 |
-| **GEBSR** (General Block Sparse Row) | `kernel_gebsr_c.h` | 通用块稀疏行格式。 |
+| **CSR** (Compressed Sparse Row) | `kernel_csr_c.h` | Compressed row storage, suitable for row operations. |
+| **CSC** (Compressed Sparse Column) | `kernel_csc_c.h` | Compressed column storage, suitable for column operations. |
+| **COO** (Coordinate) | `kernel_coo_c.h` | Coordinate format, easy to construct. |
+| **DIA** (Diagonal) | `kernel_dia_c.h` | Diagonal format, suitable for diagonally structured matrices. |
+| **BSR** (Block Sparse Row) | `kernel_bsr_c.h` | Block compressed row storage, suitable for matrices with block-wise non-zero patterns. |
+| **GEBSR** (General Block Sparse Row) | `kernel_gebsr_c.h` | General block sparse row format. |
 
 *Sources: include/alphasparse/kernel_plain/kernel_csr_c.h, include/alphasparse/kernel_plain/kernel_csc_c.h, include/alphasparse/kernel_plain/kernel_coo_c.h, include/alphasparse/kernel_plain/kernel_dia_c.h, include/alphasparse/kernel_plain/kernel_bsr_c.h, include/alphasparse/kernel/kernel_gebsr_c.h*
 
-### 数据类型
+### Data Types
 
-该库支持多种精度和类型的数据，以满足不同计算场景的需求。
+The library supports data of multiple precisions and types to meet the requirements of different computing scenarios.
 
-- **单精度复数**: `ALPHA_Complex8` (`c`)
-- **双精度复数**: `ALPHA_Complex16` (`z`)
-- **单精度浮点数**: `f32`
-- **双精度浮点数**: `f64`
-- **半精度浮点数**: `f16` (主要用于 CUDA)
-- **Bfloat16**: `bf16` (主要用于 CUDA)
-- **8位整数**: `i8` (主要用于 CUDA)
+- **Single-precision complex**: `ALPHA_Complex8` (`c`)
+- **Double-precision complex**: `ALPHA_Complex16` (`z`)
+- **Single-precision floating-point**: `f32`
+- **Double-precision floating-point**: `f64`
+- **Half-precision floating-point**: `f16` (mainly used in CUDA)
+- **Bfloat16**: `bf16` (mainly used in CUDA)
+- **8-bit integer**: `i8` (mainly used in CUDA)
 
 *Sources: include/alphasparse/kernel_plain/kernel_dia_c.h, include/alphasparse/kernel_plain/kernel_dia_z.h, cuda/test/CMakeLists.txt:25-44*
 
-## 总结
+## Summary
 
-AlphaSparse 是一个功能强大且高度可移植的稀疏线性代数库。它通过支持多种硬件平台、稀疏矩阵格式和数据类型，为科学与工程计算领域的开发人员提供了一个灵活而高效的工具。其模块化的设计和清晰的构建流程使其能够轻松适应不断发展的硬件环境，并为特定的计算任务提供优化的性能。
+AlphaSparse is a powerful and highly portable sparse linear algebra library. By supporting multiple hardware platforms, sparse matrix formats, and data types, it provides developers in the fields of scientific and engineering computing with a flexible and efficient tool. Its modular design and clear build process allow it to easily adapt to evolving hardware environments and provide optimized performance for specific computing tasks.
 
 ---
 
-## 架构概览
+## Architecture Overview
 
 ### Related Pages
 
-Related topics: [项目简介](about:blank#page-intro), [CUDA 后端实现](about:blank#page-backend-cuda), [HIP 后端实现](about:blank#page-backend-hip), [CPU 后端实现 (ARM & Hygon)](about:blank#page-backend-cpu)
+Related topics: [Project Introduction](about:blank#page-intro), [CUDA Backend Implementation](about:blank#page-backend-cuda), [HIP Backend Implementation](about:blank#page-backend-hip), [CPU Backend Implementation (ARM & Hygon)](about:blank#page-backend-cpu)
 
 - Relevant source files
     
-    以下文件被用作生成此维基页面的上下文：
+    The following files were used as context for generating this wiki page:
     
     - [hygon/test/CMakeLists.txt](hygon/test/CMakeLists.txt)
     - [arm/test/CMakeLists.txt](arm/test/CMakeLists.txt)
@@ -190,41 +190,41 @@ Related topics: [项目简介](about:blank#page-intro), [CUDA 后端实现](abou
     - [include/alphasparse/kernel_dcu/kernel_csr_c_dcu.h](include/alphasparse/kernel_dcu/kernel_csr_c_dcu.h)
     - [cuda/kernel/level3/ac/MultiplyKernels.h](cuda/kernel/level3/ac/MultiplyKernels.h)
 
-# 架构概览
+# Architecture Overview
 
-Alphasparse 库是一个为高性能稀疏计算而设计的多平台线性代数库。其核心架构旨在提供一个统一的 API，同时在底层利用不同硬件平台的特定优化。该库支持多种硬件后端，包括 CPU（Hygon/x86-64, ARM）和 GPU（NVIDIA CUDA, AMD HIP/DCU），并通过分层的内核设计实现了代码的模块化和可扩展性。
+The Alphasparse library is a multi-platform linear algebra library designed for high-performance sparse computing. Its core architecture aims to provide a unified API while leveraging platform-specific optimizations of different hardware platforms at the lower level. The library supports multiple hardware backends, including CPU (Hygon/x86-64, ARM) and GPU (NVIDIA CUDA, AMD HIP/DCU), and achieves modularity and extensibility of the code through a layered kernel design.
 
-该架构通过一个通用的测试框架来确保跨平台的一致性和正确性，该框架使用标准化的命令行参数来配置和执行测试。这种设计使得开发者能够专注于算法实现，而将平台适配的复杂性抽象到底层后端中。
+This architecture ensures cross-platform consistency and correctness through a common test framework that uses standardized command-line arguments to configure and execute tests. This design allows developers to focus on algorithm implementation while abstracting the complexity of platform adaptation into the underlying backend.
 
-## 多平台后端架构
+## Multi-Platform Backend Architecture
 
-Alphasparse 的核心设计理念是“一次编写，到处运行”，通过一个通用的 API 调度到针对特定硬件优化的后端实现。这种分层架构将用户应用程序与底层硬件实现解耦。
+The core design philosophy of Alphasparse is "write once, run anywhere", dispatching through a common API to backend implementations optimized for specific hardware. This layered architecture decouples the user application from the underlying hardware implementation.
 
 Sources: hygon/test/CMakeLists.txt, arm/test/CMakeLists.txt, cuda/test/CMakeLists.txt, hip/test/CMakeLists.txt
 
-下面的图表演示了这种分层调度架构：
+The following diagram illustrates this layered dispatch architecture:
 
 ```mermaid
 graph TD
-    subgraph 用户层
-        A[用户应用程序]
+    subgraph User Layer
+        A[User Application]
     end
 
-    subgraph AlphaSPARSE API 层
-        B[统一 AlphaSPARSE API]
+    subgraph AlphaSPARSE API Layer
+        B[Unified AlphaSPARSE API]
     end
 
-    subgraph 调度/后端层
-        C{后端调度器}
+    subgraph Dispatch/Backend Layer
+        C{Backend Dispatcher}
 
-        subgraph CPU 后端
-            D[Hygon/x86-64 后端]
-            E[ARM 后端]
+        subgraph CPU Backend
+            D[Hygon/x86-64 Backend]
+            E[ARM Backend]
         end
 
-        subgraph GPU 后端
-            F[NVIDIA CUDA 后端]
-            G[AMD HIP/DCU 后端]
+        subgraph GPU Backend
+            F[NVIDIA CUDA Backend]
+            G[AMD HIP/DCU Backend]
         end
     end
 
@@ -236,13 +236,13 @@ graph TD
     C --> G
 ```
 
-### CPU 后端
+### CPU Backend
 
-CPU 后端为通用计算平台提供了稀疏计算能力，并针对不同的 CPU 架构进行了适配。
+The CPU backend provides sparse computing capability for general-purpose computing platforms and is adapted for different CPU architectures.
 
 **Hygon (x86-64)**
 
-此后端主要针对 x86-64 架构，特别是 Hygon 处理器。为了最大化性能，它依赖于 Intel Math Kernel Library (MKL)。构建系统配置明确链接了 MKL 相关的库。
+This backend targets the x86-64 architecture, especially Hygon processors. To maximize performance, it relies on the Intel Math Kernel Library (MKL). The build system configuration explicitly links the MKL-related libraries.
 
 - `mkl_intel_lp64`
 - `mkl_intel_thread`
@@ -253,57 +253,57 @@ Sources: hygon/test/CMakeLists.txt:14-19
 
 **ARM**
 
-ARM 后端提供对 ARM 架构的支持。与 Hygon 后端不同，它不依赖于特定的商业数学库（如 MKL），而是链接标准系统库，表明其实现更为通用。
+The ARM backend provides support for the ARM architecture. Unlike the Hygon backend, it does not depend on a specific commercial math library (such as MKL), but instead links standard system libraries, indicating that its implementation is more general-purpose.
 
 Sources: arm/test/CMakeLists.txt:14-17
 
-### GPU 后端
+### GPU Backend
 
-GPU 后端利用主流 GPU 供应商提供的并行计算平台和专用稀疏计算库来实现高性能加速。
+The GPU backend leverages parallel computing platforms and dedicated sparse computing libraries provided by mainstream GPU vendors to achieve high-performance acceleration.
 
 **NVIDIA CUDA**
 
-该后端专为 NVIDIA GPU 设计，使用 CUDA 平台。它链接了 CUDA 运行时 (`cudart`) 和 cuSPARSE 库 (`cusparse`) 来执行稀疏计算任务。构建配置中还定义了目标 CUDA 架构 (`CUDA_ARCH`)，并为计算能力 8.0 及以上的架构启用了 BF16 数据类型的特定测试，显示了其对新硬件特性的支持。
+This backend is designed for NVIDIA GPUs and uses the CUDA platform. It links the CUDA runtime (`cudart`) and the cuSPARSE library (`cusparse`) to perform sparse computing tasks. The build configuration also defines the target CUDA architecture (`CUDA_ARCH`) and enables specific tests for the BF16 data type for architectures with compute capability 8.0 and above, demonstrating its support for new hardware features.
 
 Sources: cuda/test/CMakeLists.txt:12-16, cuda/test/CMakeLists.txt:20-22
 
 **AMD HIP/DCU**
 
-该后端为 AMD GPU 设计，使用 HIP (Heterogeneous-compute Interface for Portability) 作为编程接口。它链接了 `roc::hipsparse` 库。内核函数命名中频繁出现的 `dcu` 前缀（例如 `dcu_hermv_c_csr_n_hi_trans`）表明这些内核是为 AMD 的数据中心 GPU（DCU）设计的。
+This backend is designed for AMD GPUs and uses HIP (Heterogeneous-compute Interface for Portability) as the programming interface. It links the `roc::hipsparse` library. The `dcu` prefix that frequently appears in kernel function names (e.g., `dcu_hermv_c_csr_n_hi_trans`) indicates that these kernels are designed for AMD's data center GPUs (DCU).
 
 Sources: hip/test/CMakeLists.txt:30-35, include/alphasparse/kernel_dcu/kernel_csr_c_dcu.h:4
 
-## 统一的测试框架
+## Unified Test Framework
 
-为了确保在所有支持的平台上功能正确且性能一致，项目采用了一个统一的测试框架。每个后端（`hygon`, `arm`, `cuda`, `hip`）的测试目录都包含一个 `CMakeLists.txt` 文件，其中定义了一个名为 `add_alphasparse_example` 的函数，用于以标准化的方式添加和配置测试可执行文件。
+To ensure functional correctness and consistent performance across all supported platforms, the project adopts a unified test framework. The test directory of each backend (`hygon`, `arm`, `cuda`, `hip`) contains a `CMakeLists.txt` file that defines a function named `add_alphasparse_example`, used to add and configure test executables in a standardized way.
 
 Sources: hygon/test/CMakeLists.txt:1, cuda/test/CMakeLists.txt:1
 
-### 命令行参数解析
+### Command-Line Argument Parsing
 
-测试程序可以通过命令行参数进行灵活配置，这使得进行特定场景的测试和性能分析变得容易。`args.h` 头文件定义了解析这些参数的函数。
+The test program can be flexibly configured via command-line arguments, making it easy to perform tests and performance analysis for specific scenarios. The `args.h` header file defines the functions for parsing these parameters.
 
-下表总结了一些关键的命令行参数及其作用：
+The following table summarizes some key command-line arguments and their effects:
 
-| 参数类别 | 描述 | 默认值 | 来源 |
+| Parameter Category | Description | Default Value | Source |
 | --- | --- | --- | --- |
-| `layout` | 定义密集矩阵的布局（行主序或列主序） | `ALPHA_SPARSE_LAYOUT_ROW_MAJOR` | `cuda/test/include/args.h:12` |
-| `op` | 指定稀疏矩阵的操作类型（非转置、转置等） | `ALPHA_SPARSE_OPERATION_NON_TRANSPOSE` | `cuda/test/include/args.h:13` |
-| `format` | 指定稀疏矩阵的存储格式 | `ALPHA_SPARSE_FORMAT_CSR` | `cuda/test/include/args.h:15` |
-| `data_type` | 指定矩阵元素的数据类型 | `ALPHA_R_32F` | `cuda/test/include/args.h:16` |
-| `iter` | 指定测试的迭代次数 | `1` | `cuda/test/include/args.h:14` |
-| `warmup` | 指定预热运行的次数 | `1` | `cuda/test/include/args.h:11` |
-| `check` | 是否进行结果正确性检查 | `false` | `cuda/test/include/args.h:9` |
+| `layout` | Defines the layout of the dense matrix (row-major or column-major) | `ALPHA_SPARSE_LAYOUT_ROW_MAJOR` | `cuda/test/include/args.h:12` |
+| `op` | Specifies the operation type of the sparse matrix (non-transpose, transpose, etc.) | `ALPHA_SPARSE_OPERATION_NON_TRANSPOSE` | `cuda/test/include/args.h:13` |
+| `format` | Specifies the storage format of the sparse matrix | `ALPHA_SPARSE_FORMAT_CSR` | `cuda/test/include/args.h:15` |
+| `data_type` | Specifies the data type of the matrix elements | `ALPHA_R_32F` | `cuda/test/include/args.h:16` |
+| `iter` | Specifies the number of iterations for the test | `1` | `cuda/test/include/args.h:14` |
+| `warmup` | Specifies the number of warm-up runs | `1` | `cuda/test/include/args.h:11` |
+| `check` | Whether to perform result correctness checking | `false` | `cuda/test/include/args.h:9` |
 
 Sources: cuda/test/include/args.h:8-40
 
-### 后端库抽象与映射
+### Backend Library Abstraction and Mapping
 
-在与特定供应商的库（如 hipSPARSE）进行交互或比较时，测试框架使用了一层抽象映射。`hip/test/include/common.h` 文件中定义了一系列 `std::map`，用于将 Alphasparse 内部的枚举类型转换为特定后端的枚举类型。这层抽象简化了测试代码，并使其更具可读性和可维护性。
+When interacting with or comparing against vendor-specific libraries (such as hipSPARSE), the test framework uses a layer of abstraction mapping. The `hip/test/include/common.h` file defines a series of `std::map`s that convert Alphasparse's internal enumeration types into the enumeration types of a specific backend. This abstraction simplifies the test code and makes it more readable and maintainable.
 
 Sources: hip/test/include/common.h
 
-下面的图表演示了 `alphasparseOperation_t` 到 `hipsparseOperation_t` 的映射过程：
+The following diagram illustrates the mapping process from `alphasparseOperation_t` to `hipsparseOperation_t`:
 
 ```mermaid
 graph TD
@@ -311,9 +311,9 @@ graph TD
     B --> C[HIPSPARSE_OPERATION_TRANSPOSE];
 ```
 
-下表展示了部分 Alphasparse 枚举到 hipSPARSE 枚举的映射关系：
+The following table shows the mapping between some Alphasparse enumerations and hipSPARSE enumerations:
 
-| Alphasparse 枚举 | hipSPARSE 枚举 |
+| Alphasparse Enum | hipSPARSE Enum |
 | --- | --- |
 | `ALPHA_SPARSE_OPERATION_NON_TRANSPOSE` | `HIPSPARSE_OPERATION_NON_TRANSPOSE` |
 | `ALPHA_SPARSE_OPERATION_TRANSPOSE` | `HIPSPARSE_OPERATION_TRANSPOSE` |
@@ -323,39 +323,39 @@ graph TD
 
 Sources: hip/test/include/common.h:46-75
 
-## 内核函数命名约定
+## Kernel Function Naming Convention
 
-库中的内核函数遵循一套严格且信息丰富的命名约定，这使得仅从函数名就可以清晰地了解其功能。这种约定提高了代码的可读性和可维护性。
+The kernel functions in the library follow a strict and informative naming convention, making their functionality clearly understandable from the function name alone. This convention improves the code's readability and maintainability.
 
-命名结构通常为：`[后端]_[功能]_[类型]_[格式]_[选项]`
+The naming structure is typically: `[backend]_[function]_[type]_[format]_[options]`
 
-下表详细解释了命名约定的各个部分：
+The following table explains each part of the naming convention in detail:
 
-| 部分 | 描述 | 示例 (`dcu_trmv_c_csr_n_lo_trans`) |
+| Part | Description | Example (`dcu_trmv_c_csr_n_lo_trans`) |
 | --- | --- | --- |
-| **后端** | 执行该内核的硬件后端。例如 `dcu` (AMD), `plain` (通用 CPU)。 | `dcu` |
-| **功能** | 函数执行的主要操作。例如 `trmv` (三角矩阵向量乘), `gemm` (通用矩阵乘)。 | `trmv` |
-| **类型** | 矩阵元素的数据类型。`c` 代表单精度复数, `z` 代表双精度复数。 | `c` |
-| **格式** | 稀疏矩阵的存储格式。例如 `csr`, `bsr`, `dia`。 | `csr` |
-| **选项** | 操作的具体参数。例如 `n` (非单位对角), `u` (单位对角), `lo` (下三角), `hi` (上三角), `trans` (转置)。 | `n_lo_trans` |
+| **Backend** | The hardware backend that executes the kernel. For example `dcu` (AMD), `plain` (generic CPU). | `dcu` |
+| **Function** | The main operation performed by the function. For example `trmv` (triangular matrix-vector multiply), `gemm` (general matrix multiply). | `trmv` |
+| **Type** | The data type of the matrix elements. `c` represents single-precision complex, `z` represents double-precision complex. | `c` |
+| **Format** | The storage format of the sparse matrix. For example `csr`, `bsr`, `dia`. | `csr` |
+| **Options** | Specific parameters of the operation. For example `n` (non-unit diagonal), `u` (unit diagonal), `lo` (lower triangular), `hi` (upper triangular), `trans` (transpose). | `n_lo_trans` |
 
 Sources: include/alphasparse/kernel_dcu/kernel_csr_c_dcu.h:13, include/alphasparse/kernel_dcu/kernel_bsr_c_dcu.h:13
 
-## 总结
+## Summary
 
-Alphasparse 库采用了一种高度模块化和可扩展的跨平台架构。通过将统一的 API 与针对特定硬件（x86, ARM, NVIDIA CUDA, AMD HIP）优化的后端实现相结合，该库能够在不同计算环境中提供高性能的稀疏线性代数运算。其统一的测试框架、清晰的内核命名约定以及对新硬件特性的支持，共同构成了一个健壮、易于维护和扩展的科学计算基础库。
+The Alphasparse library adopts a highly modular and extensible cross-platform architecture. By combining a unified API with backend implementations optimized for specific hardware (x86, ARM, NVIDIA CUDA, AMD HIP), the library can deliver high-performance sparse linear algebra operations in different computing environments. Its unified test framework, clear kernel naming convention, and support for new hardware features together form a robust scientific computing foundation library that is easy to maintain and extend.
 
 ---
 
-## 支持的稀疏矩阵格式
+## Supported Sparse Matrix Formats
 
 ### Related Pages
 
-Related topics: [Level 2 函数 (SpMV)](about:blank#page-api-level2), [Level 3 函数 (SpMM)](about:blank#page-api-level3)
+Related topics: [Level 2 Functions (SpMV)](about:blank#page-api-level2), [Level 3 Functions (SpMM)](about:blank#page-api-level3)
 
 - Relevant source files
     
-    以下文件被用作生成此维基页面的上下文：
+    The following files were used as context for generating this wiki page:
     
     - `arm\kernel\level2\mv\trmv\trmv_bsr_u_hi_conj.hpp`
     - `arm\kernel\level2\mv\trmv\trmv_bsr_u_hi_trans.hpp`
@@ -378,51 +378,51 @@ Related topics: [Level 2 函数 (SpMV)](about:blank#page-api-level2), [Level 3 �
     - `include\alphasparse\kernel_plain\kernel_csr_z.h`
     - `include\alphasparse\kernel_plain\kernel_dia_c.h`
 
-# 支持的稀疏矩阵格式
+# Supported Sparse Matrix Formats
 
-AlphaSparse 库支持多种稀疏矩阵存储格式，以优化不同结构稀疏矩阵的性能。为特定应用选择合适的格式对于实现高效计算至关重要。该库的核心功能围绕着这些格式的特定内核实现，涵盖了从 Level 2 的矩阵向量运算到 Level 3 的矩阵矩阵运算。
+The AlphaSparse library supports multiple sparse matrix storage formats to optimize the performance of differently structured sparse matrices. Choosing the appropriate format for a specific application is crucial for achieving efficient computation. The core functionality of the library revolves around specialized kernel implementations for these formats, covering operations from Level 2 matrix-vector operations to Level 3 matrix-matrix operations.
 
-默认的稀疏矩阵格式是 CSR（压缩稀疏行），这在各种后端（如 CUDA, HIP, Hygon）的测试配置文件中都有明确定义。然而，该库也为 CSC, BSR, DIA, COO 和 BELL 等格式提供了广泛的支持，尤其是在 CUDA 后端，其测试套件展示了对多种格式和数据类型的全面覆盖。
+The default sparse matrix format is CSR (Compressed Sparse Row), which is explicitly defined in the test configuration files of various backends (such as CUDA, HIP, Hygon). However, the library also provides extensive support for formats such as CSC, BSR, DIA, COO, and BELL, especially in the CUDA backend, whose test suite demonstrates comprehensive coverage of multiple formats and data types.
 
 Sources: `hip/test/include/args.h:17`, `cuda/test/include/args.h:17`, `hygon/test/include/args.h:17`, `dcu/test/include/args.h:17`, `arm/test/include/args.h:17`, `include/alphasparse/kernel_plain/kernel_csr_c.h`, `include/alphasparse/kernel_plain/kernel_csc_c.h`, `include/alphasparse/kernel_plain/kernel_bsr_c.h`, `cuda/test/CMakeLists.txt`
 
-## 格式概述
+## Format Overview
 
-下表总结了 AlphaSparse 库中支持的主要稀疏矩阵格式。
+The following table summarizes the main sparse matrix formats supported in the AlphaSparse library.
 
-| 格式 | 全称 | 描述 | 主要适用场景 |
+| Format | Full Name | Description | Main Use Case |
 | --- | --- | --- | --- |
-| **CSR** | Compressed Sparse Row | 逐行压缩存储非零元素。这是库的默认格式。 | 通用稀疏矩阵，特别是当行操作频繁时。 |
-| **CSC** | Compressed Sparse Column | 逐列压缩存储非零元素。 | 当列操作频繁时，例如在 `A^T * x` 类型的运算中。 |
-| **BSR** | Block Sparse Row | 将矩阵划分为固定大小的块，并存储非零块。 | 具有密集子块模式的稀疏矩阵。 |
-| **DIA** | Diagonal | 仅存储主对角线和次对角线上的非零元素。 | 对角矩阵或带状矩阵。 |
-| **COO** | Coordinate | 存储每个非零元素的行索引、列索引和值。 | 构造稀疏矩阵时很方便，通常会转换为 CSR 或 CSC 以提高计算效率。 |
-| **BELL** | Bellpack | 一种 BSR 的变体，用于在 SIMD/SIMT 架构上进行优化。 | 适用于特定硬件架构以优化内存访问模式。 |
+| **CSR** | Compressed Sparse Row | Compresses and stores non-zero elements row by row. This is the library's default format. | General sparse matrices, especially when row operations are frequent. |
+| **CSC** | Compressed Sparse Column | Compresses and stores non-zero elements column by column. | When column operations are frequent, e.g., in operations of the type `A^T * x`. |
+| **BSR** | Block Sparse Row | Divides the matrix into fixed-size blocks and stores the non-zero blocks. | Sparse matrices with dense sub-block patterns. |
+| **DIA** | Diagonal | Stores only the non-zero elements on the main diagonal and sub-diagonals. | Diagonal matrices or banded matrices. |
+| **COO** | Coordinate | Stores the row index, column index, and value of each non-zero element. | Convenient when constructing sparse matrices; usually converted to CSR or CSC for improved computational efficiency. |
+| **BELL** | Bellpack | A variant of BSR optimized for SIMD/SIMT architectures. | Suitable for specific hardware architectures to optimize memory access patterns. |
 
 Sources: `cuda/test/CMakeLists.txt`, `hygon/test/CMakeLists.txt`, `include/alphasparse/kernel_plain/kernel_csr_c.h`, `include/alphasparse/kernel_plain/kernel_csc_c.h`, `include/alphasparse/kernel_plain/kernel_bsr_c.h`, `include/alphasparse/kernel_plain/kernel_dia_c.h`
 
-### 格式解析与配置
+### Format Parsing and Configuration
 
-在测试框架中，可以通过命令行参数指定所使用的稀疏矩阵格式。`alphasparse_format_parse` 函数负责将字符串参数（如 “csr”）解析为内部的 `alphasparseFormat_t` 枚举值。
+In the test framework, the sparse matrix format to be used can be specified via command-line arguments. The `alphasparse_format_parse` function is responsible for parsing the string argument (e.g., "csr") into the internal `alphasparseFormat_t` enumeration value.
 
 ```mermaid
 graph TD
-    subgraph 参数解析
-        A["命令行参数 &quot;--format csr&quot;"] --> B{"alphasparse_format_parse"}
-        B --> C["返回 ALPHA_SPARSE_FORMAT_CSR"]
+    subgraph Argument Parsing
+        A["Command line argument &quot;--format csr&quot;"] --> B{"alphasparse_format_parse"}
+        B --> C["Return ALPHA_SPARSE_FORMAT_CSR"]
     end
 
-    subgraph 默认配置
-        D["未提供参数"] --> E{"使用默认值"}
+    subgraph Default Configuration
+        D["No argument provided"] --> E{"Use default value"}
         E --> F["DEFAULT_FORMAT"]
         F --> G["ALPHA_SPARSE_FORMAT_CSR"]
     end
 
 ```
 
-**图 1**: 命令行中稀疏格式的解析流程。
+**Figure 1**: The parsing flow of sparse formats in the command line.
 
-`args.h` 头文件为不同后端定义了默认格式。
+The `args.h` header file defines the default format for different backends.
 
 ```c
 // File: cuda/test/include/args.h:17-18#define DEFAULT_FORMAT ALPHA_SPARSE_FORMAT_CSR#define DEFAULT_DATA_TYPE ALPHA_R_32F
@@ -430,82 +430,82 @@ graph TD
 
 Sources: `cuda/test/include/args.h:17,27`, `hip/test/include/args.h:17,26`, `hygon/test/include/args.h:17,26`
 
-## 主要格式详解
+## Detailed Explanation of Main Formats
 
 ### CSR (Compressed Sparse Row)
 
-CSR 是 AlphaSparse 中的首选格式。它使用三个数组来表示稀疏矩阵：
-1. `values`: 存储非零元素的值。
-2. `col_indices`: 存储每个非零元素对应的列索引。
-3. `row_ptr`: 一个长度为 `(行数 + 1)` 的数组，`row_ptr[i]` 指示第 `i` 行第一个非零元素在 `values` 和 `col_indices` 数组中的起始位置。
+CSR is the preferred format in AlphaSparse. It uses three arrays to represent the sparse matrix:
+1. `values`: Stores the values of the non-zero elements.
+2. `col_indices`: Stores the column index corresponding to each non-zero element.
+3. `row_ptr`: An array of length `(number of rows + 1)`, where `row_ptr[i]` indicates the starting position of the first non-zero element of row `i` in the `values` and `col_indices` arrays.
 
-该库为 CSR 格式提供了大量的内核函数，涵盖了单精度复数 (`c`) 和双精度复数 (`z`) 等多种数据类型。
+The library provides a large number of kernel functions for the CSR format, covering multiple data types such as single-precision complex (`c`) and double-precision complex (`z`).
 
 ```c
 // File: include/alphasparse/kernel_plain/kernel_csr_c.h:11// alpha*A*x + beta*yalphasparseStatus_t gemv_c_csr_plain(const ALPHA_Complex8 alpha, const spmat_csr_c_t *A, const ALPHA_Complex8 *x, const ALPHA_Complex8 beta, ALPHA_Complex8 *y);
 ```
 
-该格式在各个平台的测试文件中被广泛使用，例如 `spmm_csr_d_hygon_test.cpp` 和 `spmv_csr_r_f32_test.cu`。
+This format is widely used in the test files of various platforms, for example `spmm_csr_d_hygon_test.cpp` and `spmv_csr_r_f32_test.cu`.
 
 Sources: `include/alphasparse/kernel_plain/kernel_csr_c.h:11`, `include/alphasparse/kernel_plain/kernel_csr_z.h:11`, `hygon/test/CMakeLists.txt:28`, `cuda/test/CMakeLists.txt:94`
 
 ### CSC (Compressed Sparse Column)
 
-CSC 格式与 CSR 类似，但按列进行压缩。它对于需要高效列访问的操作非常有用。该库也为 CSC 格式提供了全面的内核支持。
+The CSC format is similar to CSR but compresses by column. It is very useful for operations that require efficient column access. The library also provides comprehensive kernel support for the CSC format.
 
 ```c
 // File: include/alphasparse/kernel_plain/kernel_csc_c.h:11// alpha*A*x + beta*yalphasparseStatus_t gemv_c_csc_plain(const ALPHA_Complex8 alpha, const spmat_csc_c_t *A, const ALPHA_Complex8 *x, const ALPHA_Complex8 beta, ALPHA_Complex8 *y);
 ```
 
-Hygon 和 ARM 平台的测试套件中包含了多个 CSC 格式的测试用例，如 `spmm_csc_s_hygon_test.cpp`。
+The test suites for the Hygon and ARM platforms include several CSC-format test cases, such as `spmm_csc_s_hygon_test.cpp`.
 
 Sources: `include/alphasparse/kernel_plain/kernel_csc_c.h:11`, `hygon/test/CMakeLists.txt:31`, `arm/test/CMakeLists.txt:31`
 
 ### BSR (Block Sparse Row)
 
-BSR 格式适用于那些非零元素聚集形成密集块的稀疏矩阵。它通过存储非零块而不是单个元素来减少索引开销并提高计算强度。
+The BSR format is suitable for sparse matrices where non-zero elements cluster into dense blocks. It reduces indexing overhead and increases computational intensity by storing non-zero blocks rather than individual elements.
 
-内核实现（如 `trmv_bsr_u_hi_conj`）处理块状数据结构，并支持行主序（`ALPHA_SPARSE_LAYOUT_ROW_MAJOR`）和列主序（`ALPHA_SPARSE_LAYOUT_COLUMN_MAJOR`）的块内布局。
+The kernel implementations (such as `trmv_bsr_u_hi_conj`) handle block-structured data and support both row-major (`ALPHA_SPARSE_LAYOUT_ROW_MAJOR`) and column-major (`ALPHA_SPARSE_LAYOUT_COLUMN_MAJOR`) block layouts.
 
 ```cpp
 // File: hygon/kernel/level2/mv/trmv/trmv_bsr_u_hi_conj.hpp:19    if (A->block_layout == ALPHA_SPARSE_LAYOUT_ROW_MAJOR){        // ...    }else if (A->block_layout == ALPHA_SPARSE_LAYOUT_COLUMN_MAJOR){        // ...    }
 ```
 
-`kernel_bsr_c.h` 头文件定义了针对 BSR 格式的各种操作，包括通用矩阵向量乘法 (`gemv`)、对称矩阵向量乘法 (`symv`) 和厄米矩阵向量乘法 (`hermv`)。
+The `kernel_bsr_c.h` header file defines various operations for the BSR format, including general matrix-vector multiplication (`gemv`), symmetric matrix-vector multiplication (`symv`), and Hermitian matrix-vector multiplication (`hermv`).
 
 Sources: `include/alphasparse/kernel/kernel_bsr_c.h:11-45`, `include/alphasparse/kernel_plain/kernel_bsr_c.h:8-42`, `hygon/kernel/level2/mv/trmv/trmv_bsr_u_hi_conj.hpp:19-74`, `arm/kernel/level2/mv/trmv/trmv_bsr_u_hi_conj.hpp:19-74`
 
 ### DIA (Diagonal)
 
-DIA 格式专为对角矩阵和带状矩阵设计。它存储一个二维数组，其中每一行对应一个非零对角线，以及一个偏移数组，指示每个对角线相对于主对角线的位置。该格式的内核函数在 `kernel_dia_c.h` 中定义。
+The DIA format is designed for diagonal matrices and banded matrices. It stores a two-dimensional array, where each row corresponds to a non-zero diagonal, along with an offset array indicating the position of each diagonal relative to the main diagonal. The kernel functions for this format are defined in `kernel_dia_c.h`.
 
-Sources: `include/alphasparse/kernel/kernel_dia_c.h`, `include/alphasparse/kernel_plain/kernel_dia_c.h`
+*Sources: `include/alphasparse/kernel/kernel_dia_c.h`, `include/alphasparse/kernel_plain/kernel_dia_c.h`*
 
-### COO 和 BELL (仅限 CUDA)
+### COO and BELL (CUDA only)
 
-CUDA 后端还支持 COO 和 BELL 格式。
-- **COO (Coordinate)** 格式因其构造简单而在许多应用中很受欢迎。CUDA 测试套件包含大量 COO 测试，例如 `spmv_coo_r_f32_test.cu` 和 `spmm_coo_r_f32_test.cu`。
-- **BELL (Bellpack)** 格式是 BSR 的一种变体，旨在优化特定硬件上的内存访问。CUDA 测试中也包含了 `spmm_bell_c_f32_test.cu` 等测试用例。
+The CUDA backend also supports the COO and BELL formats.
+- **COO (Coordinate)** format is popular in many applications due to its simple construction. The CUDA test suite contains a large number of COO tests, such as `spmv_coo_r_f32_test.cu` and `spmm_coo_r_f32_test.cu`.
+- **BELL (Bellpack)** format is a variant of BSR designed to optimize memory access on specific hardware. The CUDA tests also include test cases such as `spmm_bell_c_f32_test.cu`.
 
-这两种格式的支持表明 AlphaSparse 致力于在高性能计算平台上提供针对特定硬件优化的解决方案。
+Support for these two formats shows that AlphaSparse is committed to providing hardware-specific optimized solutions on high-performance computing platforms.
 
 Sources: `cuda/test/CMakeLists.txt:89, 201, 218`
 
-## 总结
+## Summary
 
-AlphaSparse 库通过支持多种稀疏矩阵格式，为不同类型的稀疏计算问题提供了灵活且高性能的解决方案。以 CSR 为默认格式，同时为 CSC、BSR、DIA 等提供强大的支持，并在 CUDA 等高性能后端上扩展到 COO 和 BELL 等专用格式，该库能够满足从通用计算到高度优化应用的需求。开发者可以根据其矩阵的特定结构和计算需求选择最合适的格式，以最大限度地提高性能。
+The AlphaSparse library provides flexible and high-performance solutions for different types of sparse computing problems by supporting multiple sparse matrix formats. With CSR as the default format, while providing strong support for CSC, BSR, DIA, etc., and extending to specialized formats such as COO and BELL on high-performance backends like CUDA, the library can meet the needs from general-purpose computing to highly optimized applications. Developers can choose the most suitable format based on the specific structure and computing requirements of their matrices to maximize performance.
 
 ---
 
-## 构建指南
+## Build Guide
 
 ### Related Pages
 
-Related topics: [测试指南](about:blank#page-testing-guide)
+Related topics: [Testing Guide](about:blank#page-testing-guide)
 
 - Relevant source files
     
-    以下文件被用作生成此维基页面的上下文：
+    The following files were used as context for generating this wiki page:
     
     - [hygon/test/CMakeLists.txt](hygon/test/CMakeLists.txt)
     - [arm/test/CMakeLists.txt](arm/test/CMakeLists.txt)
@@ -513,66 +513,66 @@ Related topics: [测试指南](about:blank#page-testing-guide)
     - [cuda/kernel/level3/ac/MultiplyKernels.h](cuda/kernel/level3/ac/MultiplyKernels.h)
     - [include/alphasparse/kernel_plain/kernel_csr_c.h](include/alphasparse/kernel_plain/kernel_csr_c.h)
 
-# 构建指南
+# Build Guide
 
-本文档提供了关于 AlphaSparse 库测试套件构建系统的详细技术说明。项目使用 CMake 进行构建管理，并为不同的目标硬件平台（包括 Hygon、ARM 和 CUDA）提供了定制的构建配置。构建脚本的核心是一个辅助函数，该函数根据目标平台处理依赖关系和编译选项，从而简化了测试可执行文件的创建过程。
+This document provides detailed technical instructions on the build system of the AlphaSparse library test suite. The project uses CMake for build management and provides customized build configurations for different target hardware platforms (including Hygon, ARM, and CUDA). The core of the build script is a helper function that handles dependencies and compilation options according to the target platform, thereby simplifying the creation of test executables.
 
-## 核心构建函数：`add_alphasparse_example`
+## Core Build Function: `add_alphasparse_example`
 
-所有平台特定的 `CMakeLists.txt` 文件都定义并使用了一个名为 `add_alphasparse_example` 的 CMake 函数。这个函数封装了为单个测试源文件创建可执行目标所需的通用逻辑。
+All platform-specific `CMakeLists.txt` files define and use a CMake function named `add_alphasparse_example`. This function encapsulates the common logic required to create an executable target for a single test source file.
 
-下面的流程图展示了该函数的主要执行步骤：
+The following flowchart shows the main execution steps of this function:
 
 ```mermaid
 graph TD
-    A[输入: TEST_SOURCE] --> B{add_alphasparse_example};
-    B --> C[get_filename_component: 提取目标名称];
-    C --> D[add_executable: 创建可执行文件];
-    B --> E[target_include_directories: 添加头文件路径];
-    B --> F[target_link_libraries: 链接依赖库];
-    D --> G[最终的可执行文件];
+    A[Input: TEST_SOURCE] --> B{add_alphasparse_example};
+    B --> C[get_filename_component: Extract target name];
+    C --> D[add_executable: Create executable];
+    B --> E[target_include_directories: Add header path];
+    B --> F[target_link_libraries: Link dependency libraries];
+    D --> G[Final executable];
     E --> G;
     F --> G;
 ```
 
-*图 1: `add_alphasparse_example` 函数的通用工作流程*
+*Figure 1: The general workflow of the `add_alphasparse_example` function*
 Sources: hygon/test/CMakeLists.txt:1-24, arm/test/CMakeLists.txt:1-20, cuda/test/CMakeLists.txt:1-20
 
-该函数的主要职责包括：
-1. **目标命名**: 从源文件名中提取基本名称作为可执行目标名。
-2. **创建可执行文件**: 使用 `add_executable` 命令从给定的源文件创建目标。
-3. **包含目录**: 将项目顶层 `include` 目录添加到目标的包含路径中。
-4. **链接库**: 将核心的 `alphasparse` 库以及平台特定的依赖项链接到目标。
+The main responsibilities of this function include:
+1. **Target naming**: Extract the base name from the source file name as the executable target name.
+2. **Create executable**: Use the `add_executable` command to create the target from the given source file.
+3. **Include directories**: Add the project's top-level `include` directory to the target's include path.
+4. **Link libraries**: Link the core `alphasparse` library and platform-specific dependencies to the target.
 
-每个平台的具体实现细节，尤其是在链接库和设置编译定义方面，有所不同。
+The specific implementation details of each platform differ, especially in terms of linked libraries and compilation definitions.
 
-## 平台特定构建配置
+## Platform-Specific Build Configuration
 
-构建系统为三个主要平台提供了不同的配置：Hygon (x86_64)、ARM 和 CUDA。
+The build system provides different configurations for three main platforms: Hygon (x86_64), ARM, and CUDA.
 
-### Hygon 平台
+### Hygon Platform
 
-Hygon 平台的构建配置侧重于利用 Intel Math Kernel Library (MKL) 进行性能优化。
+The build configuration for the Hygon platform focuses on leveraging the Intel Math Kernel Library (MKL) for performance optimization.
 
-**链接器依赖**
+**Linker Dependencies**
 
-除了核心的 `alphasparse` 库外，Hygon 目标还链接了以下 MKL 和系统库：
+In addition to the core `alphasparse` library, Hygon targets also link the following MKL and system libraries:
 
-| 库名称 | 描述 |
+| Library Name | Description |
 | --- | --- |
-| `alphasparse` | 核心 AlphaSparse 库 |
-| `mkl_intel_lp64` | MKL LP64 接口层 |
-| `mkl_intel_thread` | MKL 线程层 |
-| `mkl_core` | MKL 核心计算库 |
-| `iomp5` | Intel OpenMP 运行时库 |
-| `m` | 标准数学库 |
-| `dl` | 动态链接库 |
+| `alphasparse` | Core AlphaSparse library |
+| `mkl_intel_lp64` | MKL LP64 interface layer |
+| `mkl_intel_thread` | MKL threading layer |
+| `mkl_core` | MKL core computation library |
+| `iomp5` | Intel OpenMP runtime library |
+| `m` | Standard math library |
+| `dl` | Dynamic linking library |
 
 Sources: hygon/test/CMakeLists.txt:13-21
 
-**构建的测试目标**
+**Built Test Targets**
 
-该平台构建了多个 Level 2 和 Level 3 功能的测试用例，例如：
+This platform builds test cases for multiple Level 2 and Level 3 features, for example:
 - `mv_hygon_test`
 - `sv_hygon_test`
 - `mm_hygon_test`
@@ -581,25 +581,25 @@ Sources: hygon/test/CMakeLists.txt:13-21
 
 Sources: hygon/test/CMakeLists.txt:26-43
 
-### ARM 平台
+### ARM Platform
 
-ARM 平台的构建配置相对简单，主要依赖于标准的系统库。
+The build configuration for the ARM platform is relatively simple, mainly relying on standard system libraries.
 
-**链接器依赖**
+**Linker Dependencies**
 
-ARM 目标链接的库如下：
+The libraries linked by ARM targets are as follows:
 
-| 库名称 | 描述 |
+| Library Name | Description |
 | --- | --- |
-| `alphasparse` | 核心 AlphaSparse 库 |
-| `m` | 标准数学库 |
-| `dl` | 动态链接库 |
+| `alphasparse` | Core AlphaSparse library |
+| `m` | Standard math library |
+| `dl` | Dynamic linking library |
 
 Sources: arm/test/CMakeLists.txt:13-17
 
-**构建的测试目标**
+**Built Test Targets**
 
-ARM 平台构建的测试目标与 Hygon 平台类似，涵盖了 Level 2 和 Level 3 的各种稀疏计算功能。
+The test targets built on the ARM platform are similar to those on the Hygon platform, covering various sparse computing features of Level 2 and Level 3.
 - `mv_hygon_test`
 - `sv_csr_s_hygon_test`
 - `mm_hygon_test`
@@ -608,50 +608,50 @@ ARM 平台构建的测试目标与 Hygon 平台类似，涵盖了 Level 2 和 Le
 
 Sources: arm/test/CMakeLists.txt:22-40
 
-### CUDA 平台
+### CUDA Platform
 
-CUDA 平台的构建配置最为复杂，它处理了特定的 GPU 架构、编译定义和 CUDA 运行时库。
+The build configuration for the CUDA platform is the most complex, handling specific GPU architectures, compilation definitions, and CUDA runtime libraries.
 
 ```mermaid
 graph TD
     subgraph CUDA Build Process
         A[Test Source .cu] --> B{add_alphasparse_example};
-        B --> C{设置编译定义};
+        B --> C{Set compilation definitions};
         C --> D["__CUDA_NO_HALF2_OPERATORS__"];
         C --> E["CUDA_ARCH=${CUDA_ARCH}"];
-        B --> F[设置 CUDA 架构];
+        B --> F[Set CUDA architecture];
         F --> G["set_property(TARGET ... CUDA_ARCHITECTURES)"];
-        B --> H{链接 CUDA 库};
+        B --> H{Link CUDA libraries};
         H --> I[CUDA::cudart];
         H --> J[CUDA::cusparse];
         H --> K[alphasparse];
-        B --> L{条件编译};
-        L -- "if CUDA_ARCH >= 80" --> M[添加 BF16 测试];
+        B --> L{Conditional compilation};
+        L -- "if CUDA_ARCH >= 80" --> M[Add BF16 tests];
     end
 ```
 
-*图 2: CUDA 平台构建流程*
+*Figure 2: CUDA platform build flow*
 Sources: cuda/test/CMakeLists.txt:1-40
 
-**关键配置**
+**Key Configuration**
 
-- **编译定义**:
-    - `__CUDA_NO_HALF2_OPERATORS__`: 禁用了 half2 类型的操作符重载。
-    - `CUDA_ARCH`: 将 GPU 计算能力架构版本传递给编译器。
+- **Compilation definitions**:
+    - `__CUDA_NO_HALF2_OPERATORS__`: Disables operator overloading for the half2 type.
+    - `CUDA_ARCH`: Passes the GPU compute capability architecture version to the compiler.
     Sources: cuda/test/CMakeLists.txt:4-5
-- **CUDA 架构**: 使用 `set_property` 命令为目标明确设置 `CUDA_ARCHITECTURES` 属性，以确保为正确的 GPU 架构生成代码。
+- **CUDA architecture**: Use the `set_property` command to explicitly set the `CUDA_ARCHITECTURES` property for the target, ensuring code is generated for the correct GPU architecture.
 Sources: cuda/test/CMakeLists.txt:6
-- **链接器依赖**:
-    - `CUDA::cudart` / `CUDA::cudart_static`: CUDA 运行时库。
-    - `CUDA::cusparse` / `CUDA::cusparse_static`: NVIDIA cuSPARSE 库。
-    - `alphasparse`: 核心 AlphaSparse 库。
+- **Linker dependencies**:
+    - `CUDA::cudart` / `CUDA::cudart_static`: CUDA runtime library.
+    - `CUDA::cusparse` / `CUDA::cusparse_static`: NVIDIA cuSPARSE library.
+    - `alphasparse`: Core AlphaSparse library.
     Sources: cuda/test/CMakeLists.txt:13-18
-- **条件编译**: 构建脚本会检查 `CUDA_ARCH` 变量。如果计算能力大于或等于 8.0（例如 NVIDIA Ampere 架构），它将额外编译支持 `bfloat16` 数据类型的测试用例。
+- **Conditional compilation**: The build script checks the `CUDA_ARCH` variable. If the compute capability is greater than or equal to 8.0 (e.g., the NVIDIA Ampere architecture), it additionally compiles test cases that support the `bfloat16` data type.
 Sources: cuda/test/CMakeLists.txt:23-40
 
-**构建的测试目标**
+**Built Test Targets**
 
-CUDA 平台构建了大量的测试用例，涵盖了通用、Level 2、Level 3、预处理器和重排序等多个类别。部分示例如下：
+The CUDA platform builds a large number of test cases, covering multiple categories such as generic, Level 2, Level 3, preconditioners, and reordering. Some examples are as follows:
 - `generic/axpby_r_f32_test`
 - `level2/spmv_csr_r_f32_test`
 - `level3/spgemm_csr_r_f32_test`
@@ -662,15 +662,15 @@ Sources: cuda/test/CMakeLists.txt:42-300
 
 ---
 
-## Level 2 函数 (SpMV)
+## Level 2 Functions (SpMV)
 
 ### Related Pages
 
-Related topics: [Level 3 函数 (SpMM)](about:blank#page-api-level3), [支持的稀疏矩阵格式](about:blank#page-matrix-formats)
+Related topics: [Level 3 Functions (SpMM)](about:blank#page-api-level3), [Supported Sparse Matrix Formats](about:blank#page-matrix-formats)
 
 - Relevant source files
     
-    以下文件被用作生成此维基页面的上下文：
+    The following files were used as context for generating this wiki page:
     
     - [include/alphasparse/kernel_plain/kernel_csr_c.h](include/alphasparse/kernel_plain/kernel_csr_c.h)
     - [include/alphasparse/kernel_plain/kernel_bsr_c.h](include/alphasparse/kernel_plain/kernel_bsr_c.h)
@@ -684,105 +684,105 @@ Related topics: [Level 3 函数 (SpMM)](about:blank#page-api-level3), [支持的
     - [hygon/test/CMakeLists.txt](hygon/test/CMakeLists.txt)
     - [arm/test/CMakeLists.txt](arm/test/CMakeLists.txt)
 
-# Level 2 函数 (SpMV)
+# Level 2 Functions (SpMV)
 
-Level 2 函数在 AlphaSPARSE 库中构成了稀疏矩阵与密集向量之间运算的核心。这些函数主要实现了稀疏矩阵-向量乘法（Sparse Matrix-Vector Multiplication, SpMV）及其变种，例如对称矩阵-向量乘法和三角求解。该模块旨在为多种硬件后端（包括 CPU、CUDA 和 HIP）提供统一的接口，同时支持多种稀疏矩阵存储格式和数据类型。
+Level 2 functions form the core of operations between sparse matrices and dense vectors in the AlphaSPARSE library. These functions mainly implement sparse matrix-vector multiplication (Sparse Matrix-Vector Multiplication, SpMV) and its variants, such as symmetric matrix-vector multiplication and triangular solve. This module aims to provide a unified interface for multiple hardware backends (including CPU, CUDA, and HIP), while supporting multiple sparse matrix storage formats and data types.
 
-这些函数的设计遵循了 BLAS（Basic Linear Algebra Subprograms）的命名约定，为通用、对称、厄米和三角矩阵提供了丰富的操作集。通过详细的函数命名，用户可以精确控制运算的各个方面，如转置操作、填充模式和对角线类型。测试套件的结构也反映了这种多平台、多格式的支持，为每个后端和功能组合提供了专门的测试用例。
+The design of these functions follows the naming conventions of BLAS (Basic Linear Algebra Subprograms), providing a rich set of operations for general, symmetric, Hermitian, and triangular matrices. Through detailed function naming, users can precisely control various aspects of the operation, such as transpose operations, fill mode, and diagonal type. The structure of the test suite also reflects this multi-platform, multi-format support, providing dedicated test cases for each backend and feature combination.
 
-## API 概述
+## API Overview
 
-Level 2 函数的 API 围绕着几个核心的 SpMV 操作进行组织。这些操作通过函数名称中的前缀来区分，并支持多种参数来控制具体行为。
+The API of Level 2 functions is organized around several core SpMV operations. These operations are distinguished by prefixes in the function name and support multiple parameters to control specific behavior.
 
 Sources: include/alphasparse/kernel_plain/kernel_csr_c.h, include/alphasparse/kernel_plain/kernel_bsr_c.h
 
-### 主要函数类别
+### Main Function Categories
 
-| 函数类别 | 描述 | 示例公式 |
+| Function Category | Description | Example Formula |
 | --- | --- | --- |
-| `gemv` | 通用稀疏矩阵-向量乘法 | `y = alpha * op(A) * x + beta * y` |
-| `symv` | 对称稀疏矩阵-向量乘法 | `y = alpha * A * x + beta * y` |
-| `hermv` | 厄米稀疏矩阵-向量乘法 | `y = alpha * A * x + beta * y` |
-| `trsv` | 三角稀疏系统求解 | `op(A) * x = alpha * y` |
-| `spsv` | 稀疏向量的稀疏系统求解 | `op(A) * x = alpha * y` |
+| `gemv` | General sparse matrix-vector multiplication | `y = alpha * op(A) * x + beta * y` |
+| `symv` | Symmetric sparse matrix-vector multiplication | `y = alpha * A * x + beta * y` |
+| `hermv` | Hermitian sparse matrix-vector multiplication | `y = alpha * A * x + beta * y` |
+| `trsv` | Triangular sparse system solve | `op(A) * x = alpha * y` |
+| `spsv` | Sparse system solve for sparse vectors | `op(A) * x = alpha * y` |
 
-### 函数命名约定
+### Function Naming Convention
 
-AlphaSPARSE Level 2 函数的命名遵循一个系统化的模式，以便清晰地传达其功能。
+The naming of AlphaSPARSE Level 2 functions follows a systematic pattern to clearly convey their functionality.
 
 ```mermaid
 graph TD
-    subgraph 函数名构成
-        A[操作类型] --> B(数据类型)
-        B --> C{矩阵格式}
-        C --> D(属性)
-        D --> E(后端)
+    subgraph Function Name Composition
+        A[Operation type] --> B(Data type)
+        B --> C{Matrix format}
+        C --> D(Attributes)
+        D --> E(Backend)
     end
 
-    subgraph 示例: symv_c_bsr_u_lo_plain
+    subgraph Example: symv_c_bsr_u_lo_plain
         F(symv) --> G(c)
         G --> H(bsr)
         H --> I("u_lo")
         I --> J(plain)
     end
 
-    A -- "例如 gemv, symv" --> F
-    B -- "例如 c (complex float), z (complex double)" --> G
-    C -- "例如 csr, bsr, csc, dia" --> H
-    D -- "例如 u (unit diag), lo (lower triangular)" --> I
-    E -- "例如 plain (通用CPU)" --> J
+    A -- "e.g., gemv, symv" --> F
+    B -- "e.g., c (complex float), z (complex double)" --> G
+    C -- "e.g., csr, bsr, csc, dia" --> H
+    D -- "e.g., u (unit diag), lo (lower triangular)" --> I
+    E -- "e.g., plain (generic CPU)" --> J
 ```
 
-这个图表展示了函数 `symv_c_bsr_u_lo_plain` 是如何由操作（对称向量乘）、数据类型（复数）、格式（BSR）、属性（单位对角线下三角）和后端（plain）等部分组成的。
+This diagram shows how the function `symv_c_bsr_u_lo_plain` is composed of parts such as operation (symmetric vector multiply), data type (complex), format (BSR), attributes (unit diagonal, lower triangular), and backend (plain).
 
 Sources: include/alphasparse/kernel_plain/kernel_bsr_c.h:20, include/alphasparse/kernel_plain/kernel_csr_c.h:22
 
-## 支持的参数与数据结构
+## Supported Parameters and Data Structures
 
-为了执行 SpMV 操作，API 依赖于几个关键的枚举和结构体来定义矩阵的属性和操作类型。
+To perform SpMV operations, the API relies on several key enumerations and structures to define the matrix's attributes and operation types.
 
-### 操作类型 (Operation)
+### Operation Type
 
-`alphasparseOperation_t` 枚举用于指定是否应对矩阵进行转置或共轭转置操作。
+The `alphasparseOperation_t` enumeration is used to specify whether the matrix should be transposed or conjugate-transposed.
 
-| 枚举值 | 描述 |
+| Enumeration Value | Description |
 | --- | --- |
-| `ALPHA_SPARSE_OPERATION_NON_TRANSPOSE` | 使用原始矩阵 A |
-| `ALPHA_SPARSE_OPERATION_TRANSPOSE` | 使用 A 的转置 AT |
-| `ALPHA_SPARSE_OPERATION_CONJUGATE_TRANSPOSE` | 使用 A 的共轭转置 AH |
+| `ALPHA_SPARSE_OPERATION_NON_TRANSPOSE` | Use the original matrix A |
+| `ALPHA_SPARSE_OPERATION_TRANSPOSE` | Use the transpose AT of A |
+| `ALPHA_SPARSE_OPERATION_CONJUGATE_TRANSPOSE` | Use the conjugate transpose AH of A |
 
 Sources: hip/test/include/args.h:20
 
-### 矩阵描述符
+### Matrix Descriptor
 
-矩阵的属性，如对称性、三角性和对角线类型，通过 `alpha_matrix_descr` 结构体进行定义。测试框架提供了辅助函数来从命令行参数解析这些属性。
+The attributes of a matrix, such as symmetry, triangularity, and diagonal type, are defined through the `alpha_matrix_descr` structure. The test framework provides helper functions to parse these attributes from command-line arguments.
 
-- **Matrix Type**: `alphasparse_matrix_type_t` (例如 `ALPHA_SPARSE_MATRIX_TYPE_GENERAL`, `ALPHA_SPARSE_MATRIX_TYPE_SYMMETRIC`)
-- **Fill Mode**: `alphasparse_fill_mode_t` (例如 `ALPHA_SPARSE_FILL_MODE_LOWER`, `ALPHA_SPARSE_FILL_MODE_UPPER`)
-- **Diag Type**: `alphasparse_diag_type_t` (例如 `ALPHA_SPARSE_DIAG_TYPE_UNIT`, `ALPHA_SPARSE_DIAG_TYPE_NON_UNIT`)
+- **Matrix Type**: `alphasparse_matrix_type_t` (e.g., `ALPHA_SPARSE_MATRIX_TYPE_GENERAL`, `ALPHA_SPARSE_MATRIX_TYPE_SYMMETRIC`)
+- **Fill Mode**: `alphasparse_fill_mode_t` (e.g., `ALPHA_SPARSE_FILL_MODE_LOWER`, `ALPHA_SPARSE_FILL_MODE_UPPER`)
+- **Diag Type**: `alphasparse_diag_type_t` (e.g., `ALPHA_SPARSE_DIAG_TYPE_UNIT`, `ALPHA_SPARSE_DIAG_TYPE_NON_UNIT`)
 
 Sources: hip/test/include/args.h:23-25, hip/test/include/args.h:60
 
-## 后端实现与测试
+## Backend Implementation and Testing
 
-AlphaSPARSE 库为不同的硬件平台提供了专门的后端实现。每个后端都有其独立的测试套件，以确保在目标平台上的正确性和性能。
+The AlphaSPARSE library provides dedicated backend implementations for different hardware platforms. Each backend has its own independent test suite to ensure correctness and performance on the target platform.
 
-### 平台支持
+### Platform Support
 
-从 `CMakeLists.txt` 文件中可以看出，项目为多个平台构建测试：
-- **Hygon (x86)**: 链接 Intel MKL 库以获得优化的内核。
-- **ARM**: 为 ARM 架构构建。
-- **CUDA**: 针对 NVIDIA GPU，链接 `cudart` 和 `cusparse`。
-- **HIP**: 针对 AMD GPU。
-- **DCU**: 针对海光 DCU。
+As can be seen from the `CMakeLists.txt` files, the project builds tests for multiple platforms:
+- **Hygon (x86)**: Links the Intel MKL library for optimized kernels.
+- **ARM**: Builds for the ARM architecture.
+- **CUDA**: Targets NVIDIA GPUs, links `cudart` and `cusparse`.
+- **HIP**: Targets AMD GPUs.
+- **DCU**: Targets Hygon DCU.
 
 Sources: hygon/test/CMakeLists.txt:14-22, arm/test/CMakeLists.txt:13-17, cuda/test/CMakeLists.txt:14-19
 
-### 测试框架
+### Test Framework
 
-测试用例通过一个名为 `add_alphasparse_example` 的 CMake 函数添加。这允许为每个 Level 2 功能、数据类型和矩阵格式的组合轻松创建可执行文件。
+Test cases are added via a CMake function named `add_alphasparse_example`. This allows easily creating executables for each combination of Level 2 feature, data type, and matrix format.
 
-例如，在 `cuda/test/CMakeLists.txt` 中，我们可以看到为不同精度的 CSR 格式 SpMV 添加了多个测试：
+For example, in `cuda/test/CMakeLists.txt`, we can see multiple tests added for CSR-format SpMV of different precisions:
 
 ```
 # cuda/test/CMakeLists.txt:100-103add_alphasparse_example(level2/spmv_csr_r_f32_test.cu)
@@ -791,53 +791,53 @@ add_alphasparse_example(level2/spmv_csr_c_f32_test.cu)
 add_alphasparse_example(level2/spmv_csr_c_f64_test.cu)
 ```
 
-这些测试的可执行文件接受命令行参数来指定输入矩阵、迭代次数以及是否进行验证，这些参数由 `args.h` 头文件中的函数解析。
+The executables for these tests accept command-line arguments to specify the input matrix, number of iterations, and whether to perform validation; these parameters are parsed by functions in the `args.h` header file.
 
 Sources: cuda/test/CMakeLists.txt:1, cuda/test/CMakeLists.txt:100-103, hip/test/include/args.h
 
-### 测试执行流程
+### Test Execution Flow
 
-以下序列图说明了运行一个典型 SpMV 测试的流程。
+The following sequence diagram illustrates the flow of running a typical SpMV test.
 
 ```mermaid
 sequenceDiagram
-    participant User as 用户
-    participant TestBinary as 测试可执行文件
-    participant ArgParser as 参数解析器 (args.h)
-    participant SpMV_Kernel as SpMV 内核
-    participant Verification as 验证逻辑
+    participant User as User
+    participant TestBinary as Test Executable
+    participant ArgParser as Argument Parser (args.h)
+    participant SpMV_Kernel as SpMV Kernel
+    participant Verification as Verification Logic
 
-    User->>+TestBinary: 执行 ./spmv_csr_r_f32_test --data <matrix.mtx> --check
-    TestBinary->>+ArgParser: 解析命令行参数
-    ArgParser-->>-TestBinary: 返回配置 (文件名, 检查标志)
-    TestBinary->>+SpMV_Kernel: 调用 alphasparse_spmv()
-    SpMV_Kernel-->>-TestBinary: 返回计算结果
-    alt --check 标志被设置
-        TestBinary->>+Verification: 对比结果与参考值
-        Verification-->>-TestBinary: 返回验证状态
+    User->>+TestBinary: Run ./spmv_csr_r_f32_test --data <matrix.mtx> --check
+    TestBinary->>+ArgParser: Parse command-line arguments
+    ArgParser-->>-TestBinary: Return config (file name, check flag)
+    TestBinary->>+SpMV_Kernel: Call alphasparse_spmv()
+    SpMV_Kernel-->>-TestBinary: Return computation result
+    alt --check flag is set
+        TestBinary->>+Verification: Compare result with reference value
+        Verification-->>-TestBinary: Return verification status
     end
-    TestBinary-->>-User: 输出性能数据和验证结果
+    TestBinary-->>-User: Output performance data and verification result
 ```
 
-这个流程展示了用户如何通过命令行与测试程序交互，程序如何解析参数，调用核心的 SpMV 内核，并根据需要执行结果验证。
+This flow shows how the user interacts with the test program via the command line, how the program parses parameters, calls the core SpMV kernel, and performs result verification as needed.
 
 Sources: hip/test/include/args.h:31, cuda/test/CMakeLists.txt:301-304
 
-## 总结
+## Summary
 
-AlphaSPARSE 的 Level 2 函数为稀疏矩阵-向量运算提供了一个功能强大且灵活的接口。通过其模块化的设计，它能够支持多种硬件后端、稀疏矩阵格式和数值类型。清晰的 API 和命名约定，加上全面的测试框架，确保了库的可靠性和在不同平台间的可移植性。这些 Level 2 函数是构建更高级稀疏计算算法（如迭代求解器）的基础。
+The AlphaSPARSE Level 2 functions provide a powerful and flexible interface for sparse matrix-vector operations. Through its modular design, it can support multiple hardware backends, sparse matrix formats, and numeric types. The clear API and naming conventions, combined with a comprehensive test framework, ensure the library's reliability and portability across different platforms. These Level 2 functions form the foundation for building more advanced sparse computing algorithms (such as iterative solvers).
 
 ---
 
-## Level 3 函数 (SpMM)
+## Level 3 Functions (SpMM)
 
 ### Related Pages
 
-Related topics: [Level 2 函数 (SpMV)](about:blank#page-api-level2)
+Related topics: [Level 2 Functions (SpMV)](about:blank#page-api-level2)
 
 - Relevant source files
     
-    以下是用于生成此维基页面的上下文文件：
+    The following files were used as context for generating this wiki page:
     
     - [cuda/kernel/level3/csrspgemm_device_ac.h](cuda/kernel/level3/csrspgemm_device_ac.h)
     - [cuda/kernel/level3/ac/MultiplyKernels.h](cuda/kernel/level3/ac/MultiplyKernels.h)
@@ -847,33 +847,33 @@ Related topics: [Level 2 函数 (SpMV)](about:blank#page-api-level2)
     - [cuda/test/include/args.h](cuda/test/include/args.h)
     - [include/alphasparse/kernel_plain/kernel_csr_c.h](include/alphasparse/kernel_plain/kernel_csr_c.h)
 
-# Level 3 函数 (SpMM)
+# Level 3 Functions (SpMM)
 
-Level 3 函数在 AlphaSparse 库中主要围绕稀疏矩阵与稀疏或稠密矩阵的乘法运算 (SpMM) 展开。这些函数是高性能计算中的关键组件，特别是在科学计算和机器学习领域。该库为包括 CUDA、Hygon (x86) 和 ARM 在内的多种硬件架构提供了 SpMM 的高度优化实现。
+Level 3 functions in the AlphaSparse library mainly revolve around the multiplication of sparse matrices with sparse or dense matrices (SpMM). These functions are key components in high-performance computing, especially in the fields of scientific computing and machine learning. The library provides highly optimized implementations of SpMM for multiple hardware architectures including CUDA, Hygon (x86), and ARM.
 
-本文档主要概述了 SpMM 功能的架构，特别是其在 CUDA 平台上的 `ac-SpGEMM` 实现、跨平台测试策略以及相关的 API 定义。
+This document mainly outlines the architecture of the SpMM functionality, especially its `ac-SpGEMM` implementation on the CUDA platform, the cross-platform testing strategy, and the related API definitions.
 
-## CUDA 架构 (ac-SpGEMM)
+## CUDA Architecture (ac-SpGEMM)
 
-AlphaSparse 库包含一个针对 NVIDIA GPU 的高级稀疏矩阵-稀疏矩阵乘法 (SpGEMM) 实现，称为 `ac-SpGEMM`。该实现采用多阶段方法来高效计算两个稀疏矩阵的乘积，并能处理各种规模的矩阵。
+The AlphaSparse library contains an advanced sparse matrix-sparse matrix multiplication (SpGEMM) implementation for NVIDIA GPUs, called `ac-SpGEMM`. This implementation uses a multi-stage approach to efficiently compute the product of two sparse matrices and can handle matrices of various sizes.
 
 Sources: cuda/kernel/level3/csrspgemm_device_ac.h, cuda/kernel/level3/ac/MultiplyKernels.h
 
-### 执行流程
+### Execution Flow
 
-`ac-SpGEMM` 的执行流程主要分为两个阶段：计算（Compute）和合并（Merge）。计算阶段并行处理输入矩阵的行，生成中间结果“块”(chunks)。如果多个线程块处理了相同的输出行，则需要进入合并阶段，将这些中间结果合并成最终的行。
+The execution flow of `ac-SpGEMM` is mainly divided into two stages: Compute and Merge. The compute stage processes the rows of the input matrix in parallel, generating intermediate results called "chunks". If multiple thread blocks process the same output row, the merge stage is required to merge these intermediate results into the final row.
 
 ```mermaid
 graph TD
-    subgraph SpGEMM_流程
-        A["开始"] --> B{"执行 SpGEMM 计算阶段"}
-        B --> C{"检查是否需要合并"}
-        C -->|是| D["执行合并阶段"]
-        C -->|否| F["完成"]
+    subgraph SpGEMM_Flow
+        A["Start"] --> B{"Execute SpGEMM Compute Stage"}
+        B --> C{"Check if merge is needed"}
+        C -->|Yes| D["Execute Merge Stage"]
+        C -->|No| F["Complete"]
 
-        subgraph 合并阶段
-            D --> D1{"简单合并\n(Simple Case)"}
-            D --> D2{"最大块合并\n(Max Chunks Case)"}
+        subgraph Merge Stage
+            D --> D1{"Simple Merge\n(Simple Case)"}
+            D --> D2{"Max Chunks Merge\n(Max Chunks Case)"}
         end
 
         D1 --> F
@@ -882,35 +882,35 @@ graph TD
 
 ```
 
-**流程说明:**
-1. **SpGEMM 计算阶段**: 内核 `h_computeSpgemmPart` 被调用，以并行方式计算部分乘积。每个线程块处理输入矩阵 `A` 的一部分行，并将结果存储在临时的块缓冲区中。
-2. **合并阶段**:
-* **简单合并 (Simple Case)**: 如果一个输出行的所有中间块可以完全加载到共享内存中，则调用 `h_mergeSharedRowsSimple` 内核进行合并。
-* **最大块合并 (Max Chunks Case)**: 如果中间块数量超过了共享内存的容量，则调用 `h_mergeSharedRowsMaxChunks` 内核，通过更复杂的路径合并策略来处理。
+**Flow Description:**
+1. **SpGEMM Compute Stage**: The kernel `h_computeSpgemmPart` is called to compute partial products in parallel. Each thread block processes a portion of the rows of input matrix `A` and stores the results in a temporary chunk buffer.
+2. **Merge Stage**:
+* **Simple Merge (Simple Case)**: If all intermediate chunks of an output row can be fully loaded into shared memory, the `h_mergeSharedRowsSimple` kernel is called for merging.
+* **Max Chunks Merge (Max Chunks Case)**: If the number of intermediate chunks exceeds the capacity of shared memory, the `h_mergeSharedRowsMaxChunks` kernel is called, using a more complex path-merge strategy to handle it.
 
 Sources: cuda/kernel/level3/csrspgemm_device_ac.h:80-192
 
-### 核心内核
+### Core Kernels
 
-`ac-SpGEMM` 的功能由 `AcSpGEMMKernels` 类中的一组 CUDA 内核模板提供。这些内核负责 SpGEMM 的不同阶段。
+The functionality of `ac-SpGEMM` is provided by a set of CUDA kernel templates in the `AcSpGEMMKernels` class. These kernels are responsible for different stages of SpGEMM.
 
-| 内核函数 | 描述 |
+| Kernel Function | Description |
 | --- | --- |
-| `h_DetermineBlockStarts` | 确定每个线程块开始处理的非零元素（NNZ）的起始位置。 |
-| `h_computeSpgemmPart` | SpGEMM 的主要计算阶段。计算部分积并将结果存储在块中。 |
-| `h_mergeSharedRowsSimple` | 合并阶段的内核，用于处理可以放入共享内存的简单情况。 |
-| `h_mergeSharedRowsMaxChunks` | 合并阶段的内核，用于处理需要多路径合并的复杂情况（块数量超过阈值）。 |
+| `h_DetermineBlockStarts` | Determines the starting position of the non-zero elements (NNZ) that each thread block begins processing. |
+| `h_computeSpgemmPart` | The main compute stage of SpGEMM. Computes partial products and stores the results in chunks. |
+| `h_mergeSharedRowsSimple` | The kernel for the merge stage, used to handle simple cases that can fit into shared memory. |
+| `h_mergeSharedRowsMaxChunks` | The kernel for the merge stage, used to handle complex cases requiring multi-path merging (number of chunks exceeds a threshold). |
 
 Sources: cuda/kernel/level3/ac/MultiplyKernels.h:56-104
 
-### 优化与模板参数
+### Optimization and Template Parameters
 
-`ac-SpGEMM` 实现利用 C++ 模板实现了高度的编译时配置和优化。内核调用根据输入矩阵的维度和特性选择不同的执行路径。
+The `ac-SpGEMM` implementation leverages C++ templates to achieve a high degree of compile-time configuration and optimization. Kernel calls select different execution paths based on the dimensions and characteristics of the input matrices.
 
-一个关键的优化是 `SORT_TYPE_MODE` 模板参数，它在 `h_computeSpgemmPart` 内核中用于根据矩阵列索引的大小选择不同的数据处理策略：
-* **Case 0 (`SORT_TYPE_MODE = 0`)**: 当行和列索引都可以用 16 位表示时（`Arows < 0x10000 && Bcols < 0x10000`），使用此模式以获得最佳性能。
-* **Case 1 (`SORT_TYPE_MODE = 1`)**: 当 B 矩阵的列数较少时，对局部行进行重映射以减少位数占用。
-* **Case 2 (`SORT_TYPE_MODE = 2`)**: 通用情况，不进行特殊优化。
+A key optimization is the `SORT_TYPE_MODE` template parameter, which in the `h_computeSpgemmPart` kernel is used to select different data processing strategies based on the size of the matrix column indices:
+* **Case 0 (`SORT_TYPE_MODE = 0`)**: Used when both row and column indices can be represented with 16 bits (`Arows < 0x10000 && Bcols < 0x10000`) for best performance.
+* **Case 1 (`SORT_TYPE_MODE = 1`)**: When matrix B has few columns, remap local rows to reduce bit usage.
+* **Case 2 (`SORT_TYPE_MODE = 2`)**: General case, no special optimization.
 
 ```cpp
 // cuda/kernel/level3/csrspgemm_device_ac.h:83-128if (Arows < 0x10000 && Bcols < 0x10000){    // ...    spgemm.h_computeSpgemmPart<..., 0>(...);    // ...}else if (Bcols < (1 << LZCNT(nnz_per_thread*threads)) - 1){    // ...    spgemm.h_computeSpgemmPart<..., 1>(...);    // ...}else{    // ...    spgemm.h_computeSpgemmPart<..., 2>(...);    // ...}
@@ -918,29 +918,29 @@ Sources: cuda/kernel/level3/ac/MultiplyKernels.h:56-104
 
 Sources: cuda/kernel/level3/csrspgemm_device_ac.h:83-128
 
-主要的模板参数包括：
-| 参数 | 描述 |
+The main template parameters include:
+| Parameter | Description |
 | :— | :— |
-| `NNZ_PER_THREAD` | 每个线程处理的非零元素数量。 |
-| `THREADS` | 每个 CUDA 线程块中的线程数。 |
-| `BLOCKS_PER_MP` | 每个流多处理器（SM）上调度的线程块数。 |
-| `VALUE_TYPE` | 矩阵值的类型（如 float, double）。 |
-| `INDEX_TYPE` | 矩阵索引的类型（如 int32_t）。 |
-| `SORT_TYPE_MODE` | 如上所述的优化模式。 |
+| `NNZ_PER_THREAD` | Number of non-zero elements processed per thread. |
+| `THREADS` | Number of threads per CUDA thread block. |
+| `BLOCKS_PER_MP` | Number of thread blocks scheduled per streaming multiprocessor (SM). |
+| `VALUE_TYPE` | Type of matrix values (e.g., float, double). |
+| `INDEX_TYPE` | Type of matrix indices (e.g., int32_t). |
+| `SORT_TYPE_MODE` | The optimization mode described above. |
 
 Sources: cuda/kernel/level3/ac/MultiplyKernels.h:69-75, cuda/kernel/level3/csrspgemm_device_ac.h:86-88
 
-## 跨平台支持与测试
+## Cross-Platform Support and Testing
 
-AlphaSparse 库通过在不同平台（CUDA, Hygon, ARM）上提供独立的测试套件来确保 SpMM 功能的正确性和性能。这些测试使用 CMake 进行构建和管理。
+The AlphaSparse library ensures the correctness and performance of the SpMM functionality by providing independent test suites on different platforms (CUDA, Hygon, ARM). These tests are built and managed using CMake.
 
 Sources: cuda/test/CMakeLists.txt, hygon/test/CMakeLists.txt, arm/test/CMakeLists.txt
 
-### 测试用例编译
+### Test Case Compilation
 
-每个平台都有一个 `CMakeLists.txt` 文件，其中定义了一个名为 `add_alphasparse_example` 的函数，用于简化测试可执行文件的创建过程。
+Each platform has a `CMakeLists.txt` file that defines a function named `add_alphasparse_example` to simplify the creation of test executables.
 
-以下是 Hygon 平台 `CMakeLists.txt` 中该函数的定义和使用示例：
+The following is an example of the definition and usage of this function in the Hygon platform's `CMakeLists.txt`:
 
 ```
 # hygon/test/CMakeLists.txt:1-19function(add_alphasparse_example TEST_SOURCE)
@@ -961,17 +961,17 @@ add_alphasparse_example(level3/spmm_hygon_test.cpp)
 add_alphasparse_example(level3/spmm_csr_d_hygon_test.cpp)
 ```
 
-此函数会自动处理目标命名、包含目录和库链接。通过调用此函数，可以轻松添加新的 SpMM 测试，例如 `spmm_hygon_test.cpp` 和 `spmm_csr_d_hygon_test.cpp`。
+This function automatically handles target naming, include directories, and library linking. By calling this function, new SpMM tests can be easily added, such as `spmm_hygon_test.cpp` and `spmm_csr_d_hygon_test.cpp`.
 
 Sources: hygon/test/CMakeLists.txt:1-22, arm/test/CMakeLists.txt:1-17, cuda/test/CMakeLists.txt:1-16
 
-### 链接库依赖
+### Linked Library Dependencies
 
-不同平台的 SpMM 实现依赖于不同的底层库。CMake 构建系统负责处理这些平台特定的链接要求。
+The SpMM implementations on different platforms depend on different underlying libraries. The CMake build system handles these platform-specific linking requirements.
 
 ```mermaid
 graph TD
-    subgraph 依赖关系
+    subgraph Dependencies
         SpMM_Test -->|Hygon/x86| MKL[MKL Libraries<br>mkl_intel_lp64, mkl_core, ...];
         SpMM_Test -->|ARM| StandardLibs[Standard Libraries<br>m, dl];
         SpMM_Test -->|CUDA| CUDALibs[CUDA Libraries<br>cudart, cusparse];
@@ -981,7 +981,7 @@ graph TD
     end
 ```
 
-| 平台 | 主要依赖库 |
+| Platform | Main Dependency Libraries |
 | --- | --- |
 | **Hygon (x86)** | `alphasparse`, `mkl_intel_lp64`, `mkl_intel_thread`, `mkl_core`, `iomp5` |
 | **ARM** | `alphasparse`, `m`, `dl` |
@@ -989,45 +989,45 @@ graph TD
 
 Sources: hygon/test/CMakeLists.txt:10-17, arm/test/CMakeLists.txt:10-13, cuda/test/CMakeLists.txt:12-16
 
-### 测试参数解析
+### Test Parameter Parsing
 
-测试可执行文件支持通过命令行参数进行配置，例如指定输入矩阵文件、数据类型、布局和操作类型。这些参数由 `args.h` 中定义的函数进行解析。
+The test executable supports configuration via command-line arguments, such as specifying the input matrix file, data type, layout, and operation type. These parameters are parsed by functions defined in `args.h`.
 
-| 函数 | 描述 |
+| Function | Description |
 | --- | --- |
-| `args_get_data_fileA` | 获取输入矩阵 A 的文件路径。 |
-| `args_get_data_fileB` | 获取输入矩阵 B 的文件路径。 |
-| `alpha_args_get_layout` | 获取矩阵的内存布局（行主序或列主序）。 |
-| `alpha_args_get_transA` | 获取矩阵 A 的转置操作类型。 |
-| `alpha_args_get_format` | 获取稀疏矩阵的存储格式（如 CSR, COO）。 |
-| `alpha_args_get_data_type` | 获取矩阵元素的数据类型。 |
+| `args_get_data_fileA` | Get the file path of input matrix A. |
+| `args_get_data_fileB` | Get the file path of input matrix B. |
+| `alpha_args_get_layout` | Get the memory layout of the matrix (row-major or column-major). |
+| `alpha_args_get_transA` | Get the transpose operation type of matrix A. |
+| `alpha_args_get_format` | Get the storage format of the sparse matrix (e.g., CSR, COO). |
+| `alpha_args_get_data_type` | Get the data type of the matrix elements. |
 
 Sources: cuda/test/include/args.h:47-81, hip/test/include/args.h:44-71
 
-## API 接口定义
+## API Interface Definition
 
-AlphaSparse 为不同的数据类型和稀疏格式提供了统一的 API 风格。以下是 `add` 操作（一种广义的 SpMM）的函数声明示例，用于单精度复数 CSR 矩阵。
+The AlphaSparse library provides a unified API style for different data types and sparse formats. The following is an example function declaration for the `add` operation (a generalized SpMM) for single-precision complex CSR matrices.
 
 ```c
 // include/alphasparse/kernel_plain/kernel_csr_c.h:5alphasparseStatus_t add_c_csr_plain(const spmat_csr_c_t *A, const ALPHA_Complex8 alpha, const spmat_csr_c_t *B, spmat_csr_c_t **C);
 ```
 
-此函数实现了 `C = alpha * A + B` 的操作，是 Level 3 稀疏计算的一部分。`_plain` 后缀表示这是一个通用的 C语言 实现，作为其他平台特定优化版本的基础或参考。
+This function implements the operation `C = alpha * A + B` and is part of Level 3 sparse computation. The `_plain` suffix indicates a generic C-language implementation that serves as the basis or reference for other platform-specific optimized versions.
 
 Sources: include/alphasparse/kernel_plain/kernel_csr_c.h:5, include/alphasparse/kernel_plain/kernel_bsr_c.h:3
 Error: Invalid operation: The `response.text` quick accessor requires the response to contain a valid `Part`, but none were returned. The candidate’s [finish_reason](https://ai.google.dev/api/generate-content#finishreason) is 1.
 
 ---
 
-## CUDA 后端实现
+## CUDA Backend Implementation
 
 ### Related Pages
 
-Related topics: [架构概览](about:blank#page-arch-overview), [HIP 后端实现](about:blank#page-backend-hip)
+Related topics: [Architecture Overview](about:blank#page-arch-overview), [HIP Backend Implementation](about:blank#page-backend-hip)
 
 - Relevant source files
     
-    为生成此维基页面，使用了以下文件作为上下文：
+    The following files were used as context for generating this wiki page:
     
     - [cuda/kernel/level3/csrspgemm_device_ac.h](cuda/kernel/level3/csrspgemm_device_ac.h)
     - [cuda/kernel/level3/ac/MultiplyKernels.h](cuda/kernel/level3/ac/MultiplyKernels.h)
@@ -1037,102 +1037,102 @@ Related topics: [架构概览](about:blank#page-arch-overview), [HIP 后端实�
     - [cuda/kernel/level3/fast/CudaComponentWise.h](cuda/kernel/level3/fast/CudaComponentWise.h)
     - [cuda/test/include/common.h](cuda/test/include/common.h)
 
-# CUDA 后端实现
+# CUDA Backend Implementation
 
-CUDA 后端为 Alphasparse 库提供了在 NVIDIA GPU 上执行高性能稀疏线性代数计算的能力。它利用 CUDA 编程模型来加速关键的稀疏计算任务，特别是稀疏矩阵-向量乘法 (SpMV) 和稀疏矩阵-矩阵乘法 (SpGEMM)。该后端包含多种算法实现，以适应不同稀疏矩阵的特性和计算需求，并通过精细的内存管理和并行化策略来最大化硬件利用率。
+The CUDA backend provides the Alphasparse library with the ability to perform high-performance sparse linear algebra computations on NVIDIA GPUs. It leverages the CUDA programming model to accelerate key sparse computing tasks, especially sparse matrix-vector multiplication (SpMV) and sparse matrix-matrix multiplication (SpGEMM). This backend contains multiple algorithm implementations to adapt to the characteristics and computing needs of different sparse matrices, and maximizes hardware utilization through fine-grained memory management and parallelization strategies.
 
-本文档详细介绍了 CUDA 后端的主要组件、核心算法实现、构建系统以及关键的内核函数。
+This document details the main components, core algorithm implementations, build system, and key kernel functions of the CUDA backend.
 
-## 稀疏矩阵-矩阵乘法 (SpGEMM)
+## Sparse Matrix-Matrix Multiplication (SpGEMM)
 
-SpGEMM 是 CUDA 后端的核心功能之一，它提供了两种主要的实现策略：一种是名为 `ac-SpGEMM` 的高级、多阶段算法，另一种是基于行长度分类的 `fast-SpGEMM` 算法。
+SpGEMM is one of the core features of the CUDA backend, providing two main implementation strategies: an advanced, multi-stage algorithm named `ac-SpGEMM`, and a `fast-SpGEMM` algorithm based on row-length classification.
 
-### 高级 `ac-SpGEMM` 算法
+### Advanced `ac-SpGEMM` Algorithm
 
-`ac-SpGEMM` 是一种复杂但高效的算法，旨在处理各种规模和稀疏模式的矩阵乘法。它将计算过程分解为多个阶段，并通过动态内存管理和自适应的合并策略来处理中间结果。
+`ac-SpGEMM` is a complex yet efficient algorithm designed to handle matrix multiplication of various sizes and sparsity patterns. It decomposes the computation process into multiple stages and handles intermediate results through dynamic memory management and an adaptive merge strategy.
 
-`ac-SpGEMM` 的主要逻辑由 `AcSpGEMMKernels` 类封装，该类定义了算法各个阶段所需的 CUDA 内核。
+The main logic of `ac-SpGEMM` is encapsulated by the `AcSpGEMMKernels` class, which defines the CUDA kernels required for each stage of the algorithm.
 
 Sources: cuda/kernel/level3/ac/MultiplyKernels.h:40-43, cuda/kernel/level3/csrspgemm_device_ac.h:121-124
 
-### 算法流程
+### Algorithm Flow
 
-`ac-SpGEMM` 的执行流程是一个循环过程，首先计算中间结果（称为 “chunks”），然后根据需要合并这些 chunks，直到所有计算完成。如果中间内存不足，算法会自动重新分配并重启计算。
+The execution flow of `ac-SpGEMM` is a cyclic process: it first computes intermediate results (called "chunks"), then merges these chunks as needed until all computations are complete. If intermediate memory is insufficient, the algorithm automatically reallocates and restarts the computation.
 
 ```mermaid
 graph TD
-    subgraph "初始化与内存分配"
-        A[输入矩阵 A, B] --> B1(估算输出 NNZ 和内存需求);
-        B1 --> B2(分配初始 Chunk 缓冲区);
+    subgraph "Initialization and Memory Allocation"
+        A[Input matrix A, B] --> B1(Estimate output NNZ and memory requirements);
+        B1 --> B2(Allocate initial chunk buffer);
     end
 
-    subgraph "主计算循环"
-        C1(确定块起始位置<br>h_DetermineBlockStarts) --> C2(计算 SpGEMM 部分<br>h_computeSpegemmPart);
-        C2 --> C3{所有行都已处理?};
-        C3 -- 否 --> C4(识别共享行);
-        C4 --> C5(分配合并案例<br>assignCombineBlocks);
-        C5 --> C6(合并 Chunks<br>h_mergeSharedRows*);
-        C6 --> C7{需要更多内存?};
-        C7 -- 是 --> B2;
-        C7 -- 否 --> C3;
+    subgraph "Main Compute Loop"
+        C1(Determine block start positions<br>h_DetermineBlockStarts) --> C2(Compute SpGEMM partial<br>h_computeSpegemmPart);
+        C2 --> C3{All rows processed?};
+        C3 -- No --> C4(Identify shared rows);
+        C4 --> C5(Allocate merge cases<br>assignCombineBlocks);
+        C5 --> C6(Merge Chunks<br>h_mergeSharedRows*);
+        C6 --> C7{More memory needed?};
+        C7 -- Yes --> B2;
+        C7 -- No --> C3;
     end
 
-    subgraph "结果生成"
-        C3 -- 是 --> D1(计算最终 CSR 行偏移<br>computeRowOffsets);
-        D1 --> D2(将 Chunks 复制到 CSR 格式<br>h_copyChunks);
-        D2 --> E[输出矩阵 C];
+    subgraph "Result Generation"
+        C3 -- Yes --> D1(Compute final CSR row offsets<br>computeRowOffsets);
+        D1 --> D2(Copy Chunks to CSR format<br>h_copyChunks);
+        D2 --> E[Output matrix C];
     end
 ```
 
-**图 1: `ac-SpGEMM` 算法执行流程图**
-这个流程展示了从输入到最终输出矩阵的完整步骤，包括核心的计算和合并循环。
+**Figure 1: `ac-SpGEMM` Algorithm Execution Flow**
+This flow shows the complete steps from input to the final output matrix, including the core compute and merge loops.
 
 Sources: cuda/kernel/level3/csrspgemm_device_ac.h:352-475
 
-### 关键内核函数
+### Key Kernel Functions
 
-`AcSpGEMMKernels` 类定义了 `ac-SpGEMM` 算法的所有核心内核。
+The `AcSpGEMMKernels` class defines all the core kernels of the `ac-SpGEMM` algorithm.
 
-| 函数模板 | 描述 |
+| Function Template | Description |
 | --- | --- |
-| `h_DetermineBlockStarts` | 确定每个 CUDA 块处理的非零元素的起始位置。 |
-| `h_computeSpgemmPart` | SpGEMM 的主要计算阶段，生成中间结果 chunks。此内核根据矩阵维度选择不同的排序模式 (`SORT_TYPE_MODE`)。 |
-| `h_mergeSharedRowsSimple` | 处理简单的合并情况，即一个行的所有中间结果可以放入共享内存中进行合并。 |
-| `h_mergeSharedRowsMaxChunks` | 处理中等复杂的合并情况，当一个行的 chunks 数量超过简单合并的限制但在一个最大值 (`MERGE_MAX_CHUNKS`) 以内时使用。 |
-| `h_mergeSharedRowsGeneralized` | 处理最复杂的合并情况，当 chunks 数量非常多时，采用通用的多路径合并策略。 |
-| `h_copyChunks` | 在所有计算和合并完成后，将最终的 chunks 数据复制到标准的 CSR 矩阵格式中。 |
-| `assignCombineBlocks` | 分析所有需要合并的行，并根据其 chunks 数量将它们分配给上述三种不同的合并内核。 |
+| `h_DetermineBlockStarts` | Determines the starting position of the non-zero elements processed by each CUDA block. |
+| `h_computeSpgemmPart` | The main compute stage of SpGEMM, generating intermediate result chunks. This kernel selects different sort modes (`SORT_TYPE_MODE`) based on matrix dimensions. |
+| `h_mergeSharedRowsSimple` | Handles simple merge cases where all intermediate results of one row can be placed into shared memory for merging. |
+| `h_mergeSharedRowsMaxChunks` | Handles moderately complex merge cases, used when the number of chunks for a row exceeds the simple merge limit but is within a maximum value (`MERGE_MAX_CHUNKS`). |
+| `h_mergeSharedRowsGeneralized` | Handles the most complex merge cases, using a general multi-path merge strategy when the number of chunks is very large. |
+| `h_copyChunks` | After all computation and merging are complete, copies the final chunk data into the standard CSR matrix format. |
+| `assignCombineBlocks` | Analyzes all rows that need merging and assigns them to the three different merge kernels above based on their chunk count. |
 
 Sources: cuda/kernel/level3/ac/MultiplyKernels.h:51-140
 
-### 合并策略
+### Merge Strategy
 
-`ac-SpGEMM` 的核心是其自适应的合并策略。在计算阶段之后，系统会识别出由多个 CUDA 块计算并产生部分结果的行（称为“共享行”）。这些行的部分结果需要被合并。`assignCombineBlocks` 函数根据每行产生的 chunks 数量，将其分类到三种不同的合并内核中。
+The core of `ac-SpGEMM` is its adaptive merge strategy. After the compute stage, the system identifies rows computed by multiple CUDA blocks that produce partial results (called "shared rows"). The partial results of these rows need to be merged. The `assignCombineBlocks` function classifies them into three different merge kernels based on the number of chunks produced by each row.
 
-- **Simple Case**: 适用于 chunks 总大小能放入共享内存的行。
-- **Max Chunks Case**: 适用于 chunks 数量超过 Simple Case 但仍在预设阈值内的行。
-- **Generalized Case**: 适用于 chunks 数量非常大的行，需要更复杂的合并逻辑。
+- **Simple Case**: Applies to rows whose total chunk size can fit into shared memory.
+- **Max Chunks Case**: Applies to rows whose chunk count exceeds the Simple Case but is still within a preset threshold.
+- **Generalized Case**: Applies to rows with a very large chunk count, requiring more complex merge logic.
 
-这种分类旨在为不同复杂度的合并任务选择最高效的 CUDA 内核，从而优化整体性能。
+This classification aims to select the most efficient CUDA kernel for merge tasks of different complexity, thereby optimizing overall performance.
 
 Sources: cuda/kernel/level3/csrspgemm_device_ac.h:145-177, cuda/kernel/level3/ac/MultiplyKernels.h:136-138
 
-### `fast-SpGEMM` 算法
+### `fast-SpGEMM` Algorithm
 
-`fast-SpGEMM` 是另一种 SpGEMM 实现，它采用了一种基于输入矩阵 A 的行长度（即每行的非零元素数量）进行分类和调度的策略。它将具有相似行长度的行分组，并为每个组调用专门优化的 CUDA 内核。
+`fast-SpGEMM` is another SpGEMM implementation that adopts a strategy of classification and scheduling based on the row length of input matrix A (i.e., the number of non-zero elements per row). It groups rows with similar row lengths and calls specially optimized CUDA kernels for each group.
 
-这种方法的核心思想是，对于具有不同非零元素数量的行，最佳的并行策略（例如，每个线程、warp 或块处理多少工作）是不同的。
+The core idea of this method is that for rows with different numbers of non-zero elements, the optimal parallelization strategy (e.g., how much work each thread, warp, or block handles) differs.
 
 Sources: cuda/kernel/level3/csrspgemm_device_fast.h
 
-### 内核调度
+### Kernel Scheduling
 
-该算法首先通过 `PredictCSize` 函数预测输出矩阵 C 的每行非零元素数量，然后根据输入矩阵 A 的行长度将行分组到 13 个队列中。每个队列对应一个特定的行长度范围。
+The algorithm first predicts the number of non-zero elements per row of output matrix C through the `PredictCSize` function, then groups rows into 13 queues based on the row length of input matrix A. Each queue corresponds to a specific row length range.
 
 ```mermaid
 graph TD
-    A[输入矩阵 A] --> B(根据 A 的行长度将行分组);
-    subgraph "为不同行长度范围启动专用内核"
+    A[Input matrix A] --> B(Group rows by row length of A)
+    subgraph "Launch dedicated kernels for different row length ranges"
         B --> Q1("Queue 0<br>length <= 2");
         B --> Q2("Queue 1<br>2 < length <= 4");
         B --> Q3("...");
@@ -1143,44 +1143,44 @@ graph TD
         Q3 --> K3("...");
         Q12 --> K12("DifSpmmOverWarpKernel_16");
     end
-    K1 --> C[计算输出矩阵 C];
+    K1 --> C[Compute output matrix C];
     K2 --> C;
     K3 --> C;
     K12 --> C;
 ```
 
-**图 2: `fast-SpGEMM` 基于行长度的内核调度**
-此图说明了如何根据行中非零元素的数量将行分配到不同的队列，并为每个队列调用特定的 CUDA 内核。
+**Figure 2: `fast-SpGEMM` Row-Length-Based Kernel Scheduling**
+This diagram illustrates how rows are assigned to different queues based on the number of non-zero elements in a row, and how a specific CUDA kernel is called for each queue.
 
 Sources: cuda/kernel/level3/csrspgemm_device_fast.h:541-610, cuda/kernel/level3/csrspgemm_device_fast.h:150-219
 
-### 内核类型
+### Kernel Types
 
-`fast-SpGEMM` 使用两种主要的内核范式：
+`fast-SpGEMM` uses two main kernel paradigms:
 
-1. **Warp Kernels** (`DifSpmmWarpKernel_*`): 每个 warp 负责计算输出矩阵的一行。这种策略适用于行长度较短的情况，因为一个 warp (通常是 32 个线程) 可以有效地并行处理该行的计算。
-2. **Over-Warp Kernels** (`DifSpmmOverWarpKernel_*`): 多个 warp 甚至整个线程块协同计算输出矩阵的一行。这适用于行长度非常长的情况，单个 warp 不足以处理。
+1. **Warp Kernels** (`DifSpmmWarpKernel_*`): Each warp is responsible for computing one row of the output matrix. This strategy is suitable for cases with short row lengths, because a warp (typically 32 threads) can efficiently process the row's computation in parallel.
+2. **Over-Warp Kernels** (`DifSpmmOverWarpKernel_*`): Multiple warps or even the entire thread block cooperate to compute one row of the output matrix. This is suitable for cases with very long row lengths, where a single warp is insufficient.
 
-下表总结了部分内核及其对应的行长度。
+The following table summarizes some kernels and their corresponding row lengths.
 
-| 内核函数 | 目标行长度 (A) | 并行策略 |
+| Kernel Function | Target Row Length (A) | Parallel Strategy |
 | --- | --- | --- |
-| `DifSpmmWarpKernel_1<2>` | `<= 2` | 每个线程处理 1 个元素，2 个线程（一个 warp 的一部分）处理一行。 |
-| `DifSpmmWarpKernel_1<32>` | `16 < length <= 32` | 每个线程处理 1 个元素，一个 warp (32 线程) 处理一行。 |
-| `DifSpmmWarpKernel_8<32>` | `128 < length <= 256` | 每个线程处理 8 个元素，一个 warp (32 线程) 处理一行。 |
-| `DifSpmmOverWarpKernel_16<32,16>` | `> 4096` | 多个 warp 协同处理一行，每个线程处理 16 个元素。 |
+| `DifSpmmWarpKernel_1<2>` | `<= 2` | Each thread processes 1 element; 2 threads (part of a warp) process one row. |
+| `DifSpmmWarpKernel_1<32>` | `16 < length <= 32` | Each thread processes 1 element; one warp (32 threads) processes one row. |
+| `DifSpmmWarpKernel_8<32>` | `128 < length <= 256` | Each thread processes 8 elements; one warp (32 threads) processes one row. |
+| `DifSpmmOverWarpKernel_16<32,16>` | `> 4096` | Multiple warps cooperate to process one row; each thread processes 16 elements. |
 
 Sources: cuda/kernel/level3/csrspgemm_device_fast.h:222-359
 
-## 核心 CUDA 操作
+## Core CUDA Operations
 
-除了 SpGEMM 之外，CUDA 后端还实现了一系列基础的稀疏矩阵和向量操作。
+In addition to SpGEMM, the CUDA backend also implements a series of fundamental sparse matrix and vector operations.
 
 Sources: cuda/kernel/level3/fast/SparseDeviceMatrixCSROperations.h
 
-### 稀疏矩阵-向量乘法 (SpMV)
+### Sparse Matrix-Vector Multiplication (SpMV)
 
-SpMV (Y = A*X) 是通过 `CudaMulSparseMatrixCSRVector` 函数实现的。其核心内核 `CudaMulSparseMatrixCSRVectorKernel` 采用 warp-per-row 的策略。
+SpMV (Y = A*X) is implemented via the `CudaMulSparseMatrixCSRVector` function. Its core kernel `CudaMulSparseMatrixCSRVectorKernel` adopts a warp-per-row strategy.
 
 ```mermaid
 sequenceDiagram
@@ -1189,38 +1189,38 @@ sequenceDiagram
     participant GlobalMemory as Global Memory
     participant SharedMemory as Shared Memory
 
-    Kernel->>+Warp: 分配计算输出向量 y 的一个元素 (y[r])
-    Warp->>GlobalMemory: 读取行 r 的非零值和列索引
-    GlobalMemory-->>Warp: 返回行数据
-    loop 对行中的每个非零元素
-        Warp->>GlobalMemory: 读取向量 x 的对应元素
-        GlobalMemory-->>Warp: 返回 x[j]
-        Warp->>Warp: 计算 val[i] * x[j]
+    Kernel->>+Warp: Assign computation of one element of output vector y (y[r])
+    Warp->>GlobalMemory: Read non-zero values and column indices of row r
+    GlobalMemory-->>Warp: Return row data
+    loop For each non-zero element in the row
+        Warp->>GlobalMemory: Read corresponding element of vector x
+        GlobalMemory-->>Warp: Return x[j]
+        Warp->>Warp: Compute val[i] * x[j]
     end
-    Warp->>+SharedMemory: 将部分和写入共享内存
-    Warp->>SharedMemory: 执行 Warp-level reduce 操作
-    SharedMemory-->>-Warp: 返回最终的和
-    Warp->>GlobalMemory: 将最终结果写入 y[r]
-    Warp-->>-Kernel: 计算完成
+    Warp->>+SharedMemory: Write partial sum to shared memory
+    Warp->>SharedMemory: Perform Warp-level reduce operation
+    SharedMemory-->>-Warp: Return final sum
+    Warp->>GlobalMemory: Write final result to y[r]
+    Warp-->>-Kernel: Computation complete
 ```
 
-**图 3: SpMV `CudaMulSparseMatrixCSRVectorKernel` 的执行序列**
-该图展示了一个 CUDA warp 如何从全局内存加载数据，在共享内存中进行规约，并最终将结果写回，以计算输出向量的一个元素。
+**Figure 3: Execution Sequence of SpMV `CudaMulSparseMatrixCSRVectorKernel`**
+This diagram shows how a CUDA warp loads data from global memory, performs reduction in shared memory, and finally writes the result back to compute one element of the output vector.
 
 Sources: cuda/kernel/level3/fast/SparseDeviceMatrixCSROperations.h:182-205
 
-### 其他操作
+### Other Operations
 
-- **Transpose**: 提供了一个 `Transpose` 函数，用于计算 CSR 格式稀疏矩阵的转置。该过程涉及多个步骤：首先生成扩展的行索引，然后根据列索引对数据进行排序，最后重新计算转置矩阵的行偏移。
+- **Transpose**: Provides a `Transpose` function to compute the transpose of a CSR-format sparse matrix. The process involves multiple steps: first generate expanded row indices, then sort the data by column index, and finally recompute the row offsets of the transposed matrix.
 Sources: cuda/kernel/level3/fast/SparseDeviceMatrixCSROperations.h:142-167
-- **Rank-One Update**: `RankOneUpdate` 函数用于更新稀疏矩阵的非零元素值，执行 `dst += scale * x * y^T` 操作。这是一个就地更新，仅修改 `dst` 中已经存在的非零元素。
+- **Rank-One Update**: The `RankOneUpdate` function is used to update the non-zero element values of a sparse matrix, performing the operation `dst += scale * x * y^T`. This is an in-place update that only modifies the non-zero elements already present in `dst`.
 Sources: cuda/kernel/level3/fast/SparseDeviceMatrixCSROperations.h:22-25, cuda/kernel/level3/fast/SparseDeviceMatrixCSROperations.h:169-180
 
-## 构建与测试
+## Build and Testing
 
-CUDA 后端的测试用例是通过 `CMake` 进行管理的。`cuda/test/CMakeLists.txt` 文件定义了如何构建每个测试可执行文件。
+The test cases for the CUDA backend are managed via `CMake`. The `cuda/test/CMakeLists.txt` file defines how to build each test executable.
 
-一个名为 `add_alphasparse_example` 的 CMake 函数被用来简化测试目标的创建过程。
+A CMake function named `add_alphasparse_example` is used to simplify the creation of test targets.
 
 ```
 # cuda/test/CMakeLists.txtfunction(add_alphasparse_example TEST_SOURCE)
@@ -1234,32 +1234,31 @@ CUDA 后端的测试用例是通过 `CMake` 进行管理的。`cuda/test/CMakeLi
 endfunction()
 ```
 
-这个函数处理了可执行文件的创建、CUDA 架构的设置以及与 CUDA 运行时、cuSPARSE 和 alphasparse 库的链接。
+This function handles the creation of the executable, the setting of the CUDA architecture, and the linking with the CUDA runtime, cuSPARSE, and alphasparse libraries.
 
 Sources: cuda/test/CMakeLists.txt:1-17
 
-测试套件涵盖了广泛的功能，包括：
-
+The test suite covers a wide range of features, including:
 - **Level 2 BLAS**: `spmv_csr_r_f32_test.cu`, `spmv_coo_c_f64_test.cu`
 - **Level 3 BLAS**: `spgemm_csr_r_f32_test.cu`, `spmm_coo_r_f64_test.cu`
-- **不同数据类型**: 测试涵盖 `f16`, `bf16`, `f32`, `f64`, `i8` 以及复数类型。
-- **预处理器和重排序**: `csric02_r32_test.cu`, `csrcolor_r32_test.cu`
+- **Different data types**: Tests cover `f16`, `bf16`, `f32`, `f64`, `i8`, as well as complex types.
+- **Preprocessors and reordering**: `csric02_r32_test.cu`, `csrcolor_r32_test.cu`
 
-BF16 数据类型的测试仅在 CUDA 计算能力大于等于 8.0 的设备上启用。
+Tests for the BF16 data type are only enabled on devices with CUDA compute capability 8.0 or higher.
 
 Sources: cuda/test/CMakeLists.txt:19-242
 
-## 结论
+## Conclusion
 
-Alphasparse 的 CUDA 后端提供了一个强大而灵活的稀疏计算框架。通过提供多种 SpGEMM 算法（如 `ac-SpGEMM` 和 `fast-SpGEMM`），它能够根据矩阵的特性选择最优的计算策略。结合高效的 SpMV 内核、丰富的辅助函数库以及全面的 CMake 测试系统，CUDA 后端确保了在 NVIDIA GPU 上的高性能和可靠性。这些设计共同构成了 Alphasparse 库在加速科学计算和机器学习等领域中稀疏线性代数任务的核心能力。
+The Alphasparse CUDA backend provides a powerful and flexible sparse computing framework. By providing multiple SpGEMM algorithms (such as `ac-SpGEMM` and `fast-SpGEMM`), it can select the optimal computing strategy based on the characteristics of the matrix. Combined with efficient SpMV kernels, a rich library of helper functions, and a comprehensive CMake test system, the CUDA backend ensures high performance and reliability on NVIDIA GPUs. These designs together form the core capability of the Alphasparse library for accelerating sparse linear algebra tasks in fields such as scientific computing and machine learning.
 
 ---
 
-## HIP 后端实现
+## HIP Backend Implementation
 
 ### Related Pages
 
-Related topics: [架构概览](about:blank#page-arch-overview), [CUDA 后端实现](about:blank#page-backend-cuda)
+Related topics: [Architecture Overview](about:blank#page-arch-overview), [CUDA Backend Implementation](about:blank#page-backend-cuda)
 
 - Relevant source files
     
@@ -1273,58 +1272,58 @@ Related topics: [架构概览](about:blank#page-arch-overview), [CUDA 后端实�
     - [cuda/kernel/level3/ac/MultiplyKernels.h](cuda/kernel/level3/ac/MultiplyKernels.h)
     - [hip/test/include/args.h](hip/test/include/args.h)
 
-# HIP 后端实现
+# HIP Backend Implementation
 
-### 引言
+### Introduction
 
-AlphaSPARSE 的 HIP 后端旨在为 AMD GPU 提供高性能的稀疏线性代数计算能力。该后端利用 HIP (Heterogeneous-compute Interface for Portability) 编程模型实现，确保了代码在 AMD 硬件平台上的高效执行。它为关键的稀疏 BLAS 例程提供了具体的实现，包括稀疏矩阵-向量乘法 (SpMV)、稀疏三角求解 (SpSV) 和稀疏矩阵-矩阵乘法 (SpGEMM)。为了确保计算的准确性，项目包含了一个全面的测试框架，该框架将 AlphaSPARSE HIP 内核的计算结果与 AMD 的 rocSPARSE (hipSPARSE) 库进行对比验证。
+The HIP backend of AlphaSPARSE aims to provide high-performance sparse linear algebra computing capability for AMD GPUs. This backend is implemented using the HIP (Heterogeneous-compute Interface for Portability) programming model, ensuring efficient execution of the code on AMD hardware platforms. It provides concrete implementations for key sparse BLAS routines, including sparse matrix-vector multiplication (SpMV), sparse triangular solve (SpSV), and sparse matrix-matrix multiplication (SpGEMM). To ensure computational accuracy, the project includes a comprehensive test framework that compares the computation results of the AlphaSPARSE HIP kernels against AMD's rocSPARSE (hipSPARSE) library for verification.
 
-### 构建与测试
+### Build and Testing
 
-HIP 后端的构建和测试流程由 `CMake` 管理。测试代码位于 `hip/test/` 目录下，其 `CMakeLists.txt` 文件详细定义了测试用例的编译规则和依赖关系。
+The build and testing flow of the HIP backend is managed by `CMake`. The test code is located in the `hip/test/` directory, and its `CMakeLists.txt` file defines the compilation rules and dependencies of the test cases in detail.
 
 Sources: hip/test/CMakeLists.txt
 
-### 测试通用组件
+### Common Test Components
 
-一组通用的源文件为所有 HIP 测试提供了基础功能，如命令行参数解析、I/O 操作和结果验证。
+A set of common source files provides basic functionality for all HIP tests, such as command-line argument parsing, I/O operations, and result verification.
 
-| 文件名 | 描述 |
+| File Name | Description |
 | --- | --- |
-| `args.hip` | 解析测试程序的命令行参数。 |
-| `io.hip` | 负责从文件中读取矩阵数据。 |
-| `check.hip` | 提供用于验证计算结果准确性的函数。 |
-| `check_r.hip` | 针对实数类型的特定检查函数。 |
-| `warmup.hip` | 提供 GPU 预热功能，以获得更准确的性能测量。 |
+| `args.hip` | Parses the command-line arguments of the test program. |
+| `io.hip` | Responsible for reading matrix data from files. |
+| `check.hip` | Provides functions for verifying the accuracy of computation results. |
+| `check_r.hip` | Specific check functions for real-number types. |
+| `warmup.hip` | Provides GPU warm-up functionality for more accurate performance measurements. |
 
 Sources: hip/test/CMakeLists.txt:3-9
 
-### 测试用例构建流程
+### Test Case Build Flow
 
-`CMakeLists.txt` 中的 `add_alphasparse_example` 函数封装了为每个测试源文件创建可执行文件的过程。此流程清晰地展示了测试程序的依赖关系和编译定义。
+The `add_alphasparse_example` function in `CMakeLists.txt` encapsulates the process of creating an executable for each test source file. This flow clearly shows the dependencies and compilation definitions of the test program.
 
 ```mermaid
 graph TD
     subgraph Test Build Process
-        A[测试源文件<br/>e.g., spmv_csr_r_f32_test.hip] --> B{add_alphasparse_example};
-        B --> C[创建可执行文件];
-        C --> D{设置编译定义<br/>__HIP_PLATFORM_HCC__};
-        D --> E{链接库};
+        A[Test source file<br/>e.g., spmv_csr_r_f32_test.hip] --> B{add_alphasparse_example};
+        B --> C[Create executable];
+        C --> D{Set compilation definitions<br/>__HIP_PLATFORM_HCC__};
+        D --> E{Link libraries};
         subgraph Dependencies
             E --> L1[alphasparse];
             E --> L2[roc::hipsparse];
             E --> L3[hip::host / hip::device];
             E --> L4[roc::rocprim];
-            E --> L5[测试工具 objs];
+            E --> L5[Test tool objs];
         end
     end
 ```
 
-*该图展示了如何通过 `add_alphasparse_example` 函数将一个 HIP 测试源文件编译成可执行文件，并链接所有必要的依赖库。*
+*This diagram shows how a HIP test source file is compiled into an executable via the `add_alphasparse_example` function and linked with all necessary dependency libraries.*
 
 Sources: hip/test/CMakeLists.txt:17-45
 
-编译的测试目标涵盖了多个稀疏计算级别和数据类型，例如：
+The compiled test targets cover multiple sparse computing levels and data types, for example:
 - `level2/spmv_csr_r_f32_test.hip`
 - `level2/spsv_csr_r_f64_test_metrics.hip`
 - `level3/spgemm_csr_r_f32_test.hip`
@@ -1332,13 +1331,13 @@ Sources: hip/test/CMakeLists.txt:17-45
 
 Sources: hip/test/CMakeLists.txt:59-75
 
-### HIP/rocSPARSE 互操作性
+### HIP/rocSPARSE Interoperability
 
-为了验证 AlphaSPARSE HIP 实现的正确性，测试框架需要与 rocSPARSE (hipSPARSE) 库进行交互和结果比对。这是通过在一系列头文件中定义的枚举类型映射实现的，这些映射将 AlphaSPARSE 的 API 参数转换为 hipSPARSE 的等效参数。
+To verify the correctness of the AlphaSPARSE HIP implementation, the test framework needs to interact with the rocSPARSE (hipSPARSE) library and compare results. This is achieved through enumeration type mappings defined in a series of header files, which convert the API parameters of AlphaSPARSE into the equivalent parameters of hipSPARSE.
 
-`hip/test/include/common.h` 文件是实现这种互操作性的核心。它定义了从 AlphaSPARSE 枚举到 hipSPARSE 枚举的转换 `std::map`。
+The `hip/test/include/common.h` file is the core for implementing this interoperability. It defines the `std::map`s for converting from AlphaSPARSE enumerations to hipSPARSE enumerations.
 
-| AlphaSPARSE 枚举 | hipSPARSE 枚举 | 映射表 |
+| AlphaSPARSE Enum | hipSPARSE Enum | Mapping Table |
 | --- | --- | --- |
 | `alphasparseOperation_t` | `hipsparseOperation_t` | `alpha2cuda_op_map` |
 | `alphasparse_fill_mode_t` | `hipsparseFillMode_t` | `alpha2cuda_fill_map` |
@@ -1346,28 +1345,28 @@ Sources: hip/test/CMakeLists.txt:59-75
 | `alphasparseOrder_t` | `hipsparseOrder_t` | `alpha2cuda_order_map` |
 | `alphasparseDataType` | `hipDataType` | `alpha2cuda_datatype_map` |
 
-*此表总结了用于在测试期间将 AlphaSPARSE API 调用转换为等效 rocSPARSE 调用的关键数据结构。*
+*This table summarizes the key data structures used to convert AlphaSPARSE API calls into equivalent rocSPARSE calls during testing.*
 
 Sources: hip/test/include/common.h:46-111
 
-### 核心内核实现
+### Core Kernel Implementation
 
-AlphaSPARSE 的 HIP 后端包含针对不同稀疏操作级别优化的自定义内核。
+The HIP backend of AlphaSPARSE contains custom kernels optimized for different sparse operation levels.
 
-### Level 2: SpSV (稀疏三角求解)
+### Level 2: SpSV (Sparse Triangular Solve)
 
-对于稀疏三角求解 (SpSV)，仓库实现了一种基于非零元 (NNZ) 负载均衡的算法，特别针对 CSR 格式的矩阵。该实现位于 `hip/kernel/level2/spsv_csr_n_lo_nnz_balance.h` 中。
+For sparse triangular solve (SpSV), the repository implements an algorithm based on non-zero element (NNZ) load balancing, specifically for CSR-format matrices. This implementation is located in `hip/kernel/level2/spsv_csr_n_lo_nnz_balance.h`.
 
-该算法采用分析-求解 (Analysis-Solve) 两阶段方法：
+This algorithm adopts an Analysis-Solve two-stage approach:
 
-1. **分析阶段 (`spsv_csr_n_lo_nnz_balance_analysis`)**:
-    - 此阶段预处理矩阵以构建求解所需的依赖关系信息。
-    - 它计算每行的“入度” (in-degree)，即在三角求解过程中，计算当前行之前需要完成计算的其他行的数量。
-    - 可选地，该阶段可以对行进行重排序 (`REORDER` 模板参数) 以改善并行性。
-2. **求解阶段 (`spsv_csr_n_lo_nnz_balance_solve_kernel`)**:
-    - 这是一个 `__global__` HIP 内核，它为每个非零元启动一个线程。
-    - 内核使用原子操作 (`atomicAdd`, `atomicSub`) 和内存栅栏 (`__threadfence`) 来安全地处理行之间的依赖关系。
-    - 当一行的所有依赖项都计算完成后（即 `in_degree` 减至 1），负责对角线元素的线程将计算该行的最终解，并将其标记为完成，以解锁其他依赖于此行的计算。
+1. **Analysis stage (`spsv_csr_n_lo_nnz_balance_analysis`)**:
+    - This stage preprocesses the matrix to build the dependency information needed for the solve.
+    - It computes the "in-degree" of each row, i.e., the number of other rows that must be computed before the current row can be computed during the triangular solve.
+    - Optionally, this stage can reorder the rows (the `REORDER` template parameter) to improve parallelism.
+2. **Solve stage (`spsv_csr_n_lo_nnz_balance_solve_kernel`)**:
+    - This is a `__global__` HIP kernel that launches one thread per non-zero element.
+    - The kernel uses atomic operations (`atomicAdd`, `atomicSub`) and memory fences (`__threadfence`) to safely handle dependencies between rows.
+    - When all dependencies of a row are computed (i.e., `in_degree` is decremented to 1), the thread responsible for the diagonal element computes the final solution of that row and marks it as complete, unlocking other computations that depend on this row.
 
 ```mermaid
 sequenceDiagram
@@ -1375,92 +1374,92 @@ sequenceDiagram
     participant A as spsv_..._analysis
     participant S as spsv_..._solve_kernel
 
-    C->>+A: 调用分析函数(矩阵)
-    A->>A: 计算行依赖关系 (in-degree)
-    A-->>-C: 返回分析数据
-    C->>+S: 启动求解内核(分析数据)
-    loop 对每个非零元
-        S->>S: 检查依赖的行是否已求解
-        alt 依赖未完成
-            S->>S: 等待
-        else 依赖已完成
-            S-->>S: 使用原子操作更新当前行
+    C->>+A: Call analysis function (matrix)
+    A->>A: Compute row dependencies (in-degree)
+    A-->>-C: Return analysis data
+    C->>+S: Launch solve kernel (analysis data)
+    loop For each non-zero element
+        S->>S: Check whether dependent rows are solved
+        alt Dependencies not completed
+            S->>S: Wait
+        else Dependencies completed
+            S-->>S: Update current row using atomic operations
         end
     end
-    S-->>-C: 计算完成
+    S-->>-C: Computation complete
 ```
 
-*此图描述了 SpSV 的分析-求解流程。分析阶段准备依赖信息，求解内核利用这些信息并通过原子操作并行地完成计算。*
+*This diagram describes the analysis-solve flow of SpSV. The analysis stage prepares dependency information, and the solve kernel uses this information to complete the computation in parallel via atomic operations.*
 
 Sources: hip/kernel/level2/spsv_csr_n_lo_nnz_balance.h:35-212
 
-### Level 3: SpGEMM (稀疏矩阵-矩阵乘法)
+### Level 3: SpGEMM (Sparse Matrix-Matrix Multiplication)
 
-项目为 SpGEMM 实现了多种复杂的 GPU 内核策略，旨在优化不同类型稀疏矩阵的乘法性能。
+The project implements multiple complex GPU kernel strategies for SpGEMM, aimed at optimizing the multiplication performance of different types of sparse matrices.
 
-### spECK 负载均衡策略
+### spECK Load Balancing Strategy
 
-`spECK` 是一种基于哈希的 SpGEMM 实现，其核心是高效的负载均衡。`spECK_HashLoadBalancer.h` 文件中的 `h_AssignHashSpGEMMBlocksToRowsOfSameSize` 函数实现了将具有相似计算负载（相似行长度）的行分组到同一个计算块（block）中的逻辑。
+`spECK` is a hash-based SpGEMM implementation whose core is efficient load balancing. The `h_AssignHashSpGEMMBlocksToRowsOfSameSize` function in `spECK_HashLoadBalancer.h` implements the logic of grouping rows with similar computation load (similar row lengths) into the same compute block.
 
-该过程如下：
-1. **读取行长度**: `RowLengthReader` 结构从输入矩阵的行指针数组中读取每行的非零元数量。
-2. **范围合并**: `CombineRangesOfSameSize` 仿函数将连续的、具有相同大小（或相似计算量）的行合并成一个工作范围。
-3. **预扫描与分配**: `prescanArrayOrdered` 函数对所有行进行扫描，并使用合并逻辑来创建最终的块分配方案。
-4. **消费者**: `BlockRangeConsumer` 将生成的块分配信息写入输出缓冲区。
+The process is as follows:
+1. **Read row length**: The `RowLengthReader` structure reads the number of non-zero elements per row from the row pointer array of the input matrix.
+2. **Range merging**: The `CombineRangesOfSameSize` functor merges consecutive rows of the same size (or similar computation amount) into one work range.
+3. **Prescan and allocation**: The `prescanArrayOrdered` function scans all rows and uses the merge logic to create the final block allocation scheme.
+4. **Consumer**: The `BlockRangeConsumer` writes the generated block allocation information into the output buffer.
 
 ```mermaid
 graph TD
-    A[输入矩阵 CSR 行指针] --> B[RowLengthReaderDef<br>读取每行 NNZ];
-    B --> C{prescanArrayOrdered<br>有序预扫描};
-    D[CombineRangesOfSameSize<br>合并相似大小的行] --> C;
-    C --> E[BlockRangeConsumerDef<br>写入块分配结果];
-    E --> F[输出<br>每个块处理的起始行];
+    A[Input matrix CSR row pointers] --> B[RowLengthReaderDef<br>Read NNZ per row];
+    B --> C{prescanArrayOrdered<br>Ordered prescan};
+    D[CombineRangesOfSameSize<br>Merge rows of similar size] --> C;
+    C --> E[BlockRangeConsumerDef<br>Write block allocation result];
+    E --> F[Output<br>Start row processed by each block];
 ```
 
-*此图展示了 spECK SpGEMM 中用于负载均衡的行分配流程，它将相似的行分组以优化 GPU 资源利用率。*
+*This diagram shows the row allocation flow used for load balancing in spECK SpGEMM, which groups similar rows to optimize GPU resource utilization.*
 
 Sources: hip/kernel/level3/speck/spECK_HashLoadBalancer.h:73-120
 
-### Ac-SpGEMM 内核
+### Ac-SpGEMM Kernel
 
-`cuda/kernel/level3/ac/MultiplyKernels.h` 文件定义了另一种 SpGEMM 实现（`AcSpGEMM`）的内核接口。尽管路径为 `cuda`，但其设计理念（如分阶段计算）通常适用于通用的 GPU 编程模型，包括 HIP。该文件定义了多个模板化的内核函数，暗示了一个多阶段的计算过程，可能包括：
-- `h_DetermineBlockStarts`: 确定每个块的起始工作点。
-- `h_computeSpgemmPart`: 执行 SpGEMM 的部分计算。
-- `h_mergeSharedRowsSimple` / `h_mergeSharedRowsMaxChunks`: 合并由不同线程块或线程束计算的中间结果。
+The `cuda/kernel/level3/ac/MultiplyKernels.h` file defines the kernel interface for another SpGEMM implementation (`AcSpGEMM`). Although the path is `cuda`, its design philosophy (such as staged computation) is generally applicable to common GPU programming models, including HIP. This file defines several templated kernel functions, suggesting a multi-stage computation process that may include:
+- `h_DetermineBlockStarts`: Determines the starting work point of each block.
+- `h_computeSpgemmPart`: Performs partial computation of SpGEMM.
+- `h_mergeSharedRowsSimple` / `h_mergeSharedRowsMaxChunks`: Merge intermediate results computed by different thread blocks or warps.
 
 Sources: cuda/kernel/level3/ac/MultiplyKernels.h:60-96
 
-### DCU/HIP API 接口
+### DCU/HIP API Interface
 
-AlphaSPARSE 为 HIP 后端（在 AMD 生态系统中也称为 DCU）提供了一组明确的 C API。这些接口在 `include/alphasparse/kernel_dcu/` 目录下的头文件中声明。这些函数是上层应用与底层 HIP 内核之间的桥梁。
+AlphaSPARSE provides a set of explicit C APIs for the HIP backend (also called DCU in the AMD ecosystem). These interfaces are declared in header files under the `include/alphasparse/kernel_dcu/` directory. These functions serve as a bridge between upper-layer applications and the underlying HIP kernels.
 
-下表列出了一些代表性的 DCU API 函数：
+The following table lists some representative DCU API functions:
 
-| 函数 | 描述 | 源文件 |
-| --- | --- | --- |
-| `dcu_gemv_c_csr` | 通用稀疏矩阵-向量乘法 (GEMV)，用于 CSR 格式，单精度复数。 | `kernel_csr_c_dcu.h` |
-| `dcu_hermv_c_csr_n_hi_trans` | Hermitian 矩阵-向量乘法，使用矩阵的上三角部分进行转置计算。 | `kernel_csr_c_dcu.h` |
-| `dcu_trmv_c_csr_n_lo` | 三角矩阵-向量乘法，使用矩阵的下三角部分。 | `kernel_csr_c_dcu.h` |
-| `dcu_gemm_z_bsr` | 通用稀疏矩阵-稠密矩阵乘法 (GEMM)，用于 BSR 格式，双精度复数。 | `kernel_bsr_z_dcu.h` |
-| `dcu_trmv_z_bsr_u_hi_trans` | 单位三角矩阵-向量乘法，使用矩阵的上三角部分进行转置计算。 | `kernel_bsr_z_dcu.h` |
+| Function | Description | Source File |
+| --- | --- |
+| `dcu_gemv_c_csr` | General sparse matrix-vector multiplication (GEMV), for CSR format, single-precision complex. | `kernel_csr_c_dcu.h` |
+| `dcu_hermv_c_csr_n_hi_trans` | Hermitian matrix-vector multiplication, using the upper triangular part of the matrix for transpose computation. | `kernel_csr_c_dcu.h` |
+| `dcu_trmv_c_csr_n_lo` | Triangular matrix-vector multiplication, using the lower triangular part of the matrix. | `kernel_csr_c_dcu.h` |
+| `dcu_gemm_z_bsr` | General sparse matrix-dense matrix multiplication (GEMM), for BSR format, double-precision complex. | `kernel_bsr_z_dcu.h` |
+| `dcu_trmv_z_bsr_u_hi_trans` | Unit triangular matrix-vector multiplication, using the upper triangular part of the matrix for transpose computation. | `kernel_bsr_z_dcu.h` |
 
 Sources: include/alphasparse/kernel_dcu/kernel_csr_c_dcu.h, include/alphasparse/kernel_dcu/kernel_bsr_z_dcu.h
 
-### 结论
+### Conclusion
 
-AlphaSPARSE 的 HIP 后端为 AMD GPU 提供了一套功能丰富且高性能的稀疏计算解决方案。通过 HIP 编程模型，它实现了与硬件无关的可移植性。后端结合了自定义的高级内核（如用于 SpSV 的依赖驱动内核和用于 SpGEMM 的复杂负载均衡策略）以及与 rocSPARSE 库的互操作性，确保了其功能的健壮性和准确性。清晰的 API 设计和完善的测试框架使其成为一个可靠的 GPU 加速稀疏计算库。
+The HIP backend of AlphaSPARSE provides a feature-rich and high-performance sparse computing solution for AMD GPUs. Through the HIP programming model, it achieves hardware-independent portability. The backend combines custom advanced kernels (such as dependency-driven kernels for SpSV and complex load-balancing strategies for SpGEMM) with interoperability with the rocSPARSE library, ensuring the robustness and accuracy of its functionality. The clear API design and comprehensive test framework make it a reliable GPU-accelerated sparse computing library.
 
 ---
 
-## CPU 后端实现 (ARM & Hygon)
+## CPU Backend Implementation (ARM & Hygon)
 
 ### Related Pages
 
-Related topics: [架构概览](about:blank#page-arch-overview)
+Related topics: [Architecture Overview](about:blank#page-arch-overview)
 
 - Relevant source files
     
-    以下文件被用作生成此维基页面的上下文：
+    The following files were used as context for generating this wiki page:
     
     - [hygon/test/CMakeLists.txt](hygon/test/CMakeLists.txt)
     - [arm/test/CMakeLists.txt](arm/test/CMakeLists.txt)
@@ -1468,26 +1467,26 @@ Related topics: [架构概览](about:blank#page-arch-overview)
     - [hygon/kernel/level2/mv/symv/symv_bsr_u_lo_conj.hpp](hygon/kernel/level2/mv/symv/symv_bsr_u_lo_conj.hpp)
     - [arm/kernel/level2/mv/symv/symv_bsr_u_lo_conj.hpp](arm/kernel/level2/mv/symv/symv_bsr_u_lo_conj.hpp)
 
-# CPU 后端实现 (ARM & Hygon)
+# CPU Backend Implementation (ARM & Hygon)
 
-本项目为不同的CPU架构（特别是Hygon x86-64和ARM）提供了独立的后端实现。这种方法允许利用每个平台特定的优化和库，以实现最佳性能。Hygon后端利用了Intel MKL库和特定的FMA（Fused Multiply-Add）汇编指令，而ARM后端则依赖于标准的数学和动态链接库。
+This project provides independent backend implementations for different CPU architectures (especially Hygon x86-64 and ARM). This approach allows leveraging platform-specific optimizations and libraries for each platform to achieve optimal performance. The Hygon backend leverages the Intel MKL library and specific FMA (Fused Multiply-Add) assembly instructions, while the ARM backend relies on standard math and dynamic linking libraries.
 
-两个后端共享部分高级C++内核代码的逻辑，但在构建过程、库依赖和底层优化方面存在显著差异。测试套件也针对每个架构分别配置，以确保在各自平台上的正确性和性能。
+The two backends share the logic of part of the high-level C++ kernel code, but differ significantly in the build process, library dependencies, and low-level optimizations. The test suites are also configured separately for each architecture to ensure correctness and performance on their respective platforms.
 
-## 构建系统与依赖项
+## Build System and Dependencies
 
-项目的构建系统使用CMake来管理不同CPU后端的编译和链接过程。通过在不同的目录（`hygon/` 和 `arm/`）中使用独立的`CMakeLists.txt`文件来处理特定于平台的配置。
+The project's build system uses CMake to manage the compilation and linking process for different CPU backends. Platform-specific configurations are handled through separate `CMakeLists.txt` files in different directories (`hygon/` and `arm/`).
 
 Sources: hygon/test/CMakeLists.txt, arm/test/CMakeLists.txt
 
-### 库链接
+### Library Linking
 
-最显著的区别在于外部库的依赖关系。Hygon后端链接了Intel Math Kernel Library (MKL)，而ARM后端则使用标准的`m`和`dl`库。
+The most notable difference is in the dependency on external libraries. The Hygon backend links the Intel Math Kernel Library (MKL), while the ARM backend uses the standard `m` and `dl` libraries.
 
 ```mermaid
 graph TD
-    subgraph Hygon后端
-        A[测试可执行文件] --> B(alphasparse库)
+    subgraph Hygon Backend
+        A[Test executable] --> B(alphasparse library)
         B --> C[Intel MKL]
         C --> D[mkl_intel_lp64]
         C --> E[mkl_intel_thread]
@@ -1495,35 +1494,35 @@ graph TD
         C --> G[iomp5]
         B --> H[m, dl]
     end
-    subgraph ARM后端
-        X[测试可执行文件] --> Y(alphasparse库)
-        Y --> Z[标准库]
+    subgraph ARM Backend
+        X[Test executable] --> Y(alphasparse library)
+        Y --> Z[Standard libraries]
         Z --> Z1[m]
         Z --> Z2[dl]
     end
 ```
 
-*上图展示了Hygon和ARM后端测试程序的不同链接依赖关系。*
+*The figure above shows the different linking dependencies of the Hygon and ARM backend test programs.*
 
-下表总结了链接库的差异：
+The following table summarizes the differences in linked libraries:
 
-| 库 | Hygon (`hygon/test/CMakeLists.txt`) | ARM (`arm/test/CMakeLists.txt`) | 描述 |
+| Library | Hygon (`hygon/test/CMakeLists.txt`) | ARM (`arm/test/CMakeLists.txt`) | Description |
 | --- | --- | --- | --- |
-| `alphasparse` | ✓ | ✓ | 项目核心稀疏计算库 |
-| `mkl_intel_lp64` | ✓ | ✗ | Intel MKL 64位整数接口层 |
-| `mkl_intel_thread` | ✓ | ✗ | Intel MKL OpenMP线程层 |
-| `mkl_core` | ✓ | ✗ | MKL核心计算库 |
-| `iomp5` | ✓ | ✗ | Intel OpenMP运行时库 |
-| `m` | ✓ | ✓ | 标准数学库 |
-| `dl` | ✓ | ✓ | 动态链接库 |
+| `alphasparse` | ✓ | ✓ | Core sparse computing library of the project |
+| `mkl_intel_lp64` | ✓ | ✗ | Intel MKL 64-bit integer interface layer |
+| `mkl_intel_thread` | ✓ | ✗ | Intel MKL OpenMP threading layer |
+| `mkl_core` | ✓ | ✗ | MKL core computation library |
+| `iomp5` | ✓ | ✗ | Intel OpenMP runtime library |
+| `m` | ✓ | ✓ | Standard math library |
+| `dl` | ✓ | ✓ | Dynamic linking library |
 
 Sources: hygon/test/CMakeLists.txt:14-23, arm/test/CMakeLists.txt:13-17
 
-### 测试目标
+### Test Targets
 
-两个平台都使用一个名为`add_alphasparse_example`的CMake函数来定义和构建测试可执行文件。尽管测试文件的名称在两个平台间大部分相同（例如`level3/mm_hygon_test.cpp`），但它们是为各自的平台独立编译和链接的。
+Both platforms use a CMake function named `add_alphasparse_example` to define and build test executables. Although the test file names are mostly the same across the two platforms (e.g., `level3/mm_hygon_test.cpp`), they are compiled and linked independently for their respective platforms.
 
-**Hygon 测试目标示例:**
+**Hygon Test Target Examples:**
 
 ```
 add_alphasparse_example(level2/mv_hygon_test.cpp)
@@ -1533,7 +1532,7 @@ add_alphasparse_example(level3/spmm_csr_d_hygon_test.cpp)
 
 Sources: hygon/test/CMakeLists.txt:28-45
 
-**ARM 测试目标示例:**
+**ARM Test Target Examples:**
 
 ```
 add_alphasparse_example(level2/mv_hygon_test.cpp)
@@ -1543,91 +1542,91 @@ add_alphasparse_example(level3/spmm_csr_d_hygon_test.cpp)
 
 Sources: arm/test/CMakeLists.txt:22-39
 
-## 内核实现
+## Kernel Implementation
 
-Hygon后端的内核实现包含C++源文件和特定于x86架构的汇编（.S）文件，以实现极致优化。
+The kernel implementation of the Hygon backend includes C++ source files and assembly (.S) files specific to the x86 architecture for extreme optimization.
 
 Sources: hygon/kernel/CMakeLists.txt
 
-### Hygon内核源文件
+### Hygon Kernel Source Files
 
-Hygon内核的源代码在`hygon/kernel/CMakeLists.txt`中定义。它分为C++实现和汇编实现。
+The source code of the Hygon kernel is defined in `hygon/kernel/CMakeLists.txt`. It is divided into C++ implementation and assembly implementation.
 
-**C++ 源文件 (`alphasparse_source`):**
+**C++ Source Files (`alphasparse_source`):**
 - `kernel/level1/alphasparse_axpy.cpp`
 - `kernel/level2/alphasparse_mv.cpp`
 - `kernel/level2/alphasparse_trsv.cpp`
 - `kernel/level3/alphasparse_mm.cpp`
 - `kernel/level3/alphasparse_spmm.cpp`
-- …等等
+- …, etc.
 
 Sources: hygon/kernel/CMakeLists.txt:1-17
 
-**汇编源文件 (`ASM_SOURCES`):**
-这些文件提供了针对特定操作（如GEMV）的手写优化。
+**Assembly Source Files (`ASM_SOURCES`):**
+These files provide hand-written optimizations for specific operations (such as GEMV).
 - `kernel/level2/mv/gemv/csrmv/gemv_csr_serial_fma_c8_u2.S`
 - `kernel/level2/mv/gemv/csrmv/gemv_csr_serial_fma_fp32_u8_ext.S`
 - `kernel/level2/mv/gemv/csrmv/gemv_csr_serial_fma_fp64_u4.S`
 - `kernel/level2/mv/gemv/ellmv/ellsgemv_fma128.S`
-- …等等
+- …, etc.
 
 Sources: hygon/kernel/CMakeLists.txt:20-33
 
-### C++ 内核代码比较
+### C++ Kernel Code Comparison
 
-通过比较`symv_bsr_u_lo_conj.hpp`文件可以看出，Hygon和ARM后端目前共享相同的高级C++内核代码。两个文件中的逻辑是完全一致的，这表明在某些情况下，代码是跨平台可移植的，而性能差异主要来自于底层库和汇编级别的优化。
+By comparing the `symv_bsr_u_lo_conj.hpp` files, it can be seen that the Hygon and ARM backends currently share the same high-level C++ kernel code. The logic in the two files is completely identical, which indicates that in some cases the code is cross-platform portable, while performance differences mainly come from low-level library and assembly-level optimizations.
 
-以下是该内核中核心计算循环的简化流程：
+The following is a simplified flow of the core computation loop in this kernel:
 
 ```mermaid
 graph TD
-    A["开始 symv_bsr_u_lo_conj"] --> B{"遍历内层矩阵块 (i)"}
-    B --> C{"遍历行内非零块 (ai)"}
-    C --> D{"获取列索引 (col)"}
+    A["Start symv_bsr_u_lo_conj"] --> B{"Iterate over inner matrix blocks (i)"}
+    B --> C{"Iterate over non-zero blocks in row (ai)"}
+    C --> D{"Get column index (col)"}
     D --> E{"if col < i"}
-    E -- "是" --> C
-    E -- "否" --> F{"if col == i (对角块)"}
-    F -- "是" --> G["处理对角块单元"]
-    F -- "否" --> H["处理非对角块单元"]
+    E -- "Yes" --> C
+    E -- "No" --> F{"if col == i (diagonal block)"}
+    F -- "Yes" --> G["Process diagonal block element"]
+    F -- "No" --> H["Process off-diagonal block element"]
     G --> I
-    H --> I{"更新 y 向量"}
+    H --> I{"Update y vector"}
     I --> C
 
-    C -- "循环结束" --> J{"if 未处理对角块"}
-    J -- "是" --> K["处理单位对角线"]
+    C -- "Loop end" --> J{"if diagonal block not processed"}
+    J -- "Yes" --> K["Process unit diagonal"]
     K --> B
-    J -- "否" --> B
+    J -- "No" --> B
 
-    B -- "循环结束" --> L["使用 alpha 缩放最终结果"]
-    L --> M["结束"]
+    B -- "Loop end" --> L["Scale final result with alpha"]
+    L --> M["End"]
 
 ```
 
-*上图展示了`symv_bsr_u_lo_conj.hpp`中处理对称块稀疏矩阵向量乘法的通用逻辑。*
+*The figure above shows the general logic for handling symmetric block sparse matrix-vector multiplication in `symv_bsr_u_lo_conj.hpp`.*
 
-代码片段示例（Hygon与ARM相同）：
+Code snippet example (identical for Hygon and ARM):
 
 ```cpp
-// hygon/kernel/level2/mv/symv/symv_bsr_u_lo_conj.hppfor(ALPHA_INT i = 0; i < m_inner; ++i){    ALPHA_INT m_s = i*bs;    for(ALPHA_INT ai = A->row_data[i]; ai < A->row_data[i+1]; ++ai)    {        const ALPHA_INT col = A->col_data[ai];        if(col < i)        {            continue;        }        else if(col == i)        {            diag_block = 1;            // ... 对角块处理 ...        }        else        {            // ... 非对角块处理 ...        }    }    if (diag_block == 0){        // ... 单位对角线处理 ...    }}
+// hygon/kernel/level2/mv/symv/symv_bsr_u_lo_conj.hppfor(ALPHA_INT i = 0; i < m_inner; ++i){    ALPHA_INT m_s = i*bs;    for(ALPHA_INT ai = A->row_data[i]; ai < A->row_data[i+1]; ++ai)    {        const ALPHA_INT col = A->col_data[ai];        if(col < i)        {            continue;        }        else if(col == i)        {            diag_block = 1;            // ... diagonal block handling ...        }        else        {            // ... off-diagonal block handling ...        }    }    if (diag_block == 0){        // ... unit diagonal handling ...    }}
 ```
 
 Sources: hygon/kernel/level2/mv/symv/symv_bsr_u_lo_conj.hpp:34-80, arm/kernel/level2/mv/symv/symv_bsr_u_lo_conj.hpp:34-80
 
-## 总结
+## Summary
 
-该项目的CPU后端实现针对Hygon和ARM平台采取了不同的策略。Hygon后端通过链接Intel MKL并使用手写的汇编代码进行了深度优化。相比之下，ARM后端依赖于更通用的库，但在高级C++内核层面与Hygon后端共享代码。这种模块化的设计使得为不同硬件平台提供专门优化成为可能，同时最大限度地提高了代码的复用性。构建系统通过CMake精确控制每个后端的编译和链接过程，确保了平台的独立性和正确性。
+The CPU backend implementation of this project adopts different strategies for the Hygon and ARM platforms. The Hygon backend is deeply optimized by linking the Intel MKL and using hand-written assembly code. In contrast, the ARM backend relies on more general-purpose libraries, but shares code with the Hygon backend at the high-level C++ kernel layer. This modular design makes it possible to provide specialized optimizations for different hardware platforms while maximizing code reuse. The build system uses CMake to precisely control the compilation and linking process of each backend, ensuring platform independence and correctness.
 
 ---
 
-## 测试指南
+## Testing Guide
 
 ### Related Pages
 
-Related topics: [构建指南](about:blank#page-build-guide)
+Related topics: [Build Guide](about:blank#page-build-guide)
 
 - Relevant source files
     
-    此维基页面的内容生成参考了以下文件：
+    The following files were used as context for generating this wiki page:
     
     - [hygon/test/CMakeLists.txt](hygon/test/CMakeLists.txt)
     - [arm/test/CMakeLists.txt](arm/test/CMakeLists.txt)
@@ -1635,62 +1634,62 @@ Related topics: [构建指南](about:blank#page-build-guide)
     - [cuda/kernel/level3/csrspgemm_device_ac.h](cuda/kernel/level3/csrspgemm_device_ac.h)
     - [cuda/kernel/level3/ac/MultiplyKernels.h](cuda/kernel/level3/ac/MultiplyKernels.h)
 
-# 测试指南
+# Testing Guide
 
-AlphaSparse 库包含一个全面的测试套件，旨在确保在多个硬件架构（包括 Hygon x86、ARM 和 NVIDIA CUDA）上的正确性和性能。该测试框架使用 CMake 进行管理，为添加和构建测试用例提供了一个统一的接口。本指南概述了测试系统的结构、特定平台的配置以及测试覆盖范围。
+The AlphaSparse library includes a comprehensive test suite designed to ensure correctness and performance across multiple hardware architectures (including Hygon x86, ARM, and NVIDIA CUDA). The test framework is managed using CMake, providing a unified interface for adding and building test cases. This guide outlines the structure of the test system, platform-specific configurations, and test coverage.
 
-## 测试构建系统
+## Test Build System
 
-项目使用 CMake 来自动化测试可执行文件的编译和链接过程。核心机制是一个名为 `add_alphasparse_example` 的自定义 CMake 函数，该函数封装了为不同平台添加测试的通用逻辑。
+The project uses CMake to automate the compilation and linking of test executables. The core mechanism is a custom CMake function named `add_alphasparse_example`, which encapsulates the common logic for adding tests on different platforms.
 
 Sources: hygon/test/CMakeLists.txt:1-26, arm/test/CMakeLists.txt:1-20, cuda/test/CMakeLists.txt:1-20
 
-### `add_alphasparse_example` 函数
+### `add_alphasparse_example` Function
 
-此函数是向构建系统添加新测试用例的标准方法。它处理从源文件名派生目标名称、设置包含目录和链接所需库等任务。
+This function is the standard way to add new test cases to the build system. It handles tasks such as deriving the target name from the source file name, setting include directories, and linking the required libraries.
 
-下面的流程图说明了该函数的操作：
+The following flowchart illustrates the operation of this function:
 
 ```mermaid
 graph TD
-    A["开始: add_alphasparse_example(TEST_SOURCE)"] --> B{"从源文件获取目标名称"}
-    B --> C{"添加可执行目标"}
-    C --> D{"配置包含目录"}
-    D --> E{"链接库"}
-    E --> F["结束"]
+    A["Start: add_alphasparse_example(TEST_SOURCE)"] --> B{"Get target name from source file"}
+    B --> C{"Add executable target"}
+    C --> D{"Configure include directories"}
+    D --> E{"Link libraries"}
+    E --> F["End"]
 
 ```
 
-*图 1: `add_alphasparse_example` 函数工作流程。*
+*Figure 1: The workflow of the `add_alphasparse_example` function.*
 Sources: hygon/test/CMakeLists.txt:1-26
 
-该函数根据目标平台链接 `alphasparse` 核心库以及任何特定于平台的依赖项。
+This function links the `alphasparse` core library and any platform-specific dependencies according to the target platform.
 
-## 平台特定构建
+## Platform-Specific Build
 
-测试构建系统针对不同的目标架构进行了定制，每个架构都有其独特的编译定义和库依赖关系。
+The test build system is customized for different target architectures, each with its unique compilation definitions and library dependencies.
 
-### Hygon (x86) 构建
+### Hygon (x86) Build
 
-对于 Hygon 平台，测试严重依赖 Intel Math Kernel Library (MKL) 来进行性能比较和验证。
+For the Hygon platform, the tests heavily rely on the Intel Math Kernel Library (MKL) for performance comparison and verification.
 
-**链接库**
+**Linker Dependencies**
 
-下表总结了 Hygon 测试链接的关键库。
+The following table summarizes the key libraries linked by the Hygon tests.
 
-| 库 | 描述 |
+| Library | Description |
 | --- | --- |
-| `alphasparse` | 被测试的核心 AlphaSparse 库 |
-| `mkl_intel_lp64` | Intel MKL 64位接口库 (LP64) |
-| `mkl_intel_thread` | Intel MKL 线程层 |
-| `mkl_core` | Intel MKL 核心功能库 |
-| `iomp5` | Intel OpenMP 运行时库 |
-| `m` | 标准数学库 |
-| `dl` | 动态链接库 |
+| `alphasparse` | Core AlphaSparse library under test |
+| `mkl_intel_lp64` | Intel MKL 64-bit interface library (LP64) |
+| `mkl_intel_thread` | Intel MKL threading layer |
+| `mkl_core` | Intel MKL core functionality library |
+| `iomp5` | Intel OpenMP runtime library |
+| `m` | Standard math library |
+| `dl` | Dynamic linking library |
 
 Sources: hygon/test/CMakeLists.txt:13-21
 
-**测试用例示例**
+**Test Case Examples**
 
 - `level2/mv_hygon_test.cpp`
 - `level3/mm_hygon_test.cpp`
@@ -1698,21 +1697,21 @@ Sources: hygon/test/CMakeLists.txt:13-21
 
 Sources: hygon/test/CMakeLists.txt:28-50
 
-### ARM 构建
+### ARM Build
 
-ARM 平台的构建配置更简单，不依赖于特定于供应商的数学库，如 MKL。
+The build configuration for the ARM platform is simpler, not depending on a vendor-specific math library such as MKL.
 
-**链接库**
+**Linker Dependencies**
 
-| 库 | 描述 |
+| Library | Description |
 | --- | --- |
-| `alphasparse` | 被测试的核心 AlphaSparse 库 |
-| `m` | 标准数学库 |
-| `dl` | 动态链接库 |
+| `alphasparse` | Core AlphaSparse library under test |
+| `m` | Standard math library |
+| `dl` | Dynamic linking library |
 
 Sources: arm/test/CMakeLists.txt:13-17
 
-**测试用例示例**
+**Test Case Examples**
 
 - `level2/sv_csr_s_hygon_test.cpp`
 - `level3/trsm_csr_s_hygon_test.cpp`
@@ -1720,90 +1719,90 @@ Sources: arm/test/CMakeLists.txt:13-17
 
 Sources: arm/test/CMakeLists.txt:23-44
 
-### CUDA 构建
+### CUDA Build
 
-CUDA 测试需要特定的编译器定义和 NVIDIA CUDA 工具包中的库。
+CUDA tests require specific compiler definitions and libraries from the NVIDIA CUDA toolkit.
 
-**编译器定义和属性**
+**Compiler Definitions and Properties**
 
-- `__CUDA_NO_HALF2_OPERATORS__`: 禁用 `half2` 类型的内置运算符。
-- `CUDA_ARCH`: 定义目标 CUDA SM 架构（例如，70, 80）。
-- `CUDA_ARCHITECTURES`: 设置目标可执行文件的 CUDA 架构属性。
+- `__CUDA_NO_HALF2_OPERATORS__`: Disables the built-in operators for the `half2` type.
+- `CUDA_ARCH`: Defines the target CUDA SM architecture (e.g., 70, 80).
+- `CUDA_ARCHITECTURES`: Sets the CUDA architecture property of the target executable.
 
 Sources: cuda/test/CMakeLists.txt:4-6
 
-**链接库**
+**Linker Dependencies**
 
-| 库 | 描述 |
+| Library | Description |
 | --- | --- |
-| `CUDA::cudart` | CUDA 运行时库 |
-| `CUDA::cudart_static` | 静态 CUDA 运行时库 |
-| `CUDA::cusparse` | NVIDIA cuSPARSE 库 |
-| `CUDA::cusparse_static` | 静态 NVIDIA cuSPARSE 库 |
-| `alphasparse` | 被测试的核心 AlphaSparse 库 |
+| `CUDA::cudart` | CUDA runtime library |
+| `CUDA::cudart_static` | Static CUDA runtime library |
+| `CUDA::cusparse` | NVIDIA cuSPARSE library |
+| `CUDA::cusparse_static` | Static NVIDIA cuSPARSE library |
+| `alphasparse` | Core AlphaSparse library under test |
 
 Sources: cuda/test/CMakeLists.txt:13-19
 
-**条件编译**
+**Conditional Compilation**
 
-代码库包含针对特定 CUDA 架构的条件编译。例如，`bfloat16` 数据类型的测试仅在 `CUDA_ARCH` 大于或等于 80 时才会被编译，因为这需要 Ampere 或更新的硬件支持。
+The codebase includes conditional compilation for specific CUDA architectures. For example, tests for the `bfloat16` data type are only compiled when `CUDA_ARCH` is greater than or equal to 80, because this requires Ampere or newer hardware support.
 
 Sources: cuda/test/CMakeLists.txt:21-39
 
-## CUDA 内核测试范围
+## CUDA Kernel Test Coverage
 
-CUDA 测试不仅验证高级 API，还覆盖了复杂的底层内核实现，例如用于稀疏矩阵-稀疏矩阵乘法 (SpGEMM) 的 `ac-SpGEMM` 算法。
+CUDA tests not only verify the high-level API but also cover complex low-level kernel implementations, such as the `ac-SpGEMM` algorithm for sparse matrix-sparse matrix multiplication (SpGEMM).
 
-### ac-SpGEMM 内核
+### ac-SpGEMM Kernels
 
-`ac-SpGEMM` 是一种高性能的 SpGEMM 算法，其实现分为多个阶段。测试套件旨在验证这些阶段中每一个的正确性。
+`ac-SpGEMM` is a high-performance SpGEMM algorithm whose implementation is divided into multiple stages. The test suite aims to verify the correctness of each of these stages.
 
-**关键内核函数**
+**Key Kernel Functions**
 
-- `h_computeSpgemmPart`: 执行 SpGEMM 计算的核心阶段。
-- `h_mergeSharedRowsSimple`: 合并由不同线程块计算出的中间结果（简单情况）。
-- `h_mergeSharedRowsMaxChunks`: 处理需要更复杂合并逻辑的中间结果。
-- `h_mergeSharedRowsGeneralized`: 一种通用的合并实现。
-- `h_copyChunks`: 将最终的块状链表结果复制到标准的 CSR 格式中。
+- `h_computeSpgemmPart`: Executes the core compute stage of SpGEMM.
+- `h_mergeSharedRowsSimple`: Merges intermediate results computed by different thread blocks (simple case).
+- `h_mergeSharedRowsMaxChunks`: Handles intermediate results requiring more complex merge logic.
+- `h_mergeSharedRowsGeneralized`: A general-purpose merge implementation.
+- `h_copyChunks`: Copies the final chunked linked-list result into the standard CSR format.
 
 Sources: cuda/kernel/level3/ac/MultiplyKernels.h:71-155
 
-### SpGEMM 设备端逻辑
+### SpGEMM Device-Side Logic
 
-设备端代码 (`csrspgemm_device_ac.h`) 负责根据输入矩阵的特性选择并启动适当的 `ac-SpGEMM` 内核变体。这种复杂的逻辑是测试的重点，以确保在所有情况下都能选择正确的代码路径。
+The device-side code (`csrspgemm_device_ac.h`) is responsible for selecting and launching the appropriate `ac-SpGEMM` kernel variant based on the characteristics of the input matrices. This complex logic is the focus of testing to ensure the correct code path is selected in all cases.
 
-下面的图表演示了 SpGEMM 计算阶段的内核选择逻辑：
+The following diagram illustrates the kernel selection logic for the SpGEMM compute stage:
 
 ```mermaid
 graph TD
     subgraph SpGEMM Computation Stage
-        Start[开始 SpGEMM 计算] --> Cond1{A.rows < 65536 AND<br>B.cols < 65536?};
-        Cond1 -- 是 --> Case1[调用 h_computeSpgemmPart<..., 0>];
-        Cond1 -- 否 --> Cond2{B.cols 是否足够小<br>以进行重映射?};
-        Cond2 -- 是 --> Case2[调用 h_computeSpgemmPart<..., 1>];
-        Cond2 -- 否 --> Case3[调用 h_computeSpgemmPart<..., 2>];
-        Case1 --> End[结束 SpGEMM 计算];
+        Start[Start SpGEMM Compute] --> Cond1{A.rows < 65536 AND<br>B.cols < 65536?};
+        Cond1 -- Yes --> Case1[Call h_computeSpgemmPart<..., 0>];
+        Cond1 -- No --> Cond2{B.cols small enough<br>for remapping?};
+        Cond2 -- Yes --> Case2[Call h_computeSpgemmPart<..., 1>];
+        Cond2 -- No --> Case3[Call h_computeSpgemmPart<..., 2>];
+        Case1 --> End[End SpGEMM Compute];
         Case2 --> End;
         Case3 --> End;
     end
 ```
 
-*图 2: SpGEMM 内核选择逻辑。*
+*Figure 2: SpGEMM kernel selection logic.*
 Sources: cuda/kernel/level3/csrspgemm_device_ac.h:35-85
 
-这种基于矩阵维度的条件分派确保了在不同场景下的最佳性能和资源利用率，同时也增加了测试的复杂性。测试用例必须覆盖这些不同的分支以确保算法的鲁棒性。
+This dimension-based conditional dispatch ensures optimal performance and resource utilization in different scenarios, while also increasing the complexity of testing. Test cases must cover these different branches to ensure the robustness of the algorithm.
 
 ---
 
-## 工具脚本
+## Utility Scripts
 
 ### Related Pages
 
-Related topics: [测试指南](about:blank#page-testing-guide)
+Related topics: [Testing Guide](about:blank#page-testing-guide)
 
 - Relevant source files
     
-    以下文件被用作生成此维基页面的上下文：
+    The following files were used as context for generating this wiki page:
     
     - [hygon/test/CMakeLists.txt](hygon/test/CMakeLists.txt)
     - [arm/test/CMakeLists.txt](arm/test/CMakeLists.txt)
@@ -1818,71 +1817,71 @@ Related topics: [测试指南](about:blank#page-testing-guide)
     - [include/alphasparse/kernel_dcu/kernel_bsr_c_dcu.h](include/alphasparse/kernel_dcu/kernel_bsr_c_dcu.h)
     - [include/alphasparse/kernel_dcu/kernel_csr_c_dcu.h](include/alphasparse/kernel_dcu/kernel_csr_c_dcu.h)
 
-# 共轭（Conjugate）操作
+# Conjugate Operations
 
-## 简介
+## Introduction
 
-AlphaSparse 库为涉及复数（`ALPHA_Complex8` 和 `ALPHA_Complex16`）的稀疏矩阵计算提供了共轭（Conjugate）操作支持。此功能是稀疏 BLAS Level 2（矩阵向量运算）和 Level 3（矩阵矩阵运算）例程的一部分，特别是在处理共轭转置（Hermitian transpose）时至关重要。
+The AlphaSparse library provides support for conjugate operations on sparse matrix computations involving complex numbers (`ALPHA_Complex8` and `ALPHA_Complex16`). This feature is part of the sparse BLAS Level 2 (matrix-vector operations) and Level 3 (matrix-matrix operations) routines, and is especially critical when dealing with the conjugate transpose (Hermitian transpose).
 
-共轭操作被广泛应用于多种稀疏矩阵格式，包括 CSR、CSC、BSR、DIA 和 COO，并确保在不同的硬件后端（如 x86、ARM、CUDA 和 DCU）上功能的一致性。这些操作通常通过在函数名中添加 `_conj` 后缀来标识。
+Conjugate operations are widely used across multiple sparse matrix formats, including CSR, CSC, BSR, DIA, and COO, and ensure functional consistency across different hardware backends (such as x86, ARM, CUDA, and DCU). These operations are typically identified by adding the `_conj` suffix to the function name.
 
-## 核心功能与实现
+## Core Functionality and Implementation
 
-共轭操作的核心是在进行矩阵运算时，对稀疏矩阵 `A` 的非零元素取共轭。这在计算 `alpha*A^H*x` 等表达式时是标准步骤，其中 `A^H` 代表 `A` 的共轭转置。
+The core of the conjugate operation is to take the conjugate of the non-zero elements of the sparse matrix `A` during matrix operations. This is a standard step when computing expressions such as `alpha*A^H*x`, where `A^H` denotes the conjugate transpose of `A`.
 
-在 Hygon 和 ARM 平台的 BSR `symv`（对称矩阵向量乘法）内核实现中，可以看到对矩阵元素应用共轭操作的直接逻辑。
+In the BSR `symv` (symmetric matrix-vector multiplication) kernel implementations for the Hygon and ARM platforms, the direct logic of applying the conjugate operation to matrix elements can be seen.
 
 ```cpp
 // hygon/kernel/level2/mv/symv/symv_bsr_u_lo_conj.hpp:22-24TYPE cv = ((TYPE *)A->val_data)[s1+ai*bs*bs];cv = cmp_conj(cv);y[m_s+s/bs] = alpha_madd(cv, x[s1-s+col*bs], y[m_s+s/bs]);
 ```
 
-此代码片段展示了在执行乘加操作之前，从矩阵 `A` 中提取的值 `cv` 会通过一个（推测的）`cmp_conj` 宏或函数进行处理，以计算其复共轭。
+This code snippet shows that the value `cv` extracted from matrix `A` is processed through a (presumed) `cmp_conj` macro or function to compute its complex conjugate before the multiply-add operation is performed.
 
 Sources: hygon/kernel/level2/mv/symv/symv_bsr_u_lo_conj.hpp:22-24, arm/kernel/level2/mv/symv/symv_bsr_u_lo_conj.hpp:22-24
 
-## 支持的函数接口
+## Supported Function Interfaces
 
-共轭操作通过一系列带有 `_conj` 后缀的函数接口暴露给用户。这些接口涵盖了 Level 2 和 Level 3 的多种 BLAS 操作。
+Conjugate operations are exposed to users through a series of function interfaces with the `_conj` suffix. These interfaces cover multiple BLAS operations of Level 2 and Level 3.
 
-### Level 2 BLAS (矩阵向量运算)
+### Level 2 BLAS (Matrix-Vector Operations)
 
-- **`trmv` (Triangular Matrix-Vector Multiply)**: 计算三角稀疏矩阵与向量的乘积。
+- **`trmv` (Triangular Matrix-Vector Multiply)**: Computes the product of a triangular sparse matrix and a vector.
     - `trmv_c_csr_n_lo_conj_plain`
     - `trmv_z_csr_u_hi_conj_plain`
     - `dcu_trmv_c_bsr_n_lo_conj`
-- **`symv` (Symmetric Matrix-Vector Multiply)**: 计算对称稀疏矩阵与向量的乘积。
+- **`symv` (Symmetric Matrix-Vector Multiply)**: Computes the product of a symmetric sparse matrix and a vector.
     - `symv_c_dia_n_lo_conj_plain`
-- **`trsv` (Triangular Solve)**: 求解三角稀疏系统 `op(A)*x = alpha*b`。
+- **`trsv` (Triangular Solve)**: Solves a triangular sparse system `op(A)*x = alpha*b`.
     - `trsv_c_csr_n_lo_conj_plain`
     - `trsv_c_csc_u_hi_conj_plain`
     - `trsv_c_dia_n_lo_conj_plain`
 
 Sources: include/alphasparse/kernel_plain/kernel_csr_c.h, include/alphasparse/kernel_plain/kernel_csr_z.h, include/alphasparse/kernel_dcu/kernel_bsr_c_dcu.h, include/alphasparse/kernel_plain/kernel_dia_c.h, include/alphasparse/kernel_plain/kernel_csc_c.h
 
-### Level 3 BLAS (矩阵矩阵运算)
+### Level 3 BLAS (Matrix-Matrix Operations)
 
-- **`gemm` (General Matrix-Matrix Multiply)**: 计算稀疏矩阵与稠密矩阵的乘积。
+- **`gemm` (General Matrix-Matrix Multiply)**: Computes the product of a sparse matrix and a dense matrix.
     - `gemm_c_csr_row_conj_plain`
     - `gemm_z_csr_col_conj_plain`
-- **`trmm` (Triangular Matrix-Matrix Multiply)**: 计算三角稀疏矩阵与稠密矩阵的乘积。
+- **`trmm` (Triangular Matrix-Matrix Multiply)**: Computes the product of a triangular sparse matrix and a dense matrix.
     - `trmm_c_dia_n_lo_row_conj_plain`
     - `trmm_z_dia_u_hi_col_conj_plain`
-- **`trsm` (Triangular Solve for Matrices)**: 求解三角稀疏系统 `op(A)*X = alpha*B`。
+- **`trsm` (Triangular Solve for Matrices)**: Solves a triangular sparse system `op(A)*X = alpha*B`.
     - `trsm_c_csr_n_lo_row_conj_plain`
     - `trsm_c_csc_u_lo_col_conj_plain`
     - `trsm_c_coo_n_hi_row_conj_plain`
 
 Sources: include/alphasparse/kernel_plain/kernel_csr_c.h, include/alphasparse/kernel_plain/kernel_csr_z.h, include/alphasparse/kernel_plain/kernel_dia_c.h, include/alphasparse/kernel_plain/kernel_csc_c.h, include/alphasparse/kernel_plain/kernel_coo_c.h
 
-## 平台支持与构建
+## Platform Support and Build
 
-该功能通过在多个目标平台上构建和链接测试可执行文件来验证。`CMakeLists.txt` 文件定义了如何为 Hygon (x86)、ARM 和 CUDA 平台编译这些测试。
+This feature is verified by building and linking test executables on multiple target platforms. The `CMakeLists.txt` files define how to compile these tests for the Hygon (x86), ARM, and CUDA platforms.
 
-下面的流程图展示了通用测试构建流程：
+The following flowchart shows the general test build flow:
 
 ```mermaid
 graph TD
-  %% 顶层方向是 TD（从上到下），subgraph 只是分组
+  %% Top-level direction is TD (top-down); subgraphs are only grouping
   subgraph Build_System
     A["CMakeLists.txt"] --> B{"add_alphasparse_example"}
   end
@@ -1903,15 +1902,15 @@ graph TD
 
 ```
 
-例如，在 Hygon 平台上，`spmm_csr_c_hygon_test.cpp` 和 `spmm_csr_z_hygon_test.cpp` 等测试被添加，这些测试很可能用于验证复数运算（包括共轭）的正确性。
+For example, on the Hygon platform, tests such as `spmm_csr_c_hygon_test.cpp` and `spmm_csr_z_hygon_test.cpp` are added, which are likely used to verify the correctness of complex-number operations (including conjugation).
 
 Sources: hygon/test/CMakeLists.txt:33-35, arm/test/CMakeLists.txt:30-32, cuda/test/CMakeLists.txt
 
-## API 概览
+## API Overview
 
-下表总结了支持共轭操作的函数、稀疏格式和平台。
+The following table summarizes the functions, sparse formats, and platforms that support conjugate operations.
 
-| 功能 (Function) | 格式 (Format) | 数据类型 (Data Type) | 平台 (Platform) |
+| Function | Format | Data Type | Platform |
 | --- | --- | --- | --- |
 | `trmv` | CSR, BSR | `ALPHA_Complex8`, `ALPHA_Complex16` | CPU (plain), DCU |
 | `symv` | DIA, BSR | `ALPHA_Complex8` | CPU (plain) |
@@ -1920,12 +1919,12 @@ Sources: hygon/test/CMakeLists.txt:33-35, arm/test/CMakeLists.txt:30-32, cuda/te
 | `trmm` | DIA | `ALPHA_Complex8`, `ALPHA_Complex16` | CPU (plain) |
 | `trsm` | CSR, CSC, COO, DIA | `ALPHA_Complex8`, `ALPHA_Complex16` | CPU (plain) |
 
-*注意: “CPU (plain)” 指的是通用的 C/C++ 实现，可用于 Hygon 和 ARM 等平台。*
+*Note: "CPU (plain)" refers to the generic C/C++ implementation, which can be used on platforms such as Hygon and ARM.*
 
 Sources: include/alphasparse/kernel_plain/kernel_csr_c.h, include/alphasparse/kernel_plain/kernel_csc_z.h, include/alphasparse/kernel_plain/kernel_dia_z.h, include/alphasparse/kernel_dcu/kernel_csr_c_dcu.h
 
-## 总结
+## Summary
 
-共轭操作是 AlphaSparse 库中处理复数稀疏矩阵运算的一项基本功能。通过在 Level 2 和 Level 3 BLAS 例程中提供广泛的支持，并覆盖多种稀疏格式和硬件平台，该库为科学与工程计算领域的用户提供了全面而强大的工具集。
+Conjugate operations are a fundamental feature of the AlphaSparse library for handling complex sparse matrix computations. By providing extensive support in Level 2 and Level 3 BLAS routines and covering multiple sparse formats and hardware platforms, the library offers users in scientific and engineering computing a comprehensive and powerful toolset.
 
 ---

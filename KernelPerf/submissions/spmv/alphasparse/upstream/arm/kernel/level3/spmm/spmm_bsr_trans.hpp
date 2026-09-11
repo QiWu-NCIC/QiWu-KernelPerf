@@ -8,8 +8,8 @@ template <typename TYPE>
 alphasparseStatus_t spmm_bsr_trans(const internal_spmat A, const internal_spmat B, internal_spmat *matC)
 {
     internal_spmat transposed_mat;
-    transpose_bsr<TYPE>(A, &transposed_mat); //��matת��
-    alphasparseStatus_t status = spmm_bsr<TYPE>(transposed_mat, B, matC); //�ٵ��ó˷�
+    transpose_bsr<TYPE>(A, &transposed_mat); // Transpose mat
+    alphasparseStatus_t status = spmm_bsr<TYPE>(transposed_mat, B, matC); // Then call the multiplication
     destroy_bsr(transposed_mat);
     return status;
 }

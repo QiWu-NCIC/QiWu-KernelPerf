@@ -97,7 +97,7 @@ alphasparseStatus_t gemm_c_dia_col_trans_plain(const ALPHA_Complex8 alpha, const
 alphasparseStatus_t gemm_c_dia_row_conj_plain(const ALPHA_Complex8 alpha, const spmat_dia_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
 alphasparseStatus_t gemm_c_dia_col_conj_plain(const ALPHA_Complex8 alpha, const spmat_dia_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
 
-// alpha*（L+D+L')^T*B + beta*C
+// alpha*(L+D+L')^T*B + beta*C
 alphasparseStatus_t symm_c_dia_n_lo_row_plain(const ALPHA_Complex8 alpha, const spmat_dia_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
 // alpha*_plain(L+I+L')*B + beta*C
 alphasparseStatus_t symm_c_dia_u_lo_row_plain(const ALPHA_Complex8 alpha, const spmat_dia_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
@@ -106,7 +106,7 @@ alphasparseStatus_t symm_c_dia_n_hi_row_plain(const ALPHA_Complex8 alpha, const 
 // alpha*_plain(U'+I+U)*B + beta*C
 alphasparseStatus_t symm_c_dia_u_hi_row_plain(const ALPHA_Complex8 alpha, const spmat_dia_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
 
-// alpha*（L+D+L')^T*B + beta*C
+// alpha*(L+D+L')^T*B + beta*C
 alphasparseStatus_t symm_c_dia_n_lo_col_plain(const ALPHA_Complex8 alpha, const spmat_dia_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
 // alpha*_plain(L+I+L')*B + beta*C
 alphasparseStatus_t symm_c_dia_u_lo_col_plain(const ALPHA_Complex8 alpha, const spmat_dia_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
@@ -116,7 +116,7 @@ alphasparseStatus_t symm_c_dia_n_hi_col_plain(const ALPHA_Complex8 alpha, const 
 alphasparseStatus_t symm_c_dia_u_hi_col_plain(const ALPHA_Complex8 alpha, const spmat_dia_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
 
 
-// alpha*（L+D+L')^T*B + beta*C
+// alpha*(L+D+L')^T*B + beta*C
 alphasparseStatus_t symm_c_dia_n_lo_row_conj_plain(const ALPHA_Complex8 alpha, const spmat_dia_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
 // alpha*_plain(L+I+L')*B + beta*C
 alphasparseStatus_t symm_c_dia_u_lo_row_conj_plain(const ALPHA_Complex8 alpha, const spmat_dia_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
@@ -125,7 +125,7 @@ alphasparseStatus_t symm_c_dia_n_hi_row_conj_plain(const ALPHA_Complex8 alpha, c
 // alpha*_plain(U'+I+U)*B + beta*C
 alphasparseStatus_t symm_c_dia_u_hi_row_conj_plain(const ALPHA_Complex8 alpha, const spmat_dia_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
 
-// alpha*（L+D+L')^T*B + beta*C
+// alpha*(L+D+L')^T*B + beta*C
 alphasparseStatus_t symm_c_dia_n_lo_col_conj_plain(const ALPHA_Complex8 alpha, const spmat_dia_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
 // alpha*_plain(L+I+L')*B + beta*C
 alphasparseStatus_t symm_c_dia_u_lo_col_conj_plain(const ALPHA_Complex8 alpha, const spmat_dia_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);

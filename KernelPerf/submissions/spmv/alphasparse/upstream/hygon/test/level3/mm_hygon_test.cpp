@@ -6,7 +6,7 @@ const int block_size = 4;
 
 void alpha_mm(matrix_data_t *matrix_data, alpha_common_args_t *common_arg, const char *x_char, int ldx,
             char *icty_char, int ldy, const char *alpha_char, const char *beta_char) {
-  // 设置使用线程数
+  // Set the number of threads to use
   alpha_set_thread_num(common_arg->thread_num);
 
   alphasparse_matrix_t cooA, compute_matrix;
@@ -102,7 +102,7 @@ void alpha_mm(matrix_data_t *matrix_data, alpha_common_args_t *common_arg, const
 // void alpha_mm_plain(matrix_data_t *matrix_data, alpha_common_args_t *common_arg, const char *x_char,
 //                   int ldx, char *icty_char, int ldy, const char *alpha_char,
 //                   const char *beta_char) {
-//   // 设置使用线程数
+// // Set the number of threads to use
 
 //   alphasparse_matrix_t cooA, compute_matrix;
 //   alpha_create_coo_wapper(matrix_data, common_arg->data_type, &cooA);
@@ -200,7 +200,7 @@ void alpha_mm(matrix_data_t *matrix_data, alpha_common_args_t *common_arg, const
 #ifdef __MKL__
 void mkl_mm(matrix_data_t *matrix_data, alpha_common_args_t *common_arg, const char *x_char, int ldx,
             char *icty_char, int ldy, const char *alpha_char, const char *beta_char) {
-  // 设置使用线程数
+  // Set the number of threads to use
   sparse_matrix_t cooA, compute_matrix;
   mkl_create_coo_wapper(matrix_data, common_arg->data_type, &cooA);
   if (common_arg->format == ALPHA_SPARSE_FORMAT_COO) {

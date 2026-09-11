@@ -25,16 +25,16 @@ __spmv_sell_c4_serial_host_fma128_float:
     movq	%rdx, %rbx                // col_indices
     vshufps	$0, %xmm0, %xmm0, %xmm5 // alpha
     vshufps	$0, %xmm1, %xmm1, %xmm1 // beta
-    leaq  (,%rdi,4), %rbp           // 行数  num_chunks * 4
+    leaq  (,%rdi,4), %rbp           // Row count: num_chunks * 4
     xorl	%edx, %edx
-    xorq	%r15, %r15                 // chunk_id = 行 / 4
+    xorq	%r15, %r15                 // chunk_id = row / 4
   // outer loop on chunks,
 
   /*
-    rdx : 外层循环变量  行号 lrs,每层循环 + 4
-    rbp : 外循环上界    行数 num_chunks * 4
-    rdi : 内层循环变量 values地址
-    r11 : 内层循环上界  下一列values地址 
+rdx: outer loop variable, row index lrs, +4 per iteration
+rbp: outer loop bound, row count num_chunks * 4
+rdi: inner loop variable, address of values
+r11: inner loop bound, address of the next column of values
   */
 .L5:
     movslq	(%rsi,%r15,4), %r13   // chunk_start
@@ -43,8 +43,8 @@ __spmv_sell_c4_serial_host_fma128_float:
     leaq	(%rbx,%r13,4), %rax     // &col_indices[chunk_start]
 
     leaq	(%rcx,%r10,4), %r11   // &values[chunk_end]
-    cmpl	%r13d, %r10d          // width 等于 0?
-    jle	.L6                     // 没有内层循环
+    cmpl	%r13d, %r10d          // Is width equal to 0?
+    jle	.L6                     // No inner loop
     xorps	%xmm3, %xmm3       
 
     // movslq	(%rsi,%rdx), %r11 // chunk_start
@@ -54,10 +54,10 @@ __spmv_sell_c4_serial_host_fma128_float:
     // sarl	$2, %r10d           // width
     // leaq	0(,%r11,4), %rdi    // chunk_start * 4
     // leaq	(%rbx,%rdi), %rax   // &col_indices[chunk_start]
-    // testl	%r10d, %r10d        // width 等于 0?
-    // jle	.L6                   // 没有内层循环
+    // testl %r10d, %r10d // Is width equal to 0?
+    // jle .L6 // No inner loop
     // addq	%rcx, %rdi          // &values[chunk_start]
-    // leaq	(%rcx,%r12,4), %r11 // 下一列values地址 values + chunk_end
+    // leaq (%rcx,%r12,4), %r11 // Address of the next column of values: values + chunk_end
     // xorps	%xmm3, %xmm3
   // inner loop on width
 .L4:
@@ -73,17 +73,17 @@ __spmv_sell_c4_serial_host_fma128_float:
     shufps	$0, %xmm6, %xmm4
     shufps	$136, %xmm4, %xmm0
     vfmadd231ps	(%rdi), %xmm0, %xmm3 // acc += values[] * x[]
-    addq	$16, %rdi                  // values  下一列
-    addq	$16, %rax                  // indices 下一列
-    cmpq	%rdi, %r11                 // rdi 是循环变量, r11是下一列 values 地址
+    addq	$16, %rdi                  // values, next column
+    addq	$16, %rax                  // indices, next column
+    cmpq	%rdi, %r11                 // rdi is the loop variable, r11 is the address of the next column of values
     jne	.L4
 .L3:
     vmulps	(%r9,%rdx,4), %xmm1, %xmm0  // y *= beta
     vfmadd132ps	%xmm5, %xmm0, %xmm3     // y += alpha * acc
     movups	%xmm3, (%r9,%rdx,4)         // store(y)
-    addq	$4, %rdx                      // 跳四行
+    addq	$4, %rdx                      // Skip four rows
     incq %r15
-    cmpq	%rdx, %rbp                    // 结束?
+    cmpq	%rdx, %rbp                    // Finished?
     jne	.L5
     popq	%rbx
     popq	%rbp
@@ -92,7 +92,7 @@ __spmv_sell_c4_serial_host_fma128_float:
     popq	%r13
     popq	%r12
     ret
-.L6:                                  // 防止当前行没有nnz
+.L6:                                  // Guard against the current row having no nnz
     vxorps	%xmm3, %xmm3, %xmm3
     jmp	.L3
 .L11:

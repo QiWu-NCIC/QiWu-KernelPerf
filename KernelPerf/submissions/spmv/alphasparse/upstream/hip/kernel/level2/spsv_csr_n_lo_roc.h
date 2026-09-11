@@ -141,7 +141,7 @@ spsv_csr_n_lo_roc_analysis(
     void* externalBuffer
 ) {
     const unsigned int BLOCKSIZE = 256;
-    const unsigned int WARP_SIZE = 64;  // 设置为32 - 运行时死锁？
+    const unsigned int WARP_SIZE = 64;  // Set to 32 - runtime deadlock?
     const dim3 threadPerBlock = dim3(BLOCKSIZE);
     const dim3 blockPerGrid = dim3((m - 1) / (BLOCKSIZE / WARP_SIZE) + 1);
     T *done_array = reinterpret_cast<T*>(externalBuffer);

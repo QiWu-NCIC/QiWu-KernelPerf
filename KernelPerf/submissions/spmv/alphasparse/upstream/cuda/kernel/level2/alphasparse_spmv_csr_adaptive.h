@@ -607,14 +607,14 @@ alphasparseStatus_t spmv_csr_adaptive(alphasparseHandle_t handle,
   // Determine row blocks array size
   ComputeRowBlocks((unsigned long long *)NULL, csrmv_info_size, hptr.data(), m, false);
   // double time2 = get_time_us();
-  // printf("预处理1: %lf\n", (time2 - time1) / (1e3));
+  // printf("Preprocessing 1: %lf\n", (time2 - time1) / (1e3));
 
   // Create row blocks structure
   std::vector<unsigned long long> row_blocks(csrmv_info_size, 0);
   // double time3 = get_time_us();
   ComputeRowBlocks(row_blocks.data(), csrmv_info_size, hptr.data(), m, true);
   // double time4 = get_time_us();
-  // printf("预处理2: %lf\n", (time4 - time3) / (1e3));
+  // printf("Preprocessing 2: %lf\n", (time4 - time3) / (1e3));
 
   // Allocate memory on device to hold csrmv info, if required
   if (csrmv_info_size > 0)

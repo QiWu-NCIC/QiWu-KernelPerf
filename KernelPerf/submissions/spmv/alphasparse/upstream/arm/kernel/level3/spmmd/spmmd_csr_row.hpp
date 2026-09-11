@@ -78,7 +78,7 @@ alphasparseStatus_t spmmd_csr_row(const internal_spmat matA, const internal_spma
   ALPHA_INT partition[num_thread + 1];
   balanced_partition_row_by_flop(flop, m, num_thread, partition);
 
-  // 计算
+  // Compute
 #ifdef _OPENMP
 #pragma omp parallel num_threads(num_thread)
 #endif

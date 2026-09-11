@@ -8,7 +8,7 @@
 template <typename TYPE>
 alphasparseStatus_t spmm_csc(const internal_spmat A, const internal_spmat B, internal_spmat *matC)
 {
-    // ϡ�����A * ϡ�����B -> ϡ�����matC
+    // Sparse matrix A * sparse matrix B -> sparse matrix matC
     // check_return(A->cols != B->rows, ALPHA_SPARSE_STATUS_INVALID_VALUE);
 
     internal_spmat mat = (internal_spmat)alpha_malloc(sizeof(_internal_spmat));
@@ -18,7 +18,7 @@ alphasparseStatus_t spmm_csc(const internal_spmat A, const internal_spmat B, int
 
     ALPHA_INT m = A->rows;
     ALPHA_INT n = B->cols;
-    // ��������ռ䣨��������matC��û�з���ռ�ģ�
+    // Compute the required space (no space has been allocated for matC yet)
     bool *flag = (bool *)alpha_memalign(sizeof(bool) * m, DEFAULT_ALIGNMENT);
     ALPHA_INT nnz = 0;
     for (ALPHA_INT bc = 0; bc < n; bc++)
@@ -52,11 +52,11 @@ alphasparseStatus_t spmm_csc(const internal_spmat A, const internal_spmat B, int
 
     ALPHA_INT index = 0;
     mat->col_data[0] = 0;
-    for (ALPHA_INT bc = 0; bc < n; bc++) //����B����
+    for (ALPHA_INT bc = 0; bc < n; bc++) // Iterate over the columns of B
     {
-        memset(values, '\0', sizeof(TYPE) * m); //matC��ÿһ����m��Ԫ��
+        memset(values, '\0', sizeof(TYPE) * m); // Each row of matC holds m elements
         memset(write_back, '\0', sizeof(bool) * m);
-        for (ALPHA_INT bi = B->col_data[bc]; bi < B->col_data[bc+1]; bi++) //��B�ĵ�bc��������˷�
+        for (ALPHA_INT bi = B->col_data[bc]; bi < B->col_data[bc+1]; bi++) // Traverse the non-zero elements in column bc of B
         {
             ALPHA_INT ac = B->row_data[bi];
             TYPE bv;
@@ -70,7 +70,7 @@ alphasparseStatus_t spmm_csc(const internal_spmat A, const internal_spmat B, int
                 write_back[ar] = true;
             }
         }
-        for (ALPHA_INT r = 0; r < m; r++)// ��matC�ĵ�ar�еķ���Ԫ�ر����csr
+        for (ALPHA_INT r = 0; r < m; r++)// Store the non-zero elements of row ar of matC into CSR
         {
             if (write_back[r])
             {

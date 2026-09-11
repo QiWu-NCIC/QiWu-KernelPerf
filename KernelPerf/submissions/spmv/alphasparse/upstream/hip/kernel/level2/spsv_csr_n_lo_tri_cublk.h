@@ -196,7 +196,7 @@ exclusive_scan(
         temp_storage_size,
         d_input,
         d_output,
-        0, // 初始值
+        0, // Initial value
         size,
         rocprim::plus<int>(),
         handle->stream,
@@ -207,7 +207,7 @@ exclusive_scan(
         temp_storage_size,
         d_input, 
         d_output,
-        0, // 初始值
+        0, // Initial value
         size,
         rocprim::plus<int>(),
         handle->stream,
@@ -386,7 +386,7 @@ spsv_csr_n_lo_tri_cublk_analysis(
 		return ALPHA_SPARSE_STATUS_SUCCESS;
 	}
     const unsigned int BLOCKSIZE = 256;
-    const unsigned int WARP_SIZE = 64; // 设置为32 - 运行时死锁？
+    const unsigned int WARP_SIZE = 64; // Set to 32 - runtime deadlock?
     const dim3 threadPerBlock = dim3(BLOCKSIZE);
     const dim3 blockPerGrid = dim3((m - 1) / (BLOCKSIZE / WARP_SIZE) + 1);
     T *done_array = reinterpret_cast<T *>(externalBuffer);
@@ -757,7 +757,7 @@ spsv_csr_n_lo_tri_cublk_solve(
 	exit(0);
 	*/
 	// printf("spsv tri cublk\n");
-	const unsigned int VECSIZE = 64;	// 设置为32时卡死
+	const unsigned int VECSIZE = 64;	// Setting it to 32 hangs
 	// constexpr unsigned int cu_num = 64 * 8;
 	// constexpr unsigned int cu_num = 64;
 	// constexpr unsigned int cu_num = 128;

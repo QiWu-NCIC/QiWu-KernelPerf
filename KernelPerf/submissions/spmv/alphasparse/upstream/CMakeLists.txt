@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.22 FATAL_ERROR)
 project("AlphaSparse-Library" LANGUAGES CXX C)
 
-# --- 基本编译设置 ---
+# --- Basic compilation settings ---
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -gdwarf-4")
@@ -9,7 +9,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -gdwarf-4")
 set(CMAKE_HIP_FLAGS "${CMAKE_HIP_FLAGS} -gdwarf-4")
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-# --- 构建选项定义 ---
+# --- Build option definitions ---
 option(ALPHA_BUILD_CUDA "Compile kernels for NVIDIA GPUs" OFF)
 option(ALPHA_BUILD_HIP "Compile kernels for AMD or NVIDIA GPUs" ON)
 option(ALPHA_BUILD_HYGON "Compile kernels for Hygon CPUs" OFF)
@@ -18,8 +18,8 @@ option(ALPHA_BUILD_PLAIN "Compile serial kernels for x86 CPUs (Reference Impleme
 
 
 # ====================================================================
-# 【核心修改】条件化MKL依赖
-# 只有在构建 PLAIN 或 HYGON 版本时，才检查并引入MKL依赖
+# [Core change] Make the MKL dependency conditional
+# Only check and pull in the MKL dependency when building the PLAIN or HYGON version
 # ====================================================================
 set(MKL_IS_REQUIRED OFF)
 if(ALPHA_BUILD_PLAIN OR ALPHA_BUILD_HYGON)
@@ -28,26 +28,26 @@ endif()
 
 if(MKL_IS_REQUIRED)
     message(STATUS "MKL support is required for the current build configuration (PLAIN or HYGON).")
-    # 检查MKLROOT环境变量
+    # Check the MKLROOT environment variable
     if(NOT DEFINED ENV{MKLROOT})
         message(FATAL_ERROR "MKLROOT environment variable is not set, but is required for PLAIN/HYGON builds. Please source the oneAPI setvars.sh script before running cmake.")
     endif()
 
     message(STATUS "Using MKL from MKLROOT: $ENV{MKLROOT}")
 
-    # 添加MKL的头文件和库路径
+    # Add the MKL header and library paths
     include_directories($ENV{MKLROOT}/include)
     link_directories($ENV{MKLROOT}/lib/intel64)
 
-    # 统一添加__MKL__宏定义
+    # Add the __MKL__ macro definition uniformly
     add_definitions(-D__MKL__)
 else()
     message(STATUS "MKL support is NOT required for the current build configuration.")
 endif()
-# ======================= 修改结束 ============================
+# ======================= End of changes ============================
 
 
-# --- 各后端构建逻辑 ---
+# --- Per-backend build logic ---
 
 if(ALPHA_BUILD_CUDA)
     enable_language(CUDA)
@@ -89,7 +89,7 @@ if(ALPHA_BUILD_DCU)
 endif()
 
 if(ALPHA_BUILD_HYGON)
-    # 【已修改】不再需要在这里添加 -D__MKL__，已移至顶部条件块
+    # [Modified] -D__MKL__ no longer needs to be added here; it was moved to the conditional block at the top
     enable_language(C ASM)
     find_package(OpenMP REQUIRED)
     Set(CMAKE_C_FLAGS "$CMAKE_C_FLAGS} -fopenmp")
@@ -111,7 +111,7 @@ if(ALPHA_BUILD_ARM)
 endif()
 
 if(ALPHA_BUILD_PLAIN)
-    # 【已修改】不再需要在这里添加 -D__MKL__，已移至顶部条件块
+    # [Modified] -D__MKL__ no longer needs to be added here; it was moved to the conditional block at the top
     add_definitions(-D__PLAIN__)
     find_package(OpenMP REQUIRED)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -120,7 +120,7 @@ if(ALPHA_BUILD_PLAIN)
 endif()
 
 
-# --- 目标库的构建和链接 ---
+# --- Target library build and link ---
 set(OBJECT_LIBS "")
 
 if(ALPHA_BUILD_CUDA)

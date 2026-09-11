@@ -22,7 +22,7 @@ __spmv_ell_serial_host_sse_float:
     movl	%esi, %ebx // lre
     movq	40(%rsp), %r10 // rsp + 40 : x
     movq	48(%rsp), %rbp // rsp + 48 : y
-    cmpl	%esi, %edi  // r >= lre ? 外层循环一次都不用做?
+    cmpl	%esi, %edi  // r >= lre? Does the outer loop never run?
     jge	.L8
     movl	%ecx, %esi // width
     movq	%r8, %r12  // indices
@@ -36,11 +36,11 @@ __spmv_ell_serial_host_sse_float:
 
   // **************main loop**************
   /* loop variable:
-   * r8 : r * 4 (行: 外层循环)
-   * r9 : r     (行: 外层循环)
+* r8: r * 4 (row: outer loop)
+* r9: r     (row: outer loop)
    * ebx : lre
    *
-   * edx : c    (列: 内层循环)
+* edx: c    (column: inner loop)
    * esi : width
    */
 
@@ -48,8 +48,8 @@ __spmv_ell_serial_host_sse_float:
   // r13 : values
   // r12 : indices
     // r11 : m * 4
-  // rdi : r13 + edx * r11 + r8 (values[]地址)
-  // rax : r12 + edx * r11 + r8 (indices[]地址)
+  // rdi: r13 + edx * r11 + r8 (address of values[])
+  // rax: r12 + edx * r11 + r8 (address of indices[])
 .L3:
     xorps	%xmm3, %xmm3      // accumulate
     testl	%esi, %esi        // width == 0 ?

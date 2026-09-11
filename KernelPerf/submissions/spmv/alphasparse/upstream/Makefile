@@ -1,11 +1,11 @@
-# --- 用户配置区 ---
+# --- User configuration section ---
 ALPHA_BUILD_CUDA ?= OFF
 ALPHA_BUILD_HIP ?= ON
 ALPHA_BUILD_HYGON ?= OFF
 ALPHA_BUILD_ARM ?= OFF
 ALPHA_BUILD_PLAIN ?= OFF
 
-# --- 内部逻辑区 ---
+# --- Internal logic section ---
 
 BUILD_DIR := build
 

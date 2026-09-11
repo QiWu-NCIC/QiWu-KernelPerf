@@ -314,7 +314,7 @@ int main(int argc, const char *argv[]) {
     alpha_read_coo<double>(
     file, &C_rows, &C_cols, &rnnz, &coo_row_index, &coo_col_index, &coo_values);
     coo_order<int32_t, double>(rnnz, coo_row_index, coo_col_index, coo_values);
-    columns = args_get_cols(argc, argv, C_rows); // 默认C是方阵
+    columns = args_get_cols(argc, argv, C_rows); // By default C is a square matrix
     A_rows = C_rows;
     A_cols = columns;
     B_rows = A_cols;

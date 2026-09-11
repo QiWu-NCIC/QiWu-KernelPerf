@@ -56,7 +56,7 @@ alphasparseStatus_t gemm_d_sky_col_plain(const double alpha, const spmat_sky_d_t
 alphasparseStatus_t gemm_d_sky_row_trans_plain(const double alpha, const spmat_sky_d_t *mat, const double *x, const ALPHA_INT columns, const ALPHA_INT ldx, const double beta, double *y, const ALPHA_INT ldy);
 alphasparseStatus_t gemm_d_sky_col_trans_plain(const double alpha, const spmat_sky_d_t *mat, const double *x, const ALPHA_INT columns, const ALPHA_INT ldx, const double beta, double *y, const ALPHA_INT ldy);
 
-// alpha*（L+D+L')^T*B + beta*C
+// alpha*(L+D+L')^T*B + beta*C
 alphasparseStatus_t symm_d_sky_n_lo_row_plain(const double alpha, const spmat_sky_d_t *mat, const double *x, const ALPHA_INT columns, const ALPHA_INT ldx, const double beta, double *y, const ALPHA_INT ldy);
 // alpha*(L+I+L')*B + beta*C
 alphasparseStatus_t symm_d_sky_u_lo_row_plain(const double alpha, const spmat_sky_d_t *mat, const double *x, const ALPHA_INT columns, const ALPHA_INT ldx, const double beta, double *y, const ALPHA_INT ldy);
@@ -65,7 +65,7 @@ alphasparseStatus_t symm_d_sky_n_hi_row_plain(const double alpha, const spmat_sk
 // alpha*(U'+I+U)*B + beta*C
 alphasparseStatus_t symm_d_sky_u_hi_row_plain(const double alpha, const spmat_sky_d_t *mat, const double *x, const ALPHA_INT columns, const ALPHA_INT ldx, const double beta, double *y, const ALPHA_INT ldy);
 
-// alpha*（L+D+L')^T*B + beta*C
+// alpha*(L+D+L')^T*B + beta*C
 alphasparseStatus_t symm_d_sky_n_lo_col_plain(const double alpha, const spmat_sky_d_t *mat, const double *x, const ALPHA_INT columns, const ALPHA_INT ldx, const double beta, double *y, const ALPHA_INT ldy);
 // alpha*(L+I+L')*B + beta*C
 alphasparseStatus_t symm_d_sky_u_lo_col_plain(const double alpha, const spmat_sky_d_t *mat, const double *x, const ALPHA_INT columns, const ALPHA_INT ldx, const double beta, double *y, const ALPHA_INT ldy);

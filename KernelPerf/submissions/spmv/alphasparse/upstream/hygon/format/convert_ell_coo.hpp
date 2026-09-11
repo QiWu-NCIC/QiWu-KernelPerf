@@ -64,7 +64,7 @@ alphasparseStatus_t convert_ell_coo(const T *source, T **dest)
     memset(indices,0,(uint64_t)ld * m * sizeof(I));
 
     const ALPHA_INT thread_num = alpha_get_thread_num();
-    // i列j行, 列优先
+    // Column i, row j, column-major
     #ifdef _OPENMP
     #pragma omp parallel for num_threads(thread_num)
     #endif

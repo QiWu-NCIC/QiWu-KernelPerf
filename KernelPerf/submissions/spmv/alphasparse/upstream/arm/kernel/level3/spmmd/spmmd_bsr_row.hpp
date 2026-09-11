@@ -32,18 +32,18 @@ alphasparseStatus_t spmmd_bsr_row(const internal_spmat matA, const internal_spma
     ALPHA_INT A_block_rows = matA->rows;
     ALPHA_INT B_block_cols = matB->cols;
     ALPHA_INT B_block_rows = matB->rows;
-    // ����
+    // Compute
     for (ALPHA_INT ar = 0; ar < A_block_rows; ar++)
     {
         for (ALPHA_INT ai = matA->row_data[ar]; ai < matA->row_data[ar+1]; ai++)
         {
             ALPHA_INT br = matA->col_data[ai];
-            //J av = ((J *)matA->val_data)[ai];// av��((J *)matA->val_data)[block_dim*block_dim*ai, block_dim*block_dim*ai+block_dim*block_dim]
+            //J av = ((J *)matA->val_data)[ai];// av: ((J *)matA->val_data)[block_dim*block_dim*ai, block_dim*block_dim*ai+block_dim*block_dim]
             for (ALPHA_INT bi = matB->row_data[br]; bi < matB->row_data[br+1]; bi++)
             {
                 ALPHA_INT bc = matB->col_data[bi];
-                //J bv = ((J *)matB->val_data)[bi]; //bv��((J *)matB->val_data)[block_dim*block_dim*bi: block_dim*block_dim*bi+block_dim*block_dim]
-                // ��������һ�����ܾ���˷�
+                //J bv = ((J *)matB->val_data)[bi]; //bv: ((J *)matB->val_data)[block_dim*block_dim*bi: block_dim*block_dim*bi+block_dim*block_dim]
+                // Perform another dense matrix multiplication inside the block
                 //matC[index2(ar, bc, ldc)] += av * bv;
                 if(matA->block_layout == ALPHA_SPARSE_LAYOUT_ROW_MAJOR)
                 {

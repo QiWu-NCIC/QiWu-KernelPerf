@@ -143,7 +143,7 @@ alphasparseStatus_t dcu_gemm_d_bsr_transAB(alphasparseHandle_t handle,
                                            double *C,
                                            ALPHA_INT ldc);
 
-// alpha*（L+D+L')^T*B + beta*C
+// alpha*(L+D+L')^T*B + beta*C
 alphasparseStatus_t dcu_symm_d_bsr_n_lo_row(const double alpha, const spmat_bsr_d_t *mat, const double *x, const ALPHA_INT columns, const ALPHA_INT ldx, const double beta, double *y, const ALPHA_INT ldy);
 // alpha*(L+I+L')*B + beta*C
 alphasparseStatus_t dcu_symm_d_bsr_u_lo_row(const double alpha, const spmat_bsr_d_t *mat, const double *x, const ALPHA_INT columns, const ALPHA_INT ldx, const double beta, double *y, const ALPHA_INT ldy);
@@ -152,7 +152,7 @@ alphasparseStatus_t dcu_symm_d_bsr_n_hi_row(const double alpha, const spmat_bsr_
 // alpha*(U'+I+U)*B + beta*C
 alphasparseStatus_t dcu_symm_d_bsr_u_hi_row(const double alpha, const spmat_bsr_d_t *mat, const double *x, const ALPHA_INT columns, const ALPHA_INT ldx, const double beta, double *y, const ALPHA_INT ldy);
 
-// alpha*（L+D+L')^T*B + beta*C
+// alpha*(L+D+L')^T*B + beta*C
 alphasparseStatus_t dcu_symm_d_bsr_n_lo_col(const double alpha, const spmat_bsr_d_t *mat, const double *x, const ALPHA_INT columns, const ALPHA_INT ldx, const double beta, double *y, const ALPHA_INT ldy);
 // alpha*(L+I+L')*B + beta*C
 alphasparseStatus_t dcu_symm_d_bsr_u_lo_col(const double alpha, const spmat_bsr_d_t *mat, const double *x, const ALPHA_INT columns, const ALPHA_INT ldx, const double beta, double *y, const ALPHA_INT ldy);

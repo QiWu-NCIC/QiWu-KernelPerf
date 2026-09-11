@@ -33,7 +33,7 @@ symm_csr_n_hi_row(const J alpha, const internal_spmat mat, const J *x, const ALP
     ALPHA_INT tid = alpha_get_thread_id();
     ALPHA_INT tid_x = tid % mcpu;
     ALPHA_INT tid_y = tid / mcpu;
-    //当前处理的矩阵块(tid_x, tid_y), 对应结果矩阵块[lrs:lre, lcs:lce]
+    // Current matrix block (tid_x, tid_y), corresponding to result block [lrs:lre, lcs:lce]
     ALPHA_INT lrs = tid_x * mblk;
     ALPHA_INT lre = alpha_min((tid_x + 1) * mblk, mat->rows);
     ALPHA_INT lcs = tid_y * nblk;

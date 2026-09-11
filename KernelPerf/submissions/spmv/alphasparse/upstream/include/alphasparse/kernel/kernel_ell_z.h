@@ -71,7 +71,7 @@ alphasparseStatus_t gemv_z_ell(const ALPHA_Complex16 alpha, const spmat_ell_z_t 
 // alphasparseStatus_t gemm_z_ell_row_conj(const ALPHA_Complex16 alpha, const spmat_ell_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
 // alphasparseStatus_t gemm_z_ell_col_conj(const ALPHA_Complex16 alpha, const spmat_ell_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
 
-// // alpha*（L+D+L')^T*B + beta*C
+// // alpha*(L+D+L')^T*B + beta*C
 // alphasparseStatus_t symm_z_ell_n_lo_row(const ALPHA_Complex16 alpha, const spmat_ell_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
 // // alpha*(L+I+L')*B + beta*C
 // alphasparseStatus_t symm_z_ell_u_lo_row(const ALPHA_Complex16 alpha, const spmat_ell_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
@@ -80,7 +80,7 @@ alphasparseStatus_t gemv_z_ell(const ALPHA_Complex16 alpha, const spmat_ell_z_t 
 // // alpha*(U'+I+U)*B + beta*C
 // alphasparseStatus_t symm_z_ell_u_hi_row(const ALPHA_Complex16 alpha, const spmat_ell_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
 
-// // alpha*（L+D+L')^T*B + beta*C
+// // alpha*(L+D+L')^T*B + beta*C
 // alphasparseStatus_t symm_z_ell_n_lo_col(const ALPHA_Complex16 alpha, const spmat_ell_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
 // // alpha*(L+I+L')*B + beta*C
 // alphasparseStatus_t symm_z_ell_u_lo_col(const ALPHA_Complex16 alpha, const spmat_ell_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);

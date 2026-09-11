@@ -15,53 +15,53 @@
 #endif
 
 typedef struct {
-    float *values; // 列主存储非零元
+    float *values; // Store non-zero elements in column-major order
     ALPHA_INT *indices;
-    ALPHA_INT *rows_length; // 记录行长
+    ALPHA_INT *rows_length; // Record the row length
     ALPHA_INT rows;
     ALPHA_INT cols;
     ALPHA_INT ld;
 
-    float *d_values; // 列主存储非零元
+    float *d_values; // Store non-zero elements in column-major order
     ALPHA_INT *d_indices;
     ALPHA_INT *d_rows_length;
 } spmat_ellr_s_t;
 
 typedef struct {
-    double *values; // 列主存储非零元
+    double *values; // Store non-zero elements in column-major order
     ALPHA_INT *indices;
     ALPHA_INT *rows_length;
     ALPHA_INT rows;
     ALPHA_INT cols;
     ALPHA_INT ld;
 
-    double *d_values; // 列主存储非零元
+    double *d_values; // Store non-zero elements in column-major order
     ALPHA_INT *d_indices;
     ALPHA_INT *d_rows_length;
 } spmat_ellr_d_t;
 
 typedef struct {
-    ALPHA_Complex8 *values; // 列主存储非零元
+    ALPHA_Complex8 *values; // Store non-zero elements in column-major order
     ALPHA_INT *indices;
     ALPHA_INT *rows_length;
     ALPHA_INT rows;
     ALPHA_INT cols;
     ALPHA_INT ld;
 
-    ALPHA_Complex8 *d_values; // 列主存储非零元
+    ALPHA_Complex8 *d_values; // Store non-zero elements in column-major order
     ALPHA_INT *d_indices;
     ALPHA_INT *d_rows_length;
 } spmat_ellr_c_t;
 
 typedef struct {
-    ALPHA_Complex16 *values; // 列主存储非零元
+    ALPHA_Complex16 *values; // Store non-zero elements in column-major order
     ALPHA_INT *indices;
     ALPHA_INT *rows_length;
     ALPHA_INT rows;
     ALPHA_INT cols;
     ALPHA_INT ld;
 
-    ALPHA_Complex16 *d_values; // 列主存储非零元
+    ALPHA_Complex16 *d_values; // Store non-zero elements in column-major order
     ALPHA_INT *d_indices;
     ALPHA_INT *d_rows_length;
 } spmat_ellr_z_t;

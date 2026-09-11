@@ -30,7 +30,7 @@ alphasparseStatus_t spmmd_csc_row(const internal_spmat matA, const internal_spma
         }
     }
 
-    // ����
+    // Compute
     for (ALPHA_INT bc = 0; bc < n; bc++)
     {
         for (ALPHA_INT bi = matB->col_data[bc]; bi < matB->col_data[bc+1]; bi++)

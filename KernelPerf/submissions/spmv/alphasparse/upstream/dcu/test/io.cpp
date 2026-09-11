@@ -449,10 +449,10 @@ static void alpha_read_coo_z_pad_mtx(const char *file, ALPHA_INT *m_p,
 
 // typedef struct {
 // {
-//   int64 rows; //总行数
-//   int64 cols; //总列数
-//   int64 nnzs; //有效nnz个数
-//   int64 real_nnz; //总共的nnz个数
+// int64 rows; // Total number of rows
+// int64 cols; // Total number of columns
+// int64 nnzs; // Number of valid nnz
+// int64 real_nnz; // Total number of nnz
 //   int64 field_per_nnz; //complex:2, integer/float:1, pattern 0, real:1
 //   int64 num_type; //float:0, integer 1;
 //   int64 mtx_sym;  //general:0, sym:1, Hermitian:2
@@ -1005,7 +1005,7 @@ void alpha_read_coo_z(const char *file, ALPHA_INT *m_p, ALPHA_INT *n_p,
   alpha_read_coo_pad_z(file, m_p, n_p, 0, nnz_p, row_index, col_index, values);
 }
 
-// TODO : 删除从file 导出特征的接口, 原因是和文件IO打交道太慢了
+// TODO: remove the interface that exports features from file, because file I/O is too slow
 
 // void alpha_dump_feature_file(const char *file, double *feature)
 // {

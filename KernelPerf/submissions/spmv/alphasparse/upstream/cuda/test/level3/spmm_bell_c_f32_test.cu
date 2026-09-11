@@ -297,7 +297,7 @@ int main(int argc, const char *argv[])
   alpha_read_coo<cuFloatComplex>(
       file, &A_rows, &A_cols, &rnnz, &coo_row_index, &coo_col_index, &coo_values);
   coo_order<int32_t, cuFloatComplex>(rnnz, coo_row_index, coo_col_index, coo_values);
-  columns = args_get_cols(argc, argv, A_cols); // 默认C是方阵
+  columns = args_get_cols(argc, argv, A_cols); // By default C is a square matrix
 
   if (transA == ALPHA_SPARSE_OPERATION_NON_TRANSPOSE)
   {
@@ -328,7 +328,7 @@ int main(int argc, const char *argv[])
       ldb = A_rows;
       ldc = C_rows;
     }
-    else // transB, conjB, B转置就用方阵测
+    else // transB, conjB: when B is transposed, test with a square matrix
     {
       C_rows = A_rows;
       C_cols = columns;

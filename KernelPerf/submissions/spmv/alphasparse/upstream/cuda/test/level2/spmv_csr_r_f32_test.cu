@@ -332,7 +332,7 @@ int main(int argc, const char *argv[])
     if (metrics_flag)
     {
 
-      // 打开文件，如果文件不存在则创建一个新文件
+      // Open the file; create a new one if it does not exist
       std::ofstream filename(metrics_file, std::ios::app);
       int check_pass = check((float *)cuda_y, m, (float *)ict_y, m);
       char *if_pass = "";

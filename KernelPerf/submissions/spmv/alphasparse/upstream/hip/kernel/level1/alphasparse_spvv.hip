@@ -11,28 +11,28 @@ spvv_device(T nnz, const U* x_val, const T* x_ind, const U* y, U* result)
   int cacheidx = threadIdx.x;
 
   __shared__ U
-    cache[threadPerBlock]; // block内线程共享__shared__，注意这里没有初始化
+    cache[threadPerBlock]; // Threads in a block share __shared__; note that it is not initialized here
 
   U tmp = {};
 
-  for (int i = idx; i < nnz; i += stride) // 每个线程先求和自己可以接触到的数
+  for (int i = idx; i < nnz; i += stride) // Each thread first sums the elements it can reach
   {
     tmp += x_val[i] * y[x_ind[i]];
   }
   cache[cacheidx] = tmp;
   __syncthreads();
 
-  // 规约
+  // Reduction
   T i = threadPerBlock / 2;
   while (i != 0) {
-    if (cacheidx < i) // 只需要线程号小于i的线程参与计算
+    if (cacheidx < i) // Only threads whose id is less than i take part in the computation
     {
-      cache[cacheidx] += cache[cacheidx + i]; // 两两求和
+      cache[cacheidx] += cache[cacheidx + i]; // Sum in pairs
     }
-    i /= 2; // 循环变量
+    i /= 2; // Loop variable
     __syncthreads();
   }
-  if (cacheidx == 0) // 块内0号线程提交块内规约结果
+  if (cacheidx == 0) // Thread 0 of the block commits the block reduction result
     result[blockIdx.x] = cache[0];
 }
 

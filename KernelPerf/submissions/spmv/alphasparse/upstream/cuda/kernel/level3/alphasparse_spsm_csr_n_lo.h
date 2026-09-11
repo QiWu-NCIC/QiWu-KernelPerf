@@ -152,7 +152,7 @@ spsm_csr_n_lo(alphasparseHandle_t handle,
   const int blockPerGrid =
     min((T)32, (threadPerBlock + nrhs - 1) / threadPerBlock);
 
-  // todo diag的计算是否应合并
+  // todo: should the diag computation be merged
   get_diags<<<dim3(blockPerGrid), dim3(threadPerBlock), 0, handle->stream>>>(
     m, csr_val, csr_row_ptr, csr_col_ind, diag);
 

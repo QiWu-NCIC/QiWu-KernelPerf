@@ -10,7 +10,7 @@ template <typename T, typename U>
 alphasparseStatus_t
 transpose_csr(alphasparseSpMatDescr_t &A)
 {
-  // 计算矩阵的转置
+  // Compute the transpose of the matrix
   int num_row = A->rows;
   int num_col = A->cols;
   int num_nonzeros = A->nnz;
@@ -24,13 +24,13 @@ transpose_csr(alphasparseSpMatDescr_t &A)
              cudaMemcpyDeviceToHost);
   cudaMemcpy(
       Acol_indx, A->col_data, A->nnz * sizeof(int), cudaMemcpyDeviceToHost);
-  // 统计每一列包含的非零元素的数量
+  // Count the non-zero elements contained in each column
   std::vector<int> column_counts(num_col, 0);
   for (int i = 0; i < num_nonzeros; i++)
   {
     column_counts[Acol_indx[i]]++;
   }
-  // 计算转置后每一行元素在values和row_ids中的起始位置
+  // Compute the start offset of each transposed row in values and row_ids
   int *rows_offset = (int *)alpha_memalign((uint64_t)(num_col + 1) * sizeof(int),
                                            DEFAULT_ALIGNMENT);
   memset(rows_offset, 0, sizeof(int) * (num_col + 1));
@@ -45,7 +45,7 @@ transpose_csr(alphasparseSpMatDescr_t &A)
   memset(values, 0, sizeof(U) * A->nnz);
   memset(col_indx, 0, sizeof(int) * A->nnz);
 
-  // 将非零元素按列号放入转置后的矩阵中
+  // Place the non-zero elements into the transposed matrix by column index
   for (int i = 0; i < num_row; i++)
   {
     for (int j = Arows_offset[i]; j < Arows_offset[i + 1]; j++)
@@ -58,7 +58,7 @@ transpose_csr(alphasparseSpMatDescr_t &A)
     }
   }
 
-  // 恢复每一行元素在values和row_ids中的起始位置
+  // Restore the start offset of each row in values and row_ids
   // for (int i = num_col; i >= 1; i--)
   // {
   //   rows_offset[i] = rows_offset[i - 1];

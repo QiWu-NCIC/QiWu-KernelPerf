@@ -14,10 +14,10 @@ struct Node {
 template <typename TYPE>
 static int cmp(const void *a, const void *b) {
   if (((struct Node<TYPE> *)a)->x ==
-      ((struct Node<TYPE> *)b)->x)  //如果两个结构体的x相同，按它们的y值从小到大排列
+      ((struct Node<TYPE> *)b)->x)  // If the x values of two structs are equal, sort by their y values in ascending order
     return ((struct Node<TYPE> *)a)->y > ((struct Node<TYPE> *)b)->y;
   else
-    return ((struct Node<TYPE> *)a)->x > ((struct Node<TYPE> *)b)->x;  // 反之按x从小到大排列
+    return ((struct Node<TYPE> *)a)->x > ((struct Node<TYPE> *)b)->x;  // Otherwise sort by x in ascending order
 }
 
 template <typename TYPE>

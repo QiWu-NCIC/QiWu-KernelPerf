@@ -29,8 +29,8 @@
 #define NPERCLC8 ((CACHELINE) / (C8BYTES))
 #define NPERCLC16 ((CACHELINE) / (C16BYTES))
 
-//如果不同数据类型使用不同的NPERCL,不保证没有bug...目前看来每次处理16列会比较快
-//目前只有trsm csr使用了这个宏
+// Using a different NPERCL per data type is not guaranteed to be bug-free... handling 16 columns at a time currently looks fastest
+// Currently only trsm csr uses this macro
 #define NPERCL 16
 
 // #ifndef DOUBLE

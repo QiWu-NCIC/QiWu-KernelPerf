@@ -25,12 +25,12 @@ __spmv_bsr4x1_serial_host_sse_float:
 // outer loop
 
 /*
-  外循环变量 r9 : y  , 每次迭代 + 16字节
-  外循环变量 r10 : chunk_start  , 每次迭代 + 4字节
-  外循环上界 rdi : y 最后一个元素地址
+Outer loop variable r9: y, +16 bytes per iteration
+Outer loop variable r10: chunk_start, +4 bytes per iteration
+Outer loop bound rdi: address of the last element of y
 
-  内循环变量 rax : nnz id (ai), 一个ai对应4个nz
-  内循环上界 rbx : rows_end[r9]
+Inner loop variable rax: nnz id (ai); one ai corresponds to 4 nz
+Inner loop bound rbx: rows_end[r9]
 
 */
 	xorps	%xmm7, %xmm7     // accum

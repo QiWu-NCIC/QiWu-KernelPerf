@@ -8,7 +8,7 @@ alphasparseStatus_t diagsv_bsr_n(const TYPE alpha, const internal_spmat A, const
 {
     ALPHA_INT block_rowA = A->rows;
     ALPHA_INT rowA = A->rows * A->block_dim;
-    TYPE diag[rowA]; //�洢�Խ�Ԫ��
+    TYPE diag[rowA]; // Store diagonal elements
     memset(diag, '\0', sizeof(TYPE) * rowA);
     ALPHA_INT bs = A->block_dim;
     
@@ -16,10 +16,10 @@ alphasparseStatus_t diagsv_bsr_n(const TYPE alpha, const internal_spmat A, const
     {
         for (ALPHA_INT ai = A->row_data[ar]; ai < A->row_data[ar+1]; ++ai)
         {
-            if (A->col_data[ai] == ar) //�Խǿ�
+            if (A->col_data[ai] == ar) // Diagonal block
             {
                 //diag[ar] = mat->values[ai];
-                for(ALPHA_INT block_i = 0; block_i < bs; block_i++) //���ʿ��ڶԽ�Ԫ��
+                for(ALPHA_INT block_i = 0; block_i < bs; block_i++) // Access the diagonal elements inside the block
                 {
                     //diag[ar*bs+block_i] = ((TYPE *)A->val_data)[ai*bs*bs + block_i*bs + block_i];
                     diag[ar*bs+block_i] = ((TYPE *)A->val_data)[ai*bs*bs + block_i*bs + block_i];

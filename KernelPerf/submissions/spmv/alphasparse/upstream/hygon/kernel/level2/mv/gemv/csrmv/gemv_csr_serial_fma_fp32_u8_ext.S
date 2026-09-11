@@ -12,7 +12,7 @@
   // pushq %r11
   // movl %ecx, %esi // number
   // movl $0, %eax
-  // leaq .Llast(%rip), %rdi // 字符串""
+  // leaq .Llast(%rip), %rdi // Empty string
   // call printf@PLT
   // popq %r11
   // popq %r10
@@ -50,7 +50,7 @@
 # parameters:
 __spmv_csr_serial_host_avx2_float:
 .LFB2:
-	vmovups	.LC1(%rip), %ymm7  // 8 个 0xffffffff
+	vmovups	.LC1(%rip), %ymm7  // Eight 0xffffffff
 
 .LCFI0:
 	pushq	%r14
@@ -70,9 +70,9 @@ __spmv_csr_serial_host_avx2_float:
   vmovaps %ymm1, %ymm15 // beta
 
 .L17:
-	cmpl	%ebp, %esi  // 和 sub %ebp, %esi 一样 (esi - ebp)
+	cmpl	%ebp, %esi  // Same as sub %ebp, %esi (esi - ebp)
 	jge	.L10
-	movslq	%esi,%rax            //i:行号
+	movslq	%esi,%rax            // i: row index
 	leaq	0(,%rax,4), %rdx       //i*4
 	movl	(%rbx,%rax,4), %r10d   // row_start[i]
 	movl	4(%rbx,%rdx), %ecx     // row_start[i+1]
@@ -102,7 +102,7 @@ __spmv_csr_serial_host_avx2_float:
   movss  (%r8,%rax,4),%xmm0   // x[col_indx[1]]
   movslq 0x8(%rdx),%rax       // col_indx[2]
   shufps $0x0,%xmm0,%xmm2    
-  addl   $8,  %r10d           // r10d 是循环变量(),    每次加 8
+  addl   $8,  %r10d           // r10d is the loop variable, incremented by 8 each time
   vmovups  (%r11), %ymm6       // value
   movss  (%r8,%rax,4),%xmm3   // x[col_indx[2]]
   movslq 0xc(%rdx),%rax       // col_indx[3]
@@ -122,91 +122,91 @@ __spmv_csr_serial_host_avx2_float:
   movss  (%r8,%rax,4),%xmm4   // x[col_indx[7]]
   shufps $0x0,%xmm4,%xmm3 
   shufps $0x88,%xmm3,%xmm2
-  addq   $32, %rdx            // rdx  是&col_idx[i],每次+32
+  addq   $32, %rdx            // rdx is &col_idx[i], +32 each time
 
-  vinsertf128 $1, %xmm2, %ymm11, %ymm2 // 把 xmm2 插在 ymm11高位，结果放在ymm2
+  vinsertf128 $1, %xmm2, %ymm11, %ymm2 // Insert xmm2 into the high half of ymm11, with the result in ymm2
   
   // vmovaps %ymm7, %ymm3
   // vmovdqu  (%rdx),%ymm5     // col_indx[0,1,2,3]
-  // addq   $32, %rdx            // rdx  是&col_idx[i],每次+32
-  // addl   $8,  %r10d           // r10d 是循环变量(),    每次加 8
+  // addq $32, %rdx // rdx is &col_idx[i], +32 each time
+  // addl $8, %r10d // r10d is the loop variable, +8 each time
   // vgatherdps	%ymm3, (%r8,%ymm5,4), %ymm2
   
-	vfmadd231ps	%ymm6, %ymm2, %ymm8 // ymm8是中间累加器, fma比mul+add慢===无语
-  addq  $32, %r11       // r11  是&value[i],  每次 +32
+	vfmadd231ps	%ymm6, %ymm2, %ymm8 // ymm8 is the intermediate accumulator; fma is slower than mul+add
+  addq  $32, %r11       // r11 is &value[i], +32 each time
 	cmpl	%r10d, %ecx     // ecx = nnz_row - 7
 	jg	.L6
 ########################end loop########################
 	vextractf128	$0x1, %ymm8, %xmm4
 	vaddps	%xmm8, %xmm4, %xmm4
-  // 做规约 xmm4到xmm10
+  // Reduce xmm4 into xmm10
 	vmovhlps	%xmm4, %xmm4, %xmm8
 	vaddps	%xmm4, %xmm8, %xmm4
 	vshufps	$85, %xmm4, %xmm4, %xmm8
 	vaddps	%xmm4, %xmm8, %xmm10
 .L7:
-  addl  $7, %ecx // ecx 现在是 rows_end[i]
+  addl  $7, %ecx // ecx now holds rows_end[i]
 .L8:
-  // 如果还没算完了就跳至 .L4, r10d存的是已经遍历的nz个数
-	cmpl	%r10d, %ecx          // rows_end[i] 等于 rows_start[i]就跳走,否则执行 .L9
+  // If the computation is not finished, jump to .L4; r10d holds the number of nz already traversed
+	cmpl	%r10d, %ecx          // If rows_end[i] equals rows_start[i], jump away, otherwise execute .L9
   jle .L4
 .L9:
-  subl %r10d, %ecx           // 还剩多少?
+  subl %r10d, %ecx           // How many are left?
 	movslq	(%rdx),%rax        // col_idx[jj]
 	movss	(%r8,%rax,4), %xmm0  // x[] 
 	mulss	(%r11), %xmm0        // value
 	addss	%xmm0, %xmm10        // xmm10 = sum
 	cmpl	$1, %ecx           
-	je	.L4                    //剩1个
+	je	.L4                    // 1 left
 
   movslq	0x4(%rdx),%rax        // col_idx[jj]
 	movss	(%r8,%rax,4), %xmm0     // x[] 
 	mulss	0x4(%r11), %xmm0        // value
 	addss	%xmm0, %xmm10           // xmm10 = sum
 	cmpl	$2, %ecx               
-	je	.L4                       //剩2个
+	je	.L4                       // 2 left
 
   movslq	0x8(%rdx),%rax        // col_idx[jj]
 	movss	(%r8,%rax,4), %xmm0     // x[] 
 	mulss	0x8(%r11), %xmm0        // value
 	addss	%xmm0, %xmm10           // xmm10 = sum
 	cmpl	$3, %ecx              
-	je	.L4                       //剩3个
+	je	.L4                       // 3 left
 
   movslq 12(%rdx),%rax        // col_idx[jj]
 	movss	(%r8,%rax,4), %xmm0     // x[] 
 	mulss	12(%r11), %xmm0        // value
 	addss	%xmm0, %xmm10           // xmm10 = sum
 	cmpl	$4, %ecx              
-	je	.L4                       //剩4个
+	je	.L4                       // 4 left
 
   movslq 16(%rdx),%rax        // col_idx[jj]
 	movss	(%r8,%rax,4), %xmm0     // x[] 
 	mulss	16(%r11), %xmm0        // value
 	addss	%xmm0, %xmm10           // xmm10 = sum
 	cmpl	$5, %ecx              
-	je	.L4                       //剩5个
+	je	.L4                       // 5 left
 
   movslq 20(%rdx),%rax        // col_idx[jj]
 	movss	(%r8,%rax,4), %xmm0     // x[] 
 	mulss	20(%r11), %xmm0        // value
 	addss	%xmm0, %xmm10           // xmm10 = sum
 	cmpl	$6, %ecx              
-	je	.L4                       //剩6个
+	je	.L4                       // 6 left
 
   movslq 24(%rdx),%rax        // col_idx[jj]
 	movss	(%r8,%rax,4), %xmm0     // x[] 
 	mulss	24(%r11), %xmm0        // value
 	addss	%xmm0, %xmm10           // xmm10 = sum
 	cmpl	$7, %ecx              
-	je	.L4                       //剩7个
+	je	.L4                       // 7 left
 
 .L4:
   vmulss (%rdi),%xmm15,%xmm1        // sum = y[i] * beta + 0 
-	incl	%esi                        // 下一行
+	incl	%esi                        // Next row
   vmulss	%xmm10, %xmm14,%xmm13           // sum * alpha
 	addss	%xmm13, %xmm1           
-	movss	%xmm1, (%rdi)        // 写回y[i]
+	movss	%xmm1, (%rdi)        // Write back y[i]
 	jmp	.L17
 .L10:
 	popq	%rbx

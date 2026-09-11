@@ -390,10 +390,10 @@ main(int argc, const char* argv[]) {
     coo_order<int32_t, DATA_TYPE>(nnz, coo_row_index, coo_col_index, coo_values);
     
     if (alpha_diagtype == ALPHA_SPARSE_DIAG_NON_UNIT) {
-        // 补充对角线元素
+        // Fill in the diagonal elements
         mat_patch_trim_d<int32_t>(&m, &n, &nnz, &coo_row_index, &coo_col_index, &coo_values);
     }
-    // 矩阵行元素求和归一化
+    // Normalize by the sum of the elements in each matrix row
     mat_adjust_nnz_d(coo_row_index, coo_col_index, coo_values, m, n, nnz, alpha_fillmode, alpha_diagtype);
 
     // init x y
@@ -401,9 +401,9 @@ main(int argc, const char* argv[]) {
 
     alpha_fill_random(x_val, 0, n);
 
-    // int execute_type = 0;    // 单独跑一个算法
-    int execute_type = 1;       // 跑alphasparse的一个或多个算法与cuSPARSE的算法做比较
-    // int execute_type = 2;       // 单跑一个alphasparse算法并与cpu（单线程） baseline做精度对比
+    // int execute_type = 0; // Run a single algorithm
+    int execute_type = 1;       // Run one or more alphasparse algorithms and compare them with cuSPARSE
+    // int execute_type = 2; // Run a single alphasparse algorithm and compare accuracy against the single-threaded CPU baseline
     if (execute_type == 0) {
         if (algo_num < 0) {
             // printf("\n%s,", filename);
@@ -548,12 +548,12 @@ main(int argc, const char* argv[]) {
     }
     free(x_val);
     
-    // // 获取当前时间
+    // // Get the current time
     // auto currentTime = std::chrono::system_clock::now();
     // std::time_t currentTimeT = std::chrono::system_clock::to_time_t(currentTime);
-    // // 转换为本地时间结构
+    // // Convert to a local time structure
     // std::tm localTime = *std::localtime(&currentTimeT);
-    // // 格式化时间为字符串
+    // // Format the time as a string
     // std::ostringstream timeString;
     // timeString << std::put_time(&localTime, "%Y/%m/%d-%H:%M:%S");
     // std::cout << timeString.str() << ",";

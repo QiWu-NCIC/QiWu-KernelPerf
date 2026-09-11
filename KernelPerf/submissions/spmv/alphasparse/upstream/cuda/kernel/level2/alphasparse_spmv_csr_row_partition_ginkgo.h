@@ -222,7 +222,7 @@ __device__ __forceinline__ void find_next_row(
                 ++row;
                 return;
             }
-            // 二分查找
+            // Binary search
             int left = right / 2;
             while (left <= right)
             {

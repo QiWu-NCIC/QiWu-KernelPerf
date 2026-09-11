@@ -59,7 +59,7 @@ alphasparseStatus_t convert_sky_coo(const T *source, T **dest, const alphasparse
       ALPHA_INT nnz_row = 0;
       while (idx < count && points[idx].x < r)
         ++idx;
-      if(idx == count){ // 已遍历完所有非零元
+      if(idx == count){ // All non-zero elements have been traversed
           mat->pointers[r+1] = mat->pointers[r]+1;
           continue;
       }
@@ -118,7 +118,7 @@ alphasparseStatus_t convert_sky_coo(const T *source, T **dest, const alphasparse
         ++idx;
       ALPHA_INT col_start = idx;
       if (idx == count)
-      { // 已遍历完所有非零元
+      { // All non-zero elements have been traversed
         sky_nnz_row += 1;
         mat->pointers[c + 1] = mat->pointers[c] + 1;
         continue;
@@ -129,7 +129,7 @@ alphasparseStatus_t convert_sky_coo(const T *source, T **dest, const alphasparse
         mat->pointers[c + 1] = mat->pointers[c] + c - points[idx].x + 1;
       }
       else
-      { // 空行
+      { // Empty row
         mat->pointers[c + 1] = mat->pointers[c] + 1;
         sky_nnz_row += 1;
       }

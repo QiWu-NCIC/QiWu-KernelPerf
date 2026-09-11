@@ -24,7 +24,7 @@
 // parameters:
 __spmv_csr_serial_host_sse_complex_float:
 .LFB2:
-	movups	.LC1(%rip), %xmm4 # xmm4是 8 个 0xffffffff
+movups .LC1(%rip), %xmm4 # xmm4 holds eight 0xffffffff
 .LCFI0:
 	pushq	%r14
 	movq	%rdx, %r14 // r14 = col_indx
@@ -44,9 +44,9 @@ __spmv_csr_serial_host_sse_complex_float:
   vshufps $0x11,%xmm15,%xmm15,%xmm12 // [beta.i, beta.r]
 
 .L17:
-	cmpl	%ebp, %esi  // 和 sub %ebp, %esi 一样 (esi - ebp)
+	cmpl	%ebp, %esi  // Same as sub %ebp, %esi (esi - ebp)
 	jge	.L10
-	movslq	%esi,%rax            //i:行号
+	movslq	%esi,%rax            // i: row index
 	leaq	0(,%rax,4), %rdx       //i*4
 	movl	(%rbx,%rax,4), %r10d   // row_start[i]
 	movl	4(%rbx,%rdx), %ecx     // row_start[i+1]
@@ -55,7 +55,7 @@ __spmv_csr_serial_host_sse_complex_float:
   xorps %xmm8,%xmm8
   xorps %xmm10,%xmm10
 
-  subl  $1, %ecx                  // unroll 2, ecx = rows_end[i] - 1,单精度循环展开2次
+  subl  $1, %ecx                  // Unroll 2: ecx = rows_end[i] - 1, unroll the single-precision loop twice
 	movslq	%r10d,%rax              // row_start[i]
 
 	leaq	(%r14,%rax,4), %rdx         // col_idx  addr
@@ -70,7 +70,7 @@ __spmv_csr_serial_host_sse_complex_float:
 // r12 : y
 // rdi : y + i
 // r11 : value + i
-// r10 : 循环变量
+// r10: loop variable
 // r9 :?
 // r8 : x
 // rsi: current row, i
@@ -78,18 +78,18 @@ __spmv_csr_serial_host_sse_complex_float:
 // rdx : col_idx + i
 // rcx : rows_end[i] - 3
 .L6:
- // 向量寄存器 [ar,ai,br,bi]: 左->右 == 低->高
+ // Vector register [ar,ai,br,bi]: left->right == low->high
  // x -> xmm2
  // values -> xmm6
   movups  (%r11), %xmm6        // value: a 
-  addl   $2,  %r10d            // r10d 是循环变量(),    每次加 2
-  addq  $16, %r11                    // r11  是&value[i],  每次 +16字节
+  addl   $2,  %r10d            // r10d is the loop variable, incremented by 2 each time
+  addq  $16, %r11                    // r11 is &value[i], +16 bytes each time
 
   movslq (%rdx),%rax          // col_indx[0]
-  movsd  (%r8,%rax,8),%xmm2   // x[col_indx[0]], 用movsd加载两个float到xmm2的低位
+  movsd  (%r8,%rax,8),%xmm2   // x[col_indx[0]]: load two floats into the low half of xmm2 with movsd
   movslq 0x4(%rdx),%rax        // col_indx[1]
-  movhpd (%r8,%rax,8),%xmm2    // x[col_indx[1]], 用movsd加载两个float到xmm2的高位 : b
-  addq   $8, %rdx              // rdx  是&col_idx[i],每次+8字节
+  movhpd (%r8,%rax,8),%xmm2    // x[col_indx[1]]: load two floats into the high half of xmm2 with movsd : b
+  addq   $8, %rdx              // rdx is &col_idx[i], +8 bytes each time
 
   vshufps $0xb1,%xmm2,%xmm2,%xmm3 // TR(x): bSwap
   vshufps $0xf5,%xmm6,%xmm6,%xmm7    // Im(value): aIm
@@ -97,26 +97,26 @@ __spmv_csr_serial_host_sse_complex_float:
 
   mulps %xmm7, %xmm3             // Im(value) * TR(x): aIm_bSwap
   vfmaddsub231ps %xmm9,%xmm2,%xmm3
-  // 累加到xmm8上
+  // Accumulate into xmm8
   addps %xmm3,%xmm8
 
 	cmpl	%r10d, %ecx     // ecx = nnz_row - 1
 	jg	.L6
 // ########################end loop########################
-  // 规约
-  movhlps %xmm8,%xmm10  //高位复数
-  addps %xmm8,%xmm10    //两个复数实/虚部对应相加
+  // Reduction
+  movhlps %xmm8,%xmm10  // High half, complex
+  addps %xmm8,%xmm10    // Add the real and imaginary parts of two complex numbers correspondingly
 .L7:
-  // nnz个数加回来
-  addl  $1, %ecx // ecx 现在是 rows_end[i]
+  // Add the nnz count back
+  addl  $1, %ecx // ecx now holds rows_end[i]
   
 .L8:
-  // 如果算完了就跳至 .L4, r10d存的是已经遍历的nz个数
-	cmpl	%r10d, %ecx          // rows_end[i] 等于 rows_start[i]就跳走,否则执行 .L9
+  // If the computation is finished, jump to .L4; r10d holds the number of nz already traversed
+	cmpl	%r10d, %ecx          // If rows_end[i] equals rows_start[i], jump away, otherwise execute .L9
   jle .L4
 .L9:
-  // subl %r10d, %ecx           // 还剩多少?
-  // 否则 还剩一个nnz
+  // subl %r10d, %ecx // How many are left?
+  // Otherwise one nnz is left
   
 	movslq	(%rdx),%rax        // col_idx
 	movsd	(%r8,%rax,8), %xmm0  // x (a)
@@ -135,7 +135,7 @@ __spmv_csr_serial_host_sse_complex_float:
   mulps %xmm7, %xmm13              
   vfmaddsub231ps %xmm9,%xmm15,%xmm13 // y[i] * beta
 
-	incl	%esi                        // 下一行
+	incl	%esi                        // Next row
   
   vshufps $0xb1,%xmm14,%xmm14,%xmm12 
   vshufps $0xf5,%xmm10,%xmm10,%xmm6     
@@ -143,7 +143,7 @@ __spmv_csr_serial_host_sse_complex_float:
   mulps %xmm6, %xmm12              
   vfmaddsub231ps %xmm8,%xmm14,%xmm12 // alpha * xmm10
   addps %xmm13, %xmm12
-	movsd	%xmm12, (%rdi)        // 写回y[i]
+	movsd	%xmm12, (%rdi)        // Write back y[i]
 	jmp	.L17
 .L10:
 	popq	%rbx

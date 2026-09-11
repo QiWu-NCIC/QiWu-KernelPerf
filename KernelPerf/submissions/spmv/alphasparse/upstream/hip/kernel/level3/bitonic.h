@@ -87,7 +87,7 @@ __device__ __forceinline__ int SelectMinMax(const int val1, const int val2,
 template <unsigned long int THREAD_MASK, int STEP_OFFSET>
 __device__ __forceinline__ int PerformStep_32ElementsWide_sync(const int val)
 {
-  // offset进行数据交换，thread_mask确定哪些线程取最大
+  // offset selects the exchange partner, thread_mask decides which threads take the maximum
   const int otherVal = __shfl_xor( val, STEP_OFFSET, 64);
       // __shfl_xor(val, STEP_OFFSET, 64);
   // const unsigned long int thisThreadMaskInWarp = 1 << threadIdx.x;
@@ -222,7 +222,7 @@ __device__ void PerformBitonicSort_short_sync(int *warpSharedMemPtr, int sharedM
 {
 
   const int itemsPerThread = BUCKET_SIZE / WARP_SIZE; // 8
-  int storage[itemsPerThread];                        // 每个线程处理连续的itemsPerThread个
+  int storage[itemsPerThread];                        // Each thread handles itemsPerThread consecutive elements
 
   // Load data into registers.
   storage[0] = warpSharedMemPtr[threadIdx.x + 0 * WARP_SIZE];
@@ -241,7 +241,7 @@ __device__ void PerformBitonicSort_short_sync(int *warpSharedMemPtr, int sharedM
     storage[7] = warpSharedMemPtr[threadIdx.x + 7 * WARP_SIZE];
   }
 
-  // Stages 1 - 5. warp bucket构建双调序列
+  // Stages 1 - 5. warp bucket builds a bitonic sequence
   {
     storage[0] = PerformBitonicSort_32ElementsWide_sync<true>(storage[0]);
     if (sharedMemSize > 64)
@@ -338,14 +338,14 @@ __device__ void PerformBitonicSort_BucketSizeWide_sync(int *warpSharedMemPtr)
 {
 
   const int itemsPerThread = BUCKET_SIZE / WARP_SIZE; // 8
-  int storage[itemsPerThread];                        // 每个线程处理连续的itemsPerThread个
+  int storage[itemsPerThread];                        // Each thread handles itemsPerThread consecutive elements
 
   // Load data into registers.
 #pragma unroll
   for (int i = 0; i < itemsPerThread; ++i)
     storage[i] = warpSharedMemPtr[threadIdx.x + i * WARP_SIZE];
 
-    // Stages 1 - 5. warp bucket构建双调序列
+    // Stages 1 - 5. warp bucket builds a bitonic sequence
 #pragma unroll
   for (int i = 0; i < itemsPerThread; i += 2)
   {
@@ -381,20 +381,20 @@ __device__ void PerformBitonicSort_BucketSizeWide_sync(int *warpSharedMemPtr)
   // __syncthreads();
 }
 ////////////////////////////////////////////////////////////////////////////
-// 构建左降右升的双调序列
+// Build a bitonic sequence that descends on the left and ascends on the right
 template <bool SORT_INCREASING>
 __device__ int PerformBitonicSort_32ElementsWide_sync(int val)
 {
   // Stage 1 0110 0110 0110 0110 0110 0110 0110 0110
-  val = PerformStep_32ElementsWide_sync<0x6666666666666666, 1>(val); // 以2*1为组互换 0-1
+  val = PerformStep_32ElementsWide_sync<0x6666666666666666, 1>(val); // Swap in groups of 2*1: 0-1
 
   // Stage 2 0011 1100 0011 1100 0011 1100 0011 1100
-  val = PerformStep_32ElementsWide_sync<0x3C3C3C3C3C3C3C3C, 2>(val); // 以2*2为组互换 0 1 2 3 - 2 3 0 1
+  val = PerformStep_32ElementsWide_sync<0x3C3C3C3C3C3C3C3C, 2>(val); // Swap in groups of 2*2: 0 1 2 3 - 2 3 0 1
   //         0101 1010 0101 1010 0101 1010 0101 1010
   val = PerformStep_32ElementsWide_sync<0x5A5A5A5A5A5A5A5A, 1>(val);
 
   // Stage 3 0000 1111 1111 0000 0000 1111 1111 0000
-  val = PerformStep_32ElementsWide_sync<0x0FF00FF00FF00FF0, 4>(val); // 以2*4为组互换 0 1 2 3 4 5 6 7 - 4 5 6 7 0 1 2 3
+  val = PerformStep_32ElementsWide_sync<0x0FF00FF00FF00FF0, 4>(val); // Swap in groups of 2*4: 0 1 2 3 4 5 6 7 - 4 5 6 7 0 1 2 3
   //         0011 0011 1100 1100 0011 0011 1100 1100
   val = PerformStep_32ElementsWide_sync<0x33CC33CC33CC33CC, 2>(val);
   //         0101 0101 1010 1010 0101 0101 1010 1010
@@ -424,7 +424,7 @@ __device__ int PerformBitonicSort_32ElementsWide_sync(int val)
   return PerformStage_WarpWide_sync<SORT_INCREASING>(val);
 }
 ////////////////////////////////////////////////////////////////////////////
-// // offset进行数据交换，thread_mask确定哪些线程取最大
+// // offset selects the exchange partner, thread_mask decides which threads take the maximum
 // template <int THREAD_MASK, int STEP_OFFSET>
 // __device__ int PerformStep_32ElementsWide_sync(const int val)
 // {
@@ -614,7 +614,7 @@ __device__ void CompareSwap_sync(int *sharedMem, const int bucketOffset)
 {
   const int ITEMS_PER_THREAD = WARP_BUCKET_SIZE / WARP_SIZE;
 #pragma unroll
-  // 为了降低bank conflict，依然每个线程处理8个元素，但是线程之间任务连续分布
+  // To reduce bank conflicts each thread still handles 8 elements, but the work is distributed contiguously across threads
   for (int i = 0; i < ITEMS_PER_THREAD; ++i)
   {
     const int offset1 = i * WARP_SIZE + threadIdx.x;
@@ -642,7 +642,7 @@ __device__ void PerformBitonicStage_WarpBucketSize_sync(
        thisWarpSharedMemOffset < INITIAL_BUCKET_SIZE;
        thisWarpSharedMemOffset += WARP_BUCKET_SIZE)
   {
-    // 同样，此循环也是考虑到超长shared memory情形，当前配置下无需循环
+    // Likewise, this loop only exists for very large shared memory; with the current configuration it never iterates
     PerformStage_BucketSizeWide_sync<WARP_BUCKET_SIZE,
                                      PRODUCE_INCREASING>(
         sharedMem + thisWarpSharedMemOffset);

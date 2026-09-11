@@ -71,7 +71,7 @@ alphasparseStatus_t gemv_s_gebsr(const float alpha, const spmat_gebsr_s_t *A, co
 // alphasparseStatus_t gemm_s_gebsr_row_conj(const float alpha, const spmat_gebsr_s_t *mat, const float *x, const ALPHA_INT columns, const ALPHA_INT ldx, const float beta, float *y, const ALPHA_INT ldy);
 // alphasparseStatus_t gemm_s_gebsr_col_conj(const float alpha, const spmat_gebsr_s_t *mat, const float *x, const ALPHA_INT columns, const ALPHA_INT ldx, const float beta, float *y, const ALPHA_INT ldy);
 
-// // alpha*（L+D+L')^T*B + beta*C
+// // alpha*(L+D+L')^T*B + beta*C
 // alphasparseStatus_t symm_s_gebsr_n_lo_row(const float alpha, const spmat_gebsr_s_t *mat, const float *x, const ALPHA_INT columns, const ALPHA_INT ldx, const float beta, float *y, const ALPHA_INT ldy);
 // // alpha*(L+I+L')*B + beta*C
 // alphasparseStatus_t symm_s_gebsr_u_lo_row(const float alpha, const spmat_gebsr_s_t *mat, const float *x, const ALPHA_INT columns, const ALPHA_INT ldx, const float beta, float *y, const ALPHA_INT ldy);
@@ -80,7 +80,7 @@ alphasparseStatus_t gemv_s_gebsr(const float alpha, const spmat_gebsr_s_t *A, co
 // // alpha*(U'+I+U)*B + beta*C
 // alphasparseStatus_t symm_s_gebsr_u_hi_row(const float alpha, const spmat_gebsr_s_t *mat, const float *x, const ALPHA_INT columns, const ALPHA_INT ldx, const float beta, float *y, const ALPHA_INT ldy);
 
-// // alpha*（L+D+L')^T*B + beta*C
+// // alpha*(L+D+L')^T*B + beta*C
 // alphasparseStatus_t symm_s_gebsr_n_lo_col(const float alpha, const spmat_gebsr_s_t *mat, const float *x, const ALPHA_INT columns, const ALPHA_INT ldx, const float beta, float *y, const ALPHA_INT ldy);
 // // alpha*(L+I+L')*B + beta*C
 // alphasparseStatus_t symm_s_gebsr_u_lo_col(const float alpha, const spmat_gebsr_s_t *mat, const float *x, const ALPHA_INT columns, const ALPHA_INT ldx, const float beta, float *y, const ALPHA_INT ldy);

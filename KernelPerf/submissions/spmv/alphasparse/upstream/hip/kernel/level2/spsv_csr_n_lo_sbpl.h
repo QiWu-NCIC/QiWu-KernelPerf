@@ -103,7 +103,7 @@ spsv_csr_n_lo_sbpl_analysis(
     void* externalBuffer
 ) {
     const unsigned int BLOCKSIZE = 256;
-    const unsigned int WARP_SIZE = 64;  // 设置为32 - 运行时死锁？
+    const unsigned int WARP_SIZE = 64;  // Set to 32 - runtime deadlock?
     dim3 threadPerBlock = dim3(BLOCKSIZE);
     dim3 blockPerGrid = dim3((m - 1) / (BLOCKSIZE / WARP_SIZE) + 1);
     T *done_array = reinterpret_cast<T*>(externalBuffer);
@@ -161,13 +161,13 @@ spsv_csr_n_lo_sbpl_solve_kernel(
     const T* __restrict__ level_ptr,
     const T level_size
 ) {
-    const unsigned int SEGM_SIZE = BLOCKSIZE / WARP_SIZE;   // 1 block每次处理SEGM_SIZE个row
+    const unsigned int SEGM_SIZE = BLOCKSIZE / WARP_SIZE;   // One block handles SEGM_SIZE rows at a time
     T lid = threadIdx.x & (WARP_SIZE - 1);                  // lane_id
     T wid = threadIdx.x / WARP_SIZE;                        // local_row_id
     volatile __shared__ double diag[BLOCKSIZE / WARP_SIZE];
     for (int level_id = 0; level_id < level_size; level_id++) {  // per level
         for (int row_idx = level_ptr[level_id]; row_idx < level_ptr[level_id + 1]; row_idx += SEGM_SIZE) {  // per row
-            T row_id = row_map[row_idx + wid];      // 当前WARP需要计算的row 
+            T row_id = row_map[row_idx + wid];      // The row this warp needs to compute
             T row_begin = csr_row_ptr[row_id];
             T row_end = csr_row_ptr[row_id + 1];
             double local_sum = {};
@@ -181,7 +181,7 @@ spsv_csr_n_lo_sbpl_solve_kernel(
                 col_id = csr_col_idx[val_id];
                 val = csr_val[val_id];
             }
-            while (val_id < row_end && col_id < row_id) { // 当前线程需要处理的nnz
+            while (val_id < row_end && col_id < row_id) { // The nnz this thread needs to process
                 local_sum -= val * y[col_id];
                 val_id += WARP_SIZE;
                 if (val_id < row_end) {

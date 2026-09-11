@@ -27,22 +27,22 @@ alphasparseStatus_t trsm_csr_u_hi_row_opt(const J alpha, const internal_spmat A,
     ALPHA_INT *row_start = (ALPHA_INT *)alpha_memalign(sizeof(ALPHA_INT) * m, DEFAULT_ALIGNMENT);
     ALPHA_INT *row_end = (ALPHA_INT *)alpha_memalign(sizeof(ALPHA_INT) * m, DEFAULT_ALIGNMENT);
 
-    // m x 16行优先存储的X
+    // X stored in row-major order with m x 16
     pack_r2r(m, NPERCL, x + cc, ldx, tmp_X, ldtmp);
     for (ALPHA_INT ac = m; ac > 0; ac -= COL_BLOCK) {
       const ALPHA_INT acs = alpha_max(0, ac - COL_BLOCK);
       const ALPHA_INT ace = ac;
       J *X = tmp_X + acs * ldtmp;
       const ALPHA_INT Xlen = (ace - acs) * ldtmp;
-      // load对角块到cache
+      // Load the diagonal block into cache
       // VEC_MUL2(X, X, alpha, Xlen);
       for (int i = 0; i < Xlen; i++) {
         X[i] = alpha_mul(X[i], alpha);
       }
-      //取稀疏矩阵上三角的切片
+      // Take the upper triangular slice of the sparse matrix
       csr_uppercol_truncate(A, acs, ace, row_start, row_end);
       ALPHA_INT ar = ace - 1;
-      //先求对角块COL_BLOCK x COL_BLOCK内的未知数
+      // First solve the unknowns inside the COL_BLOCK x COL_BLOCK diagonal block
       for (; ar >= acs; ar--) {
         ALPHA_INT start = row_start[ar];
         ALPHA_INT end = row_end[ar];
@@ -87,7 +87,7 @@ alphasparseStatus_t trsm_csr_u_hi_row_opt(const J alpha, const internal_spmat A,
     ALPHA_INT *row_start = (ALPHA_INT *)alpha_memalign(sizeof(ALPHA_INT) * m, DEFAULT_ALIGNMENT);
     ALPHA_INT *row_end = (ALPHA_INT *)alpha_memalign(sizeof(ALPHA_INT) * m, DEFAULT_ALIGNMENT);
 
-    // m x 16行优先存储的X
+    // X stored in row-major order with m x 16
     pack_r2r(m, xcl, x + cc, ldx, tmp_X, ldtmp);
 
     for (ALPHA_INT ac = m; ac > 0; ac -= COL_BLOCK) {
@@ -95,15 +95,15 @@ alphasparseStatus_t trsm_csr_u_hi_row_opt(const J alpha, const internal_spmat A,
       const ALPHA_INT ace = ac;
       J *X = tmp_X + acs * ldtmp;
       const ALPHA_INT Xlen = (ace - acs) * ldtmp;
-      // load对角块到cache
+      // Load the diagonal block into cache
       // VEC_MUL2(X, X, alpha, Xlen);
       for (int c = 0; c < Xlen; c++) {
         X[c] = alpha_mul(X[c], alpha);
       }
-      //取稀疏矩阵上三角的切片
+      // Take the upper triangular slice of the sparse matrix
       csr_uppercol_truncate(A, acs, ace, row_start, row_end);
       ALPHA_INT ar = ace - 1;
-      //先求对角块COL_BLOCK x COL_BLOCK内的未知数
+      // First solve the unknowns inside the COL_BLOCK x COL_BLOCK diagonal block
       for (; ar >= acs; ar--) {
         ALPHA_INT start = row_start[ar];
         ALPHA_INT end = row_end[ar];

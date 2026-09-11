@@ -40,9 +40,9 @@ void alpha_read_coo_pad_z(const char *file, int *m_p, int *n_p, int pad, int *nn
 //     T *values);
 
 typedef struct {
-  int64_t rows; //总行数
-  int64_t cols; //总列数
-  int64_t nnzs; //总nnz个数
+  int64_t rows; // Total number of rows
+  int64_t cols; // Total number of columns
+  int64_t nnzs; // Total number of nnz
   int64_t real_nnz; //complex:2, integer/float:1, pattern 0, real:1
   int64_t field_per_nnz; //complex:2, integer/float:1, pattern 0, real:1
   int64_t num_type; //float:0, integer 1;

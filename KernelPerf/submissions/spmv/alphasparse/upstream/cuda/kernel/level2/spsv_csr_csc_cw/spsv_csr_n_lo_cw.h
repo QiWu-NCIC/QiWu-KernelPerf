@@ -92,7 +92,7 @@ spsv_csr_n_lo_cw_kernel_volatile(
         while (get_value[col_id] == 1) {
             // Get yi from global memory without "__threadfence()".
             tmp_sum = tmp_sum + y[col_id] * csr_val[ptr];
-            // tmp_sum = tmp_sum + (__builtin_nontemporal_load(&y[col_id])) * csr_val[ptr]; 编译器不支持？
+            // tmp_sum = tmp_sum + (__builtin_nontemporal_load(&y[col_id])) * csr_val[ptr]; unsupported by the compiler?
             ptr++;
             col_id = csr_col_idx[ptr];
         }

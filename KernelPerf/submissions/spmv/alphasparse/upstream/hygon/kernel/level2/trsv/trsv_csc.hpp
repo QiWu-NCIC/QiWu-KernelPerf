@@ -59,10 +59,10 @@ alphasparseStatus_t trsv_csc_n_lo(const TYPE alpha, const internal_spmat A, cons
     memset(diag, '\0', A->cols * sizeof(TYPE));
     for (ALPHA_INT c = 0; c < A->cols; c++) //????A??????
     {
-        for (ALPHA_INT ai = A->col_data[c]; ai < A->col_data[c+1]; ai++) //??????c???��?????????value??row_indx??��??
+        for (ALPHA_INT ai = A->col_data[c]; ai < A->col_data[c+1]; ai++) // Traverse the non-zero elements of column c and read value and row_indx
         {
-            ALPHA_INT ar = A->row_data[ai]; //A???c?��???ai??????????????��?
-            if (ar == c) //?��??????
+            ALPHA_INT ar = A->row_data[ai]; // Row index of the ai-th non-zero element in column c of A
+            if (ar == c) // Diagonal element
             {
                 //diag[c] = ((TYPE *)A->val_data)[ai];
                 diag[c] = ((TYPE *)A->val_data)[ai];
@@ -70,7 +70,7 @@ alphasparseStatus_t trsv_csc_n_lo(const TYPE alpha, const internal_spmat A, cons
         }
     }
     
-    //TYPE alphax[A->cols]; //???��alph*x???????????????ac??y???????????????????????��
+    //TYPE alphax[A->cols]; // Buffer for alpha * x
     //memset(alphax, '\0', A->cols * sizeof(TYPE));
     for (ALPHA_INT c = 0; c < A->cols; c++)
     {
@@ -82,7 +82,7 @@ alphasparseStatus_t trsv_csc_n_lo(const TYPE alpha, const internal_spmat A, cons
     {
         y[ac] = alpha_div(y[ac], diag[ac]);
         //y[ac] = y[ac] / diag[ac];   
-        for (ALPHA_INT ai = A->col_data[ac]; ai < A->col_data[ac+1]; ai++) //????A??ac???��????????values??row_indx??��??
+        for (ALPHA_INT ai = A->col_data[ac]; ai < A->col_data[ac+1]; ai++) // Traverse the non-zero elements of column ac of A and read values and row_indx
         {
             ALPHA_INT ar = A->row_data[ai];
             //TYPE val = ((TYPE *)A->val_data)[ai];
@@ -106,7 +106,7 @@ alphasparseStatus_t trsv_csc_n_lo(const TYPE alpha, const internal_spmat A, cons
 template <typename TYPE>
 alphasparseStatus_t trsv_csc_u_hi(const TYPE alpha, const internal_spmat A, const TYPE *x, TYPE *y)
 {
-    //TYPE alphax[A->cols]; //???��alph*x???????????????ac??y???????????????????????��
+    //TYPE alphax[A->cols]; // Buffer for alpha * x
     //memset(alphax, '\0', A->cols * sizeof(TYPE));
     for (ALPHA_INT c = 0; c < A->cols; c++)
     {
@@ -116,7 +116,7 @@ alphasparseStatus_t trsv_csc_u_hi(const TYPE alpha, const internal_spmat A, cons
     }
     for (ALPHA_INT ac = A->cols - 1; ac >= 0; ac--) //????A??????
     {
-        for (ALPHA_INT ai = A->col_data[ac]; ai < A->col_data[ac+1]; ai++) //????A??ac???��????????values??row_indx??��??
+        for (ALPHA_INT ai = A->col_data[ac]; ai < A->col_data[ac+1]; ai++) // Traverse the non-zero elements of column ac of A and read values and row_indx
         {
             ALPHA_INT ar = A->row_data[ai];
             //TYPE val = ((TYPE *)A->val_data)[ai];
@@ -140,7 +140,7 @@ alphasparseStatus_t trsv_csc_u_hi(const TYPE alpha, const internal_spmat A, cons
 template <typename TYPE>
 alphasparseStatus_t trsv_csc_u_lo(const TYPE alpha, const internal_spmat A, const TYPE *x, TYPE *y)
 {
-    //TYPE alphax[A->cols]; //???��alph*x???????????????ac??y???????????????????????��
+    //TYPE alphax[A->cols]; // Buffer for alpha * x
     //memset(alphax, '\0', A->cols * sizeof(TYPE));
     for (ALPHA_INT c = 0; c < A->cols; c++)
     {
@@ -149,7 +149,7 @@ alphasparseStatus_t trsv_csc_u_lo(const TYPE alpha, const internal_spmat A, cons
     }
     for (ALPHA_INT ac = 0; ac < A->cols; ac++) //????A??????
     {
-        for (ALPHA_INT ai = A->col_data[ac]; ai < A->col_data[ac+1]; ai++) //????A??ac???��????????values??row_indx??��??
+        for (ALPHA_INT ai = A->col_data[ac]; ai < A->col_data[ac+1]; ai++) // Traverse the non-zero elements of column ac of A and read values and row_indx
         {
             ALPHA_INT ar = A->row_data[ai];
             //TYPE val = ((TYPE *)A->val_data)[ai];

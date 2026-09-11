@@ -341,13 +341,13 @@ main(int argc, const char* argv[]) {
     }
     coo_order<int32_t, DATA_TYPE>(nnz, coo_row_index, coo_col_index, coo_values);
     if (alpha_diagtype == ALPHA_SPARSE_DIAG_NON_UNIT) {
-        // 补充对角线元素
+        // Fill in the diagonal elements
         mat_patch_trim_d<int32_t>(&A_rows, &A_cols, &nnz, &coo_row_index, &coo_col_index, &coo_values);
     }
-    // 矩阵行元素求和归一化
+    // Normalize by the sum of the elements in each matrix row
     mat_adjust_nnz_d(coo_row_index, coo_col_index, coo_values, A_rows, A_cols, nnz, alpha_fillmode, alpha_diagtype);
 
-    n_rhs = 32; // 默认C是方阵
+    n_rhs = 32; // By default C is a square matrix
     B_rows = A_cols;
     B_cols = n_rhs;
     C_rows = A_rows;
@@ -495,12 +495,12 @@ main(int argc, const char* argv[]) {
     free(hmatB);
 
     // // print speedup info
-    // // 获取当前时间
+    // // Get the current time
     // auto currentTime = std::chrono::system_clock::now();
     // std::time_t currentTimeT = std::chrono::system_clock::to_time_t(currentTime);
-    // // 转换为本地时间结构
+    // // Convert to a local time structure
     // std::tm localTime = *std::localtime(&currentTimeT);
-    // // 格式化时间为字符串
+    // // Format the time as a string
     // std::ostringstream timeString;
     // timeString << std::put_time(&localTime, "%Y/%m/%d-%H:%M:%S");
     // std::cout << timeString.str() << ",";

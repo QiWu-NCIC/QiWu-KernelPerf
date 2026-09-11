@@ -28,16 +28,16 @@ __spmv_sell_c4_serial_host_fma128_double:
     vbroadcastsd	%xmm1, %ymm11 // beta
     vmovapd	%ymm11, %ymm1 // beta
     sall  $2, %edi                   // num_chunks * 4
-    movl %edi, %ebp                  // 行数  num_chunks * 4
-    xorl	%edx, %edx                 // 行
-    xorq	%r15, %r15                 // chunk_id = 行 / 4
+    movl %edi, %ebp                  // Row count: num_chunks * 4
+    xorl	%edx, %edx                 // Row count
+    xorq	%r15, %r15                 // chunk_id = row / 4
   // outer loop on chunks,
 
   /*
-    rdx : 外层循环变量  行号 lrs,每层循环 + 4
-    rbp : 外循环上界    行数 num_chunks * 4
-    rdi : 内层循环变量 values地址
-    r11 : 内层循环上界  下一列values地址
+rdx: outer loop variable, row index lrs, +4 per iteration
+rbp: outer loop bound, row count num_chunks * 4
+rdi: inner loop variable, address of values
+r11: inner loop bound, address of the next column of values
   */
 .L5:
     movslq	(%rsi,%r15,4), %r13   // chunk_start
@@ -46,8 +46,8 @@ __spmv_sell_c4_serial_host_fma128_double:
     leaq	(%rbx,%r13,4), %rax     // &col_indices[chunk_start]
 
     leaq	(%rcx,%r10,8), %r11   // &values[chunk_end]
-    cmpl	%r13d, %r10d          // width 等于 0?
-    jle	.L6                     // 没有内层循环
+    cmpl	%r13d, %r10d          // Is width equal to 0?
+    jle	.L6                     // No inner loop
     xorpd	%xmm7, %xmm7        // y[0:1]
     xorpd	%xmm8, %xmm8        // y[2:3]
   // inner loop on width
@@ -64,9 +64,9 @@ __spmv_sell_c4_serial_host_fma128_double:
     vfmadd231pd	(%rdi), %xmm0, %xmm7 // acc += values[] * x[]
     vfmadd231pd	16(%rdi), %xmm4, %xmm8 // acc += values[] * x[]
 
-    addq	$32, %rdi                  // values  下一列
-    addq	$16, %rax                  // indices 下一列
-    cmpq	%rdi, %r11                 // rdi 是循环变量, r11是下一列 values 地址
+    addq	$32, %rdi                  // values, next column
+    addq	$16, %rax                  // indices, next column
+    cmpq	%rdi, %r11                 // rdi is the loop variable, r11 is the address of the next column of values
     jne	.L4
 .L3:
     vmulpd	(%r9,%rdx,8), %xmm1, %xmm2   // y[0-1] *= beta
@@ -76,8 +76,8 @@ __spmv_sell_c4_serial_host_fma128_double:
     movupd	%xmm7, (%r9,%rdx,8)          // store(y[0-1])
     movupd	%xmm8, 16(%r9,%rdx,8)          // store(y[2-3])
     incq	%r15                           // chunk_id++
-    addq	$4, %rdx                       // 跳4行
-    cmpq	%rdx, %rbp                     // 结束?
+    addq	$4, %rdx                       // Skip 4 rows
+    cmpq	%rdx, %rbp                     // Finished?
     jne	.L5
     popq	%rbx
     popq	%rbp
@@ -86,7 +86,7 @@ __spmv_sell_c4_serial_host_fma128_double:
     popq	%r13
     popq	%r12
     ret
-.L6:                                  // 防止当前行没有nnz
+.L6:                                  // Guard against the current row having no nnz
     xorpd	%xmm7, %xmm7
     xorpd	%xmm8, %xmm8
     jmp	.L3

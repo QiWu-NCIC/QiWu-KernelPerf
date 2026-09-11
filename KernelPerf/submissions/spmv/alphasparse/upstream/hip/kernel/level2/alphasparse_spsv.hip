@@ -21,10 +21,10 @@
 #include <tuple>
 #include <map>
 
-#define _REORDER true //是否矩阵行重排
-#define _TOPO_SCHD true //是否按拓扑排序序列调度
-#define _WPR true //是否一wavefront处理一行
-#define _DYNAMIC_SCHD true //是否动态调度
+#define _REORDER true // Whether to reorder matrix rows
+#define _TOPO_SCHD true // Whether to schedule by topological order
+#define _WPR true // Whether one wavefront handles one row
+#define _DYNAMIC_SCHD true // Whether to use dynamic scheduling
 
 typedef struct
 {
@@ -523,8 +523,8 @@ alphasparseSpSV_bufferSize(alphasparseHandle_t handle,
     }
     }
     size_t idxTypeSize = 4;
-    // 参与spsv计算的矩阵为方阵，必有 mat->rows == mat->cols
-    // 不论是否转置，分配的数组长度都一样
+    // The matrix involved in spsv is square, so mat->rows == mat->cols always holds
+    // The allocated array length is the same whether transposed or not
     size_t vecLen = matA->rows;
     size_t nnzCnt = matA->nnz;
     switch (alg)
@@ -532,7 +532,7 @@ alphasparseSpSV_bufferSize(alphasparseHandle_t handle,
     case ALPHA_SPARSE_SPSV_ALG_DEFAULT:
     {
         *bufferSize = vecLen * valTypeSize    // diag mem
-                      + vecLen * idxTypeSize; // get_val mem [get_val元素的数据类型是int32_t]
+                      + vecLen * idxTypeSize; // get_val memory [the element type of get_val is int32_t]
         break;
     }
     case ALPHA_SPARSE_SPSV_CSR_ALG1:

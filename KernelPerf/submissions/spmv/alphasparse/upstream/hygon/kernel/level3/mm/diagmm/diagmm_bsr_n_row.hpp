@@ -9,7 +9,7 @@ alphasparseStatus_t diagmm_bsr_n_row(const J alpha, const internal_spmat mat, co
     ALPHA_INT rowA = mat->rows * mat->block_dim;
     ALPHA_INT rowC = mat->rows * mat->block_dim;
     ALPHA_INT colC = columns;
-    J diag[rowA]; //�洢�Խ�Ԫ��
+    J diag[rowA]; // Store diagonal elements
     memset(diag, '\0', sizeof(J) * rowA);
     ALPHA_INT bs = mat->block_dim;
     
@@ -17,10 +17,10 @@ alphasparseStatus_t diagmm_bsr_n_row(const J alpha, const internal_spmat mat, co
     {
         for (ALPHA_INT ai = mat->row_data[ar]; ai < mat->row_data[ar+1]; ++ai)
         {
-            if (mat->col_data[ai] == ar) //�Խǿ�
+            if (mat->col_data[ai] == ar) // Diagonal block
             {
                 //diag[ar] = ((J *)mat->val_data)[ai];
-                for(ALPHA_INT block_i = 0; block_i < bs; block_i++) //���ʿ��ڶԽ�Ԫ��
+                for(ALPHA_INT block_i = 0; block_i < bs; block_i++) // Access the diagonal elements inside the block
                 {
                     diag[ar*bs+block_i] = ((J *)mat->val_data)[ai*bs*bs + block_i*bs + block_i];
                 }

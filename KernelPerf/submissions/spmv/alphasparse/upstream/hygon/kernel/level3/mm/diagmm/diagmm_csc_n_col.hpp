@@ -4,12 +4,12 @@
 template <typename J>
 alphasparseStatus_t diagmm_csc_n_col(const J alpha, const internal_spmat mat, const J *x, const ALPHA_INT columns, const ALPHA_INT ldx, const J beta, J *y, const ALPHA_INT ldy)
 {
-    // ϡ�������Գ��ܾ���
+    // Sparse symmetric matrix multiplied by a dense matrix
     // y := alpha*A*x + beta*y
     ALPHA_INT rowA = mat->rows;
     ALPHA_INT colA = mat->cols;
-    J diag[colA]; //�洢�Խ�Ԫ��
-    for (ALPHA_INT ac = 0; ac < colA; ++ac) //��mat�ĶԽ�Ԫ����ȡ����������diag
+    J diag[colA]; // Store diagonal elements
+    for (ALPHA_INT ac = 0; ac < colA; ++ac) // Extract the diagonal elements of mat into diag
     {
         diag[ac] = alpha_setzero(diag[ac]);
         for (ALPHA_INT ai = mat->col_data[ac]; ai < mat->col_data[ac+1]; ++ai)

@@ -7,7 +7,7 @@ const int block_size = 4;
 // matrix_data_lhs == matrix_data_rhs when op == transpose
 void alpha_spmmd(matrix_data_t *matrix_data_lhs, matrix_data_t *matrix_data_rhs,
                alpha_common_args_t *common_arg, char **ret, size_t *ret_size) {
-  // 设置使用线程数
+  // Set the number of threads to use
   alpha_set_thread_num(common_arg->thread_num);
   int rowc = matrix_data_lhs->m;
   int colc = matrix_data_lhs->k;
@@ -87,7 +87,7 @@ void alpha_spmmd(matrix_data_t *matrix_data_lhs, matrix_data_t *matrix_data_rhs,
 #ifdef __MKL__
 void mkl_spmmd(matrix_data_t *matrix_data_lhs, matrix_data_t *matrix_data_rhs,
                alpha_common_args_t *common_arg, char **ret, size_t *ret_size) {
-  // 设置使用线程数
+  // Set the number of threads to use
   int rowc = matrix_data_lhs->m;
   int colc = matrix_data_lhs->k;
 

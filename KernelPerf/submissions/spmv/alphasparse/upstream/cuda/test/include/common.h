@@ -138,7 +138,7 @@ const char* get_filename(const char *file) {
 }
 
 /*
-    对角线有元素的方阵的左下角每行非零元个数统计
+Count of non-zero elements per row in the lower-left part of a square matrix that has diagonal entries
 */
 template<typename T>
 void get_coo_row_nnz_cnt(
@@ -167,7 +167,7 @@ void get_coo_row_nnz_cnt(
 }
 
 /*
-    对角线有元素的方阵的左下角每行非零元个数统计
+Count of non-zero elements per row in the lower-left part of a square matrix that has diagonal entries
 */
 template<typename T>
 void get_csr_row_nnz_cnt(
@@ -326,7 +326,7 @@ void print_alphasparse_matA(
 
 
 
-// CPU端 单线程计算COO SPSV
+// Single-threaded COO SPSV on the CPU side
 template <typename T, typename U>
 void 
 spsv_coo_cpu(

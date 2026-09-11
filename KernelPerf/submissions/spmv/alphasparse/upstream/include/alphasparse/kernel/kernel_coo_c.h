@@ -78,7 +78,7 @@ alphasparseStatus_t gemm_c_coo_col_trans(const ALPHA_Complex8 alpha, const spmat
 alphasparseStatus_t gemm_c_coo_row_conj(const ALPHA_Complex8 alpha, const spmat_coo_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
 alphasparseStatus_t gemm_c_coo_col_conj(const ALPHA_Complex8 alpha, const spmat_coo_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
 
-// alpha*（L+D+L')^T*B + beta*C
+// alpha*(L+D+L')^T*B + beta*C
 alphasparseStatus_t symm_c_coo_n_lo_row(const ALPHA_Complex8 alpha, const spmat_coo_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
 // alpha*(L+I+L')*B + beta*C
 alphasparseStatus_t symm_c_coo_u_lo_row(const ALPHA_Complex8 alpha, const spmat_coo_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
@@ -87,7 +87,7 @@ alphasparseStatus_t symm_c_coo_n_hi_row(const ALPHA_Complex8 alpha, const spmat_
 // alpha*(U'+I+U)*B + beta*C
 alphasparseStatus_t symm_c_coo_u_hi_row(const ALPHA_Complex8 alpha, const spmat_coo_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
 
-// alpha*（L+D+L')^T*B + beta*C
+// alpha*(L+D+L')^T*B + beta*C
 alphasparseStatus_t symm_c_coo_n_lo_col(const ALPHA_Complex8 alpha, const spmat_coo_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
 // alpha*(L+I+L')*B + beta*C
 alphasparseStatus_t symm_c_coo_u_lo_col(const ALPHA_Complex8 alpha, const spmat_coo_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
@@ -95,7 +95,7 @@ alphasparseStatus_t symm_c_coo_u_lo_col(const ALPHA_Complex8 alpha, const spmat_
 alphasparseStatus_t symm_c_coo_n_hi_col(const ALPHA_Complex8 alpha, const spmat_coo_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
 // alpha*(U'+I+U)*B + beta*C
 alphasparseStatus_t symm_c_coo_u_hi_col(const ALPHA_Complex8 alpha, const spmat_coo_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
-// alpha*（L+D+L')^T*B + beta*C
+// alpha*(L+D+L')^T*B + beta*C
 alphasparseStatus_t symm_c_coo_n_lo_row_conj(const ALPHA_Complex8 alpha, const spmat_coo_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
 // alpha*(L+I+L')*B + beta*C
 alphasparseStatus_t symm_c_coo_u_lo_row_conj(const ALPHA_Complex8 alpha, const spmat_coo_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
@@ -103,7 +103,7 @@ alphasparseStatus_t symm_c_coo_u_lo_row_conj(const ALPHA_Complex8 alpha, const s
 alphasparseStatus_t symm_c_coo_n_hi_row_conj(const ALPHA_Complex8 alpha, const spmat_coo_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
 // alpha*(U'+I+U)*B + beta*C
 alphasparseStatus_t symm_c_coo_u_hi_row_conj(const ALPHA_Complex8 alpha, const spmat_coo_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
-// alpha*（L+D+L')^T*B + beta*C
+// alpha*(L+D+L')^T*B + beta*C
 alphasparseStatus_t symm_c_coo_n_lo_col_conj(const ALPHA_Complex8 alpha, const spmat_coo_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);
 // alpha*(L+I+L')*B + beta*C
 alphasparseStatus_t symm_c_coo_u_lo_col_conj(const ALPHA_Complex8 alpha, const spmat_coo_c_t *mat, const ALPHA_Complex8 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex8 beta, ALPHA_Complex8 *y, const ALPHA_INT ldy);

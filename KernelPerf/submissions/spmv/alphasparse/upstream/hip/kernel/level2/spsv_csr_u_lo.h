@@ -34,7 +34,7 @@ spsv_csr_u_lo_kernel(const T* csrRowPtr,
 
     while (j < csrRowPtr[i + 1]) {
       col = csrColIdx[j];
-      bool flag = false; // 记录是否到达对角线，当csr存储的对角线没有元素时
+      bool flag = false; // Record whether the diagonal has been reached, for the case where the CSR-stored diagonal has no element
 
       while (get_value[col] == 1) {
         if (col < i && col <= col_end) {

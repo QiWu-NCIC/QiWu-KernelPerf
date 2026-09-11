@@ -14,7 +14,7 @@ void mm_coo_outcols(const TYPE alpha, const internal_spmat mat,
   ALPHA_INT tid = alpha_get_thread_id();
   for (ALPHA_INT nn = lrs; nn < lre; ++nn) {
     ALPHA_INT cr = mat->row_data[nn];
-    if (cr % num_threads != tid) continue;  // 相同行由相同线程处理
+    if (cr % num_threads != tid) continue;  // The same row is handled by the same thread
 
     TYPE *Y = &y[index2(cr, 0, ldy)];
 

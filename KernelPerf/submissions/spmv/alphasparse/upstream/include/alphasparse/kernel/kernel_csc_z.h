@@ -98,7 +98,7 @@ alphasparseStatus_t gemm_z_csc_col_trans(const ALPHA_Complex16 alpha, const spma
 alphasparseStatus_t gemm_z_csc_row_conj(const ALPHA_Complex16 alpha, const spmat_csc_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
 alphasparseStatus_t gemm_z_csc_col_conj(const ALPHA_Complex16 alpha, const spmat_csc_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
 
-// alpha*（L+D+L')^T*B + beta*C
+// alpha*(L+D+L')^T*B + beta*C
 alphasparseStatus_t symm_z_csc_n_lo_row(const ALPHA_Complex16 alpha, const spmat_csc_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
 // alpha*(L+I+L')*B + beta*C
 alphasparseStatus_t symm_z_csc_u_lo_row(const ALPHA_Complex16 alpha, const spmat_csc_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
@@ -107,7 +107,7 @@ alphasparseStatus_t symm_z_csc_n_hi_row(const ALPHA_Complex16 alpha, const spmat
 // alpha*(U'+I+U)*B + beta*C
 alphasparseStatus_t symm_z_csc_u_hi_row(const ALPHA_Complex16 alpha, const spmat_csc_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
 
-// alpha*（L+D+L')^T*B + beta*C
+// alpha*(L+D+L')^T*B + beta*C
 alphasparseStatus_t symm_z_csc_n_lo_col(const ALPHA_Complex16 alpha, const spmat_csc_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
 // alpha*(L+I+L')*B + beta*C
 alphasparseStatus_t symm_z_csc_u_lo_col(const ALPHA_Complex16 alpha, const spmat_csc_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
@@ -116,7 +116,7 @@ alphasparseStatus_t symm_z_csc_n_hi_col(const ALPHA_Complex16 alpha, const spmat
 // alpha*(U'+I+U)*B + beta*C
 alphasparseStatus_t symm_z_csc_u_hi_col(const ALPHA_Complex16 alpha, const spmat_csc_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
 
-// alpha*（L+D+L')^T*B + beta*C
+// alpha*(L+D+L')^T*B + beta*C
 alphasparseStatus_t symm_z_csc_n_lo_row_conj(const ALPHA_Complex16 alpha, const spmat_csc_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
 // alpha*(L+I+L')*B + beta*C
 alphasparseStatus_t symm_z_csc_u_lo_row_conj(const ALPHA_Complex16 alpha, const spmat_csc_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
@@ -125,7 +125,7 @@ alphasparseStatus_t symm_z_csc_n_hi_row_conj(const ALPHA_Complex16 alpha, const 
 // alpha*(U'+I+U)*B + beta*C
 alphasparseStatus_t symm_z_csc_u_hi_row_conj(const ALPHA_Complex16 alpha, const spmat_csc_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
 
-// alpha*（L+D+L')^T*B + beta*C
+// alpha*(L+D+L')^T*B + beta*C
 alphasparseStatus_t symm_z_csc_n_lo_col_conj(const ALPHA_Complex16 alpha, const spmat_csc_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
 // alpha*(L+I+L')*B + beta*C
 alphasparseStatus_t symm_z_csc_u_lo_col_conj(const ALPHA_Complex16 alpha, const spmat_csc_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
@@ -134,7 +134,7 @@ alphasparseStatus_t symm_z_csc_n_hi_col_conj(const ALPHA_Complex16 alpha, const 
 // alpha*(U'+I+U)*B + beta*C
 alphasparseStatus_t symm_z_csc_u_hi_col_conj(const ALPHA_Complex16 alpha, const spmat_csc_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
 
-// alpha*（L+D+L')^T*B + beta*C
+// alpha*(L+D+L')^T*B + beta*C
 alphasparseStatus_t hermm_z_csc_n_lo_row(const ALPHA_Complex16 alpha, const spmat_csc_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
 // alpha*(L+I+L')*B + beta*C
 alphasparseStatus_t hermm_z_csc_u_lo_row(const ALPHA_Complex16 alpha, const spmat_csc_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
@@ -143,7 +143,7 @@ alphasparseStatus_t hermm_z_csc_n_hi_row(const ALPHA_Complex16 alpha, const spma
 // alpha*(U'+I+U)*B + beta*C
 alphasparseStatus_t hermm_z_csc_u_hi_row(const ALPHA_Complex16 alpha, const spmat_csc_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
 
-// alpha*（L+D+L')^T*B + beta*C
+// alpha*(L+D+L')^T*B + beta*C
 alphasparseStatus_t hermm_z_csc_n_lo_col(const ALPHA_Complex16 alpha, const spmat_csc_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
 // alpha*(L+I+L')*B + beta*C
 alphasparseStatus_t hermm_z_csc_u_lo_col(const ALPHA_Complex16 alpha, const spmat_csc_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
@@ -152,7 +152,7 @@ alphasparseStatus_t hermm_z_csc_n_hi_col(const ALPHA_Complex16 alpha, const spma
 // alpha*(U'+I+U)*B + beta*C
 alphasparseStatus_t hermm_z_csc_u_hi_col(const ALPHA_Complex16 alpha, const spmat_csc_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
 
-// alpha*（L+D+L')^T^T*B + beta*C
+// alpha*(L+D+L')^T^T*B + beta*C
 alphasparseStatus_t hermm_z_csc_n_lo_row_trans(const ALPHA_Complex16 alpha, const spmat_csc_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
 // alpha*(L+I+L')^T*B + beta*C
 alphasparseStatus_t hermm_z_csc_u_lo_row_trans(const ALPHA_Complex16 alpha, const spmat_csc_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
@@ -161,7 +161,7 @@ alphasparseStatus_t hermm_z_csc_n_hi_row_trans(const ALPHA_Complex16 alpha, cons
 // alpha*(U'+I+U)^T*B + beta*C
 alphasparseStatus_t hermm_z_csc_u_hi_row_trans(const ALPHA_Complex16 alpha, const spmat_csc_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
 
-// alpha*（L+D+L')^T^T*B + beta*C
+// alpha*(L+D+L')^T^T*B + beta*C
 alphasparseStatus_t hermm_z_csc_n_lo_col_trans(const ALPHA_Complex16 alpha, const spmat_csc_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);
 // alpha*(L+I+L')^T*B + beta*C
 alphasparseStatus_t hermm_z_csc_u_lo_col_trans(const ALPHA_Complex16 alpha, const spmat_csc_z_t *mat, const ALPHA_Complex16 *x, const ALPHA_INT columns, const ALPHA_INT ldx, const ALPHA_Complex16 beta, ALPHA_Complex16 *y, const ALPHA_INT ldy);

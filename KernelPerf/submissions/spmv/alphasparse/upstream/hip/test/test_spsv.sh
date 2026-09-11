@@ -1,14 +1,14 @@
-# 测试矩阵集
-# 需要先在执行目录下创建两个名为metrics和results的文件夹
-# 所选算法alg_num测试所得数据会以csv文件形式存储至./results/目录下
-# 	每行数据为：[matrix_name, hip_time, alpha_time, speedup]
+# Test matrix set
+# Create two folders named metrics and results in the working directory first
+# The measurements produced by the selected algorithm alg_num are stored as CSV files under ./results/
+# Each row of data is: [matrix_name, hip_time, alpha_time, speedup]
 
 # alg_num=1: capellini-spsv
 # alg_num=2: cublk
 # alg_num=3: nnz-balance
 
-# 设置alg_num=1时，已进行非转置&转置、单元对角线&非单元对角线、左下角&右上角、f64&f32的测试，运算结果正确
-# 设置alg_num=2或3时，代码处于实验阶段，支持csr、非转置、非单元对角线、左下角、f64&f32的测试
+# With alg_num=1, non-transposed & transposed, unit & non-unit diagonal, lower & upper triangular, and f64 & f32 have all been tested and produce correct results
+# With alg_num=2 or 3 the code is experimental and supports CSR, non-transposed, non-unit diagonal, lower triangular, f64 & f32
 
 if [ -f './metrics.txt' ]; then
     rm ./metrics.txt
@@ -30,10 +30,10 @@ function get_iter_warmup {
 
 
 res=($(get_files))
-# 顺序文件路径序列
+# File path list in ascending order
 files=${res[@]}
 
-# 倒序文件路径序列
+# File path list in descending order
 # files=($(echo ${res[@]} | tac -s ' '))
 # files=${files[@]}
 
@@ -49,7 +49,7 @@ speedup_file='./results/'${date_token}'_results_'${new_filename_token}
 metrics_file='./metrics/'${date_token}'_metrics_'${new_filename_token}    
 echo ${speedup_file}
 echo ${metrics_file}
-# 添加表头
+# Add the header row
 echo "mtx,hip,alpha,speedup," | tee -a ${speedup_file}
 for file in ${files}; do
 	cur_mat_name=$(basename ${file})
@@ -71,6 +71,6 @@ if [ -f './metrics.txt' ]; then
 	mv ./metrics.txt ${metrics_file}
 fi
 
-# 清理无效数据行
+# Remove invalid data rows
 awk -F',' 'NF > 2 && $0 !~ /,0,/' ${speedup_file} > "${speedup_file}.tmp"
 mv "${speedup_file}.tmp" "${speedup_file}"

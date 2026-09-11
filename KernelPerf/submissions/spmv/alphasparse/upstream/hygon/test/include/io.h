@@ -30,9 +30,9 @@ void alpha_read_coo_pad_c(const char *file, ALPHA_INT *m_p, ALPHA_INT *n_p, ALPH
 void alpha_read_coo_pad_z(const char *file, ALPHA_INT *m_p, ALPHA_INT *n_p, ALPHA_INT pad, ALPHA_INT *nnz_p, ALPHA_INT **row_index, ALPHA_INT **col_index, ALPHA_Complex16 **values);
 
 typedef struct {
-  int64_t rows; //总行数
-  int64_t cols; //总列数
-  int64_t nnzs; //总nnz个数
+  int64_t rows; // Total number of rows
+  int64_t cols; // Total number of columns
+  int64_t nnzs; // Total number of nnz
   int64_t real_nnz; //complex:2, integer/float:1, pattern 0, real:1
   int64_t field_per_nnz; //complex:2, integer/float:1, pattern 0, real:1
   int64_t num_type; //float:0, integer 1;

@@ -9,7 +9,7 @@
 
 template<typename T, typename U>//T int, U datatype
 alphasparseStatus_t transpose_coo(alphasparseSpMatDescr_t &A) {
-    // 计算矩阵的转置
+    // Compute the transpose of the matrix
     U* Avalues = (U*)malloc(sizeof(U) * A->nnz);
     T* Arowidx = (T*)malloc(sizeof(T) * A->nnz); 
     T* Acolidx = (T*)malloc(sizeof(T) * A->nnz); 
@@ -64,7 +64,7 @@ inline hipDoubleComplex conj_val(hipDoubleComplex val)
 
 template<typename T, typename U>//T int, U datatype
 alphasparseStatus_t transpose_conj_coo(alphasparseSpMatDescr_t &A) {
-    // 计算矩阵的转置
+    // Compute the transpose of the matrix
     U* Avalues = (U*)malloc(sizeof(U) * A->nnz);
     T* Arowidx = (T*)malloc(sizeof(T) * A->nnz); 
     T* Acolidx = (T*)malloc(sizeof(T) * A->nnz); 
