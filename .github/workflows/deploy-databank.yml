@@ -36,9 +36,12 @@ jobs:
         id: pages
         uses: actions/configure-pages@v6
         with:
-          # Enable Pages automatically (build source: GitHub Actions) when the
-          # site has not been provisioned yet. Requires `pages: write`.
+          # `enablement` requires a token other than GITHUB_TOKEN, otherwise it
+          # fails with "requires a token other than GITHUB_TOKEN to be provided".
+          # PAGES_PAT is a repository secret holding a PAT with the `repo` scope
+          # (falling back to GITHUB_TOKEN if the secret is not configured).
           enablement: true
+          token: ${{ secrets.PAGES_PAT || github.token }}
       - working-directory: databank
         run: npm run audit:spmv
       - working-directory: databank
@@ -52,3 +55,5 @@ jobs:
       - name: Deploy GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+        with:
+          token: ${{ secrets.PAGES_PAT || github.token }}
