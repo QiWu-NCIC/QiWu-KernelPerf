@@ -1,0 +1,23 @@
+{
+  "source_tree": "upstream/",
+  "repository": "https://github.com/AlphaSparse/Library",
+  "commit": "39734b2d458a9a38059cd72795f3e64a8400e6f5",
+  "license": "not-declared-by-upstream",
+  "source_dispatch": "cuda/kernel/level2/alphasparse_spmv.cu",
+  "algorithms": {
+    "scalar": "alphasparse_spmv_csr_scalar.h",
+    "vector": "alphasparse_spmv_csr_vector.h",
+    "merge": "alphasparse_spmv_csr_merge_ginkgo.h",
+    "line-enhance": "alphasparse_spmv_csr_line_enhance.h",
+    "flat1": "alphasparse_spmv_csr_flat.h (UNROLL=1)",
+    "flat4": "alphasparse_spmv_csr_flat.h (UNROLL=4)",
+    "flat8": "alphasparse_spmv_csr_flat.h (UNROLL=8)"
+  },
+  "backend": "official-cuda-kernels-via-adapter",
+  "upstream_patches": [
+    "include/alphasparse/handle.h: move the UTF-8 trailing comment above the typedef so nvcc preserves the opening brace",
+    "cuda/kernel/level2/alphasparse_spmv_csr_merge_ginkgo.h and alphasparse_spmv_csr_flat.h: route hard-coded default-stream launches through handle->stream"
+  ],
+  "integration_note": "launch geometry, algorithm branches, reductions, and workspace formulas are unchanged; all work runs on the caller stream",
+  "index_type": "int32"
+}

@@ -1,0 +1,98 @@
+[
+  {
+    "benchmark_id": "spmv",
+    "display_name": "Managed CSR SpMV",
+    "driver": "benchmarks.spmv.driver:SpmvBenchmark",
+    "template": "benchmarks/spmv/template.cu",
+    "public": true,
+    "default": true,
+    "default_dataset_id": "suitesparse_sample_100",
+    "operators": [
+      {
+        "op_id": "spmv.csr.fp32",
+        "name": "CSR SpMV FP32",
+        "dtype": "fp32",
+        "problem_kind": "spmv",
+        "flops_formula": "2 * nnz",
+        "metadata": {
+          "requires_matrix": true,
+          "input_format": "csr",
+          "format": "candidate-defined",
+          "driver_config": {
+            "warmup": 5,
+            "iterations": 20,
+            "validation_safety_factor": 4.0,
+            "algorithm": "candidate-defined"
+          },
+          "contract": "preprocess/solve/destroy plugin interface"
+        }
+      },
+      {
+        "op_id": "spmv.csr.fp64",
+        "name": "CSR SpMV FP64",
+        "dtype": "fp64",
+        "problem_kind": "spmv",
+        "flops_formula": "2 * nnz",
+        "metadata": {
+          "requires_matrix": true,
+          "input_format": "csr",
+          "format": "candidate-defined",
+          "driver_config": {
+            "warmup": 5,
+            "iterations": 20,
+            "validation_safety_factor": 4.0,
+            "algorithm": "candidate-defined"
+          },
+          "contract": "preprocess/solve/destroy plugin interface"
+        }
+      }
+    ],
+    "options": {
+      "driver_id": "spmv-lifecycle",
+      "contract": "include/qiwu/spmv_plugin.cuh",
+      "language": "cuda",
+      "entrypoint": "qiwu_spmv_plugin",
+      "source_limit_bytes": 33554432,
+      "max_source_files": 4096,
+      "object_limit_bytes": 16000000,
+      "compiler": "nvcc",
+      "compile_options": ["-O3", "-std=c++17"],
+      "link_options": ["-lcusparse"],
+      "compile_timeout_seconds": 180,
+      "run_timeout_seconds": 1200,
+      "build_root": "data/build/spmv",
+      "validation_method": "cpu-csr-reference-dynamic-row-bound"
+    }
+  },
+  {
+    "benchmark_id": "sol-execbench",
+    "display_name": "SOL-ExecBench",
+    "driver": "benchmarks.sol_execbench.driver:SolExecBenchBenchmark",
+    "public": false,
+    "default_dataset_id": "none",
+    "operators": [
+      {"op_id": "sol.spmm.csr.fp32", "name": "CSR SpMM FP32", "problem_kind": "spmm", "metadata": {"requires_matrix": false, "contest_enabled": false}},
+      {"op_id": "sol.spmv.csr.fp32", "name": "CSR SpMV FP32", "problem_kind": "spmv", "metadata": {"requires_matrix": false, "contest_enabled": false}},
+      {"op_id": "sol.sddmm.csr.fp32", "name": "CSR SDDMM FP32", "problem_kind": "sddmm", "metadata": {"requires_matrix": false, "contest_enabled": false}},
+      {"op_id": "pytorch.gemma3_swiglu", "name": "SOL-ExecBench pytorch/gemma3_swiglu", "problem_kind": "sol-execbench-example", "metadata": {"requires_matrix": false, "contest_enabled": true}},
+      {"op_id": "pytorch.linear_backward", "name": "SOL-ExecBench pytorch/linear_backward", "problem_kind": "sol-execbench-example", "metadata": {"requires_matrix": false, "contest_enabled": true}},
+      {"op_id": "triton.nemotron_rms_norm", "name": "SOL-ExecBench triton/nemotron_rms_norm", "problem_kind": "sol-execbench-example", "metadata": {"requires_matrix": false, "contest_enabled": true}},
+      {"op_id": "triton.olmo3_post_norm", "name": "SOL-ExecBench triton/olmo3_post_norm", "problem_kind": "sol-execbench-example", "metadata": {"requires_matrix": false, "contest_enabled": true}},
+      {"op_id": "triton.rmsnorm", "name": "SOL-ExecBench triton/rmsnorm", "problem_kind": "sol-execbench-example", "metadata": {"requires_matrix": false, "contest_enabled": true}},
+      {"op_id": "cuda_cpp.rmsnorm", "name": "SOL-ExecBench cuda_cpp/rmsnorm", "problem_kind": "sol-execbench-example", "metadata": {"requires_matrix": false, "contest_enabled": true}},
+      {"op_id": "cuda_cpp.flux_rope", "name": "SOL-ExecBench cuda_cpp/flux_rope", "problem_kind": "sol-execbench-example", "metadata": {"requires_matrix": false, "contest_enabled": true}},
+      {"op_id": "cute_dsl.jamba_attn_proj", "name": "SOL-ExecBench cute_dsl/jamba_attn_proj", "problem_kind": "sol-execbench-example", "metadata": {"requires_matrix": false, "contest_enabled": true}},
+      {"op_id": "cutlass.gemm", "name": "SOL-ExecBench cutlass/gemm", "problem_kind": "sol-execbench-example", "metadata": {"requires_matrix": false, "contest_enabled": true}},
+      {"op_id": "cudnn.softmax", "name": "SOL-ExecBench cudnn/softmax", "problem_kind": "sol-execbench-example", "metadata": {"requires_matrix": false, "contest_enabled": true}}
+    ],
+    "options": {
+      "driver_id": "sol-execbench-v1",
+      "python": "python3",
+      "module": "sol_execbench.cli.main",
+      "config_file": "config/sol_execbench_fast.json",
+      "case_timeout_seconds": 600,
+      "compile_timeout_seconds": 180,
+      "process_timeout_seconds": 900
+    }
+  }
+]

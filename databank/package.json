@@ -1,0 +1,28 @@
+{
+  "name": "qiwu-kernelperf-databank",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "prepare:sources": "node scripts/prepare-submission-sources.mjs",
+    "predev": "npm run prepare:sources",
+    "dev": "vite",
+    "prebuild": "npm run prepare:sources",
+    "build": "vite build",
+    "preview": "vite preview",
+    "add:spmv": "node scripts/add-spmv-result.mjs",
+    "preaudit:spmv": "npm run prepare:sources",
+    "audit:spmv": "node scripts/audit-spmv-data.mjs public"
+  },
+  "dependencies": {
+    "jszip": "^3.10.1",
+    "vue": "^3.4.37"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.1.2",
+    "vite": "^6.4.3"
+  }
+}

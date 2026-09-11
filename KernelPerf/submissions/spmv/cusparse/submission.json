@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "kind": "source",
+  "method_name": "cuSPARSE",
+  "operator_id": "spmv.csr.fp32",
+  "supported_operators": ["spmv.csr.fp32", "spmv.csr.fp64"],
+  "base_format": "auto",
+  "candidate_group": "cusparse",
+  "entry_source": "variants/csr_default.cu",
+  "compile_units": [],
+  "configurations_file": "sweep_manifest.json",
+  "cuda_version_in_method_name": true,
+  "upstream": {
+    "name": "NVIDIA cuSPARSE",
+    "repository": "https://developer.nvidia.com/cusparse",
+    "version": "CUDA Toolkit runtime version"
+  }
+}

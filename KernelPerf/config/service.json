@@ -1,0 +1,9 @@
+{
+  "host": "127.0.0.1",
+  "port": 8080,
+  "database": "data/kernelperf.sqlite",
+  "workers": "config/workers.json",
+  "benchmarks": "config/benchmarks.json",
+  "datasets": "config/datasets.json",
+  "result_exports": "data/result_exports"
+}

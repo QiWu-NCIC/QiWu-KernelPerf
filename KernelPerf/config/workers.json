@@ -1,0 +1,25 @@
+[
+  {
+    "worker_id": "worker-local-cuda",
+    "backend_id": "local-cuda",
+    "transport": "local",
+    "kind": "nvidia_gpu",
+    "name": "Configured CUDA GPU",
+    "vendor": "NVIDIA",
+    "device": "Configured CUDA device",
+    "peak_gflops": 1.0,
+    "peak_gflops_by_dtype": {"fp32": 1.0, "fp64": 1.0},
+    "memory_bandwidth_gbs": 1.0,
+    "supported_languages": ["cuda", "cpp", "ptx"],
+    "endpoint": "local",
+    "command_timeout_seconds": 1200,
+    "healthcheck": {
+      "command": ["nvidia-smi", "--query-gpu=name,memory.total", "--format=csv,noheader"],
+      "timeout_seconds": 20
+    },
+    "labels": {
+      "role": "example",
+      "cuda_arch": "sm_80"
+    }
+  }
+]

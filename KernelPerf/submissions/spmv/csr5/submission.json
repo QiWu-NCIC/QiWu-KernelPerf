@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "kind": "source",
+  "method_name": "CSR5",
+  "operator_id": "spmv.csr.fp32",
+  "supported_operators": ["spmv.csr.fp32", "spmv.csr.fp64"],
+  "base_format": "csr",
+  "candidate_group": "CSR5",
+  "entry_source": "adapter.cu",
+  "compile_units": [],
+  "upstream": {
+    "repository": "https://github.com/weifengliu-ssslab/Benchmark_SpMV_using_CSR5/pull/13",
+    "version": "caff9d80665052bd5379fb37fd135f0d72d7b525"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "kind": "source",
+  "method_name": "CSR-Adaptive",
+  "operator_id": "spmv.csr.fp32",
+  "supported_operators": ["spmv.csr.fp32", "spmv.csr.fp64"],
+  "base_format": "csr",
+  "candidate_group": "CSR-Adaptive",
+  "entry_source": "adapter.cu",
+  "compile_units": [],
+  "upstream": {
+    "repository": "https://github.com/clMathLibraries/clSPARSE",
+    "source": "csrmv_adaptive.cl ported to CUDA"
+  }
+}

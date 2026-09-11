@@ -1,0 +1,35 @@
+name: Validate submissions
+
+on:
+  pull_request:
+    paths:
+      - "KernelPerf/submissions/**"
+      - "KernelPerf/kernelperf/submissions.py"
+      - "KernelPerf/scripts/validate_submissions.py"
+      - "KernelPerf/pyproject.toml"
+      - "KernelPerf/kernelperf/**"
+      - "KernelPerf/benchmarks/**"
+      - "KernelPerf/config/**"
+      - ".github/workflows/validate-submissions.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install evaluator dependencies
+        working-directory: KernelPerf
+        run: python -m pip install -e '.[dev]'
+      - name: Validate submission manifests and source trees
+        working-directory: KernelPerf
+        run: PYTHONPATH=. python scripts/validate_submissions.py submissions
+      - name: Run unit tests
+        working-directory: KernelPerf
+        run: python -m pytest -q

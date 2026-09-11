@@ -1,0 +1,21 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+node_modules/
+dist/
+runtime/
+data/*.sqlite*
+data/result_exports/
+data/source/
+data/datasets/
+*.log
+*.zip
+
+# macOS
+.DS_Store
+
+# Site-specific worker, scheduler, CUDA and dataset profiles.
+/KernelPerf/config/private/*
+!/KernelPerf/config/private/README.md
