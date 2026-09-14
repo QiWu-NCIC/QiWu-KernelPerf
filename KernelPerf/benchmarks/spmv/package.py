@@ -13,6 +13,7 @@ GENERATED_FILES = frozenset({
     "plugin.json",
     "README-QIWU-PLUGIN.md",
     "include/qiwu/spmv_plugin.cuh",
+    "include/qiwu/gpu_runtime.h",
     "examples/standalone.cu",
 })
 
@@ -45,6 +46,7 @@ def make_source_package(kernel: KernelArtifact, contract_path: Path) -> dict[str
         "supported_dtypes": ["fp32", "fp64"],
         "entry_source": snapshot["entry_source"],
         "compile_units": snapshot["compile_units"],
+        "include_dirs": snapshot["include_dirs"],
         "build_profile": metadata.get("build_profile", ""),
         "configuration_id": metadata.get("configuration_id", ""),
         "candidate_group": metadata.get("candidate_group", ""),
@@ -59,12 +61,17 @@ def make_source_package(kernel: KernelArtifact, contract_path: Path) -> dict[str
             "path": "include/qiwu/spmv_plugin.cuh",
             "content": contract_path.read_text(encoding="utf-8"),
         },
+        {
+            "path": "include/qiwu/gpu_runtime.h",
+            "content": _runtime_header(contract_path).read_text(encoding="utf-8"),
+        },
         {"path": "README-QIWU-PLUGIN.md", "content": _build_readme()},
         {
             "path": "CMakeLists.txt",
             "content": _cmake(
                 snapshot["entry_source"],
                 snapshot["compile_units"],
+                snapshot["include_dirs"],
                 str(metadata.get("build_profile", "")),
             ),
         },
@@ -90,8 +97,18 @@ def make_source_package(kernel: KernelArtifact, contract_path: Path) -> dict[str
     }
 
 
-def _cmake(entry_source: object, compile_units: object, build_profile: str) -> str:
+def _runtime_header(contract_path: Path) -> Path:
+    sibling = contract_path.with_name("gpu_runtime.h")
+    if sibling.is_file():
+        return sibling
+    # Tests and external callers may provide a temporary contract file only;
+    # use the repository's stable public compatibility header in that case.
+    return Path(__file__).resolve().parents[2] / "include" / "qiwu" / "gpu_runtime.h"
+
+
+def _cmake(entry_source: object, compile_units: object, include_dirs: object, build_profile: str) -> str:
     unit_lines = ";".join(str(value) for value in compile_units)
+    include_lines = ";".join(str(value) for value in include_dirs)
     profile_setup = ""
     if build_profile == "ghost-cuda":
         profile_setup = """
@@ -119,6 +136,7 @@ if(NOT QIWU_PLUGIN_ENTRY)
   string(JSON QIWU_PLUGIN_ENTRY GET "${{QIWU_PLUGIN_MANIFEST}}" entry_source)
 endif()
 set(QIWU_PLUGIN_COMPILE_UNITS "{unit_lines}" CACHE STRING "Additional source files")
+set(QIWU_PLUGIN_INCLUDE_DIRS "{include_lines}" CACHE STRING "Additional source include directories")
 set(QIWU_PLUGIN_EXTRA_INCLUDE_DIRS "" CACHE STRING "Additional dependency include directories")
 set(QIWU_PLUGIN_EXTRA_LIBRARIES "" CACHE STRING "Additional dependency libraries")
 set(QIWU_PLUGIN_EXTRA_LINK_OPTIONS "" CACHE STRING "Additional linker options")
@@ -130,7 +148,7 @@ function(qiwu_add_spmv_target dtype)
   target_compile_features(qiwu_spmv_${{dtype}} PUBLIC cxx_std_17)
   target_include_directories(qiwu_spmv_${{dtype}}
     PUBLIC "${{CMAKE_CURRENT_SOURCE_DIR}}/include"
-    PRIVATE "${{CMAKE_CURRENT_SOURCE_DIR}}" ${{QIWU_PLUGIN_EXTRA_INCLUDE_DIRS}}
+    PRIVATE "${{CMAKE_CURRENT_SOURCE_DIR}}" ${{QIWU_PLUGIN_INCLUDE_DIRS}} ${{QIWU_PLUGIN_EXTRA_INCLUDE_DIRS}}
   )
   target_link_libraries(qiwu_spmv_${{dtype}}
     PUBLIC ${{QIWU_PLUGIN_EXTRA_LIBRARIES}} CUDA::cudart CUDA::cusparse

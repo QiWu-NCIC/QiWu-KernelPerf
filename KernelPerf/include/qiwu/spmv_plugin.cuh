@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cuda_runtime.h>
+#include <qiwu/gpu_runtime.h>
 
 #include <cstdint>
 #include <stdexcept>
@@ -37,9 +37,13 @@ struct QiwuSpmvCsrInput {
 struct QiwuSpmvExecutionContext {
     const QiwuSpmvScalar* device_x;
     QiwuSpmvScalar* device_y;
+    // Request output initialization for an out-of-band validation call.
+    bool reset_output = false;
 };
 
 struct QiwuSpmvStorage;
+
+using QiwuSpmvStream = cudaStream_t;
 
 inline void qiwu_spmv_check_cuda(cudaError_t status, const char* operation) {
     if (status != cudaSuccess) {
@@ -49,19 +53,23 @@ inline void qiwu_spmv_check_cuda(cudaError_t status, const char* operation) {
     }
 }
 
+inline void qiwu_spmv_check_gpu(cudaError_t status, const char* operation) {
+    qiwu_spmv_check_cuda(status, operation);
+}
+
 extern "C" QiwuSpmvStorage* qiwu_spmv_preprocess(
     const QiwuSpmvCsrInput* input,
     const QiwuSpmvExecutionContext* context,
-    cudaStream_t stream
+    QiwuSpmvStream stream
 ) noexcept(false);
 
 extern "C" void qiwu_spmv_solve(
     QiwuSpmvStorage* storage,
     const QiwuSpmvExecutionContext* context,
-    cudaStream_t stream
+    QiwuSpmvStream stream
 ) noexcept(false);
 
 extern "C" void qiwu_spmv_destroy(
     QiwuSpmvStorage* storage,
-    cudaStream_t stream
+    QiwuSpmvStream stream
 ) noexcept(false);

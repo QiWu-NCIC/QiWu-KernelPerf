@@ -176,8 +176,15 @@ void generate_partition_descriptor_s2_kernel(const uiT    *d_partition_pointer,
     volatile __shared__ uiT s_row_start_stop[ANONYMOUSLIB_THREAD_GROUP / ANONYMOUSLIB_CSR5_OMEGA + 1];
 
     if (threadIdx.x < ANONYMOUSLIB_THREAD_GROUP / ANONYMOUSLIB_CSR5_OMEGA + 1)
-        s_row_start_stop[threadIdx.x] = d_partition_pointer[par_id + threadIdx.x];
+    {
+        const int block_partition = blockIdx.x *
+            (ANONYMOUSLIB_THREAD_GROUP / ANONYMOUSLIB_CSR5_OMEGA) + threadIdx.x;
+        s_row_start_stop[threadIdx.x] = d_partition_pointer[min(block_partition, p)];
+    }
     __syncthreads();
+
+    if (par_id >= p - 1)
+        return;
 
     uiT row_start       = s_row_start_stop[bunch_id];
     bool with_empty_rows = (row_start >> 31) & 0x1;
@@ -248,10 +255,12 @@ void generate_partition_descriptor_s2_kernel(const uiT    *d_partition_pointer,
 
     // compute scansum_offset
     s_present[bunch_id * (ANONYMOUSLIB_CSR5_OMEGA + 1) + lane_id] = present;
+    __syncwarp();
     int next1 = lane_id + 1;
     if (present)
     {
-        while (!s_present[bunch_id * (ANONYMOUSLIB_CSR5_OMEGA + 1) + next1] && next1 < ANONYMOUSLIB_CSR5_OMEGA)
+        while (next1 < ANONYMOUSLIB_CSR5_OMEGA &&
+               !s_present[bunch_id * (ANONYMOUSLIB_CSR5_OMEGA + 1) + next1])
         {
             scansum_offset++;
             next1++;

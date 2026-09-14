@@ -9,6 +9,7 @@
   "entry_source": "adapter.cu",
   "compile_units": [],
   "upstream": {
-    "repository": "https://github.com/weifengliu-ssslab/Benchmark_SpMV_using_CSR5"
+    "repository": "https://github.com/weifengliu-ssslab/Benchmark_SpMV_using_CSR5/pull/13",
+    "version": "caff9d80665052bd5379fb37fd135f0d72d7b525"
   }
 }

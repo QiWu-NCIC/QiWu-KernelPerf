@@ -1,45 +1,25 @@
-# AlphaSparseLib CSR SpMV adapter
+# AlphaSparse CSR submission
 
-These candidates port the CSR algorithm families exposed by
-`alphasparse_for_test/hip/kernel/level2/alphasparse_spmv.hip` to the CUDA
-lifecycle contract used by KernelPerf. The submitted tree contains only the
-adapter, selectors, and provenance metadata; the complete AlphaSparseLib source
-tree is not uploaded for each job.
+`upstream/` is a complete snapshot of
+[AlphaSparse/Library](https://github.com/AlphaSparse/Library) at commit
+`39734b2d458a9a38059cd72795f3e64a8400e6f5`.
+One non-algorithmic source patch moves a UTF-8 trailing comment in
+`include/alphasparse/handle.h`; nvcc 12.x otherwise drops the following opening
+brace on some hosts. Selected SpMV launches are also routed from the hard-coded
+default stream to `handle->stream`. Kernel bodies, launch geometry, branches, reductions, and tuning
+constants are unchanged.
 
-All seven candidates use the same `adapter.cu` lifecycle implementation; each
-entry source only selects one upstream algorithm family:
+The only implementation bridge is `adapter.cu`. It calls the official CUDA CSR
+Scalar, Vector, Merge, LineEnhance, Flat1, Flat4, and Flat8
+kernels directly. Temporary partition and merge buffers are allocated in
+`qiwu_spmv_preprocess`. Every launch uses the CUDA stream supplied by the caller,
+so KernelPerf CUDA events measure the GPU solve directly.
 
-`scalar`, `vector`, `merge`, `line-enhance`, `flat1`, `flat4`, and `flat8`.
-
-Example:
+Build a standalone plugin with CUDA and CMake:
 
 ```bash
-python -m kernelperf.cli evaluate \
-  --config config/service.json \
-  --backend A100-SXM4-80GB \
-  --operator spmv.csr.fp32 \
-  --submission submissions/spmv/alphasparse \
-  --configuration-id vector
+cmake -S . -B build -DQIWU_PLUGIN_ENTRY=variants/vector.cu
+cmake --build build -j
+./build/qiwu_spmv_example_fp32
+./build/qiwu_spmv_example_fp64
 ```
-
-The adapter keeps CSR data in the framework-owned device buffers. Merge uses a
-two-stage product/reduction workspace allocated in `preprocess`, while the
-other methods need no extra storage. FP64 uses the same kernels and is selected
-by the normal `spmv.csr.fp64` operator.
-
-To evaluate all seven configurations in one job, create a manifest such as:
-
-```json
-[
-  {"configuration_id":"scalar", "entry_source":"variants/scalar.cu"},
-  {"configuration_id":"vector", "entry_source":"variants/vector.cu"},
-  {"configuration_id":"merge", "entry_source":"variants/merge.cu"},
-  {"configuration_id":"line-enhance", "entry_source":"variants/line_enhance.cu"},
-  {"configuration_id":"flat1", "entry_source":"variants/flat1.cu"},
-  {"configuration_id":"flat4", "entry_source":"variants/flat4.cu"},
-  {"configuration_id":"flat8", "entry_source":"variants/flat8.cu"}
-]
-```
-
-Evaluate each configuration with `--configuration-id`; the maintainer can then
-run `scripts/aggregate_best.py` over the resulting candidate CSVs.

@@ -1,5 +1,7 @@
-#include <cuda_runtime.h>
+#include <qiwu/gpu_runtime.h>
+#if !defined(QIWU_BACKEND_HIP)
 #include <cusparse.h>
+#endif
 #include <qiwu/spmv_plugin.cuh>
 
 #include <algorithm>
@@ -221,7 +223,7 @@ CsrMatrix load_matrix_market(const std::string& path) {
 }
 
 struct StandardSpmvResult {
-    std::vector<QiwuSpmvScalar> values;
+    std::vector<long double> values;
     std::vector<long double> scales;
 };
 
@@ -230,23 +232,21 @@ StandardSpmvResult standard_spmv(
     const std::vector<QiwuSpmvScalar>& x
 ) {
     StandardSpmvResult result{
-        std::vector<QiwuSpmvScalar>(static_cast<size_t>(matrix.rows), 0),
-        std::vector<long double>(static_cast<size_t>(matrix.rows), 0),
+        std::vector<long double>(static_cast<size_t>(matrix.rows), 0.0L),
+        std::vector<long double>(static_cast<size_t>(matrix.rows), 0.0L),
     };
-    std::vector<long double> accum(static_cast<size_t>(matrix.rows), 0);
     for (int64_t row = 0; row < matrix.rows; ++row) {
         const int32_t begin = matrix.row_offsets[static_cast<size_t>(row)];
         const int32_t end = matrix.row_offsets[static_cast<size_t>(row) + 1];
         for (int32_t index = begin; index < end; ++index) {
             const long double product =
                 static_cast<long double>(matrix.values[static_cast<size_t>(index)]) *
-                static_cast<long double>(x[static_cast<size_t>(matrix.column_indices[static_cast<size_t>(index)])]);
-            accum[static_cast<size_t>(row)] += product;
+                static_cast<long double>(x[static_cast<size_t>(
+                    matrix.column_indices[static_cast<size_t>(index)]
+                )]);
+            result.values[static_cast<size_t>(row)] += product;
             result.scales[static_cast<size_t>(row)] += std::abs(product);
         }
-    }
-    for (size_t row = 0; row < accum.size(); ++row) {
-        result.values[row] = static_cast<QiwuSpmvScalar>(accum[row]);
     }
     return result;
 }
@@ -396,6 +396,19 @@ const char* data_type_name() {
 #endif
 }
 
+const char* reference_precision_name() {
+    return "long double";
+}
+
+void write_json_number(std::ostream& output, long double value) {
+    const double narrowed = static_cast<double>(value);
+    if (std::isfinite(narrowed)) {
+        output << narrowed;
+    } else {
+        output << "null";
+    }
+}
+
 }  // namespace kernelperf
 
 int main() {
@@ -413,13 +426,8 @@ int main() {
         const int iterations = environment_int("KERNELPERF_ITERATIONS", 20);
         const int64_t expected_rows = environment_int64("KERNELPERF_MATRIX_ROWS");
         const int64_t expected_cols = environment_int64("KERNELPERF_MATRIX_COLS");
-        const double validation_tolerance = environment_double(
-            "KERNELPERF_VALIDATION_TOLERANCE",
-#if defined(QIWU_SPMV_FP64)
-            1e-12
-#else
-            1e-4
-#endif
+        const double validation_safety_factor = environment_double(
+            "KERNELPERF_VALIDATION_SAFETY_FACTOR", 4.0
         );
 
         const CsrMatrix matrix = load_matrix_market(matrix_path);
@@ -510,7 +518,7 @@ int main() {
             device_column_indices.get(),
             device_values.get(),
         };
-        const QiwuSpmvExecutionContext context{
+        QiwuSpmvExecutionContext context{
             device_x.get(),
             device_y.get(),
         };
@@ -573,7 +581,9 @@ int main() {
             ),
             "reset y sentinel"
         );
+        context.reset_output = true;
         qiwu_spmv_solve(storage, &context, stream);
+        context.reset_output = false;
         qiwu_spmv_check_cuda(cudaGetLastError(), "validation launch");
         std::vector<QiwuSpmvScalar> actual(static_cast<size_t>(matrix.rows));
         qiwu_spmv_check_cuda(
@@ -591,27 +601,46 @@ int main() {
         long double max_relative_error = 0;
         long double max_normalized_error = 0;
         size_t mismatch_count = 0;
+        size_t noise_rows = 0;
+        int64_t max_row_nnz = 0;
+        const long double unit_roundoff = static_cast<long double>(
+            std::numeric_limits<QiwuSpmvScalar>::epsilon()
+        ) / 2.0L;
         for (int64_t row = 0; row < matrix.rows; ++row) {
-            const long double actual_value =
-                static_cast<long double>(actual[static_cast<size_t>(row)]);
-            const long double expected_value =
-                static_cast<long double>(expected.values[static_cast<size_t>(row)]);
+            const int32_t begin = matrix.row_offsets[static_cast<size_t>(row)];
+            const int32_t end = matrix.row_offsets[static_cast<size_t>(row) + 1];
+            const int64_t row_nnz = static_cast<int64_t>(end) - begin;
+            max_row_nnz = std::max(max_row_nnz, row_nnz);
+            const QiwuSpmvScalar actual_stored = actual[static_cast<size_t>(row)];
+            const long double actual_value = static_cast<long double>(actual_stored);
             if (!std::isfinite(actual_value)) {
                 ++mismatch_count;
                 continue;
             }
-            const long double absolute_error = std::abs(actual_value - expected_value);
+            const long double reference = expected.values[static_cast<size_t>(row)];
+            const long double absolute_error = std::abs(actual_value - reference);
+            const long double expected_magnitude = std::abs(reference);
+            const long double scale = expected.scales[static_cast<size_t>(row)];
+            const long double normalized_error = scale > 0.0L
+                ? absolute_error / scale
+                : (absolute_error == 0.0L ? 0.0L : std::numeric_limits<long double>::infinity());
             const long double relative_error = absolute_error /
-                std::max(std::abs(expected_value), static_cast<long double>(1));
-            const long double normalized_error = absolute_error /
-                std::max(
-                    expected.scales[static_cast<size_t>(row)],
-                    static_cast<long double>(1)
-                );
+                std::max(expected_magnitude, std::numeric_limits<long double>::min());
+            const long double row_condition = scale > 0.0L
+                ? scale / std::max(expected_magnitude, std::numeric_limits<long double>::min())
+                : 0.0L;
+            const bool noise_row = scale > 0.0L &&
+                row_condition * static_cast<long double>(row_nnz) * unit_roundoff >= 1.0L;
+            if (noise_row) {
+                ++noise_rows;
+                continue;
+            }
             max_absolute_error = std::max(max_absolute_error, absolute_error);
             max_relative_error = std::max(max_relative_error, relative_error);
             max_normalized_error = std::max(max_normalized_error, normalized_error);
-            if (normalized_error > validation_tolerance) {
+            const long double row_bound = validation_safety_factor *
+                static_cast<long double>(row_nnz) * unit_roundoff;
+            if (normalized_error > row_bound) {
                 ++mismatch_count;
             }
         }
@@ -647,9 +676,11 @@ int main() {
         int cusparse_patch = 0;
         cudaRuntimeGetVersion(&runtime_version);
         cudaDriverGetVersion(&driver_version);
+#if !defined(QIWU_BACKEND_HIP)
         cusparseGetProperty(MAJOR_VERSION, &cusparse_major);
         cusparseGetProperty(MINOR_VERSION, &cusparse_minor);
         cusparseGetProperty(PATCH_LEVEL, &cusparse_patch);
+#endif
         std::cout << std::setprecision(12)
                   << "{\"status\":\"ok\""
                   << ",\"preprocess_ms\":" << preprocess_ms
@@ -662,18 +693,33 @@ int main() {
                   << ",\"declared_nnz\":" << matrix.declared_nnz
                   << ",\"complex_projected_to_real\":"
                   << (matrix.complex_projected_to_real ? "true" : "false")
-                  << ",\"max_absolute_error\":" << static_cast<double>(max_absolute_error)
-                  << ",\"max_relative_error\":" << static_cast<double>(max_relative_error)
-                  << ",\"max_normalized_error\":" << static_cast<double>(max_normalized_error)
+                  << ",\"max_absolute_error\":";
+        write_json_number(std::cout, max_absolute_error);
+        std::cout << ",\"max_relative_error\":";
+        write_json_number(std::cout, max_relative_error);
+        std::cout << ",\"max_normalized_error\":";
+        write_json_number(std::cout, max_normalized_error);
+        std::cout
                   << ",\"mismatch_count\":" << mismatch_count
-                  << ",\"validation_tolerance\":" << validation_tolerance
-                  << ",\"reference_precision\":\"" << data_type_name() << "\""
+                  << ",\"validation_rule\":\"dynamic-row-bound\""
+                  << ",\"validation_safety_factor\":" << validation_safety_factor
+                  << ",\"unit_roundoff\":" << static_cast<double>(unit_roundoff)
+                  << ",\"max_row_nnz\":" << max_row_nnz
+                  << ",\"noise_rows\":" << noise_rows
+                  << ",\"reference_precision\":\"" << reference_precision_name() << "\""
+                  << ",\"output_precision\":\"" << data_type_name() << "\""
                   << ",\"warmup\":" << warmup
                   << ",\"iterations\":" << iterations
+                  << ",\"gpu_runtime\":\"" << QIWU_GPU_BACKEND << "\""
+#if !defined(QIWU_BACKEND_HIP)
                   << ",\"cuda_runtime_version\":" << runtime_version
                   << ",\"cuda_driver_version\":" << driver_version
                   << ",\"cusparse_version\":\"" << cusparse_major << "."
                   << cusparse_minor << "." << cusparse_patch << "\""
+#else
+                  << ",\"hip_runtime_version\":" << runtime_version
+                  << ",\"hip_driver_version\":" << driver_version
+#endif
                   << "}}" << std::endl;
 #if defined(KERNELPERF_GHOST_CUDA)
         // GHOST's CUDA 12 teardown registers a second ownership path for its

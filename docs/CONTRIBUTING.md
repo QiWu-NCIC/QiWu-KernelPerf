@@ -1,34 +1,45 @@
 # Contributing
 
-## Submission package
+## Submission directory
 
 Add one reviewed method under `KernelPerf/submissions/<operator>/<method>/`.
-The directory is both evaluator input and the standalone source package shown
-in the databank. It must contain `submission.json`, `CMakeLists.txt`, the public
-plugin header, an adapter, a standalone example, and `README-QIWU-PLUGIN.md`.
-Upstream code and licenses may be included; do not include worker paths,
-credentials, datasets, or evaluator Python modules.
+For SpMV, use `KernelPerf/submissions/spmv/<method>/`. This directory is the
+evaluator input and should contain only the manifest, the adapter, and the
+source files required to build the submission. Upstream code and licenses may
+be included; do not include worker paths, credentials, datasets, or evaluator
+Python modules.
 
 ```text
 <method>/
 |-- submission.json
-|-- CMakeLists.txt
-|-- include/qiwu/<operator>_plugin.cuh
-|-- adapter.cu (or variants/<configuration>.cu)
-|-- examples/standalone.cu
-`-- README-QIWU-PLUGIN.md
+|-- adapter.cu (or the entry_source named in submission.json)
+|-- variants/<configuration>.cu     # optional, for configuration sweeps
+|-- include/                        # optional, method-owned headers
+`-- upstream/                       # optional, vendored implementation
 ```
+
+`submission.json` is required. Its `entry_source` defaults to `adapter.cu`.
+Additional translation units and include directories must be declared with
+`compile_units` and `include_dirs`; every referenced file must be inside the
+submission directory. The reserved paths
+`include/qiwu/<operator>_plugin.cuh`, `examples/standalone.cu`,
+`CMakeLists.txt`, and `README-QIWU-PLUGIN.md` are generated for the downloadable
+standalone package and should not be submitted as evaluator input.
 
 SpMV plugins expose `qiwu_spmv_preprocess`, `qiwu_spmv_solve`, and
 `qiwu_spmv_destroy`. Preprocessing may build device storage and is outside the
 solve timer; solve only computes `y = A * x`. The same source is compiled for
-FP32 and FP64 (`QIWU_SPMV_FP64=1`). Every sweep configuration needs a unique
+FP32 and FP64 (`QIWU_SPMV_FP64=1`). CUDA and HIP submissions use
+`language: "cuda"` or `language: "hip"`; a portable adapter may declare both in
+`languages`. The contract's runtime shim maps evaluator-owned operations to the
+selected backend. Every sweep configuration needs a unique
 `configuration_id` and stable `method_id`.
 
-Build a package independently of KernelPerf:
+The databank packages an accepted source tree as an independent plugin. Build
+that generated/downloaded package without importing KernelPerf:
 
 ```bash
-cmake -S KernelPerf/submissions/spmv/<method> -B /tmp/qiwu-plugin-build
+cmake -S <downloaded-plugin> -B /tmp/qiwu-plugin-build
 cmake --build /tmp/qiwu-plugin-build -j
 /tmp/qiwu-plugin-build/qiwu_spmv_example_fp32
 /tmp/qiwu-plugin-build/qiwu_spmv_example_fp64
@@ -56,5 +67,5 @@ python scripts/validate_submissions.py submissions
 ```
 
 Keep upstream calls in the adapter and compatibility shims small. Record the
-upstream repository and revision, CUDA requirements, configuration IDs and
+upstream repository and revision, CUDA or HIP requirements, configuration IDs and
 license in `submission.json` and the method README.

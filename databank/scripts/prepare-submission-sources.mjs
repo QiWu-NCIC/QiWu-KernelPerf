@@ -10,10 +10,14 @@ const names = {
   csr_adaptive: "csr-adaptive",
   csr5: "csr5",
   cusparse: "cusparse",
+  rocsparse: "rocsparse",
   ghost_sell: "ghost-sell",
 };
 
-fs.rmSync(path.dirname(outputRoot), { recursive: true, force: true });
+// Baselines are regenerated from the canonical submissions. Content-addressed
+// packages imported with `add:spmv --source-dir` live beside them and must
+// survive later audits and deployments.
+fs.rmSync(outputRoot, { recursive: true, force: true });
 for (const [submissionName, outputName] of Object.entries(names)) {
   const root = path.join(submissionRoot, submissionName);
   const manifest = JSON.parse(fs.readFileSync(path.join(root, "submission.json"), "utf8"));
@@ -43,8 +47,10 @@ for (const [submissionName, outputName] of Object.entries(names)) {
     base_format: manifest.base_format,
     entry_source: manifest.entry_source || "adapter.cu",
     compile_units: manifest.compile_units || [],
+    include_dirs: manifest.include_dirs || [],
     build_profile: manifest.build_profile || "",
     candidate_group: manifest.candidate_group || "",
+    upstream: manifest.upstream || null,
     configurations,
     source_sha256: digest.digest("hex"),
     source_path: `KernelPerf/submissions/spmv/${submissionName}`,
@@ -52,6 +58,10 @@ for (const [submissionName, outputName] of Object.entries(names)) {
   };
   fs.mkdirSync(target, { recursive: true });
   fs.writeFileSync(path.join(target, "plugin.json"), JSON.stringify(plugin, null, 2) + "\n");
+  // Result indexes reference immutable content-addressed packages. Keep the
+  // human-readable baseline path as well as the hash path used by downloads.
+  const contentAddressedTarget = path.join(path.dirname(outputRoot), plugin.source_sha256);
+  fs.cpSync(target, contentAddressedTarget, { recursive: true });
 }
 console.log(JSON.stringify({ generated: Object.keys(names).length, output: outputRoot }, null, 2));
 

@@ -2,6 +2,7 @@
   "schema_version": 1,
   "kind": "source",
   "method_name": "cuSPARSE",
+  "method_name_by_language": {"hip": "hipSPARSE"},
   "operator_id": "spmv.csr.fp32",
   "supported_operators": ["spmv.csr.fp32", "spmv.csr.fp64"],
   "base_format": "auto",
@@ -10,6 +11,8 @@
   "compile_units": [],
   "configurations_file": "sweep_manifest.json",
   "cuda_version_in_method_name": true,
+  "languages": ["cuda", "hip"],
+  "build_profile_by_language": {"hip": "hipsparse-hip"},
   "upstream": {
     "name": "NVIDIA cuSPARSE",
     "repository": "https://developer.nvidia.com/cusparse",

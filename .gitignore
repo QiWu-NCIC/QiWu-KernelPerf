@@ -9,5 +9,13 @@ runtime/
 data/*.sqlite*
 data/result_exports/
 data/source/
-*.log
+data/datasets/
 
+# Local evaluator state and build products.
+/KernelPerf/data/
+*.log
+*.zip
+
+# Site-specific worker, scheduler, CUDA and dataset profiles.
+/KernelPerf/config/private/*
+!/KernelPerf/config/private/README.md

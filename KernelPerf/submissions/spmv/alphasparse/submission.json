@@ -1,6 +1,8 @@
 {
   "schema_version": 1,
   "kind": "source",
+  "language": "cuda",
+  "languages": ["cuda", "hip"],
   "method_name": "AlphaSparseLib CSR",
   "operator_id": "spmv.csr.fp32",
   "supported_operators": ["spmv.csr.fp32", "spmv.csr.fp64"],
@@ -8,5 +10,23 @@
   "candidate_group": "AlphaSparseLib-CSR",
   "entry_source": "adapter.cu",
   "compile_units": [],
-  "configurations_file": "sweep.json"
+  "include_dirs": [
+    "upstream/include",
+    "upstream/cuda/kernel/level2",
+    "upstream/hip/kernel/level2"
+  ],
+  "include_dirs_by_language": {
+    "cuda": ["upstream/include", "upstream/cuda/kernel/level2"],
+    "hip": ["upstream/include", "upstream/hip/kernel/level2"]
+  },
+  "source_include_by_language": {
+    "cuda": ["adapter.cu", "variants", "sweep.json", "upstream/include", "upstream/cuda/kernel/level2"],
+    "hip": ["adapter.cu", "variants", "sweep.json", "upstream/include", "upstream/hip/kernel/level2"]
+  },
+  "configurations_file": "sweep.json",
+  "upstream": {
+    "repository": "https://github.com/AlphaSparse/Library",
+    "commit": "39734b2d458a9a38059cd72795f3e64a8400e6f5",
+    "license": "not-declared-by-upstream"
+  }
 }

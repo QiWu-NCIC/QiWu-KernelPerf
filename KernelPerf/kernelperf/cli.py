@@ -22,6 +22,7 @@ def main() -> None:
     evaluate.add_argument("--operator", default=None)
     evaluate.add_argument("--matrix-id", action="append", default=[])
     evaluate.add_argument("--configuration-id", action="append", default=[])
+    evaluate.add_argument("--language", choices=["cuda", "hip"], default=None)
     evaluate.add_argument("--timeout", type=int, default=14400)
     args = parser.parse_args()
     runtime = create_runtime(args.config)
@@ -38,6 +39,10 @@ def main() -> None:
         matrix_ids=args.matrix_id,
         configuration_ids=args.configuration_id,
         cuda_version=cuda_version,
+        language=(
+            args.language
+            or ("hip" if "hip" in backend.info().supported_languages and "cuda" not in backend.info().supported_languages else None)
+        ),
     )
     scheduler = runtime.scheduler
     scheduler.start()

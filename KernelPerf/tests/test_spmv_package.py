@@ -83,3 +83,4 @@ def test_source_package_indexes_sweep_configurations(tmp_path):
     }]
     cmake = next(item["content"] for item in package["files"] if item["path"] == "CMakeLists.txt")
     assert 'file(READ "${CMAKE_CURRENT_SOURCE_DIR}/plugin.json"' in cmake
+    assert "QIWU_PLUGIN_INCLUDE_DIRS" in cmake

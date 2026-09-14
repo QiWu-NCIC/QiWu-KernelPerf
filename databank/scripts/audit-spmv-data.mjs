@@ -35,6 +35,44 @@ function walkCsv(directory) {
     return item.name.endsWith(".csv") ? [file] : [];
   });
 }
+function parseCsv(text) {
+  const result = [];
+  let row = [];
+  let value = "";
+  let quoted = false;
+  for (let index = 0; index < text.length; index += 1) {
+    const character = text[index];
+    if (character === '"') {
+      if (quoted && text[index + 1] === '"') {
+        value += '"';
+        index += 1;
+      } else {
+        quoted = !quoted;
+      }
+    } else if (character === "," && !quoted) {
+      row.push(value);
+      value = "";
+    } else if ((character === "\n" || character === "\r") && !quoted) {
+      if (character === "\r" && text[index + 1] === "\n") index += 1;
+      row.push(value);
+      if (row.some((cell) => cell.trim())) result.push(row);
+      row = [];
+      value = "";
+    } else {
+      value += character;
+    }
+  }
+  if (quoted) throw new Error("CSV contains an unterminated quoted field");
+  if (value || row.length) {
+    row.push(value);
+    if (row.some((cell) => cell.trim())) result.push(row);
+  }
+  return result;
+}
+function readCsv(file) {
+  const [headers = [], ...rows] = parseCsv(fs.readFileSync(file, "utf8"));
+  return { headers, rows };
+}
 const publicKeys = new Set();
 const publicPaths = new Set();
 const sourceManifests = new Set();
@@ -50,6 +88,9 @@ for (const entry of manifest.submissions || []) {
   if (/smoke/i.test(entry.path) || /generated\//i.test(entry.path)) failures.push(`temporary public entry: ${entry.path}`);
   if (!entry.source_manifest) failures.push(`missing source manifest: ${key}`);
   else sourceManifests.add(entry.source_manifest);
+  if (/^alphasparselib-csr-best$/i.test(entry.method_id) && entry.base_format !== "auto-tuned") {
+    failures.push(`AlphaSparseLib BEST base format is not auto-tuned: ${entry.path}`);
+  }
 }
 const requiredPluginFiles = [
   "CMakeLists.txt",
@@ -114,20 +155,21 @@ for (const entry of candidateManifest.submissions || []) {
   candidatePaths.add(path.resolve(file));
   if (entry.candidate_group !== "cusparse" || !required.has(entry.configuration_id)) continue;
   if (!fs.existsSync(file)) { failures.push(`missing candidate CSV: ${entry.path}`); continue; }
-  const lines = fs.readFileSync(file, "utf8").trim().split(/\r?\n/);
-  const headers = lines[0].split(",");
+  const { headers, rows } = readCsv(file);
   const schemaIndex = headers.indexOf("schema_version");
   if (!headers.includes("solve_only_efficiency_percent")) {
     failures.push(`missing solve-only efficiency column: ${entry.path}`);
   }
-  const rows = lines.slice(1).map((line) => line.split(","));
   if (rows.some((row) => row[schemaIndex] !== "2")) failures.push(`invalid schema row: ${entry.path}`);
   const matrixIndex = headers.indexOf("matrix_id");
   const statuses = headers.indexOf("status");
   const solveIndex = headers.indexOf("solve_ms");
   const passing = rows.filter((row) => row[statuses] === "pass" && Number(row[solveIndex]) > 0);
-  if (rows.length !== 100 || rows.some((row) => row[matrixIndex]?.startsWith("generated/"))
-      || passing.length / rows.length < 0.9) {
+  // Coverage is a ranking policy, not a CSV validity requirement. A complete
+  // 100-matrix sweep may contain failed cases; its passing rows still belong
+  // in per-matrix BEST selection, while the frontend applies the rankability
+  // threshold when displaying the aggregate result.
+  if (rows.length !== 100 || rows.some((row) => row[matrixIndex]?.startsWith("generated/"))) {
     failures.push(`incomplete candidate: ${entry.backend_id}/${entry.dtype}/${entry.configuration_id}`);
     continue;
   }
@@ -152,22 +194,37 @@ for (const entry of manifest.submissions || []) {
   if (entry.method_id !== "cusparse-best") continue;
   const file = path.join(publicRoot, entry.path.replaceAll("/", path.sep));
   if (!fs.existsSync(file)) continue;
-  const lines = fs.readFileSync(file, "utf8").trim().split(/\r?\n/);
-  const headers = lines[0].split(",");
+  const { headers, rows } = readCsv(file);
   const schemaIndex = headers.indexOf("schema_version");
+  const baseFormatIndex = headers.indexOf("base_format");
   if (!headers.includes("solve_only_efficiency_percent")) {
     failures.push(`missing solve-only efficiency column: ${entry.path}`);
+  }
+  if (entry.base_format !== "auto-tuned") {
+    failures.push(`cuSPARSE BEST base format is not auto-tuned: ${entry.path}`);
   }
   const matrixIndex = headers.indexOf("matrix_id");
   const solveIndex = headers.indexOf("solve_ms");
   const minimums = candidateMinimums.get(`${operatorOf(entry.operator_id)}|${canonicalBackend(entry.backend_id)}|${datasetOf(entry.dataset_id)}|${entry.dtype}`);
-  for (const line of lines.slice(1)) {
-    const row = line.split(",");
+  for (const row of rows) {
     if (row[schemaIndex] !== "2") failures.push(`invalid schema row: ${entry.path}`);
+    if (row[baseFormatIndex] !== "auto-tuned") {
+      failures.push(`cuSPARSE BEST row base format is not auto-tuned: ${entry.path}`);
+    }
     const expected = minimums?.get(row[matrixIndex]);
     if (expected === undefined || Math.abs(Number(row[solveIndex]) - expected) > 1e-9) {
       failures.push(`BEST is not candidate minimum: ${entry.backend_id}/${entry.dtype}/${row[matrixIndex]}`);
     }
+  }
+}
+for (const entry of manifest.submissions || []) {
+  if (!/^alphasparselib-csr-best$/i.test(entry.method_id)) continue;
+  const file = path.join(publicRoot, entry.path.replaceAll("/", path.sep));
+  if (!fs.existsSync(file)) continue;
+  const { headers, rows } = readCsv(file);
+  const baseFormatIndex = headers.indexOf("base_format");
+  if (rows.some((row) => row[baseFormatIndex] !== "auto-tuned")) {
+    failures.push(`AlphaSparseLib BEST row base format is not auto-tuned: ${entry.path}`);
   }
 }
 const observedCandidateScopes = new Map();

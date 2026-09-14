@@ -81,6 +81,33 @@ def test_slurm_ssh_backend_wraps_remote_commands_with_module_and_resources():
     assert "--wait=0" in command
     assert "nvidia-smi" in command
 
+
+def test_slurm_ssh_backend_can_reuse_an_existing_allocation():
+    backend = SshBackend(
+        {
+            "worker_id": "worker-bw1000",
+            "backend_id": "bw1000",
+            "transport": "ssh",
+            "kind": "dcu_gpu",
+            "name": "BW1000",
+            "endpoint": "ssh://user@login",
+            "ssh": {"host": "login", "user": "user"},
+            "scheduler": {
+                "type": "slurm",
+                "allocation_id": "12345",
+                "account": "ignored-inside-allocation",
+                "gres": "dcu:bw1000:1",
+            },
+        }
+    )
+
+    command = backend._remote_command(["rocminfo"], "/shared/build", None)
+
+    assert "'--jobid' '12345'" in command
+    assert "'--overlap'" in command
+    assert "--account" not in command
+    assert "--gres" not in command
+
 class ConcurrentBenchmark(Benchmark):
     def __init__(self, entered: set[str], lock: threading.Lock, both: threading.Event) -> None:
         super().__init__(

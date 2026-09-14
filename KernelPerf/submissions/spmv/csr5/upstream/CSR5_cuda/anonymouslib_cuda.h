@@ -18,7 +18,7 @@ public:
     int asCSR();
     int asCSR5();
     int setX(ANONYMOUSLIB_VT *x);
-    int spmv(const ANONYMOUSLIB_VT alpha, ANONYMOUSLIB_VT *y);
+    int spmv(const ANONYMOUSLIB_VT alpha, ANONYMOUSLIB_VT *y, cudaStream_t stream = 0);
     int destroy();
     void setSigma(int sigma);
 
@@ -261,7 +261,8 @@ int anonymouslibHandle<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT>::setX
 
 template <class ANONYMOUSLIB_IT, class ANONYMOUSLIB_UIT, class ANONYMOUSLIB_VT>
 int anonymouslibHandle<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT>::spmv(const ANONYMOUSLIB_VT  alpha,
-                                                                 ANONYMOUSLIB_VT       *y)
+                                                                 ANONYMOUSLIB_VT       *y,
+                                                                 cudaStream_t           stream)
 {
     int err = ANONYMOUSLIB_SUCCESS;
 
@@ -278,7 +279,7 @@ int anonymouslibHandle<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT>::spmv
                   _csr5_partition_pointer, _csr5_partition_descriptor,
                   _csr5_partition_descriptor_offset_pointer, _csr5_partition_descriptor_offset,
                   _temp_calibrator, _tail_partition_start,
-                  alpha, _x, _x_tex, /*beta,*/ y);
+                  alpha, _x, _x_tex, /*beta,*/ y, stream);
     }
 
     return err;

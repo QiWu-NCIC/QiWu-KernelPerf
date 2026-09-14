@@ -20,19 +20,38 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
           cache-dependency-path: databank/package-lock.json
       - working-directory: databank
         run: npm ci
+      - name: Configure GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v6
+        with:
+          # Page enablement requires a personal access token. PAGES_PAT should
+          # have repository access; github.token remains the fallback.
+          enablement: true
+          token: ${{ secrets.PAGES_PAT || github.token }}
       - working-directory: databank
+        run: npm run audit:spmv
+      - working-directory: databank
+        env:
+          VITE_PUBLIC_PATH: ${{ steps.pages.outputs.base_path }}
+          VITE_REPOSITORY_URL: ${{ github.server_url }}/${{ github.repository }}
         run: npm run build
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: databank/dist
-      - uses: actions/deploy-pages@v4
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
+        with:
+          token: ${{ secrets.PAGES_PAT || github.token }}

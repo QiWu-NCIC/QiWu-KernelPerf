@@ -5,8 +5,12 @@ find_package(CUDAToolkit REQUIRED)
 
 set(QIWU_PLUGIN_ENTRY "" CACHE STRING "Plugin entry source")
 if(NOT QIWU_PLUGIN_ENTRY)
-  file(READ "${CMAKE_CURRENT_SOURCE_DIR}/plugin.json" QIWU_PLUGIN_MANIFEST)
-  string(JSON QIWU_PLUGIN_ENTRY GET "${QIWU_PLUGIN_MANIFEST}" entry_source)
+  if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin.json")
+    file(READ "${CMAKE_CURRENT_SOURCE_DIR}/plugin.json" QIWU_PLUGIN_MANIFEST)
+    string(JSON QIWU_PLUGIN_ENTRY GET "${QIWU_PLUGIN_MANIFEST}" entry_source)
+  else()
+    set(QIWU_PLUGIN_ENTRY "variants/vector.cu")
+  endif()
 endif()
 set(QIWU_PLUGIN_COMPILE_UNITS "" CACHE STRING "Additional source files")
 set(QIWU_PLUGIN_EXTRA_INCLUDE_DIRS "" CACHE STRING "Additional dependency include directories")
@@ -20,7 +24,11 @@ function(qiwu_add_spmv_target dtype)
   target_compile_features(qiwu_spmv_${dtype} PUBLIC cxx_std_17)
   target_include_directories(qiwu_spmv_${dtype}
     PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include"
-    PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}" ${QIWU_PLUGIN_EXTRA_INCLUDE_DIRS}
+    PRIVATE
+      "${CMAKE_CURRENT_SOURCE_DIR}"
+      "${CMAKE_CURRENT_SOURCE_DIR}/upstream/include"
+      "${CMAKE_CURRENT_SOURCE_DIR}/upstream/cuda/kernel/level2"
+      ${QIWU_PLUGIN_EXTRA_INCLUDE_DIRS}
   )
   target_link_libraries(qiwu_spmv_${dtype}
     PUBLIC ${QIWU_PLUGIN_EXTRA_LIBRARIES} CUDA::cudart CUDA::cusparse

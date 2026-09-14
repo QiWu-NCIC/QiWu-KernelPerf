@@ -12,9 +12,12 @@ cmake --build build -j
 `plugin.json` is the package manifest. It records the payload files, content hash,
 evaluated entry source, configurations, and dependencies. CMake uses its
 `entry_source` by default. Select another packaged variant with
-`-DQIWU_PLUGIN_ENTRY=variants/name.cu`. External libraries
-can be supplied with `QIWU_PLUGIN_EXTRA_INCLUDE_DIRS` and
-`QIWU_PLUGIN_EXTRA_LIBRARIES`. GHOST packages accept `-DGHOST_ROOT=/path/to/install`.
+`-DQIWU_PLUGIN_ENTRY=variants/name.cu`. The `upstream/` directory is the complete
+AlphaSparse/Library snapshot. Its CUDA kernels are unchanged; the only source
+syntax patch moves a UTF-8 comment in `handle.h` so nvcc preserves the following
+brace. The selected SpMV launch sites are routed through `handle->stream` without
+changing launch geometry or kernel logic. `adapter.cu` calls those official CUDA
+SpMV kernels directly.
 
 Applications include `include/qiwu/spmv_plugin.cuh`, link either
 `qiwu_spmv_fp32` or `qiwu_spmv_fp64`, and call `qiwu_spmv_preprocess`,

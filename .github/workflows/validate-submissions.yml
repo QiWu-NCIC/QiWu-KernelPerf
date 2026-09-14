@@ -7,6 +7,10 @@ on:
       - "KernelPerf/kernelperf/submissions.py"
       - "KernelPerf/scripts/validate_submissions.py"
       - "KernelPerf/pyproject.toml"
+      - "KernelPerf/kernelperf/**"
+      - "KernelPerf/benchmarks/**"
+      - "KernelPerf/config/**"
+      - ".github/workflows/validate-submissions.yml"
   workflow_dispatch:
 
 permissions:
@@ -16,13 +20,13 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
       - name: Install evaluator dependencies
         working-directory: KernelPerf
-        run: python -m pip install -e .
+        run: python -m pip install -e '.[dev]'
       - name: Validate submission manifests and source trees
         working-directory: KernelPerf
         run: PYTHONPATH=. python scripts/validate_submissions.py submissions

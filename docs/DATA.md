@@ -40,11 +40,3 @@ repository; retain any provenance copy outside Git.
 Run `npm run audit:spmv` before publishing. The evaluator's
 `KernelPerf/data/` directory is ignored runtime state; its exports use the same
 suite/backend/dataset partition before manual import.
-
-When importing an older flat catalog, run the collision-checked migration once:
-
-```bash
-cd databank
-npm run migrate:data-layout
-npm run audit:spmv
-```

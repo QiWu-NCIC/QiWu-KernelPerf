@@ -21,7 +21,7 @@
           "driver_config": {
             "warmup": 5,
             "iterations": 20,
-            "validation_tolerance": 1e-4,
+            "validation_safety_factor": 4.0,
             "algorithm": "candidate-defined"
           },
           "contract": "preprocess/solve/destroy plugin interface"
@@ -40,7 +40,7 @@
           "driver_config": {
             "warmup": 5,
             "iterations": 20,
-            "validation_tolerance": 1e-12,
+            "validation_safety_factor": 4.0,
             "algorithm": "candidate-defined"
           },
           "contract": "preprocess/solve/destroy plugin interface"
@@ -51,17 +51,38 @@
       "driver_id": "spmv-lifecycle",
       "contract": "include/qiwu/spmv_plugin.cuh",
       "language": "cuda",
+      "languages": ["cuda", "hip"],
       "entrypoint": "qiwu_spmv_plugin",
-      "source_limit_bytes": 8388608,
-      "max_source_files": 512,
+      "source_limit_bytes": 33554432,
+      "max_source_files": 4096,
       "object_limit_bytes": 16000000,
       "compiler": "nvcc",
       "compile_options": ["-O3", "-std=c++17"],
       "link_options": ["-lcusparse"],
+      "compile_options_by_language": {
+        "cuda": ["-O3", "-std=c++17"],
+        "hip": ["-O3", "-std=c++17"]
+      },
+      "link_options_by_language": {
+        "cuda": ["-lcusparse"],
+        "hip": []
+      },
+      "source_filename_by_language": {
+        "cuda": "benchmark.cu",
+        "hip": "benchmark.hip"
+      },
+      "relocatable_option_by_language": {
+        "cuda": "-rdc=true",
+        "hip": ""
+      },
+      "arch_flag_by_language": {
+        "cuda": "-arch=",
+        "hip": "--offload-arch="
+      },
       "compile_timeout_seconds": 180,
       "run_timeout_seconds": 1200,
-      "build_root": "/tmp/kernelperf-benchmarks/spmv",
-      "validation_method": "cpu-csr-reference"
+      "build_root": "data/build/spmv",
+      "validation_method": "cpu-csr-reference-dynamic-row-bound"
     }
   },
   {
@@ -89,7 +110,7 @@
       "driver_id": "sol-execbench-v1",
       "python": "python3",
       "module": "sol_execbench.cli.main",
-      "config_file": "/root/KernelPerf/config/sol_execbench_fast.json",
+      "config_file": "config/sol_execbench_fast.json",
       "case_timeout_seconds": 600,
       "compile_timeout_seconds": 180,
       "process_timeout_seconds": 900

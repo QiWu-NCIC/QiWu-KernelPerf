@@ -10,7 +10,7 @@
     "dataset_id": "suitesparse_all",
     "name": "Configured sparse-matrix corpus",
     "kind": "matrix-market-manifest",
-    "root": "/root/dataset/suitesparse",
+    "root": "data/datasets/suitesparse",
     "manifest": "config/datasets/suitesparse_all.json",
     "path_template": "{root}/{name}",
     "description": "All configured Matrix Market cases."
@@ -19,7 +19,7 @@
     "dataset_id": "suitesparse_sample_100",
     "name": "SuiteSparse performance corpus (100 real matrices)",
     "kind": "matrix-market-manifest",
-    "root": "/root/dataset/suitesparse",
+    "root": "data/datasets/suitesparse",
     "manifest": "config/datasets/suitesparse_sample_100.json",
     "path_template": "{root}/{name}",
     "description": "Deterministic stratified real-valued corpus spanning 10^2 to 10^8 nnz."
@@ -28,7 +28,7 @@
     "dataset_id": "suitesparse_validation_100",
     "name": "SuiteSparse validation corpus (legacy 100 matrices)",
     "kind": "matrix-market-manifest",
-    "root": "/root/dataset/suitesparse",
+    "root": "data/datasets/suitesparse",
     "manifest": "config/datasets/suitesparse_validation_100.json",
     "path_template": "{root}/{name}",
     "description": "Legacy small-matrix set retained for correctness and smoke validation."

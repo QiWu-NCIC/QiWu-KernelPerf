@@ -211,4 +211,78 @@ def test_multi_configuration_job_exports_candidates_and_per_matrix_best(tmp_path
     assert {row["solve_ms"] for row in rows} == {"1.0", "0.5"}
     assert all(row["configuration_id"] == "per-matrix-best" for row in rows)
     assert all(row["selection_role"] == "best" for row in rows)
+    assert all(row["base_format"] == "auto-tuned" for row in rows)
     assert all(row["source_kind"] == "derived" for row in rows)
+
+
+def test_multiple_candidate_groups_export_independent_best_results(tmp_path):
+    runtime = create_runtime(
+        database_path=tmp_path / "perf.sqlite",
+        result_exports_path=tmp_path / "exports",
+    )
+    backend = runtime.backends.backends()[0].info()
+    operator = runtime.benchmarks.get("spmv").operators()[0]
+    kernels = [
+        KernelArtifact(
+            name=f"{group}-{configuration}",
+            source="candidate",
+            metadata={
+                "operator_id": operator.op_id,
+                "base_format": "csr",
+                "configuration_id": configuration,
+                "candidate_group": group,
+            },
+        )
+        for group in ("alpha", "beta")
+        for configuration in ("a", "b")
+    ]
+    job = JobRecord(
+        job_id="multiple-groups",
+        generator_id="sweep",
+        backends=[backend.backend_id],
+        suites=["spmv"],
+        dataset_id="suite",
+        operator_ids=[operator.op_id],
+        kernels=kernels,
+        status=JobStatus.succeeded,
+    )
+    for index, kernel in enumerate(kernels):
+        runtime.db.insert_result(BenchmarkResult(
+            job_id=job.job_id,
+            generator_id=job.generator_id,
+            backend_id=backend.backend_id,
+            backend_kind=backend.kind,
+            suite="spmv",
+            operator_id=operator.op_id,
+            operator_name=operator.name,
+            matrix_id="m1",
+            matrix_name="m1",
+            rows=2,
+            cols=2,
+            nnz=4,
+            kernel_name=kernel.name,
+            runtime_ms=float(index + 1),
+            gflops=8.0 / (index + 1),
+            arithmetic_intensity=0.0,
+            metadata={
+                "operations": 8,
+                "dtype": operator.dtype,
+                "implementation": {
+                    "base_format": "csr",
+                    "configuration_id": kernel.metadata["configuration_id"],
+                    "candidate_group": kernel.metadata["candidate_group"],
+                    "selection_role": "candidate",
+                },
+            },
+        ))
+
+    paths = LocalResultExporter(
+        tmp_path / "exports", runtime.db, runtime.backends, runtime.benchmarks
+    ).export_job(job)
+
+    assert len(paths) == 6
+    best_paths = sorted(Path(path).name for path in paths if "best" in Path(path).name)
+    assert best_paths == [
+        f"alpha-best-{backend.backend_id}-suite-{operator.dtype}.csv",
+        f"beta-best-{backend.backend_id}-suite-{operator.dtype}.csv",
+    ]

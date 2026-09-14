@@ -1,6 +1,48 @@
 #include <qiwu/spmv_plugin.cuh>
 
+#if defined(QIWU_BACKEND_HIP)
+#include <hipsparse/hipsparse.h>
+
+// hipSPARSE keeps the CUDA generic sparse API shape but uses its own public
+// names.  Keep the adapter source shared so the benchmark exercises the same
+// lifecycle on CUDA and HIP without pretending that a CUDA library is present
+// on a non-NVIDIA worker.
+#define cudaDataType hipDataType
+#define CUDA_R_32F HIP_R_32F
+#define CUDA_R_64F HIP_R_64F
+#define cusparseStatus_t hipsparseStatus_t
+#define cusparseHandle_t hipsparseHandle_t
+#define cusparseSpMatDescr_t hipsparseSpMatDescr_t
+#define cusparseDnVecDescr_t hipsparseDnVecDescr_t
+#define CUSPARSE_STATUS_SUCCESS HIPSPARSE_STATUS_SUCCESS
+#define CUSPARSE_INDEX_32I HIPSPARSE_INDEX_32I
+#define CUSPARSE_INDEX_BASE_ZERO HIPSPARSE_INDEX_BASE_ZERO
+#define CUSPARSE_OPERATION_NON_TRANSPOSE HIPSPARSE_OPERATION_NON_TRANSPOSE
+#define CUSPARSE_SPMV_ALG_DEFAULT HIPSPARSE_SPMV_ALG_DEFAULT
+#define CUSPARSE_SPMV_COO_ALG1 HIPSPARSE_SPMV_COO_ALG1
+#define CUSPARSE_SPMV_COO_ALG2 HIPSPARSE_SPMV_COO_ALG2
+#define CUSPARSE_SPMV_CSR_ALG1 HIPSPARSE_SPMV_CSR_ALG1
+#define CUSPARSE_SPMV_CSR_ALG2 HIPSPARSE_SPMV_CSR_ALG2
+// The DTK 26.04 hipSPARSE API exposes no SELL-specific algorithm enum.  Its
+// generic default path is the only honest equivalent for SlicedELL.
+#define CUSPARSE_SPMV_SELL_ALG1 HIPSPARSE_SPMV_ALG_DEFAULT
+#define cusparseGetErrorString hipsparseGetErrorString
+#define cusparseCreate hipsparseCreate
+#define cusparseDestroy hipsparseDestroy
+#define cusparseSetStream hipsparseSetStream
+#define cusparseCreateCoo hipsparseCreateCoo
+#define cusparseCreateCsr hipsparseCreateCsr
+#define cusparseCreateCsc hipsparseCreateCsc
+#define cusparseCreateSlicedEll hipsparseCreateSlicedEll
+#define cusparseDestroySpMat hipsparseDestroySpMat
+#define cusparseCreateDnVec hipsparseCreateDnVec
+#define cusparseDestroyDnVec hipsparseDestroyDnVec
+#define cusparseSpMV_bufferSize hipsparseSpMV_bufferSize
+#define cusparseSpMV_preprocess hipsparseSpMV_preprocess
+#define cusparseSpMV hipsparseSpMV
+#else
 #include <cusparse.h>
+#endif
 
 #include <algorithm>
 #include <cstdint>
@@ -166,7 +208,7 @@ void build_sell_nrows(const QiwuSpmvCsrInput* input, cudaStream_t stream, QiwuSp
         offsets[slice + 1] = static_cast<int32_t>(next);
     }
     const size_t padded_nnz = static_cast<size_t>(offsets.back());
-    std::vector<int32_t> columns(padded_nnz, 0);
+    std::vector<int32_t> columns(padded_nnz, -1);
     std::vector<QiwuSpmvScalar> values(padded_nnz, static_cast<QiwuSpmvScalar>(0));
     for (int64_t row = 0; row < input->rows; ++row) {
         const int64_t slice = row / slice_size;
@@ -224,7 +266,7 @@ extern "C" QiwuSpmvStorage* qiwu_spmv_preprocess(
         storage->beta = beta;
         storage->workspace_size = bytes;
         if (bytes) qiwu_spmv_check_cuda(cudaMalloc(&storage->workspace, bytes), "cuSPARSE workspace allocation");
-#if CUDART_VERSION >= 12040
+#if defined(QIWU_BACKEND_HIP) || CUDART_VERSION >= 12040
         check(cusparseSpMV_preprocess(storage->handle, CUSPARSE_OPERATION_NON_TRANSPOSE,
             &storage->alpha, storage->matrix, storage->x, &storage->beta, storage->y,
             value_type, KERNELPERF_CUSPARSE_ALGORITHM, storage->workspace), "cusparseSpMV_preprocess");

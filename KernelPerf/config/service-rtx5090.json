@@ -1,3 +1,0 @@
-{
-  "database":"data/kernelperf-rtx5090.sqlite","workers":"config/workers-rtx5090.json","benchmarks":"config/benchmarks.json","datasets":"config/datasets-rtx5090.json","result_exports":"data/result_exports/rtx5090"
-}

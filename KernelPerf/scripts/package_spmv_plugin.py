@@ -28,7 +28,8 @@ def main() -> None:
     parser.add_argument("--build-profile", default="")
     parser.add_argument("--configuration-id", default="")
     parser.add_argument("--candidate-group", default="")
-    parser.add_argument("--source-repository", default="PlayGround")
+    parser.add_argument("--operator", default="spmv.csr.fp32")
+    parser.add_argument("--source-repository", default="QiWu-KernelPerf")
     parser.add_argument("--source-path", default="")
     parser.add_argument("--force", action="store_true")
     args = parser.parse_args()
@@ -42,7 +43,7 @@ def main() -> None:
         files.append(SourceFile(path=relative.as_posix(), content=path.read_text(encoding="utf-8")))
 
     metadata = {
-        "operator_id": "spmv.csr.fp32",
+        "operator_id": args.operator,
         "base_format": args.base_format,
     }
     for key, value in (

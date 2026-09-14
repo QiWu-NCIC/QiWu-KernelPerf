@@ -28,13 +28,19 @@ vT segmented_sum_shfl(vT        tmp_sum,
                       const int scansum_offset,
                       const int lane_id)
 {
-    vT sum = __shfl_down_sync(0xffffffffu, tmp_sum, 1);
-    sum = lane_id == ANONYMOUSLIB_CSR5_OMEGA - 1 ? 0 : sum;
-    vT scan_sum = scan_32_shfl(sum); //scan_32_shfl<vT>(sum, lane_id); // inclusive scan
-    tmp_sum = __shfl_down_sync(0xffffffffu, scan_sum, scansum_offset);
-    tmp_sum = tmp_sum - scan_sum + sum;
+    // Subtracting two warp-wide prefix sums can lose the target segment when
+    // unrelated rows have much larger values. Sum only the requested segment.
+    vT segment_sum = 0;
+    #pragma unroll
+    for (int delta = 1; delta < ANONYMOUSLIB_CSR5_OMEGA; delta++)
+    {
+        const vT value = __shfl_down_sync(0xffffffffu, tmp_sum, delta);
+        if (delta <= scansum_offset + 1 &&
+            lane_id + delta < ANONYMOUSLIB_CSR5_OMEGA)
+            segment_sum += value;
+    }
 
-    return tmp_sum;
+    return segment_sum;
 }
 
 template<typename vT>
@@ -330,6 +336,8 @@ void spmv_csr5_calibrate_kernel(const uiT *d_partition_pointer,
 
     s_partition_pointer[local_id] = global_id < p-1 ? d_partition_pointer[global_id] & 0x7FFFFFFF : -1;
     s_calibrator[local_id] = sum = global_id < p-1 ? d_calibrator[global_id] : 0;
+    if (!local_id)
+        s_partition_pointer[ANONYMOUSLIB_THREAD_GROUP] = -1;
     __syncthreads();
 
     // do a fast track if all s_partition_pointer are the same
@@ -438,7 +446,8 @@ int csr5_spmv(const int                 sigma,
               const ANONYMOUSLIB_VT         alpha,
               const ANONYMOUSLIB_VT        *x,
               cudaTextureObject_t       x_tex,
-              ANONYMOUSLIB_VT              *y)
+              ANONYMOUSLIB_VT              *y,
+              cudaStream_t                  stream = 0)
 {
     int err = ANONYMOUSLIB_SUCCESS;
 
@@ -450,94 +459,94 @@ int csr5_spmv(const int                 sigma,
     switch (sigma)
     {
     case 4:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 4><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 4><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     case 5:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 5><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 5><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     case 6:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 6><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 6><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     case 7:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 7><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 7><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     case 8:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 8><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 8><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     case 9:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 9><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 9><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     case 10:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 10><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 10><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
 
     case 11:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 11><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 11><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     case 12:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 12><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 12><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     case 13:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 13><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 13><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     case 14:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 14><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 14><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     case 15:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 15><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 15><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     case 16:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 16><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 16><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     case 17:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 17><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 17><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     case 18:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 18><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 18><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     case 19:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 19><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 19><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     case 20:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 20><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 20><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
 
     case 21:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 21><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 21><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     case 22:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 22><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 22><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     case 23:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 23><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 23><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     case 24:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 24><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 24><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     case 25:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 25><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 25><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     case 26:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 26><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 26><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     case 27:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 27><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 27><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     case 28:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 28><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 28><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     case 29:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 29><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 29><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     case 30:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 30><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 30><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
 
     case 31:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 31><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 31><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     case 32:
-        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 32><<< num_blocks, num_threads >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
+        spmv_csr5_compute_kernel<ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT, 32><<< num_blocks, num_threads, 0, stream >>>(column_index, value, row_pointer, x, x_tex, partition_pointer, partition_descriptor, partition_descriptor_offset_pointer, partition_descriptor_offset, calibrator, y, p, num_packet, bit_y_offset, bit_scansum_offset, alpha);
         break;
     }
     }
@@ -549,7 +558,7 @@ int csr5_spmv(const int                 sigma,
     {
         spmv_csr5_calibrate_kernel
                 <ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT>
-                <<< num_blocks, num_threads >>>
+                <<< num_blocks, num_threads, 0, stream >>>
                 (partition_pointer, calibrator, y, p);
     }
 
@@ -560,7 +569,7 @@ int csr5_spmv(const int                 sigma,
     {
         spmv_csr5_tail_partition_kernel
                 <ANONYMOUSLIB_IT, ANONYMOUSLIB_UIT, ANONYMOUSLIB_VT>
-                <<< num_blocks, num_threads >>>
+                <<< num_blocks, num_threads, 0, stream >>>
                 (row_pointer, column_index, value, x, x_tex, y,
                  tail_partition_start, p, sigma, alpha);
     }

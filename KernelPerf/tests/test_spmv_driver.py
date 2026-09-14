@@ -105,6 +105,21 @@ def test_multi_file_source_tree_allows_lifecycle_in_included_adapter_header():
     validate_kernel(kernel, driver.options)
 
 
+def test_lifecycle_scan_does_not_join_literals_across_source_files():
+    driver = benchmark()
+    kernel = make_kernel(
+        source=None,
+        source_files=[
+            SourceFile(path="README.md", content='"unfinished documentation literal'),
+            SourceFile(path="variants/csr.cu", content='#include "adapter.cuh"\n'),
+            SourceFile(path="adapter.cuh", content=KERNEL_SOURCE),
+        ],
+        entry_source="variants/csr.cu",
+        compile_units=[],
+    )
+    validate_kernel(kernel, driver.options)
+
+
 def test_csc_base_format_is_allowed():
     driver = benchmark()
     kernel = make_kernel(metadata={"operator_id": "spmv.csr.fp32", "base_format": "csc"})
@@ -149,6 +164,32 @@ def test_build_key_separates_dtype_and_includes_architecture():
     )
     assert "-arch=sm_120" in driver._compile_options(BuildBackend(), fp32)
     assert "-DQIWU_SPMV_FP64=1" in driver._compile_options(BuildBackend(), fp64)
+
+
+def test_hip_compile_options_use_offload_architecture():
+    driver = benchmark()
+    kernel = make_kernel(language="hip")
+    backend = type("HipBackend", (), {
+        "backend_id": "bw1000",
+        "labels": {"hip_arch": "gfx936"},
+        "spec": {"compiler_by_language": {"hip": "hipcc"}, "arch_flag_by_language": {"hip": "--offload-arch="}},
+    })()
+    assert "--offload-arch=gfx936" in driver._compile_options(backend, driver.operators()[0], kernel)
+
+
+def test_build_key_separates_source_entrypoints():
+    driver = benchmark()
+    operator = driver.operators()[0]
+    files = [
+        SourceFile(path="variants/a.cu", content=KERNEL_SOURCE),
+        SourceFile(path="variants/b.cu", content=KERNEL_SOURCE),
+    ]
+    first = make_kernel(source=None, source_files=files, entry_source="variants/a.cu")
+    second = first.model_copy(update={"entry_source": "variants/b.cu"})
+
+    assert driver._build_key(BuildBackend(), first, operator) != driver._build_key(
+        BuildBackend(), second, operator
+    )
 
 
 class ObjectBuildBackend:
@@ -379,7 +420,16 @@ def test_measurement_is_classified_and_scored_by_driver(tmp_path):
     assert passed.gflops == pytest.approx(2.0)
     assert incorrect.status == CaseStatus.error
     assert incorrect.gflops == 0.0
-    assert passed.metadata["validation"]["method"] == "cpu-csr-reference"
+    assert passed.metadata["validation"]["method"] == "cpu-csr-reference-dynamic-row-bound"
+
+
+def test_spmv_protocol_uses_dynamic_row_bound_configuration():
+    driver = benchmark()
+    for operator in driver.operators():
+        config = operator.metadata["driver_config"]
+        assert config["warmup"] == 5
+        assert config["iterations"] == 20
+        assert config["validation_safety_factor"] == 4.0
 
 
 def test_driver_failure_metadata_is_bounded_and_structured():

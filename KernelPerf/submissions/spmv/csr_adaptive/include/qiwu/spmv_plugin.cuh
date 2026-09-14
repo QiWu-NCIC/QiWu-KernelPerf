@@ -37,6 +37,7 @@ struct QiwuSpmvCsrInput {
 struct QiwuSpmvExecutionContext {
     const QiwuSpmvScalar* device_x;
     QiwuSpmvScalar* device_y;
+    bool reset_output = false;
 };
 
 struct QiwuSpmvStorage;

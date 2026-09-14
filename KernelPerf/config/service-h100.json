@@ -1,3 +1,0 @@
-{
-  "database":"data/kernelperf-h100.sqlite","workers":"config/workers-h100.json","benchmarks":"config/benchmarks.json","datasets":"config/datasets-h100.json","result_exports":"data/result_exports/h100"
-}

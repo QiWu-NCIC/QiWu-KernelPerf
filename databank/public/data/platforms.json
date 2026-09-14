@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "platforms": [
+    {
+      "backend_id": "A100-SXM4-80GB",
+      "gpu_model": "NVIDIA A100-SXM4-80GB",
+      "cpu_model": "AMD EPYC 7763 64-Core Processor"
+    },
+    {
+      "backend_id": "H100-SXM5-80GB",
+      "gpu_model": "NVIDIA H100 80GB HBM3",
+      "cpu_model": "Intel Xeon Platinum 8558"
+    },
+    {
+      "backend_id": "RTX5090-SL3061",
+      "gpu_model": "NVIDIA GeForce RTX 5090",
+      "cpu_model": "Intel Xeon Gold 6530"
+    },
+    {
+      "backend_id": "BW1000-gfx936",
+      "gpu_model": "Hygon BW200, UBB BW1000",
+      "cpu_model": "Hygon C86-4G (OPN:7495)",
+      "runtime": "DTK 26.04"
+    }
+  ]
+}

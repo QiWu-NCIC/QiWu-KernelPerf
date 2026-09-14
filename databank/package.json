@@ -1,5 +1,5 @@
 {
-  "name": "official_website",
+  "name": "qiwu-kernelperf-databank",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,33 +7,22 @@
     "node": ">=20"
   },
   "scripts": {
-    "predev": "node scripts/prepare-submission-sources.mjs",
+    "prepare:sources": "node scripts/prepare-submission-sources.mjs",
+    "predev": "npm run prepare:sources",
     "dev": "vite",
-    "prebuild": "node scripts/prepare-submission-sources.mjs",
+    "prebuild": "npm run prepare:sources",
     "build": "vite build",
     "preview": "vite preview",
     "add:spmv": "node scripts/add-spmv-result.mjs",
-    "migrate:data-layout": "node scripts/migrate-data-layout.mjs",
-    "curate:spmv": "node scripts/curate-spmv-results.mjs",
-    "preaudit:spmv": "node scripts/prepare-submission-sources.mjs",
+    "preaudit:spmv": "npm run prepare:sources",
     "audit:spmv": "node scripts/audit-spmv-data.mjs public"
   },
   "dependencies": {
-    "axios": "1.9.0",
-    "element-plus": "2.13.1",
-    "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
-    "pinia": "^2.2.2",
-    "unplugin-vue-components": "^0.27.4",
-    "vue": "^3.4.37",
-    "vue-i18n": "^9.14.0",
-    "vue-router": "^4.4.5"
+    "vue": "^3.4.37"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.1.2",
-    "sass": "^1.79.3",
-    "sass-loader": "^16.0.2",
-    "unplugin-auto-import": "^0.18.3",
-    "vite": "^5.4.1"
+    "vite": "^6.4.3"
   }
 }

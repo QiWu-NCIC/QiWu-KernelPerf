@@ -38,6 +38,7 @@ class LocalResultExporter:
         suite: str,
         operator_id: str,
         configuration_id: str | None = None,
+        kernel_name: str | None = None,
     ) -> tuple[object, object, object, Path]:
         backend = self.backends.get(backend_id).info()
         benchmark = self.benchmarks.get(suite)
@@ -49,12 +50,13 @@ class LocalResultExporter:
         ]
         if configuration_id:
             candidates = [value for value in candidates if self._config_id(value) == configuration_id]
+        if kernel_name:
+            candidates = [value for value in candidates if value.name == kernel_name]
         if len(candidates) != 1:
             raise ValueError(
                 f"configuration_id is required when {operator_id!r} has multiple configurations"
             )
         kernel = candidates[0]
-        identity = configuration_id or self._config_id(kernel) or kernel.name
         dtype = str(operator.dtype)
         method_id = slug(kernel.name)
         dataset_id = slug(job.dataset_id or "none")
@@ -70,9 +72,10 @@ class LocalResultExporter:
         suite: str,
         operator_id: str,
         configuration_id: str | None = None,
+        kernel_name: str | None = None,
     ) -> Path | None:
         backend, operator, kernel, target = self._resolve_selection(
-            job, backend_id, suite, operator_id, configuration_id
+            job, backend_id, suite, operator_id, configuration_id, kernel_name
         )
         rows = self.db.query_results(
             job_ids=[job.job_id], backend_ids=[backend_id], suites=[suite], operator_ids=[operator_id]
@@ -165,7 +168,7 @@ class LocalResultExporter:
             selection_role="best",
             selected_from=selected_from,
             source_kind="derived",
-            base_format="auto",
+            base_format="auto-tuned",
         )
         dataset_id = slug(job.dataset_id or "none")
         target = self.root / slug(suite) / slug(backend_id) / dataset_id / (
@@ -205,19 +208,30 @@ class LocalResultExporter:
                 for kernel in job.kernels:
                     for operator in benchmark.operators_for_kernel(kernel, operators):
                         target = self.export_selection(
-                            job, backend_id, suite, operator.op_id, self._config_id(kernel) or None
+                            job,
+                            backend_id,
+                            suite,
+                            operator.op_id,
+                            self._config_id(kernel) or None,
+                            kernel.name,
                         )
                         if target is not None:
                             exported.append(str(target))
                 for operator in operators:
-                    candidates = [
-                        kernel for kernel in job.kernels
-                        if kernel.metadata.get("operator_id") == operator.op_id
-                        and kernel.metadata.get("selection_role", "candidate") == "candidate"
-                    ]
-                    target = self._export_best(job, backend_id, suite, operator, candidates)
-                    if target is not None:
-                        exported.append(str(target))
+                    candidate_groups: dict[str, list[Any]] = {}
+                    for kernel in job.kernels:
+                        if (
+                            kernel.metadata.get("selection_role", "candidate") != "candidate"
+                            or not benchmark.operators_for_kernel(kernel, [operator])
+                        ):
+                            continue
+                        group = str(kernel.metadata.get("candidate_group", "")).strip()
+                        if group:
+                            candidate_groups.setdefault(group, []).append(kernel)
+                    for candidates in candidate_groups.values():
+                        target = self._export_best(job, backend_id, suite, operator, candidates)
+                        if target is not None:
+                            exported.append(str(target))
         return exported
 
     @staticmethod

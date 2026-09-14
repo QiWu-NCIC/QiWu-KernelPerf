@@ -80,6 +80,7 @@ def source_snapshot(kernel: KernelArtifact) -> dict[str, object] | None:
     return {
         "entry_source": entry_source,
         "compile_units": compile_units,
+        "include_dirs": list(kernel.include_dirs),
         "files": [item.model_dump() for item in files],
     }
 
@@ -129,6 +130,7 @@ class SourceArchive:
                 }
                 plugin.setdefault("entry_source", snapshot["entry_source"])
                 plugin.setdefault("compile_units", snapshot["compile_units"])
+                plugin.setdefault("include_dirs", snapshot.get("include_dirs", []))
                 plugin.setdefault("files", [item["path"] for item in snapshot["files"]])
                 if "source_sha256" in snapshot:
                     plugin["source_sha256"] = snapshot["source_sha256"]

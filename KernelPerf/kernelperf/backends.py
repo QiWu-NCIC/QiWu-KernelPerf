@@ -1,11 +1,14 @@
 from __future__ import annotations
 
 import base64
+import io
 import json
 import os
 import subprocess
+import tarfile
 from abc import ABC, abstractmethod
 from pathlib import Path
+from pathlib import PurePosixPath
 from typing import Any
 
 from .models import BackendInfo
@@ -86,6 +89,11 @@ class Backend(ABC):
     def write_text(self, path: str, content: str) -> None:
         raise NotImplementedError
 
+    def write_texts(self, root: str, files: dict[str, str]) -> None:
+        base = PurePosixPath(root) if self.spec.get("transport") == "ssh" else Path(root)
+        for relative, content in files.items():
+            self.write_text(str(base / relative), content)
+
     def write_bytes(self, path: str, content: bytes) -> None:
         raise NotImplementedError(
             f"backend {self.backend_id!r} does not support binary artifact uploads"
@@ -130,13 +138,15 @@ class LocalBackend(Backend):
             input=stdin,
             capture_output=True,
             text=True,
+            encoding="utf-8",
+            errors="replace",
             timeout=timeout or self.command_timeout_seconds,
         )
 
     def write_text(self, path: str, content: str) -> None:
         target = Path(path)
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(content)
+        target.write_text(content, encoding="utf-8")
 
     def write_bytes(self, path: str, content: bytes) -> None:
         target = Path(path)
@@ -174,7 +184,9 @@ class SshBackend(Backend):
         env: dict[str, str] | None,
     ) -> str:
         configured = self.spec.get("environment", {})
-        parts = [". /etc/profile >/dev/null 2>&1 || true"]
+        parts = []
+        if configured.get("source_profile", True):
+            parts.append(". /etc/profile >/dev/null 2>&1 || true")
         for module in configured.get("modules", []):
             parts.append(f"module load {_shell_quote(str(module))}")
         parts.append(f"cd {_shell_quote(cwd)}")
@@ -201,12 +213,16 @@ class SshBackend(Backend):
         scheduler = self.spec.get("scheduler") or {}
         if scheduler.get("type") == "slurm":
             slurm = ["srun", "--job-name", str(scheduler.get("job_name", "kernelperf"))]
-            for key in ("account", "partition", "gres", "cpus_per_task", "mem", "time"):
-                value = scheduler.get(key)
-                if value is None or value == "":
-                    continue
-                option = "--" + key.replace("_", "-")
-                slurm.extend([option, str(value)])
+            allocation_id = scheduler.get("allocation_id")
+            if allocation_id:
+                slurm.extend(["--jobid", str(allocation_id), "--overlap"])
+            else:
+                for key in ("account", "partition", "gres", "cpus_per_task", "mem", "time"):
+                    value = scheduler.get(key)
+                    if value is None or value == "":
+                        continue
+                    option = "--" + key.replace("_", "-")
+                    slurm.extend([option, str(value)])
             slurm.extend(["--kill-on-bad-exit=1", "--wait=0"])
             command_parts = slurm + command_parts
         parts.append("exec " + " ".join(_shell_quote(part) for part in command_parts))
@@ -221,16 +237,32 @@ class SshBackend(Backend):
         timeout: int | None = None,
         stdin: str | None = None,
     ) -> subprocess.CompletedProcess[str]:
-        return subprocess.run(
-            self._ssh_base_command() + [self._remote_command(command, cwd, env)],
-            input=stdin,
-            capture_output=True,
-            text=True,
-            timeout=timeout or self.command_timeout_seconds,
-        )
+        attempts = int((self.spec.get("scheduler") or {}).get("transient_retries", 2)) + 1
+        completed: subprocess.CompletedProcess[str] | None = None
+        for _ in range(attempts):
+            completed = subprocess.run(
+                self._ssh_base_command() + [self._remote_command(command, cwd, env)],
+                input=stdin,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                timeout=timeout or self.command_timeout_seconds,
+            )
+            diagnostic = f"{completed.stdout}\n{completed.stderr}".lower()
+            transient = any(message in diagnostic for message in (
+                "slurmd could not connect io",
+                "socket timed out on send/recv operation",
+                "unable to contact slurm controller",
+                "step creation temporarily disabled",
+            ))
+            if completed.returncode == 0 or not transient:
+                return completed
+        assert completed is not None
+        return completed
 
     def write_text(self, path: str, content: str) -> None:
-        target = Path(path)
+        target = PurePosixPath(path)
         encoded = base64.b64encode(content.encode()).decode()
         command = (
             f"mkdir -p {_shell_quote(str(target.parent))} && "
@@ -246,8 +278,35 @@ class SshBackend(Backend):
         if completed.returncode != 0:
             raise RuntimeError(completed.stderr or f"failed to write remote file {path}")
 
+    def write_texts(self, root: str, files: dict[str, str]) -> None:
+        archive_buffer = io.BytesIO()
+        with tarfile.open(fileobj=archive_buffer, mode="w:gz") as archive:
+            for relative, content in files.items():
+                path = PurePosixPath(relative)
+                if path.is_absolute() or any(part in {"", ".", ".."} for part in path.parts):
+                    raise ValueError(f"unsafe remote source path: {relative!r}")
+                payload = content.encode("utf-8")
+                info = tarfile.TarInfo(path.as_posix())
+                info.size = len(payload)
+                info.mode = 0o644
+                archive.addfile(info, io.BytesIO(payload))
+        encoded = base64.b64encode(archive_buffer.getvalue()).decode()
+        command = (
+            f"mkdir -p {_shell_quote(str(PurePosixPath(root)))} && "
+            f"base64 --decode | tar -xzf - -C {_shell_quote(str(PurePosixPath(root)))}"
+        )
+        completed = subprocess.run(
+            self._ssh_base_command() + [command],
+            input=encoded,
+            capture_output=True,
+            text=True,
+            timeout=self.command_timeout_seconds,
+        )
+        if completed.returncode != 0:
+            raise RuntimeError(completed.stderr or f"failed to write remote source tree {root}")
+
     def write_bytes(self, path: str, content: bytes) -> None:
-        target = Path(path)
+        target = PurePosixPath(path)
         encoded = base64.b64encode(content).decode()
         command = (
             f"mkdir -p {_shell_quote(str(target.parent))} && "
@@ -265,7 +324,18 @@ class SshBackend(Backend):
 
     def path_exists(self, path: str, *, executable: bool = False) -> bool:
         flag = "-x" if executable else "-f"
-        completed = self.run(["test", flag, path], cwd="/", timeout=20)
+        # File probes are control-plane operations.  Do not wrap them in the
+        # configured Slurm command: doing so would allocate a GPU for every
+        # matrix lookup during a large regression run.
+        command = f"test {flag} {_shell_quote(str(PurePosixPath(path)))}"
+        completed = subprocess.run(
+            self._ssh_base_command() + [command],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=20,
+        )
         return completed.returncode == 0
 
 

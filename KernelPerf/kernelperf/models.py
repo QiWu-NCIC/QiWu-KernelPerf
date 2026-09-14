@@ -80,6 +80,7 @@ class KernelArtifact(BaseModel):
     source_files: list[SourceFile] = Field(default_factory=list)
     entry_source: str | None = None
     compile_units: list[str] = Field(default_factory=list)
+    include_dirs: list[str] = Field(default_factory=list)
     object_base64: str | None = None
     path: str | None = None
     compile_options: list[str] = Field(default_factory=list)

@@ -5,8 +5,11 @@ import csv
 from pathlib import Path
 
 
-def read_rows(paths: list[Path], *, backend: str, dataset: str, dtype: str, group: str) -> list[dict[str, str]]:
+def read_rows(
+    paths: list[Path], *, backend: str, dataset: str, dtype: str, group: str
+) -> tuple[list[dict[str, str]], set[str]]:
     candidates: dict[str, dict[str, str]] = {}
+    configuration_ids: set[str] = set()
     for path in paths:
         with path.open(newline="", encoding="utf-8") as stream:
             rows = list(csv.DictReader(stream))
@@ -17,8 +20,12 @@ def read_rows(paths: list[Path], *, backend: str, dataset: str, dtype: str, grou
                 or row.get("dtype") != dtype
                 or row.get("candidate_group") != group
                 or row.get("selection_role", "candidate") != "candidate"
-                or row.get("status") != "pass"
             ):
+                continue
+            configuration_id = row.get("configuration_id", "").strip()
+            if configuration_id:
+                configuration_ids.add(configuration_id)
+            if row.get("status") != "pass":
                 continue
             matrix_id = row.get("matrix_id", "")
             if not matrix_id:
@@ -28,7 +35,7 @@ def read_rows(paths: list[Path], *, backend: str, dataset: str, dtype: str, grou
                 float(previous["solve_ms"]), previous.get("configuration_id", "")
             ):
                 candidates[matrix_id] = row
-    return list(candidates.values())
+    return list(candidates.values()), configuration_ids
 
 
 def main() -> None:
@@ -39,11 +46,13 @@ def main() -> None:
     parser.add_argument("--dataset", required=True)
     parser.add_argument("--dtype", choices=("fp32", "fp64"), required=True)
     parser.add_argument("--candidate-group", required=True)
+    parser.add_argument("--method-id")
+    parser.add_argument("--method-name")
     args = parser.parse_args()
     paths = sorted(args.input_root.rglob("*.csv"))
     if not paths:
         raise SystemExit(f"no CSV files found under {args.input_root}")
-    rows = read_rows(
+    rows, configuration_ids = read_rows(
         paths,
         backend=args.backend,
         dataset=args.dataset,
@@ -52,16 +61,16 @@ def main() -> None:
     )
     if not rows:
         raise SystemExit("no passing candidate rows matched the requested scope")
-    selected_from = ",".join(sorted({row.get("configuration_id", "") for row in rows if row.get("configuration_id")}))
+    selected_from = ",".join(sorted(configuration_ids))
     first = rows[0]
     for row in rows:
         row["submission_id"] = f"{args.candidate_group}-best-{args.backend}-{args.dataset}-{args.dtype}"
-        row["method_id"] = f"{args.candidate_group.lower()}-best"
-        row["method_name"] = f"{args.candidate_group} BEST"
+        row["method_id"] = args.method_id or f"{args.candidate_group.lower()}-best"
+        row["method_name"] = args.method_name or f"{args.candidate_group} BEST"
         row["configuration_id"] = "per-matrix-best"
         row["selection_role"] = "best"
         row["selected_from"] = selected_from
-        row["base_format"] = "auto"
+        row["base_format"] = "auto-tuned"
         row["source_kind"] = "derived"
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open("w", newline="", encoding="utf-8") as stream:

@@ -7,6 +7,7 @@
         <p class="header-copy">Normalized performance across submitted implementations and hardware.</p>
       </div>
       <nav class="header-actions" aria-label="SpMV actions">
+        <a class="action-link" :href="submissionsUrl" target="_blank" rel="noopener noreferrer">Submit code</a>
         <button class="action-button" type="button" :disabled="downloading !== null" @click="downloadAllResults">
           {{ downloading ? "Preparing..." : "Download all CSVs" }}
         </button>
@@ -47,28 +48,81 @@
     </section>
 
     <section class="status-line" aria-live="polite">
-      <span>{{ filteredRows.length }} result rows</span>
+      <span>{{ displayRows.length }} result rows</span>
       <span>{{ ranking.length }} methods with measured coverage</span>
       <span v-if="loading">Loading data...</span>
       <span v-if="error" class="error-text">{{ error }}</span>
+    </section>
+
+    <section class="protocol-section" aria-labelledby="protocol-title">
+      <div class="protocol-heading">
+        <div>
+          <p class="eyebrow">Reproducibility</p>
+          <h2 id="protocol-title">Benchmark protocol</h2>
+        </div>
+        <span>SpMV FP32 / FP64</span>
+      </div>
+      <div class="protocol-grid">
+        <div class="protocol-item">
+          <span class="protocol-label">Timing &amp; sampling</span>
+          <strong>{{ benchmarkProtocol.warmup }} warmups &middot; {{ benchmarkProtocol.iterations }} timed solves</strong>
+          <p>CUDA Events (steady clock for host-timed plugins) measure solves; preprocessing uses host wall time plus stream synchronization.</p>
+          <p>Warmup, validation and teardown are excluded.</p>
+        </div>
+        <div class="protocol-item">
+          <span class="protocol-label">Correctness</span>
+          <strong>Independent CPU CSR reference</strong>
+          <code>&rho;<sub>i</sub> = |y<sub>i</sub> &minus; y<sub>ref,i</sub>| / s<sub>i</sub> &le; C &middot; n<sub>i</sub> &middot; u</code>
+          <p><em>ref</em> is stored as host <code>long double</code> for both dtypes; products are promoted before accumulation.</p>
+          <p>If <em>s<sub>i</sub></em> = 0, <em>y<sub>i</sub></em> must be zero.</p>
+        </div>
+        <div class="protocol-item">
+          <span class="protocol-label">Terms</span>
+          <div class="protocol-definitions">
+            <div class="protocol-definition"><code>y<sub>i</sub></code><span>GPU row output</span></div>
+            <div class="protocol-definition"><code>y<sub>ref,i</sub></code><span>CPU reference</span></div>
+            <div class="protocol-definition"><code>s<sub>i</sub> = &sum;<sub>j</sub>|a<sub>ij</sub>x<sub>j</sub>|</code><span>row scale</span></div>
+            <div class="protocol-definition"><code>n<sub>i</sub></code><span>row nnz count</span></div>
+            <div class="protocol-definition"><code>u = &epsilon;(storage)/2</code><span>unit roundoff</span></div>
+            <div class="protocol-definition"><code>C = {{ benchmarkProtocol.safetyFactor }}</code><span>safety factor</span></div>
+          </div>
+        </div>
+        <div class="protocol-item">
+          <span class="protocol-label">Code locations</span>
+          <div class="protocol-paths">
+            <template v-for="source in protocolSources" :key="source.path">
+              <a v-if="repositoryUrl" :href="sourceFileUrl(source)" target="_blank" rel="noopener noreferrer">{{ source.label }}</a>
+              <code v-else>{{ source.label }}</code>
+            </template>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="summary-section" aria-labelledby="top-ranking-title">
       <div class="section-heading summary-heading">
         <div>
           <p class="eyebrow">Leading submissions</p>
-          <h2 id="top-ranking-title">Top 20</h2>
+          <h2 id="top-ranking-title">Leaderboard</h2>
         </div>
-        <div class="ranking-mode" role="group" aria-label="Ranking time mode">
-          <button
-            v-for="mode in timeModes"
-            :key="mode"
-            type="button"
-            :class="{ active: filters.timeMode === mode }"
-            @click="chooseTimeMode(mode)"
-          >{{ mode === "pre/iteration+solve" ? `${mode} (${filters.iterations})` : mode }}</button>
+        <div class="summary-tools">
+          <div class="ranking-mode" role="group" aria-label="Ranking time mode">
+            <button
+              v-for="mode in timeModes"
+              :key="mode"
+              type="button"
+              :class="{ active: filters.timeMode === mode }"
+              @click="chooseTimeMode(mode)"
+            >{{ mode === "pre/iteration+solve" ? `${mode} (${filters.iterations})` : mode }}</button>
+          </div>
+          <div class="pagination" aria-label="Leaderboard pages">
+            <button type="button" aria-label="Previous page" :disabled="currentPage === 1" @click="currentPage -= 1">&larr;</button>
+            <span>Page {{ currentPage }} / {{ pageCount }}</span>
+            <button type="button" aria-label="Next page" :disabled="currentPage >= pageCount" @click="currentPage += 1">&rarr;</button>
+          </div>
         </div>
       </div>
+      <p v-if="ranking.length" class="table-summary">Showing {{ pageStart + 1 }}&ndash;{{ pageEnd }} of {{ ranking.length }} submissions</p>
       <div class="ranking-table-scroll">
         <table class="ranking-table">
           <thead>
@@ -78,14 +132,24 @@
               <th>Base format</th>
               <th>Geo. mean GFLOP/s</th>
               <th>Efficiency</th>
-              <th>Avg. preprocess</th>
-              <th>Avg. solve</th>
-              <th>Avg. effective</th>
+              <th>Geo. mean preprocess</th>
+              <th>Geo. mean solve</th>
+              <th>Geo. mean effective</th>
               <th>Passing</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in topRanking" :key="item.key">
+            <tr
+              v-for="item in pagedRanking"
+              :key="item.key"
+              class="ranking-row"
+              role="link"
+              tabindex="0"
+              :aria-label="`Show scatter plots for ${item.methodName}`"
+              @click="scrollToMethod(item.key)"
+              @keydown.enter.prevent="scrollToMethod(item.key)"
+              @keydown.space.prevent="scrollToMethod(item.key)"
+            >
               <td class="table-rank">{{ item.rank ?? "Unranked" }}</td>
               <td>
                 <strong>{{ item.methodName }}</strong>
@@ -94,15 +158,15 @@
               <td><span class="format-label">{{ formatBaseFormat(item.baseFormat) }}</span></td>
               <td>{{ formatMetricGflops(item.geomeanGflops) }}</td>
               <td>{{ formatPercent(item.score) }}%</td>
-              <td>{{ formatMilliseconds(item.averagePreprocessMs) }}</td>
-              <td>{{ formatMilliseconds(item.averageSolveMs) }}</td>
-              <td>{{ formatMilliseconds(item.averageEffectiveMs) }}</td>
+              <td>{{ formatMilliseconds(item.geomeanPreprocessMs) }}</td>
+              <td>{{ formatMilliseconds(item.geomeanSolveMs) }}</td>
+              <td>{{ formatMilliseconds(item.geomeanEffectiveMs) }}</td>
               <td>{{ item.passCount }}/{{ item.expectedCaseCount }}<small v-if="item.failedCount">{{ item.failedCount }} failed</small></td>
             </tr>
           </tbody>
         </table>
       </div>
-      <p v-if="!topRanking.length" class="empty-state">No published results match the selected filters.</p>
+      <p v-if="!pagedRanking.length" class="empty-state">No published results match the selected filters.</p>
     </section>
 
     <section class="leaderboard-content">
@@ -115,13 +179,19 @@
       </div>
 
       <div v-if="ranking.length" class="method-bands">
-        <article v-for="item in ranking" :key="item.key" class="method-band">
+        <article
+          v-for="item in ranking"
+          :id="methodBandId(item.key)"
+          :key="item.key"
+          class="method-band"
+          tabindex="-1"
+        >
           <header class="method-band-header">
             <div class="method-identity">
               <span class="rank-number">{{ item.rank ?? "UR" }}</span>
               <div class="method-copy">
                 <strong>{{ item.methodName }}</strong>
-                <span>{{ item.hardware }} &middot; {{ formatBaseFormat(item.baseFormat) }} &middot; {{ item.dataset }}</span>
+                <span>GPU: {{ item.hardware }} &middot; CPU: {{ item.cpuModel || "not recorded" }} &middot; {{ formatBaseFormat(item.baseFormat) }} &middot; {{ item.dataset }}</span>
                 <small v-if="item.configurationId">config: {{ item.configurationId }}<span v-if="item.selectionRole === 'best'"> &middot; per-matrix best</span></small>
                 <small v-if="configurationDescription(item)" class="config-provenance">{{ configurationDescription(item) }}</small>
                 <small v-if="item.selectedFrom">selected from: {{ item.selectedFrom }}</small>
@@ -169,23 +239,71 @@
       </div>
       <p v-else class="empty-state">No published results match the selected filters.</p>
     </section>
+    <button
+      v-if="showBackToTop"
+      class="back-to-top"
+      type="button"
+      aria-label="Back to top"
+      title="Back to top"
+      @click="scrollToTop"
+    >
+      &uarr;
+    </button>
   </main>
 </template>
 
 <script setup>
 import JSZip from "jszip";
-import { computed, nextTick, onMounted, reactive, ref, watch } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } from "vue";
+import benchmarkSpecs from "../../../../KernelPerf/config/benchmarks.json";
 
-const kernelPerfUrl = import.meta.env.VITE_KERNELPERF_URL || "http://10.18.96.188:8080";
+const spmvBenchmarkSpec = benchmarkSpecs.find((item) => item.benchmark_id === "spmv");
+const spmvProtocolByDtype = Object.fromEntries((spmvBenchmarkSpec?.operators || []).map((operator) => [
+  operator.dtype,
+  operator.metadata?.driver_config || {},
+]));
+
+function sharedProtocolValue(field) {
+  const entries = ["fp32", "fp64"].map((dtype) => [dtype, spmvProtocolByDtype[dtype]?.[field]]);
+  if (entries.every(([, value]) => value === entries[0][1])) return String(entries[0][1] ?? "not configured");
+  return entries.map(([dtype, value]) => `${dtype.toUpperCase()} ${value ?? "not configured"}`).join(" / ");
+}
+
+const benchmarkProtocol = {
+  warmup: sharedProtocolValue("warmup"),
+  iterations: sharedProtocolValue("iterations"),
+  safetyFactor: sharedProtocolValue("validation_safety_factor"),
+};
+const repositoryUrl = String(
+  import.meta.env.VITE_REPOSITORY_URL || "https://github.com/QiWu-NCIC/QiWu-KernelPerf",
+).replace(/\/$/, "");
+const submissionsUrl = `${repositoryUrl}/tree/main/KernelPerf/submissions`;
+const protocolSources = [
+  { label: "KernelPerf/config/benchmarks.json:22", path: "KernelPerf/config/benchmarks.json", line: 22 },
+  { label: "KernelPerf/benchmarks/spmv/template.cu:225", path: "KernelPerf/benchmarks/spmv/template.cu", line: 225 },
+  { label: "KernelPerf/benchmarks/spmv/template.cu:528", path: "KernelPerf/benchmarks/spmv/template.cu", line: 528 },
+  { label: "KernelPerf/benchmarks/spmv/template.cu:563", path: "KernelPerf/benchmarks/spmv/template.cu", line: 563 },
+  { label: "KernelPerf/benchmarks/spmv/template.cu:609", path: "KernelPerf/benchmarks/spmv/template.cu", line: 609 },
+  { label: "KernelPerf/benchmarks/spmv/driver.py:532", path: "KernelPerf/benchmarks/spmv/driver.py", line: 532 },
+];
+
+function sourceFileUrl(source) {
+  return `${repositoryUrl}/blob/main/${source.path}#L${source.line}`;
+}
+
 const rows = ref([]);
 const loading = ref(false);
 const error = ref("");
 const downloading = ref(null);
+const showBackToTop = ref(false);
 const submissionEntries = ref([]);
+const platformMetadata = ref({});
 const dtypes = ["fp32", "fp64"];
 const timeModes = ["solve-only", "pre+solve", "pre/iteration+solve"];
 const canvasRefs = new Map();
 const filters = reactive({ operator: "", backend: "", dataset: "", baseFormat: "all", timeMode: "solve-only", iterations: 100 });
+const pageSize = 20;
+const currentPage = ref(1);
 
 function canvasKey(methodKey, dtype) {
   return `${methodKey}|${dtype}`;
@@ -197,6 +315,31 @@ function setCanvasRef(methodKey, dtype, element) {
   else canvasRefs.delete(key);
 }
 
+function methodBandId(methodKey) {
+  let hash = 2166136261;
+  for (const character of String(methodKey)) {
+    hash ^= character.codePointAt(0);
+    hash = Math.imul(hash, 16777619);
+  }
+  return `method-band-${(hash >>> 0).toString(36)}`;
+}
+
+async function scrollToMethod(methodKey) {
+  await nextTick();
+  const target = document.getElementById(methodBandId(methodKey));
+  if (!target) return;
+  target.scrollIntoView({ behavior: "smooth", block: "start" });
+  target.focus({ preventScroll: true });
+}
+
+function updateBackToTopVisibility() {
+  showBackToTop.value = window.scrollY > 320;
+}
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
 function operatorFamily(operatorId) {
   return String(operatorId || "unknown").split(".", 1)[0];
 }
@@ -205,18 +348,26 @@ const operatorOptions = computed(() => [...new Set(rows.value.map((row) => opera
 const backendOptions = computed(() => [...new Set(rows.value.map((row) => row.backend_id).filter(Boolean))].sort());
 const datasetOptions = computed(() => [...new Set(rows.value.map((row) => row.dataset_id).filter(Boolean))].sort());
 const baseFormatOptions = computed(() => [...new Set(rows.value.map((row) => baseFormatKey(row.base_format)))].sort());
-const filteredRows = computed(() => rows.value.filter((row) => {
+const scopedRows = computed(() => rows.value.filter((row) => {
   if (filters.operator && operatorFamily(row.operator_id) !== filters.operator) return false;
   if (filters.backend && row.backend_id !== filters.backend) return false;
   if (filters.dataset && row.dataset_id !== filters.dataset) return false;
-  if (filters.baseFormat !== "all" && baseFormatKey(row.base_format) !== filters.baseFormat) return false;
   return true;
 }));
+
+function cusparseCsrBestName(candidates) {
+  const versions = [...new Set(candidates.map((row) => (
+    /^cuSPARSE CUDA ([^\s]+)/i.exec(row.method_name || "")?.[1]
+  )).filter(Boolean))].sort();
+  return versions.length
+    ? `cuSPARSE CUDA ${versions.join("/")} CSR BEST`
+    : "cuSPARSE CSR BEST";
+}
 
 // Derive the cuSPARSE CSR per-matrix winner in the browser so the contest
 // shows the same solve-only selection that is used for the other BEST rows.
 const displayRows = computed(() => {
-  const source = filteredRows.value;
+  const source = scopedRows.value;
   const derived = [];
   for (const dtype of dtypes) {
     const candidates = source.filter((row) => row.dtype === dtype
@@ -224,6 +375,7 @@ const displayRows = computed(() => {
       && ["csr-default", "csr-alg1", "csr-alg2"].includes(row.configuration_id)
       && row.status === "pass" && row.solve_ms > 0);
     const byMatrix = new Map();
+    const methodName = cusparseCsrBestName(candidates);
     for (const row of candidates) {
       const previous = byMatrix.get(row.matrix_id);
       if (!previous || row.solve_ms < previous.solve_ms) byMatrix.set(row.matrix_id, row);
@@ -232,15 +384,18 @@ const displayRows = computed(() => {
       derived.push({
         ...row,
         method_id: "cusparse-csr-best",
-        method_name: "cuSPARSE CSR BEST",
+        method_name: methodName,
         configuration_id: "per-matrix-best",
         candidate_group: "cusparse-csr-best",
         selection_role: "best",
         selected_from: row.configuration_id,
+        base_format: "auto-tuned",
       });
     }
   }
-  return [...source, ...derived];
+  return [...source, ...derived].filter((row) => (
+    filters.baseFormat === "all" || baseFormatKey(row.base_format) === filters.baseFormat
+  ));
 });
 
 const filteredSubmissionEntries = computed(() => submissionEntries.value.filter((entry) => {
@@ -313,12 +468,15 @@ function normalizeRows(text, entry) {
       selection_role: selectionRole,
       selected_from: entry.selected_from || row.selected_from || "",
       base_format: inferredBaseFormat(
-        row.base_format || entry.base_format || "unknown",
+        selectionRole === "best"
+          ? (entry.base_format || row.base_format || "unknown")
+          : (row.base_format || entry.base_format || "unknown"),
         configurationId,
         selectionRole,
       ),
       backend_id: row.backend_id || entry.backend_id,
       hardware: row.hardware || entry.hardware || entry.backend_id,
+      cpu_model: row.cpu_model || entry.cpu_model || platformMetadata.value[row.backend_id || entry.backend_id]?.cpu_model || "",
       dtype: row.dtype || entry.dtype,
       operator_id: row.operator_id || entry.operator_id,
       dataset_id: row.dataset_id || entry.dataset_id || "none",
@@ -339,9 +497,17 @@ async function loadData() {
   error.value = "";
   try {
     const base = import.meta.env.BASE_URL;
-    const manifestResponse = await fetch(`${base}data/index.json?v=${Date.now()}`, { cache: "no-store" });
+    const [manifestResponse, platformsResponse] = await Promise.all([
+      fetch(`${base}data/index.json?v=${Date.now()}`, { cache: "no-store" }),
+      fetch(`${base}data/platforms.json?v=${Date.now()}`, { cache: "no-store" }),
+    ]);
     if (!manifestResponse.ok) throw new Error(`manifest: ${manifestResponse.status}`);
+    if (!platformsResponse.ok) throw new Error(`platform metadata: ${platformsResponse.status}`);
     const manifest = await manifestResponse.json();
+    const platforms = await platformsResponse.json();
+    platformMetadata.value = Object.fromEntries(
+      (platforms.platforms || []).map((platform) => [platform.backend_id, platform]),
+    );
     const latest = new Map();
     (manifest.submissions || []).forEach((entry) => {
       const key = [
@@ -425,11 +591,6 @@ function geometricMean(values) {
   return valid.length ? Math.exp(valid.reduce((sum, value) => sum + Math.log(value), 0) / valid.length) : 0;
 }
 
-function average(values) {
-  const valid = values.filter((value) => Number.isFinite(value) && value >= 0);
-  return valid.length ? valid.reduce((sum, value) => sum + value, 0) / valid.length : 0;
-}
-
 function formatPercent(value) {
   return Number(value || 0).toPrecision(5);
 }
@@ -457,20 +618,28 @@ function formatBaseFormat(value) {
 function configurationDescription(item) {
   const method = String(item.methodId || "").toLowerCase();
   if (method.includes("cusparse")) {
-    const version = item.backendId === "A100-SXM4-80GB" ? "12.9.0" : "12.8.0";
-    return `NVIDIA cuSPARSE · https://docs.nvidia.com/cuda/archive/${version}/cusparse/`;
+    const version = String(item.methodName || "").match(/CUDA\s+(\d+(?:\.\d+){1,2})/i)?.[1];
+    const archiveVersion = version && version.split(".").length === 2 ? `${version}.0` : version;
+    const documentation = archiveVersion
+      ? `https://docs.nvidia.com/cuda/archive/${archiveVersion}/cusparse/`
+      : "https://docs.nvidia.com/cuda/cusparse/";
+    return `NVIDIA cuSPARSE${version ? ` | CUDA ${version}` : ""} | ${documentation}`;
+  }
+  if (method.includes("rocsparse")) {
+    const version = String(item.methodName || "").match(/DTK\s+([\d.]+)/i)?.[1];
+    return `ROCm rocSPARSE${version ? ` | DTK ${version}` : ""} | https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocsparse`;
   }
   if (method.includes("csr5")) {
-    return "CSR5 · https://github.com/weifengliu-ssslab/Benchmark_SpMV_using_CSR5";
+    return "CSR5 | https://github.com/weifengliu-ssslab/Benchmark_SpMV_using_CSR5/pull/13 | caff9d8";
   }
   if (method.includes("adaptive")) {
-    return "CSR-Adaptive · https://github.com/clMathLibraries/clSPARSE · csrmv_adaptive.cl port";
+    return "CSR-Adaptive | https://github.com/clMathLibraries/clSPARSE | csrmv_adaptive.cl port";
   }
   if (method.includes("ghost")) {
-    return "GHOST · https://github.com/RRZE-HPC/GHOST · commit 22a004d";
+    return "GHOST | https://github.com/RRZE-HPC/GHOST | commit 22a004d";
   }
   if (method.includes("alphasparse")) {
-    return "";
+    return "AlphaSparse/Library | https://github.com/AlphaSparse/Library | commit 39734b2";
   }
   return "";
 }
@@ -486,6 +655,7 @@ function inferredBaseFormat(value, configurationId, selectionRole) {
 
 function baseFormatKey(value) {
   const normalized = String(value || "").trim().toLowerCase();
+  if (normalized === "auto") return "auto-tuned";
   return normalized.startsWith("sell-") ? "sell" : (normalized || "unknown");
 }
 
@@ -535,7 +705,7 @@ const ranking = computed(() => {
     const family = operatorFamily(row.operator_id);
     const configurationId = row.configuration_id || "";
     const key = `${methodId}|${configurationId}|${backendId}|${family}|${dataset}`;
-    if (!grouped.has(key)) grouped.set(key, { key, methodId, configurationId, backendId, operatorFamily: family, methodName: row.method_name || row.method_id, hardware: row.hardware, baseFormat: row.base_format, candidateGroup: row.candidate_group || "", selectionRole: row.selection_role || "candidate", selectedFrom: row.selected_from || "", dataset, sourceManifests: new Set(), submissionIds: new Set(), byDtype: new Map(), matricesByDtype: new Map(), performanceValues: [], preprocessValues: [], solveValues: [], effectiveValues: [], caseCount: 0, passCount: 0, failedCount: 0 });
+    if (!grouped.has(key)) grouped.set(key, { key, methodId, configurationId, backendId, operatorFamily: family, methodName: row.method_name || row.method_id, hardware: row.hardware, cpuModel: row.cpu_model || platformMetadata.value[backendId]?.cpu_model || "", baseFormat: row.base_format, candidateGroup: row.candidate_group || "", selectionRole: row.selection_role || "candidate", selectedFrom: row.selected_from || "", dataset, sourceManifests: new Set(), submissionIds: new Set(), byDtype: new Map(), matricesByDtype: new Map(), performanceValues: [], preprocessValues: [], solveValues: [], effectiveValues: [], caseCount: 0, passCount: 0, failedCount: 0 });
     const item = grouped.get(key);
     if (row.submission_id) item.submissionIds.add(row.submission_id);
     if (row.source_manifest) item.sourceManifests.add(row.source_manifest);
@@ -577,9 +747,9 @@ const ranking = computed(() => {
         sourceManifests: [...item.sourceManifests],
         score: geometricMean(scores),
         geomeanGflops: geometricMean(item.performanceValues),
-        averagePreprocessMs: average(item.preprocessValues),
-        averageSolveMs: average(item.solveValues),
-        averageEffectiveMs: average(item.effectiveValues),
+        geomeanPreprocessMs: geometricMean(item.preprocessValues),
+        geomeanSolveMs: geometricMean(item.solveValues),
+        geomeanEffectiveMs: geometricMean(item.effectiveValues),
         coverage: scores.length,
         coverageRatio,
         coverageByDtype,
@@ -598,7 +768,10 @@ const ranking = computed(() => {
     }, []);
 });
 
-const topRanking = computed(() => ranking.value.filter((item) => item.rankEligible).slice(0, 20));
+const pageCount = computed(() => Math.max(1, Math.ceil(ranking.value.length / pageSize)));
+const pageStart = computed(() => Math.min((currentPage.value - 1) * pageSize, Math.max(0, ranking.value.length - 1)));
+const pageEnd = computed(() => Math.min(pageStart.value + pageSize, ranking.value.length));
+const pagedRanking = computed(() => ranking.value.slice(pageStart.value, pageEnd.value));
 
 function drawScatter(canvas, data) {
   if (!canvas) return;
@@ -788,12 +961,16 @@ async function downloadSource(item) {
       const root = seen.size === 1 ? "plugin" : `plugin-${seen.size}`;
       zip.file(`${root}/plugin.json`, manifestText);
       const manifestDirectory = entry.source_manifest.slice(0, entry.source_manifest.lastIndexOf("/") + 1);
-      for (const file of manifest.files) {
-        const relative = safeSourcePath(file);
-        const sourcePath = `${manifestDirectory}files/${relative}`;
-        const response = await fetch(assetUrl(sourcePath), { cache: "no-store" });
-        if (!response.ok) throw new Error(`${sourcePath}: ${response.status}`);
-        zip.file(`${root}/${relative}`, await response.arrayBuffer());
+      const sourceFiles = manifest.files.map((file) => safeSourcePath(file));
+      for (let offset = 0; offset < sourceFiles.length; offset += 16) {
+        const batch = sourceFiles.slice(offset, offset + 16);
+        const downloaded = await Promise.all(batch.map(async (relative) => {
+          const sourcePath = `${manifestDirectory}files/${relative}`;
+          const response = await fetch(assetUrl(sourcePath), { cache: "no-store" });
+          if (!response.ok) throw new Error(`${sourcePath}: ${response.status}`);
+          return { relative, content: await response.arrayBuffer() };
+        }));
+        for (const file of downloaded) zip.file(`${root}/${file.relative}`, file.content);
       }
     }
     const blob = await zip.generateAsync({ type: "blob", compression: "DEFLATE", compressionOptions: { level: 6 } });
@@ -819,14 +996,27 @@ async function downloadAllResults() {
   }
 }
 
-watch(() => [filters.operator, filters.backend, filters.dataset, filters.baseFormat, filters.timeMode, rows.value.length], async () => { await nextTick(); drawAll(); });
-onMounted(loadData);
+watch(() => [filters.operator, filters.backend, filters.dataset, filters.baseFormat, filters.timeMode, rows.value.length], async () => {
+  currentPage.value = 1;
+  await nextTick();
+  drawAll();
+});
+watch(pageCount, (value) => {
+  if (currentPage.value > value) currentPage.value = value;
+});
+onMounted(() => {
+  window.addEventListener("scroll", updateBackToTopVisibility, { passive: true });
+  updateBackToTopVisibility();
+  loadData();
+});
+onBeforeUnmount(() => window.removeEventListener("scroll", updateBackToTopVisibility));
 </script>
 
 <style scoped>
 .spmv-page {
   width: 100%;
   max-width: 100%;
+  min-width: 0;
   min-height: 100vh;
   padding: 40px 10% 64px;
   overflow-x: hidden;
@@ -844,8 +1034,10 @@ onMounted(loadData);
 .page-header,
 .control-band,
 .status-line,
+.protocol-section,
 .summary-section,
 .leaderboard-content {
+  min-width: 0;
   max-width: 1440px;
   margin: 0 auto;
 }
@@ -856,6 +1048,14 @@ onMounted(loadData);
   justify-content: space-between;
   gap: 32px;
   padding-bottom: 26px;
+}
+
+.page-header > div,
+.header-copy,
+.control-band label,
+.protocol-heading > div {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .eyebrow {
@@ -888,6 +1088,7 @@ h1 {
   color: #66758a;
   font-size: 14px;
   line-height: 1.6;
+  overflow-wrap: anywhere;
 }
 
 .header-actions {
@@ -1000,6 +1201,125 @@ select:focus {
   color: #c34d49;
 }
 
+.protocol-section {
+  margin-bottom: 34px;
+  padding: 20px 0;
+  border-top: 1px solid #d8e0ea;
+  border-bottom: 1px solid #d8e0ea;
+}
+
+.protocol-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.protocol-heading h2 {
+  margin-bottom: 0;
+  font-size: 20px;
+}
+
+.protocol-heading > span {
+  color: #66758a;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.protocol-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.protocol-item {
+  min-width: 0;
+  padding: 0 20px;
+  border-left: 1px solid #d8e0ea;
+}
+
+.protocol-item:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.protocol-item:last-child {
+  padding-right: 0;
+}
+
+.protocol-label {
+  display: block;
+  margin-bottom: 7px;
+  color: #64748a;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.protocol-item strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #17263a;
+  font-size: 13px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.protocol-item p {
+  margin-bottom: 8px;
+  color: #526276;
+  font-size: 12px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.protocol-item > code,
+.protocol-paths code,
+.protocol-paths a {
+  color: #254d9e;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 10px;
+  overflow-wrap: anywhere;
+}
+
+.protocol-item > code {
+  display: block;
+  margin: 2px 0 8px;
+  line-height: 1.45;
+}
+
+.protocol-definitions {
+  display: grid;
+  gap: 5px;
+}
+
+.protocol-definition {
+  display: grid;
+  grid-template-columns: minmax(68px, auto) 1fr;
+  align-items: baseline;
+  gap: 8px;
+  color: #526276;
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.protocol-definition code {
+  color: #254d9e;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.protocol-paths {
+  display: grid;
+  gap: 7px;
+  padding-top: 1px;
+}
+
+.protocol-paths a:hover {
+  color: #0a55d5;
+}
+
 .leaderboard-content {
   min-width: 0;
 }
@@ -1012,6 +1332,15 @@ select:focus {
 .summary-heading {
   align-items: flex-end;
   margin-bottom: 14px;
+}
+
+.summary-tools {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  min-width: 0;
+  flex-wrap: wrap;
 }
 
 .ranking-mode {
@@ -1047,6 +1376,53 @@ select:focus {
   background: #254d9e;
   color: #ffffff;
   font-weight: 600;
+}
+
+.pagination {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #526276;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.pagination button {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid #b9c7d6;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #254d9e;
+  font: inherit;
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.pagination button:hover:not(:disabled) {
+  border-color: #254d9e;
+  background: #f2f6fd;
+}
+
+.pagination button:disabled {
+  color: #aeb9c5;
+  cursor: not-allowed;
+}
+
+.pagination button:focus-visible {
+  outline: 2px solid #256b87;
+  outline-offset: 2px;
+}
+
+.table-summary {
+  margin: 0 0 8px;
+  color: #66758a;
+  font-size: 11px;
+  text-align: right;
 }
 
 .ranking-table-scroll {
@@ -1113,6 +1489,16 @@ select:focus {
 
 .ranking-table tbody tr:hover {
   background: #f8faff;
+}
+
+.ranking-row {
+  cursor: pointer;
+}
+
+.ranking-row:focus-visible {
+  background: #eef4f8;
+  outline: 2px solid #256b87;
+  outline-offset: -2px;
 }
 
 .ranking-table td {
@@ -1193,6 +1579,10 @@ select:focus {
   border-radius: 4px;
   background: #ffffff;
   box-shadow: 0 2px 5px rgba(31, 52, 78, .08);
+}
+
+.method-band:focus {
+  outline: none;
 }
 
 .method-band-header {
@@ -1323,6 +1713,37 @@ select:focus {
   margin-top: 8px;
 }
 
+.back-to-top {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  z-index: 10;
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid #aebdd0;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #254d9e;
+  font: inherit;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(31, 52, 78, .16);
+}
+
+.back-to-top:hover {
+  border-color: #254d9e;
+  background: #f2f6fd;
+}
+
+.back-to-top:focus-visible {
+  outline: 2px solid #256b87;
+  outline-offset: 2px;
+}
+
 @media (max-width: 1050px) {
   .spmv-page {
     padding-right: 24px;
@@ -1332,11 +1753,26 @@ select:focus {
   .control-band {
     grid-template-columns: repeat(2, minmax(160px, 1fr));
   }
+
+  .protocol-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px 0;
+  }
+
+  .protocol-item:nth-child(3) {
+    padding-left: 0;
+    border-left: 0;
+  }
 }
 
 @media (max-width: 750px) {
   .spmv-page {
     padding: 24px 14px 44px;
+  }
+
+  .back-to-top {
+    right: 16px;
+    bottom: 16px;
   }
 
   .page-header {
@@ -1356,6 +1792,35 @@ select:focus {
 
   .summary-heading {
     align-items: flex-start;
+  }
+
+  .summary-tools {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .protocol-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .protocol-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .protocol-item,
+  .protocol-item:first-child,
+  .protocol-item:nth-child(3),
+  .protocol-item:last-child {
+    padding: 0 0 18px;
+    border-bottom: 1px solid #d8e0ea;
+    border-left: 0;
+  }
+
+  .protocol-item:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
   }
 
   .ranking-mode {

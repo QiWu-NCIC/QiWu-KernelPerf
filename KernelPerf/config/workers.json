@@ -1,81 +1,24 @@
 [
   {
-    "worker_id": "worker-rtx5090-workstation",
-    "backend_id": "rtx5090-workstation",
+    "worker_id": "worker-local-cuda",
+    "backend_id": "local-cuda",
     "transport": "local",
     "kind": "nvidia_gpu",
-    "name": "RTX5090 workstation",
+    "name": "Configured CUDA GPU",
     "vendor": "NVIDIA",
-    "device": "NVIDIA GeForce RTX 5090",
-    "peak_gflops": 104800.0,
-    "peak_gflops_by_dtype": {"fp32": 104800.0, "fp64": 1637.5},
-    "memory_bandwidth_gbs": 1792.0,
+    "device": "Configured CUDA device",
+    "peak_gflops": 1.0,
+    "peak_gflops_by_dtype": {"fp32": 1.0, "fp64": 1.0},
+    "memory_bandwidth_gbs": 1.0,
     "supported_languages": ["cuda", "cpp", "ptx"],
-    "endpoint": "local://10.18.96.188",
+    "endpoint": "local",
     "command_timeout_seconds": 1200,
     "healthcheck": {
       "command": ["nvidia-smi", "--query-gpu=name,memory.total", "--format=csv,noheader"],
       "timeout_seconds": 20
     },
-    "environment": {
-      "path_prepend": ["/root/KernelPerf/.venv/bin", "/usr/local/cuda-12.8/bin"],
-      "library_path_prepend": ["/usr/local/cuda-12.8/lib64", "/usr/local/lib/python3.12/dist-packages/nvidia/cudnn/lib"],
-      "variables": {"KERNELPERF_CUDA_VERSION": "12.8"}
-    },
-    "build_profiles": {
-      "alphasparse-cuda": {
-        "compile_options": ["-DKERNELPERF_ALPHASPARSE=1"],
-        "link_options": []
-      }
-    },
     "labels": {
-      "role": "entry-and-worker",
-      "address": "10.18.96.188",
-      "cuda_arch": "sm_120"
-    }
-  },
-  {
-    "worker_id": "worker-ict-a100-sxm4-80gb",
-    "backend_id": "A100-SXM4-80GB",
-    "transport": "ssh",
-    "kind": "nvidia_gpu",
-    "name": "A100-SXM4-80GB",
-    "vendor": "NVIDIA",
-    "device": "NVIDIA A100-SXM4-80GB",
-    "peak_gflops": 19500.0,
-    "peak_gflops_by_dtype": {"fp32": 19500.0, "fp64": 9700.0},
-    "memory_bandwidth_gbs": 1555.0,
-    "supported_languages": ["cuda", "cpp", "ptx"],
-    "endpoint": "ssh://root@10.208.16.38:2277",
-    "command_timeout_seconds": 1200,
-    "ssh": {
-      "host": "10.208.16.38",
-      "user": "root",
-      "port": 2277,
-      "identity_file": "/root/.ssh/kernelperf_ed25519"
-    },
-    "healthcheck": {
-      "command": ["nvidia-smi", "--query-gpu=name,memory.total", "--format=csv,noheader"],
-      "timeout_seconds": 20
-    },
-    "environment": {
-      "path_prepend": ["/root/KernelPerf/.venv/bin", "/usr/local/cuda-12.9/bin", "/usr/local/cuda/bin"],
-      "library_path_prepend": ["/usr/local/cuda-12.9/lib64", "/usr/local/cuda/lib64", "/opt/ghost-cuda/lib/ghost"],
-      "variables": {"CUDA_VISIBLE_DEVICES": "0", "KERNELPERF_CUDA_VERSION": "12.9"}
-    },
-    "build_profiles": {
-      "alphasparse-cuda": {
-        "compile_options": ["-DKERNELPERF_ALPHASPARSE=1"],
-        "link_options": []
-      },
-      "ghost-cuda": {
-        "compile_options": ["-DKERNELPERF_GHOST_CUDA=1", "-DKERNELPERF_SPMV_HOST_TIMING=1", "-cudart=shared", "-I/opt/ghost-cuda/include"],
-        "link_options": ["-L/opt/ghost-cuda/lib/ghost", "-lghost", "-lhwloc", "-lopenblas", "-lcublas", "-lcurand", "-lcusparse"]
-      }
-    },
-    "labels": {
-      "role": "worker",
-      "gpu_count": "2",
+      "role": "example",
       "cuda_arch": "sm_80"
     }
   }

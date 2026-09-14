@@ -64,6 +64,7 @@ def test_source_archive_keeps_each_job_and_operator_in_its_own_directory(tmp_pat
     plugin = json.loads((root / "plugin.json").read_text())
     assert plugin["entry_source"] == "adapter.cu"
     assert plugin["compile_units"] == ["upstream/src/spmv.cu"]
+    assert plugin["include_dirs"] == []
     assert not (root / "manifest.json").exists()
     assert (root / "files/adapter.cu").read_text() == ADAPTER
     assert (root / "files/upstream/src/spmv.cu").is_file()

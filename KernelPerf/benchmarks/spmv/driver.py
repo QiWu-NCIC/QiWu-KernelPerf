@@ -8,7 +8,7 @@ import re
 from pathlib import Path, PurePosixPath
 from typing import Any
 
-from kernelperf.artifacts import source_tree
+from kernelperf.artifacts import safe_relative_path, source_tree
 from kernelperf.benchmark import Benchmark, BenchmarkDriverError
 from kernelperf.models import (
     BenchmarkResult,
@@ -114,8 +114,11 @@ def object_bytes(kernel: KernelArtifact, options: dict[str, Any]) -> bytes:
 def validate_kernel(kernel: KernelArtifact, options: dict[str, Any]) -> None:
     source_limit = int(options["source_limit_bytes"])
     expected_entrypoint = str(options["entrypoint"])
-    if kernel.language != options["language"]:
-        raise ValueError(f"spmv implementations must use language {options['language']!r}")
+    supported_languages = options.get("languages") or [options.get("language", "cuda")]
+    if kernel.language not in supported_languages:
+        raise ValueError(
+            f"spmv implementations must use one of the languages: {', '.join(map(str, supported_languages))}"
+        )
     if kernel.entrypoint != expected_entrypoint:
         raise ValueError(f"spmv implementation entrypoint must be {expected_entrypoint!r}")
     if kernel.path is not None:
@@ -124,7 +127,8 @@ def validate_kernel(kernel: KernelArtifact, options: dict[str, Any]) -> None:
         raise ValueError("spmv compile options are controlled by the benchmark driver")
     required_metadata = {"operator_id", "base_format"}
     optional_metadata = {"build_profile", *CONFIG_METADATA_KEYS}
-    object_metadata = {"cuda_arch"} if kernel.kind == "object" else set()
+    object_arch_key = "hip_arch" if kernel.language == "hip" else "cuda_arch"
+    object_metadata = {object_arch_key} if kernel.kind == "object" else set()
     metadata_keys = set(kernel.metadata)
     expected_metadata = required_metadata | object_metadata
     if not expected_metadata.issubset(metadata_keys) or not metadata_keys.issubset(
@@ -132,7 +136,7 @@ def validate_kernel(kernel: KernelArtifact, options: dict[str, Any]) -> None:
     ):
         raise ValueError(
             "spmv metadata must contain operator_id and base_format and may contain build_profile"
-            + (", plus cuda_arch for objects" if kernel.kind == "object" else "")
+            + (f", plus {object_arch_key} for objects" if kernel.kind == "object" else "")
         )
     build_profile = kernel.metadata.get("build_profile")
     if build_profile is not None and (not isinstance(build_profile, str) or not build_profile.strip()):
@@ -157,10 +161,10 @@ def validate_kernel(kernel: KernelArtifact, options: dict[str, Any]) -> None:
             raise ValueError("spmv object submissions cannot also provide source files")
         if kernel.entry_source is not None or kernel.compile_units:
             raise ValueError("spmv object submissions cannot declare source build settings")
-        if not isinstance(kernel.metadata["cuda_arch"], str) or not re.fullmatch(
-            r"sm_[0-9]{2,3}", kernel.metadata["cuda_arch"]
-        ):
-            raise ValueError("spmv object metadata.cuda_arch must look like sm_80")
+        architecture = str(kernel.metadata[object_arch_key])
+        pattern = r"gfx[0-9a-z]+" if kernel.language == "hip" else r"sm_[0-9]{2,3}"
+        if not re.fullmatch(pattern, architecture):
+            raise ValueError(f"spmv object metadata.{object_arch_key} has an invalid architecture")
         object_bytes(kernel, options)
         return
 
@@ -173,16 +177,28 @@ def validate_kernel(kernel: KernelArtifact, options: dict[str, Any]) -> None:
     maximum_files = int(options.get("max_source_files", 512))
     if len(files) > maximum_files:
         raise ValueError(f"spmv source tree exceeds the {maximum_files}-file limit")
+    source_paths = {item.path for item in files}
+    for directory in kernel.include_dirs:
+        safe_directory = safe_relative_path(directory).as_posix()
+        if not any(path == safe_directory or path.startswith(safe_directory + "/") for path in source_paths):
+            raise ValueError(f"include directory is missing from source tree: {directory}")
     total_bytes = sum(len(item.content.encode()) for item in files)
     if total_bytes > source_limit:
         raise ValueError(f"spmv source tree exceeds the {source_limit}-byte limit")
     if "qiwu/spmv_plugin.cuh" in {item.path for item in files}:
         raise ValueError("qiwu/spmv_plugin.cuh is reserved by the benchmark")
-    if not entry_source.endswith(".cu"):
-        raise ValueError("entry_source must be a .cu file")
+    source_suffixes = {
+        "cuda": {".cu", ".cuh", ".cpp", ".cc", ".cxx"},
+        "hip": {".hip", ".cu", ".cuh", ".cpp", ".cc", ".cxx"},
+    }
+    allowed_suffixes = source_suffixes.get(kernel.language, {".cpp", ".cc", ".cxx"})
+    if Path(entry_source).suffix.lower() not in allowed_suffixes:
+        raise ValueError(
+            f"entry_source must use one of: {', '.join(sorted(allowed_suffixes))}"
+        )
     invalid_units = [
         value for value in compile_units
-        if Path(value).suffix.lower() not in {".cu", ".c", ".cc", ".cpp", ".cxx"}
+        if Path(value).suffix.lower() not in allowed_suffixes | {".c"}
     ]
     if invalid_units:
         raise ValueError(f"unsupported compile_units: {invalid_units}")
@@ -198,8 +214,8 @@ def validate_kernel(kernel: KernelArtifact, options: dict[str, Any]) -> None:
     # header and expose only a small format-selection entry source. Validate
     # the submitted source tree as a unit; the compiler still decides which
     # files are actually reachable from the selected entry/compile units.
-    tree_sanitized = _COMMENTS_AND_LITERALS.sub(
-        " ", "\n".join(item.content for item in files)
+    tree_sanitized = "\n".join(
+        _COMMENTS_AND_LITERALS.sub(" ", item.content) for item in files
     )
     missing = [
         symbol
@@ -238,7 +254,7 @@ class SpmvBenchmark(Benchmark):
         submitted_operator_ids: list[str] = []
         for kernel in request.kernels:
             if not kernel.language:
-                kernel.language = str(self.options["language"])
+                kernel.language = str(self.options.get("language", "cuda"))
             if not kernel.entrypoint:
                 kernel.entrypoint = str(self.options["entrypoint"])
             validate_kernel(kernel, self.options)
@@ -306,16 +322,42 @@ class SpmvBenchmark(Benchmark):
         operator: OperatorSpec,
         kernel: KernelArtifact | None = None,
     ) -> list[str]:
-        options = [str(value) for value in self.options["compile_options"]]
+        language = str(kernel.language) if kernel is not None else str(self.options.get("language", "cuda"))
+        language_options = self.options.get("compile_options_by_language", {})
+        options = [
+            str(value)
+            for value in language_options.get(language, self.options["compile_options"])
+        ]
         options.extend(self._profile_options(backend, kernel)[0])
         if operator.dtype == "fp64":
             options.append("-DQIWU_SPMV_FP64=1")
         elif operator.dtype != "fp32":
             raise ValueError(f"unsupported spmv dtype: {operator.dtype!r}")
-        architecture = getattr(backend, "labels", {}).get("cuda_arch")
+        architecture = getattr(backend, "labels", {}).get(
+            "hip_arch" if language == "hip" else "cuda_arch"
+        )
         if architecture:
-            options.append(f"-arch={architecture}")
+            arch_flag = getattr(backend, "spec", {}).get("arch_flag_by_language", {}).get(
+                language, "-arch"
+            )
+            if arch_flag.endswith("="):
+                options.append(f"{arch_flag}{architecture}")
+            else:
+                options.append(f"{arch_flag}={architecture}")
+        if language == "hip":
+            options.append("-DQIWU_BACKEND_HIP=1")
         return options
+
+    def _compiler(self, backend: Any, kernel: KernelArtifact | None) -> str:
+        language = str(kernel.language) if kernel is not None else str(self.options.get("language", "cuda"))
+        by_language = getattr(backend, "spec", {}).get("compiler_by_language", {})
+        return str(by_language.get(language, self.options["compiler"]))
+
+    def _link_options(self, backend: Any, kernel: KernelArtifact | None) -> list[str]:
+        language = str(kernel.language) if kernel is not None else str(self.options.get("language", "cuda"))
+        by_language = self.options.get("link_options_by_language", {})
+        options = by_language.get(language, self.options["link_options"])
+        return [str(value) for value in options]
 
     def _build_key(
         self,
@@ -329,19 +371,21 @@ class SpmvBenchmark(Benchmark):
             backend.backend_id,
             operator.op_id,
             operator.dtype,
-            str(self.options["compiler"]),
+            self._compiler(backend, kernel),
             self._source(kernel, operator),
             json.dumps(
                 [item.model_dump() for item in source_tree(kernel)[0]],
                 sort_keys=True,
             ) if kernel.kind == "source" else "",
+            json.dumps(source_tree(kernel)[1], sort_keys=True) if kernel.kind == "source" else "",
             json.dumps(source_tree(kernel)[2]) if kernel.kind == "source" else "",
+            json.dumps(kernel.include_dirs, sort_keys=True) if kernel.kind == "source" else "",
             hashlib.sha256(
                 object_bytes(kernel, self.options) if kernel.kind == "object" else b""
             ).hexdigest(),
             json.dumps(self._compile_options(backend, operator, kernel), sort_keys=True),
             json.dumps(self._profile_options(backend, kernel)[1], sort_keys=True),
-            json.dumps(self.options["link_options"], sort_keys=True),
+            json.dumps(self._link_options(backend, kernel), sort_keys=True),
         )
         for component in components:
             digest.update(component.encode())
@@ -359,8 +403,9 @@ class SpmvBenchmark(Benchmark):
         if cache_key in self._executables:
             return self._executables[cache_key]
         if kernel.kind == "object":
-            expected_arch = kernel.metadata["cuda_arch"]
-            backend_arch = getattr(backend, "labels", {}).get("cuda_arch")
+            object_arch_key = "hip_arch" if kernel.language == "hip" else "cuda_arch"
+            expected_arch = kernel.metadata[object_arch_key]
+            backend_arch = getattr(backend, "labels", {}).get(object_arch_key)
             if backend_arch != expected_arch:
                 raise BenchmarkDriverError(
                     self.driver_id,
@@ -371,46 +416,68 @@ class SpmvBenchmark(Benchmark):
         build_root = backend_spec.get(
             "build_root", self.options["build_root"]
         )
-        path_type = PurePosixPath if backend_spec.get("transport") == "ssh" else Path
-        build_dir = str(path_type(str(build_root)) / key)
-        source_filename = str(self.options.get("source_filename", "benchmark.cu"))
+        is_remote = backend_spec.get("transport") == "ssh"
+        path_type = PurePosixPath if is_remote else Path
+        build_dir = str(
+            path_type(str(build_root)) / key
+            if is_remote
+            else Path(str(build_root)).expanduser().resolve() / key
+        )
+        source_filename = str(
+            self.options.get("source_filename_by_language", {}).get(
+                kernel.language,
+                self.options.get("source_filename", "benchmark.cu"),
+            )
+        )
         contract_filename = str(self.options.get("contract_filename", "qiwu/spmv_plugin.cuh"))
         source_path = str(path_type(build_dir) / source_filename)
         object_path = str(path_type(build_dir) / "candidate.o")
         executable = str(path_type(build_dir) / "benchmark")
         if not backend.path_exists(executable, executable=True):
-            backend.write_text(source_path, self._source(kernel, operator))
             object_inputs: list[str] = []
             source_inputs: list[str] = []
             source_root = path_type(build_dir) / "source"
-            backend.write_text(
-                str(source_root / PurePosixPath(contract_filename)),
-                self.contract_path.read_text(),
-            )
+            upload_files = {
+                source_filename: self._source(kernel, operator),
+                str(PurePosixPath("source") / PurePosixPath(contract_filename)):
+                    self.contract_path.read_text(),
+            }
+            runtime_path = self.contract_path.with_name("gpu_runtime.h")
+            upload_files["source/qiwu/gpu_runtime.h"] = runtime_path.read_text()
+            write_texts = getattr(backend, "write_texts", None)
+            if write_texts is None:
+                def write_texts(root: str, values: dict[str, str]) -> None:
+                    for relative, content in values.items():
+                        backend.write_text(str(path_type(root) / PurePosixPath(relative)), content)
             if kernel.kind == "object":
+                write_texts(build_dir, upload_files)
                 backend.write_bytes(object_path, object_bytes(kernel, self.options))
                 object_inputs.append(object_path)
             else:
                 files, entry_source, compile_units = source_tree(kernel)
                 for item in files:
-                    backend.write_text(str(source_root / PurePosixPath(item.path)), item.content)
+                    upload_files[str(PurePosixPath("source") / PurePosixPath(item.path))] = item.content
+                write_texts(build_dir, upload_files)
                 source_inputs.append(str(source_root / PurePosixPath(entry_source)))
                 source_inputs.extend(str(source_root / PurePosixPath(value)) for value in compile_units)
             command = [
-                str(self.options["compiler"]),
+                self._compiler(backend, kernel),
                 *self._compile_options(backend, operator, kernel),
                 *(
-                    [str(self.options.get("relocatable_option", "-rdc=true"))]
-                    if source_inputs and self.options.get("relocatable_option", "-rdc=true")
+                    [str(self.options.get("relocatable_option_by_language", {}).get(kernel.language, self.options.get("relocatable_option", "-rdc=true")))]
+                    if source_inputs and self.options.get("relocatable_option_by_language", {}).get(kernel.language, self.options.get("relocatable_option", "-rdc=true"))
                     else []
                 ),
                 "-I",
                 str(path_type(build_dir) / "source"),
+                *sum(([
+                    "-I", str(path_type(build_dir) / "source" / PurePosixPath(directory))
+                ] for directory in kernel.include_dirs), []),
                 source_path,
                 *source_inputs,
                 *object_inputs,
                 *self._profile_options(backend, kernel)[1],
-                *[str(value) for value in self.options["link_options"]],
+                *self._link_options(backend, kernel),
                 "-o",
                 executable,
             ]
@@ -436,8 +503,12 @@ class SpmvBenchmark(Benchmark):
     def _matrix_path(self, backend: Any, matrix: MatrixCase) -> str:
         if not matrix.local_path:
             raise FileNotFoundError(f"dataset path is not configured for {matrix.matrix_id}")
-        configured = Path(matrix.local_path).expanduser()
-        candidate = configured if configured.suffix.lower() == ".mtx" else configured / f"{matrix.name}.mtx"
+        if getattr(backend, "spec", {}).get("transport") == "ssh":
+            configured = PurePosixPath(matrix.local_path)
+            candidate = configured if configured.suffix.lower() == ".mtx" else configured / f"{matrix.name}.mtx"
+        else:
+            configured = Path(matrix.local_path).expanduser()
+            candidate = configured if configured.suffix.lower() == ".mtx" else configured / f"{matrix.name}.mtx"
         if not backend.path_exists(str(candidate)):
             raise FileNotFoundError(f"dataset file not found for {matrix.matrix_id}: {candidate}")
         return str(candidate)
@@ -460,7 +531,7 @@ class SpmvBenchmark(Benchmark):
             "KERNELPERF_MATRIX_NNZ": str(matrix.nnz),
             "KERNELPERF_WARMUP": str(driver_config["warmup"]),
             "KERNELPERF_ITERATIONS": str(driver_config["iterations"]),
-            "KERNELPERF_VALIDATION_TOLERANCE": str(driver_config["validation_tolerance"]),
+            "KERNELPERF_VALIDATION_SAFETY_FACTOR": str(driver_config["validation_safety_factor"]),
         }
         try:
             completed = backend.run(

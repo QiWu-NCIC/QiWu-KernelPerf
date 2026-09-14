@@ -1,0 +1,7 @@
+[
+  {"configuration_id": "default", "entry_source": "variants/default.cu", "method_name": "rocSPARSE upstream CSR Default"},
+  {"configuration_id": "adaptive", "entry_source": "variants/adaptive.cu", "method_name": "rocSPARSE upstream CSR Adaptive"},
+  {"configuration_id": "rowsplit", "entry_source": "variants/rowsplit.cu", "method_name": "rocSPARSE upstream CSR Rowsplit"},
+  {"configuration_id": "lrb", "entry_source": "variants/lrb.cu", "method_name": "rocSPARSE upstream CSR LRB"},
+  {"configuration_id": "nnzsplit", "entry_source": "variants/nnzsplit.cu", "method_name": "rocSPARSE upstream CSR NNZ Split"}
+]

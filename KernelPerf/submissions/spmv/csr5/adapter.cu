@@ -10,7 +10,6 @@
 #include "upstream/CSR5_cuda/anonymouslib_cuda.h"
 
 // Adapter for the public Benchmark_SpMV_using_CSR5 CUDA implementation.
-// The vendored CUDA headers only patch zero-block launches on tail-only inputs.
 // CSR5 converts columns/values in place, so the adapter gives it private copies.
 struct QiwuSpmvStorage {
     using Handle = anonymouslibHandle<int, unsigned int, QiwuSpmvScalar>;
@@ -126,12 +125,10 @@ extern "C" void qiwu_spmv_solve(
                         static_cast<size_t>(storage->rows) * sizeof(QiwuSpmvScalar), stream),
         "CSR5 output clear"
     );
-    qiwu_spmv_check_cuda(cudaStreamSynchronize(stream), "CSR5 output clear synchronize");
-    check_status(storage->handle->spmv(QiwuSpmvScalar{1}, context->device_y), "CSR5 SpMV");
-    // The public CSR5 API launches on the legacy default stream. Synchronize
-    // it before returning so KernelPerf's event on the supplied stream also
-    // covers the actual kernel execution.
-    qiwu_spmv_check_cuda(cudaStreamSynchronize(nullptr), "CSR5 default stream synchronize");
+    check_status(
+        storage->handle->spmv(QiwuSpmvScalar{1}, context->device_y, stream),
+        "CSR5 SpMV"
+    );
 }
 
 extern "C" void qiwu_spmv_destroy(
@@ -140,7 +137,6 @@ extern "C" void qiwu_spmv_destroy(
 ) noexcept(false) {
     if (!storage) return;
     qiwu_spmv_check_cuda(cudaStreamSynchronize(stream), "CSR5 stream synchronize");
-    qiwu_spmv_check_cuda(cudaStreamSynchronize(nullptr), "CSR5 default stream synchronize");
     const int status = release_handle(storage);
     free_device_copy(storage);
     delete storage;

@@ -1,6 +1,6 @@
 #include <qiwu/spmv_plugin.cuh>
 
-#include <cuda_runtime.h>
+#include <qiwu/gpu_runtime.h>
 
 #include <cstdint>
 #include <limits>
