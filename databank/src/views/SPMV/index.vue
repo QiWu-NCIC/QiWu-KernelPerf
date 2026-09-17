@@ -909,7 +909,12 @@ async function downloadEntries(entries, archiveName, { directSingle = false } = 
 
 function entriesForSubmission(item) {
   const submissionIds = new Set(item.submissionIds || []);
-  return submissionEntries.value.filter((entry) => submissionIds.has(entry.submission_id));
+  return submissionEntries.value.filter((entry) => submissionIds.has(entry.submission_id)
+    && entry.backend_id === item.backendId
+    && (entry.dataset_id || "none") === item.dataset
+    && operatorFamily(entry.operator_id) === item.operatorFamily
+    && (entry.method_id || entry.method_name) === item.methodId
+    && (entry.configuration_id || "") === item.configurationId);
 }
 
 async function downloadSubmission(item) {

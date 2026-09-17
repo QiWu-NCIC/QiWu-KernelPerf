@@ -9,8 +9,8 @@ versioned result catalog together.
 - `KernelPerf/`: evaluator, benchmark drivers, portable configuration examples,
   tests, reusable scripts, and reviewed submissions.
 - `databank/public/data/`: JSON manifests and CSV results for A100-SXM4-80GB,
-  H100-SXM5-80GB and RTX5090-SL3061. Both `suitesparse_sample_100` and
-  `suitesparse_validation_100` are retained.
+  H100-SXM5-80GB, RTX5090-SL3061, BW1000-gfx936 and Z100-gfx906. Both
+  `suitesparse_sample_100` and `suitesparse_validation_100` are retained.
 - Source snapshots are generated into `databank/public/source/` from
   `KernelPerf/submissions/spmv` by `npm run prepare:sources`. This directory is
   ignored and is included only in the generated Pages artifact, not in Git.
@@ -50,7 +50,7 @@ npm run audit:spmv
 npm run build
 ```
 
-The release audit should report `312 public submissions` and `failures: []`.
+The release audit should report `364 public submissions` and `failures: []`.
 The generated Pages site is `databank/dist`; it is deployment output and is
 not committed to the repository. `databank/public/source` is a generated build
 input and must not be committed.

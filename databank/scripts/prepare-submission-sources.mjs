@@ -5,20 +5,18 @@ import path from "node:path";
 const repositoryRoot = path.resolve("..");
 const submissionRoot = path.join(repositoryRoot, "KernelPerf", "submissions", "spmv");
 const outputRoot = path.resolve("public", "source", "baselines");
-const names = {
-  alphasparse: "alphasparse",
-  csr_adaptive: "csr-adaptive",
-  csr5: "csr5",
-  cusparse: "cusparse",
-  rocsparse: "rocsparse",
-  ghost_sell: "ghost-sell",
-};
+const submissionNames = fs.readdirSync(submissionRoot, { withFileTypes: true })
+  .filter((item) => item.isDirectory()
+    && fs.existsSync(path.join(submissionRoot, item.name, "submission.json")))
+  .map((item) => item.name)
+  .sort();
 
 // Baselines are regenerated from the canonical submissions. Content-addressed
-// packages imported with `add:spmv --source-dir` live beside them and must
+// packages imported with `add:spmv --source-dir` live beside this directory and
 // survive later audits and deployments.
 fs.rmSync(outputRoot, { recursive: true, force: true });
-for (const [submissionName, outputName] of Object.entries(names)) {
+for (const submissionName of submissionNames) {
+  const outputName = submissionName.replaceAll("_", "-");
   const root = path.join(submissionRoot, submissionName);
   const manifest = JSON.parse(fs.readFileSync(path.join(root, "submission.json"), "utf8"));
   const files = walk(root)
@@ -58,12 +56,8 @@ for (const [submissionName, outputName] of Object.entries(names)) {
   };
   fs.mkdirSync(target, { recursive: true });
   fs.writeFileSync(path.join(target, "plugin.json"), JSON.stringify(plugin, null, 2) + "\n");
-  // Result indexes reference immutable content-addressed packages. Keep the
-  // human-readable baseline path as well as the hash path used by downloads.
-  const contentAddressedTarget = path.join(path.dirname(outputRoot), plugin.source_sha256);
-  fs.cpSync(target, contentAddressedTarget, { recursive: true });
 }
-console.log(JSON.stringify({ generated: Object.keys(names).length, output: outputRoot }, null, 2));
+console.log(JSON.stringify({ generated: submissionNames.length, output: outputRoot }, null, 2));
 
 function walk(directory) {
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap((item) => {

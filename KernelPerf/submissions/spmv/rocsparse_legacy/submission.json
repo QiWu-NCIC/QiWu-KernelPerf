@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "kind": "source",
+  "language": "hip",
+  "languages": ["hip"],
+  "method_name": "rocSPARSE Legacy CSRMV (No Analysis)",
+  "operator_id": "spmv.csr.fp32",
+  "supported_operators": ["spmv.csr.fp32", "spmv.csr.fp64"],
+  "base_format": "csr",
+  "candidate_group": "rocSPARSE-Legacy-CSRMV",
+  "configuration_id": "no-analysis",
+  "entry_source": "adapter.cu",
+  "build_profile": "rocsparse-hip",
+  "upstream": {
+    "name": "ROCm rocSPARSE legacy CSR API",
+    "repository": "https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocsparse",
+    "version": "worker-provided library; record the runtime with each result"
+  }
+}

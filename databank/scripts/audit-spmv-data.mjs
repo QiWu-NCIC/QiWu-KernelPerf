@@ -27,6 +27,12 @@ const canonicalBackend = (value) => /ict-a100/i.test(String(value || ""))
 const datasetOf = (value) => String(value || "unknown");
 const operatorOf = (value) => String(value || "spmv").split(".")[0] || "spmv";
 const publicRoot = root;
+const safeRelativePath = (value) => {
+  const text = String(value || "");
+  const parts = text.split("/");
+  return Boolean(text) && !text.includes("\\")
+    && !parts.some((part) => !part || part === "." || part === "..");
+};
 function walkCsv(directory) {
   if (!fs.existsSync(directory)) return [];
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap((item) => {
@@ -80,6 +86,7 @@ for (const entry of manifest.submissions || []) {
   const key = `${operatorOf(entry.operator_id)}|${entry.method_id}|${entry.backend_id}|${entry.dataset_id}|${entry.dtype}`;
   if (publicKeys.has(key)) failures.push(`duplicate public key: ${key}`);
   publicKeys.add(key);
+  if (!safeRelativePath(entry.path)) failures.push(`unsafe public CSV path: ${entry.path}`);
   const file = path.join(publicRoot, entry.path.replaceAll("/", path.sep));
   publicPaths.add(path.resolve(file));
   if (!fs.existsSync(file)) failures.push(`missing public CSV: ${entry.path}`);
@@ -87,7 +94,14 @@ for (const entry of manifest.submissions || []) {
   if (!entry.path.startsWith(expectedPrefix)) failures.push(`public CSV is outside dataset scope: ${entry.path}`);
   if (/smoke/i.test(entry.path) || /generated\//i.test(entry.path)) failures.push(`temporary public entry: ${entry.path}`);
   if (!entry.source_manifest) failures.push(`missing source manifest: ${key}`);
-  else sourceManifests.add(entry.source_manifest);
+  else if (!safeRelativePath(entry.source_manifest)) {
+    failures.push(`unsafe source manifest path: ${entry.source_manifest}`);
+  } else sourceManifests.add(entry.source_manifest);
+  // Historical exports may omit the evaluation hash; validate it when present
+  // without inventing provenance for older records.
+  if (entry.source_sha256 && !/^[0-9a-f]{63,64}$/.test(entry.source_sha256)) {
+    failures.push(`invalid evaluated source hash: ${key}`);
+  }
   if (/^alphasparselib-csr-best$/i.test(entry.method_id) && entry.base_format !== "auto-tuned") {
     failures.push(`AlphaSparseLib BEST base format is not auto-tuned: ${entry.path}`);
   }

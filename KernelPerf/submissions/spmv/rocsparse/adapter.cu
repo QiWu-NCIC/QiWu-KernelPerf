@@ -103,7 +103,8 @@ extern "C" QiwuSpmvStorage* qiwu_spmv_preprocess(
             storage->handle, rocsparse_operation_none, &alpha,
             storage->matrix, storage->x, &beta, storage->y, value_type,
             KERNELPERF_ROCSPARSE_ALGORITHM,
-            rocsparse_spmv_stage_buffer_size, &storage->workspace_size, nullptr),
+            rocsparse_spmv_stage_buffer_size,
+            &storage->workspace_size, nullptr),
             "rocsparse_spmv(buffer_size)");
         if (storage->workspace_size) {
             check_gpu(cudaMalloc(&storage->workspace, storage->workspace_size),
@@ -114,7 +115,8 @@ extern "C" QiwuSpmvStorage* qiwu_spmv_preprocess(
             storage->handle, rocsparse_operation_none, &alpha,
             storage->matrix, storage->x, &beta, storage->y, value_type,
             KERNELPERF_ROCSPARSE_ALGORITHM,
-            rocsparse_spmv_stage_preprocess, &storage->workspace_size, storage->workspace),
+            rocsparse_spmv_stage_preprocess,
+            &storage->workspace_size, storage->workspace),
             "rocsparse_spmv(preprocess)");
 #endif
         check_gpu(cudaStreamSynchronize(stream), "rocSPARSE preprocess synchronize");
@@ -146,7 +148,8 @@ extern "C" void qiwu_spmv_solve(
         storage->handle, rocsparse_operation_none, &alpha,
         storage->matrix, storage->x, &beta, storage->y, value_type,
         KERNELPERF_ROCSPARSE_ALGORITHM,
-        rocsparse_spmv_stage_compute, &buffer_size, storage->workspace),
+        rocsparse_spmv_stage_compute,
+        &buffer_size, storage->workspace),
         "rocsparse_spmv(compute)");
 }
 

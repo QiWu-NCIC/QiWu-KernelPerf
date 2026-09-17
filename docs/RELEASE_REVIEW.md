@@ -47,16 +47,22 @@ matrix archives and build output are deliberately excluded.
 The following commands pass from a clean dependency installation:
 
 ```text
-KernelPerf: python -m pytest -q       57 passed
-databank:   npm run audit:spmv        312 public submissions, 0 failures
+KernelPerf: python -m pytest -q       74 passed
+databank:   npm run audit:spmv        364 public submissions, 0 failures
 databank:   npm run build             Vite 6.4.3 production build succeeds
 ```
 
 The audit reports 104 public entries for each of A100-SXM4-80GB,
-H100-SXM5-80GB and RTX5090-SL3061. The candidate pool contains the complete
-configuration sweeps used for BEST, including the 12 intentionally partial
-`sell-nrows` CSVs. No private profile, SQLite runtime state, matrix archive,
-node dependency directory or build directory belongs in the release package.
+H100-SXM5-80GB and RTX5090-SL3061, plus 26 entries for each of BW1000-gfx936
+and Z100-gfx906. The candidate pool contains the complete configuration sweeps
+used for BEST, including the 12 intentionally partial `sell-nrows` CSVs. No
+private profile, SQLite runtime state, matrix archive, node dependency
+directory or build directory belongs in the release package.
+
+Public `source_sha256` values identify the evaluated source snapshot. The
+download link resolves to the maintained standalone plugin generated from the
+canonical submission, so a later source cleanup does not rewrite historical
+evaluation provenance. This is intentional and is documented in `docs/DATA.md`.
 
 ## Remaining Release Decisions
 
@@ -71,3 +77,8 @@ node dependency directory or build directory belongs in the release package.
    dtype`. If multiple CUDA versions for the same backend must coexist, the
    version must become part of the method identity (or a separate result field)
    in a future schema change.
+4. The vendored AlphaSparse upstream tree is preserved as received and still
+   contains upstream-language comments and documentation. All project-owned
+   code, tests, release documentation and commit subjects are English. A
+   literal no-Han-character policy for every vendored upstream file would
+   require deleting or rewriting third-party source documentation.

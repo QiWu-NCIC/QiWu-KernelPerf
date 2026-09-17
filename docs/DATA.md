@@ -37,6 +37,13 @@ successful coverage remains visible with failure counts but is not ranked.
 Unreferenced legacy files and issue attachments are not tracked in the
 repository; retain any provenance copy outside Git.
 
+Each public index entry stores two distinct source fields. `source_sha256` is
+the content hash of the source snapshot used for the recorded evaluation.
+`source_manifest` is the downloadable, maintained plugin package generated
+from the current canonical submission. When an implementation changes, keep
+the evaluated hash unchanged; retain a separate submission directory if the
+historical implementation must remain directly buildable.
+
 Run `npm run audit:spmv` before publishing. The evaluator's
 `KernelPerf/data/` directory is ignored runtime state; its exports use the same
 suite/backend/dataset partition before manual import.

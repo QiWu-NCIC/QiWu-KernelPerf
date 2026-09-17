@@ -21,6 +21,12 @@
       "gpu_model": "Hygon BW200, UBB BW1000",
       "cpu_model": "Hygon C86-4G (OPN:7495)",
       "runtime": "DTK 26.04"
+    },
+    {
+      "backend_id": "Z100-gfx906",
+      "gpu_model": "Z100",
+      "cpu_model": "Hygon C86 7185 32-core Processor",
+      "runtime": "DTK 23.10.1"
     }
   ]
 }

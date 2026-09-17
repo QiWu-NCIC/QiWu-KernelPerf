@@ -34,7 +34,11 @@ def _source_files(root: Path, include_prefixes: list[str] | None = None) -> list
             continue
         if relative.name in {"submission.json", "CMakeLists.txt", "README-QIWU-PLUGIN.md"}:
             continue
-        if relative.as_posix() in {"examples/standalone.cu", "include/qiwu/spmv_plugin.cuh"}:
+        if relative.as_posix() in {
+            "examples/standalone.cu",
+            "include/qiwu/spmv_plugin.cuh",
+            "include/qiwu/gpu_runtime.h",
+        }:
             continue
         if any(part in IGNORED for part in relative.parts):
             continue

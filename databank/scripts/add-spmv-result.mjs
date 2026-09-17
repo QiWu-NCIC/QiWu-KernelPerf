@@ -37,6 +37,7 @@ if (parsed.length < 2) {
   throw new Error("result CSV must contain a header and at least one row");
 }
 const headers = parsed[0];
+headers[0] = headers[0].replace(/^\uFEFF/, "");
 const OPTIONAL_RESULT_COLUMNS = [
   "configuration_id", "candidate_group", "selection_role", "selected_from",
 ];

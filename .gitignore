@@ -15,6 +15,7 @@ data/datasets/
 /KernelPerf/data/
 *.log
 *.zip
+*.tgz
 
 # Site-specific worker, scheduler, CUDA and dataset profiles.
 /KernelPerf/config/private/*
