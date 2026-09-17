@@ -4,7 +4,7 @@ import csv
 from pathlib import Path
 
 from kernelperf.exports import LocalResultExporter
-from kernelperf.models import BenchmarkResult, JobRecord, JobStatus, KernelArtifact
+from kernelperf.models import BenchmarkResult, CaseStatus, JobRecord, JobStatus, KernelArtifact
 from kernelperf.runtime import create_runtime
 
 
@@ -138,6 +138,66 @@ def test_datasets_have_independent_export_paths(tmp_path):
     assert len(paths) == 2
     assert {Path(path).parent.name for path in paths} == {"suite-a", "suite-b"}
     assert all(Path(path).is_file() for path in paths)
+
+
+def test_candidate_export_deduplicates_retry_attempts(tmp_path):
+    runtime = create_runtime(database_path=tmp_path / "perf.sqlite", result_exports_path=tmp_path / "exports")
+    backend = runtime.backends.backends()[0].info()
+    operator = runtime.benchmarks.get("spmv").operators()[0]
+    kernel = KernelArtifact(
+        name="retrying-candidate",
+        source="candidate",
+        metadata={"operator_id": operator.op_id, "base_format": "csr"},
+    )
+    job = JobRecord(
+        job_id="retry-export",
+        generator_id="retrying-candidate",
+        backends=[backend.backend_id],
+        suites=["spmv"],
+        dataset_id="suite",
+        operator_ids=[operator.op_id],
+        kernels=[kernel],
+        status=JobStatus.succeeded,
+    )
+
+    def insert(matrix_id, status, runtime_ms, timestamp):
+        runtime.db.insert_result(BenchmarkResult(
+            job_id=job.job_id,
+            generator_id=job.generator_id,
+            backend_id=backend.backend_id,
+            backend_kind=backend.kind,
+            suite="spmv",
+            operator_id=operator.op_id,
+            operator_name=operator.name,
+            matrix_id=matrix_id,
+            matrix_name=matrix_id,
+            rows=2,
+            cols=2,
+            nnz=4,
+            kernel_name=kernel.name,
+            status=status,
+            runtime_ms=runtime_ms,
+            gflops=8.0 / runtime_ms if runtime_ms else 0.0,
+            arithmetic_intensity=0.0,
+            timestamp=timestamp,
+            metadata={"operations": 8, "dtype": operator.dtype},
+        ))
+
+    insert("retried", CaseStatus.failed, 0.0, "2026-09-17T00:00:00+00:00")
+    insert("retried", CaseStatus.passed, 0.5, "2026-09-17T00:00:01+00:00")
+    insert("retried", CaseStatus.passed, 0.25, "2026-09-17T00:00:02+00:00")
+    insert("always-failed", CaseStatus.failed, 0.0, "2026-09-17T00:00:03+00:00")
+
+    paths = LocalResultExporter(
+        tmp_path / "exports", runtime.db, runtime.backends, runtime.benchmarks
+    ).export_job(job)
+    with Path(paths[0]).open(newline="", encoding="utf-8") as stream:
+        rows = {row["matrix_id"]: row for row in csv.DictReader(stream)}
+
+    assert set(rows) == {"retried", "always-failed"}
+    assert rows["retried"]["status"] == "pass"
+    assert rows["retried"]["solve_ms"] == "0.25"
+    assert rows["always-failed"]["status"] == "fail"
 
 
 def test_multi_configuration_job_exports_candidates_and_per_matrix_best(tmp_path):

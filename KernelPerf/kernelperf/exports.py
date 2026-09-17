@@ -31,6 +31,26 @@ class LocalResultExporter:
     def _config_id(kernel: Any) -> str:
         return str(kernel.metadata.get("configuration_id", "")).strip()
 
+    @staticmethod
+    def _latest_attempt_per_matrix(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        """Keep the latest passing attempt, or the latest failure if none passed."""
+        selected: dict[str, dict[str, Any]] = {}
+        for row in rows:
+            matrix_id = str(row["matrix_id"])
+            previous = selected.get(matrix_id)
+            if previous is None:
+                selected[matrix_id] = row
+                continue
+            current_rank = (row["status"] == "pass", str(row["timestamp"]), str(row["result_id"]))
+            previous_rank = (
+                previous["status"] == "pass",
+                str(previous["timestamp"]),
+                str(previous["result_id"]),
+            )
+            if current_rank > previous_rank:
+                selected[matrix_id] = row
+        return list(selected.values())
+
     def _resolve_selection(
         self,
         job: JobRecord,
@@ -89,6 +109,7 @@ class LocalResultExporter:
                 == configuration_id
             )
         ]
+        rows = self._latest_attempt_per_matrix(rows)
         if not rows:
             return None
         _, _, csv_content = make_submission(
