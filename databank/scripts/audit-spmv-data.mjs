@@ -102,8 +102,8 @@ for (const entry of manifest.submissions || []) {
   if (entry.source_sha256 && !/^[0-9a-f]{63,64}$/.test(entry.source_sha256)) {
     failures.push(`invalid evaluated source hash: ${key}`);
   }
-  if (/^alphasparselib-csr-best$/i.test(entry.method_id) && entry.base_format !== "auto-tuned") {
-    failures.push(`AlphaSparseLib BEST base format is not auto-tuned: ${entry.path}`);
+  if (/^alphasparselib-csr-best$/i.test(entry.method_id) && entry.base_format !== "manual-selection") {
+    failures.push(`AlphaSparseLib BEST base format is not manual-selection: ${entry.path}`);
   }
 }
 const requiredPluginFiles = [
@@ -214,16 +214,16 @@ for (const entry of manifest.submissions || []) {
   if (!headers.includes("solve_only_efficiency_percent")) {
     failures.push(`missing solve-only efficiency column: ${entry.path}`);
   }
-  if (entry.base_format !== "auto-tuned") {
-    failures.push(`cuSPARSE BEST base format is not auto-tuned: ${entry.path}`);
+  if (entry.base_format !== "manual-selection") {
+    failures.push(`cuSPARSE BEST base format is not manual-selection: ${entry.path}`);
   }
   const matrixIndex = headers.indexOf("matrix_id");
   const solveIndex = headers.indexOf("solve_ms");
   const minimums = candidateMinimums.get(`${operatorOf(entry.operator_id)}|${canonicalBackend(entry.backend_id)}|${datasetOf(entry.dataset_id)}|${entry.dtype}`);
   for (const row of rows) {
     if (row[schemaIndex] !== "2") failures.push(`invalid schema row: ${entry.path}`);
-    if (row[baseFormatIndex] !== "auto-tuned") {
-      failures.push(`cuSPARSE BEST row base format is not auto-tuned: ${entry.path}`);
+    if (row[baseFormatIndex] !== "manual-selection") {
+      failures.push(`cuSPARSE BEST row base format is not manual-selection: ${entry.path}`);
     }
     const expected = minimums?.get(row[matrixIndex]);
     if (expected === undefined || Math.abs(Number(row[solveIndex]) - expected) > 1e-9) {
@@ -237,8 +237,8 @@ for (const entry of manifest.submissions || []) {
   if (!fs.existsSync(file)) continue;
   const { headers, rows } = readCsv(file);
   const baseFormatIndex = headers.indexOf("base_format");
-  if (rows.some((row) => row[baseFormatIndex] !== "auto-tuned")) {
-    failures.push(`AlphaSparseLib BEST row base format is not auto-tuned: ${entry.path}`);
+  if (rows.some((row) => row[baseFormatIndex] !== "manual-selection")) {
+    failures.push(`AlphaSparseLib BEST row base format is not manual-selection: ${entry.path}`);
   }
 }
 const observedCandidateScopes = new Map();

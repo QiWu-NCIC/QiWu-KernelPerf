@@ -211,7 +211,7 @@ def test_multi_configuration_job_exports_candidates_and_per_matrix_best(tmp_path
     assert {row["solve_ms"] for row in rows} == {"1.0", "0.5"}
     assert all(row["configuration_id"] == "per-matrix-best" for row in rows)
     assert all(row["selection_role"] == "best" for row in rows)
-    assert all(row["base_format"] == "auto-tuned" for row in rows)
+    assert all(row["base_format"] == "manual-selection" for row in rows)
     assert all(row["source_kind"] == "derived" for row in rows)
 
 

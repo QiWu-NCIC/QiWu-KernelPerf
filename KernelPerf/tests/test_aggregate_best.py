@@ -35,7 +35,7 @@ def test_aggregate_best_selects_fastest_passing_row(tmp_path, monkeypatch):
     assert rows[0]["matrix_id"] == "m1"
     assert rows[0]["solve_ms"] == "1"
     assert rows[0]["configuration_id"] == "per-matrix-best"
-    assert rows[0]["base_format"] == "auto-tuned"
+    assert rows[0]["base_format"] == "manual-selection"
     assert rows[0]["selected_from"] == "a,b,c"
 
 
