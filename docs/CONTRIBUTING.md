@@ -69,3 +69,18 @@ python scripts/validate_submissions.py submissions
 Keep upstream calls in the adapter and compatibility shims small. Record the
 upstream repository and revision, CUDA or HIP requirements, configuration IDs and
 license in `submission.json` and the method README.
+
+## Result CSV pull requests
+
+To submit an existing evaluation result, open the leaderboard and select
+**Submit result**, or upload the CSV directly to
+`databank/result-submissions/spmv/` on GitHub. Submit one schema-v2 CSV per
+configuration and precision. Keep the evaluator-produced columns unchanged;
+all rows in one file must describe the same method, configuration, platform,
+dataset and precision.
+
+GitHub Actions validates the CSV without modifying the public catalog. After
+review, a maintainer imports it with `npm run add:spmv`, attaches the accepted
+source package, removes the inbox copy, and commits the canonical CSV and JSON
+index together. This two-step flow lets contributors submit one file while
+keeping the static site reproducible and token-free.

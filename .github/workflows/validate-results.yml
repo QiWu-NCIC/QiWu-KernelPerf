@@ -1,0 +1,35 @@
+name: Validate result CSVs
+
+on:
+  pull_request:
+    paths:
+      - "databank/result-submissions/**/*.csv"
+      - "databank/public/data/**"
+      - "databank/scripts/add-spmv-result.mjs"
+      - "databank/scripts/check-result-submissions.mjs"
+      - "databank/package.json"
+      - "databank/package-lock.json"
+      - ".github/workflows/validate-results.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: databank/package-lock.json
+      - working-directory: databank
+        run: npm ci
+      - name: Validate submitted CSV files
+        working-directory: databank
+        run: npm run check:result-submissions
+      - name: Audit the published catalog
+        working-directory: databank
+        run: npm run audit:spmv

@@ -32,6 +32,12 @@ databank/public/data/candidate-pool/<operator>/<backend>/<dataset>/
   <method_id>-<backend_id>-<dataset_id>-<dtype>.csv
 ```
 
+External result pull requests place unmodified evaluator exports temporarily
+under `databank/result-submissions/spmv/`. CI validates those files without
+adding them to the public index. An accepted file is imported into the layout
+above and its inbox copy is removed before merge, so the published repository
+does not retain duplicate CSV data.
+
 Candidate sweeps are used for curation and per-matrix BEST. A method below 90%
 successful coverage remains visible with failure counts but is not ranked.
 Unreferenced legacy files and issue attachments are not tracked in the

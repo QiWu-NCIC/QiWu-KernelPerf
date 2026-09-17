@@ -26,7 +26,20 @@ failed matrices. Exports are written below
 
 Copy accepted results into the matching databank scope. Use
 `npm run add:spmv -- <file.csv>` for a single public result, or
-`--candidate` for a configuration sweep. Then run:
+`--candidate` for a configuration sweep. For a CSV pull request, first run
+`npm run check:result-submissions`; import the accepted inbox file with a
+generated standalone package, then remove the inbox copy:
+
+```bash
+cd databank
+npm run prepare:sources
+npm run check:result-submissions
+npm run add:spmv -- result-submissions/spmv/<file.csv> \
+  --source-dir public/source/baselines/<submission>
+rm result-submissions/spmv/<file.csv>
+```
+
+Then run:
 
 ```bash
 cd databank

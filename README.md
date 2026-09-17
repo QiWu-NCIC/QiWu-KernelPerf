@@ -32,6 +32,13 @@ GitHub Actions checks the manifest, paths, source size and Python tests. After
 review, a maintainer checks out the PR on an isolated worker, runs the evaluator,
 reviews the CSVs, and updates `databank/public/data` in a separate change.
 
+Existing KernelPerf schema-v2 results can also be submitted directly as CSVs:
+use the leaderboard's **Submit result** button, upload one file per configuration
+and precision under `databank/result-submissions/spmv/`, and open a pull request.
+The result workflow validates identities, matrix rows and derived metrics. A
+maintainer then imports accepted files into the canonical catalog and links the
+reviewed source package; contributors do not edit JSON indexes manually.
+
 ## Quick start
 
 ### Evaluator
@@ -148,7 +155,7 @@ checks. Selection and download instructions are in
 1. Add or update one self-contained plugin and its `submission.json`.
 2. Run the local validation and tests, then open a pull request.
 3. A maintainer evaluates the reviewed commit on each target platform.
-4. Copy the generated CSVs and metadata into `databank/public/data`.
+4. Upload generated CSVs through the result inbox or import them locally.
 5. Run the databank audit and build; source packages are generated locally and
    included in the Pages artifact, but are not committed.
 

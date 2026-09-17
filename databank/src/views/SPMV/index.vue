@@ -8,6 +8,7 @@
       </div>
       <nav class="header-actions" aria-label="SpMV actions">
         <a class="action-link" :href="submissionsUrl" target="_blank" rel="noopener noreferrer">Submit code</a>
+        <a class="action-link" :href="resultSubmissionsUrl" target="_blank" rel="noopener noreferrer">Submit result</a>
         <button class="action-button" type="button" :disabled="downloading !== null" @click="downloadAllResults">
           {{ downloading ? "Preparing..." : "Download all CSVs" }}
         </button>
@@ -278,6 +279,7 @@ const repositoryUrl = String(
   import.meta.env.VITE_REPOSITORY_URL || "https://github.com/QiWu-NCIC/QiWu-KernelPerf",
 ).replace(/\/$/, "");
 const submissionsUrl = `${repositoryUrl}/tree/main/KernelPerf/submissions`;
+const resultSubmissionsUrl = `${repositoryUrl}/upload/main/databank/result-submissions/spmv`;
 const protocolSources = [
   { label: "KernelPerf/config/benchmarks.json:22", path: "KernelPerf/config/benchmarks.json", line: 22 },
   { label: "KernelPerf/benchmarks/spmv/template.cu:225", path: "KernelPerf/benchmarks/spmv/template.cu", line: 225 },

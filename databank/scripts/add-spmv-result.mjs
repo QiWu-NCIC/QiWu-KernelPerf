@@ -38,6 +38,9 @@ if (parsed.length < 2) {
 }
 const headers = parsed[0];
 headers[0] = headers[0].replace(/^\uFEFF/, "");
+if (new Set(headers).size !== headers.length) {
+  throw new Error("result CSV contains duplicate column names");
+}
 const OPTIONAL_RESULT_COLUMNS = [
   "configuration_id", "candidate_group", "selection_role", "selected_from",
 ];
@@ -47,9 +50,12 @@ const missing = RESULT_COLUMNS.filter(
 if (missing.length) {
   throw new Error("missing required result column(s): " + missing.join(", "));
 }
-const rows = parsed.slice(1).map((cells) =>
-  Object.fromEntries(headers.map((header, index) => [header, cells[index] || ""]))
-);
+const rows = parsed.slice(1).map((cells, index) => {
+  if (cells.length !== headers.length) {
+    throw new Error(`line ${index + 2} has ${cells.length} fields; expected ${headers.length}`);
+  }
+  return Object.fromEntries(headers.map((header, column) => [header, cells[column] || ""]));
+});
 const first = rows[0];
 const submissionId = requestedSubmissionId || first.submission_id;
 const backendId = requestedBackendId || first.backend_id;
@@ -86,6 +92,9 @@ rows.forEach((row, index) => {
   if (!["fp32", "fp64"].includes(row.dtype)) {
     throw new Error("line " + line + " has unsupported dtype");
   }
+  if (row.operator_id !== `spmv.csr.${row.dtype}`) {
+    throw new Error("line " + line + " has an operator_id/dtype mismatch");
+  }
   if (!["pass", "error", "fail"].includes(row.status)) {
     throw new Error("line " + line + " has unsupported status");
   }
@@ -96,7 +105,8 @@ rows.forEach((row, index) => {
     throw new Error("line " + line + " has an empty or duplicate matrix_id");
   }
   matrixIds.add(row.matrix_id);
-  ["rows", "cols", "nnz", "operations", "preprocess_ms", "solve_ms", "peak_gflops"]
+  ["rows", "cols", "nnz", "operations", "preprocess_ms", "solve_ms", "solve_gflops",
+    "solve_only_efficiency_percent", "peak_gflops"]
     .forEach((column) => {
       if (!Number.isFinite(Number(row[column]))) {
         throw new Error("line " + line + " has invalid " + column);
@@ -110,6 +120,16 @@ rows.forEach((row, index) => {
   }
   if (row.status === "pass" && Number(row.solve_ms) <= 0) {
     throw new Error("line " + line + " has a non-positive solve_ms");
+  }
+  if (row.status === "pass") {
+    const expectedGflops = Number(row.operations) / (Number(row.solve_ms) * 1e6);
+    const expectedEfficiency = expectedGflops / Number(row.peak_gflops) * 100;
+    if (!nearlyEqual(Number(row.solve_gflops), expectedGflops)) {
+      throw new Error("line " + line + " has inconsistent solve_gflops");
+    }
+    if (!nearlyEqual(Number(row.solve_only_efficiency_percent), expectedEfficiency)) {
+      throw new Error("line " + line + " has inconsistent solve_only_efficiency_percent");
+    }
   }
 });
 
@@ -219,6 +239,10 @@ if (!dryRun && !unchanged) {
   fs.writeFileSync(indexPath, JSON.stringify(manifest, null, 2) + "\n");
 }
 console.log(JSON.stringify(summary, null, 2));
+
+function nearlyEqual(actual, expected) {
+  return Math.abs(actual - expected) <= Math.max(1e-12, Math.abs(expected) * 1e-8);
+}
 
 function option(name) {
   const index = args.indexOf(name);
