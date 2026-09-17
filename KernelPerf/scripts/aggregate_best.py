@@ -70,7 +70,7 @@ def main() -> None:
         row["configuration_id"] = "per-matrix-best"
         row["selection_role"] = "best"
         row["selected_from"] = selected_from
-        row["base_format"] = "auto-tuned"
+        row["base_format"] = "manual-selection"
         row["source_kind"] = "derived"
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open("w", newline="", encoding="utf-8") as stream:

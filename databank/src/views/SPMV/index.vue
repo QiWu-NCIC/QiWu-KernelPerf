@@ -389,7 +389,7 @@ const displayRows = computed(() => {
         candidate_group: "cusparse-csr-best",
         selection_role: "best",
         selected_from: row.configuration_id,
-        base_format: "auto-tuned",
+        base_format: "manual-selection",
       });
     }
   }
@@ -606,8 +606,8 @@ function formatBaseFormat(value) {
     hyb: "HYB",
     bsr: "BSR",
     dia: "DIA",
-    auto: "Auto-tuned",
-    "auto-tuned": "Auto-tuned",
+    auto: "Manual Selection",
+    "manual-selection": "Manual Selection",
     unmarked: "Unmarked",
     unknown: "Unmarked",
   };
@@ -655,7 +655,7 @@ function inferredBaseFormat(value, configurationId, selectionRole) {
 
 function baseFormatKey(value) {
   const normalized = String(value || "").trim().toLowerCase();
-  if (normalized === "auto") return "auto-tuned";
+  if (normalized === "auto") return "manual-selection";
   return normalized.startsWith("sell-") ? "sell" : (normalized || "unknown");
 }
 

@@ -168,7 +168,7 @@ class LocalResultExporter:
             selection_role="best",
             selected_from=selected_from,
             source_kind="derived",
-            base_format="auto-tuned",
+            base_format="manual-selection",
         )
         dataset_id = slug(job.dataset_id or "none")
         target = self.root / slug(suite) / slug(backend_id) / dataset_id / (
