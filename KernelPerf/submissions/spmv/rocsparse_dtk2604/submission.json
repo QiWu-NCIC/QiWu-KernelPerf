@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "kind": "source",
+  "language": "hip",
+  "languages": ["hip"],
+  "method_name": "rocSPARSE DTK 26.04 CSR",
+  "operator_id": "spmv.csr.fp32",
+  "supported_operators": ["spmv.csr.fp32", "spmv.csr.fp64"],
+  "base_format": "csr",
+  "candidate_group": "rocSPARSE-DTK26.04-CSR",
+  "entry_source": "variants/default.cu",
+  "configurations_file": "sweep.json",
+  "build_profile": "rocsparse-hip",
+  "upstream": {
+    "name": "ROCm rocSPARSE",
+    "repository": "https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocsparse",
+    "version": "3.3.0 bundled with DTK 26.04"
+  }
+}

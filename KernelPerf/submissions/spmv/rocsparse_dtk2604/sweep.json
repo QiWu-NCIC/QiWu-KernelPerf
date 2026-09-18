@@ -1,0 +1,6 @@
+[
+  {"configuration_id": "default", "entry_source": "variants/default.cu", "method_name": "rocSPARSE DTK 26.04 CSR Default"},
+  {"configuration_id": "adaptive", "entry_source": "variants/adaptive.cu", "method_name": "rocSPARSE DTK 26.04 CSR Adaptive"},
+  {"configuration_id": "stream", "entry_source": "variants/rowsplit.cu", "method_name": "rocSPARSE DTK 26.04 CSR Stream"},
+  {"configuration_id": "lrb", "entry_source": "variants/lrb.cu", "method_name": "rocSPARSE DTK 26.04 CSR LRB"}
+]

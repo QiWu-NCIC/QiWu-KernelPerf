@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "kind": "qiwu-spmv-source-plugin",
+  "snapshot_kind": "standalone-source-plugin",
+  "plugin_id": "rocsparse_dtk2604",
+  "operator_id": "spmv.csr.fp32",
+  "supported_operators": [
+    "spmv.csr.fp32",
+    "spmv.csr.fp64"
+  ],
+  "base_format": "csr",
+  "entry_source": "variants/default.cu",
+  "compile_units": [],
+  "include_dirs": [],
+  "build_profile": "rocsparse-hip",
+  "candidate_group": "rocSPARSE-DTK26.04-CSR",
+  "upstream": {
+    "name": "ROCm rocSPARSE",
+    "repository": "https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocsparse",
+    "version": "3.3.0 bundled with DTK 26.04"
+  },
+  "configurations": [
+    {
+      "configuration_id": "default",
+      "entry_source": "variants/default.cu",
+      "method_name": "rocSPARSE DTK 26.04 CSR Default"
+    },
+    {
+      "configuration_id": "adaptive",
+      "entry_source": "variants/adaptive.cu",
+      "method_name": "rocSPARSE DTK 26.04 CSR Adaptive"
+    },
+    {
+      "configuration_id": "stream",
+      "entry_source": "variants/rowsplit.cu",
+      "method_name": "rocSPARSE DTK 26.04 CSR Stream"
+    },
+    {
+      "configuration_id": "lrb",
+      "entry_source": "variants/lrb.cu",
+      "method_name": "rocSPARSE DTK 26.04 CSR LRB"
+    }
+  ],
+  "source_sha256": "52e4936eda74f002080a6d06853bb238e6a91d58ca7e899e82e7ce6e75363ef0",
+  "source_path": "KernelPerf/submissions/spmv/rocsparse_dtk2604",
+  "files": [
+    "CMakeLists.txt",
+    "README-QIWU-PLUGIN.md",
+    "adapter.cu",
+    "examples/standalone.cu",
+    "include/qiwu/gpu_runtime.h",
+    "include/qiwu/spmv_plugin.cuh",
+    "sweep.json",
+    "variants/adaptive.cu",
+    "variants/default.cu",
+    "variants/lrb.cu",
+    "variants/rowsplit.cu"
+  ]
+}
