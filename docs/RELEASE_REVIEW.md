@@ -38,6 +38,12 @@ matrix archives and build output are deliberately excluded.
   included in per-matrix BEST selection; the threshold only controls ranking.
 - Replaced the stale 5090 AlphaSparse exports with corrected,
   configuration-specific FP32 and FP64 runs and regenerated both BEST files.
+- Updated AlphaSparseLib to pull request #31, added the CSR-Adaptive candidate,
+  reran it on all five published backends, and regenerated every AlphaSparseLib
+  CSR BEST result from the complete candidate set.
+- Removed the DTK 23.10.1 and legacy rocSPARSE plugins and results. The DTK
+  26.04 catalog now exposes only the explicit Adaptive, Stream, and LRB
+  algorithms; Default is excluded and the rocSPARSE BEST results were rebuilt.
 - Removed obsolete remote/playground/debug scripts and unreferenced source
   packages from the release tree. The remaining scripts are reusable dataset,
   validation, regression, packaging, worker-installation and BEST tools.
@@ -47,12 +53,12 @@ matrix archives and build output are deliberately excluded.
 The following commands pass from a clean dependency installation:
 
 ```text
-KernelPerf: python -m pytest -q       74 passed
-databank:   npm run audit:spmv        364 public submissions, 0 failures
+KernelPerf: python -m pytest -q       73 passed
+databank:   npm run audit:spmv        370 public submissions, 0 failures
 databank:   npm run build             Vite 6.4.3 production build succeeds
 ```
 
-The audit reports 104 public entries for each of A100-SXM4-80GB,
+The audit reports 106 public entries for each of A100-SXM4-80GB,
 H100-SXM5-80GB and RTX5090-SL3061, plus 26 entries for each of BW1000-gfx936
 and Z100-gfx906. The candidate pool contains the complete configuration sweeps
 used for BEST, including the 12 intentionally partial `sell-nrows` CSVs. No

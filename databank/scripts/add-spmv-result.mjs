@@ -75,7 +75,7 @@ if (requestedBackendId && requestedBackendId !== first.backend_id) {
 const identityColumns = [
   "submission_id", "method_id", "method_name", "configuration_id", "candidate_group",
   "selection_role", "selected_from", "base_format", "operator_id",
-  "dtype", "backend_id", "hardware", "peak_gflops", "job_id", "dataset_id",
+  "dtype", "backend_id", "hardware", "peak_gflops", "dataset_id",
   "source_kind",
 ];
 const matrixIds = new Set();

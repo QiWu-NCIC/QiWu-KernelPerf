@@ -31,7 +31,7 @@ function(qiwu_add_spmv_target dtype)
       ${QIWU_PLUGIN_EXTRA_INCLUDE_DIRS}
   )
   target_link_libraries(qiwu_spmv_${dtype}
-    PUBLIC ${QIWU_PLUGIN_EXTRA_LIBRARIES} CUDA::cudart CUDA::cusparse
+    PUBLIC ${QIWU_PLUGIN_EXTRA_LIBRARIES} CUDA::cudart
   )
   target_link_options(qiwu_spmv_${dtype} PUBLIC ${QIWU_PLUGIN_EXTRA_LINK_OPTIONS})
   set_target_properties(qiwu_spmv_${dtype} PROPERTIES

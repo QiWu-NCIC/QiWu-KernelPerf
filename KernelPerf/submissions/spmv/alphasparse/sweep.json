@@ -1,6 +1,7 @@
 [
   {"configuration_id": "scalar", "entry_source": "variants/scalar.cu", "method_name": "AlphaSparseLib CSR Scalar"},
   {"configuration_id": "vector", "entry_source": "variants/vector.cu", "method_name": "AlphaSparseLib CSR Vector"},
+  {"configuration_id": "adaptive", "entry_source": "variants/adaptive.cu", "method_name": "AlphaSparseLib CSR Adaptive"},
   {"configuration_id": "merge", "entry_source": "variants/merge.cu", "method_name": "AlphaSparseLib CSR Merge"},
   {"configuration_id": "line-enhance", "entry_source": "variants/line_enhance.cu", "method_name": "AlphaSparseLib CSR LineEnhance"},
   {"configuration_id": "flat1", "entry_source": "variants/flat1.cu", "method_name": "AlphaSparseLib CSR Flat1"},

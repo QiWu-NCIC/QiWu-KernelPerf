@@ -13,6 +13,7 @@
 #include "upstream/include/alphasparse.h"
 #include "upstream/hip/kernel/level2/alphasparse_spmv_csr_scalar.h"
 #include "upstream/hip/kernel/level2/alphasparse_spmv_csr_vector.h"
+#include "upstream/hip/kernel/level2/alphasparse_spmv_csr_adaptive.h"
 #include "upstream/hip/kernel/level2/alphasparse_spmv_csr_merge_ginkgo.h"
 #include "upstream/hip/kernel/level2/alphasparse_spmv_csr_line_enhance.h"
 #include "upstream/hip/kernel/level2/alphasparse_spmv_csr_flat.h"
@@ -21,10 +22,13 @@
 #include <cstdint>
 #include <limits>
 #include <stdexcept>
+#include <string>
+#include <vector>
 
 enum class AlphaSparseAlgorithm : int {
     scalar = 1,
     vector = 2,
+    adaptive = 3,
     merge = 4,
     line_enhance = 5,
     flat1 = 6,
@@ -46,6 +50,8 @@ struct QiwuSpmvStorage {
     const QiwuSpmvScalar* x = nullptr;
     QiwuSpmvScalar* y = nullptr;
     void* workspace = nullptr;
+    unsigned long long* adaptive_row_blocks = nullptr;
+    size_t adaptive_row_block_entries = 0;
     alphasparse_handle handle{};
 };
 
@@ -154,6 +160,56 @@ alphasparseStatus_t flat_on_stream(
     return ALPHA_SPARSE_STATUS_SUCCESS;
 }
 
+void prepare_adaptive(QiwuSpmvStorage* storage, hipStream_t stream) {
+    std::vector<int32_t> host_row_offsets(static_cast<size_t>(storage->rows) + 1);
+    check(hipMemcpyAsync(
+        host_row_offsets.data(), storage->row_offsets,
+        host_row_offsets.size() * sizeof(int32_t), hipMemcpyDeviceToHost, stream
+    ), "copy AlphaSparse adaptive row offsets");
+    check(hipStreamSynchronize(stream), "synchronize AlphaSparse adaptive row offsets");
+
+    size_t row_block_entries = 0;
+    ComputeRowBlocks(
+        static_cast<unsigned long long*>(nullptr), row_block_entries,
+        host_row_offsets.data(), static_cast<int32_t>(storage->rows), false
+    );
+    if (row_block_entries < 4) {
+        throw std::runtime_error("AlphaSparse adaptive generated no workgroups");
+    }
+    std::vector<unsigned long long> host_row_blocks(row_block_entries, 0);
+    ComputeRowBlocks(
+        host_row_blocks.data(), row_block_entries, host_row_offsets.data(),
+        static_cast<int32_t>(storage->rows), true
+    );
+    check(hipMalloc(
+        reinterpret_cast<void**>(&storage->adaptive_row_blocks),
+        row_block_entries * sizeof(unsigned long long)
+    ), "allocate AlphaSparse adaptive row blocks");
+    check(hipMemcpyAsync(
+        storage->adaptive_row_blocks, host_row_blocks.data(),
+        row_block_entries * sizeof(unsigned long long), hipMemcpyHostToDevice, stream
+    ), "upload AlphaSparse adaptive row blocks");
+    storage->adaptive_row_block_entries = row_block_entries;
+}
+
+template <typename T>
+alphasparseStatus_t adaptive_on_stream(
+    QiwuSpmvStorage* storage, T alpha, T beta, hipStream_t stream
+) {
+    if (!storage->adaptive_row_blocks || storage->adaptive_row_block_entries < 4) {
+        throw std::runtime_error("AlphaSparse adaptive storage is not initialized");
+    }
+    const auto workgroups = static_cast<unsigned int>(storage->adaptive_row_block_entries / 2 - 1);
+    hipLaunchKernelGGL(
+        HIP_KERNEL_NAME(csrmvn_adaptive_device<int32_t, T, T, T>),
+        dim3(workgroups), dim3(256), 0, stream,
+        storage->adaptive_row_blocks, alpha, static_cast<int32_t>(storage->nnz),
+        storage->row_offsets, storage->column_indices, storage->values,
+        storage->x, beta, storage->y
+    );
+    return ALPHA_SPARSE_STATUS_SUCCESS;
+}
+
 template <typename T>
 inline alphasparseStatus_t solve_with_upstream(
     QiwuSpmvStorage* storage, AlphaSparseAlgorithm algorithm, T alpha, T beta
@@ -172,6 +228,8 @@ inline alphasparseStatus_t solve_with_upstream(
         return spmv_csr_scalar<int32_t, T, T, T>(handle, m, n, nnz, alpha, values, row_offsets, columns, x, beta, y);
     case AlphaSparseAlgorithm::vector:
         return spmv_csr_vector<int32_t, T, T, T>(handle, m, n, nnz, alpha, values, row_offsets, columns, x, beta, y);
+    case AlphaSparseAlgorithm::adaptive:
+        return adaptive_on_stream(storage, alpha, beta, handle->stream);
     case AlphaSparseAlgorithm::merge:
         return merge_on_stream(storage, alpha, beta, handle->stream);
     case AlphaSparseAlgorithm::line_enhance:
@@ -224,6 +282,7 @@ extern "C" QiwuSpmvStorage* qiwu_spmv_preprocess(
     if (algorithm == AlphaSparseAlgorithm::merge) workspace_bytes = merge_workspace(storage->rows, storage->nnz);
     if (algorithm == AlphaSparseAlgorithm::flat1 || algorithm == AlphaSparseAlgorithm::flat4 || algorithm == AlphaSparseAlgorithm::flat8) workspace_bytes = flat_workspace(storage->nnz);
     if (workspace_bytes != 0) check(hipMalloc(&storage->workspace, workspace_bytes), "allocate AlphaSparse HIP workspace");
+    if (algorithm == AlphaSparseAlgorithm::adaptive) prepare_adaptive(storage, stream);
     clear_output(storage, stream);
     return storage;
 }
@@ -239,6 +298,7 @@ extern "C" void qiwu_spmv_solve(QiwuSpmvStorage* storage, const QiwuSpmvExecutio
 
 extern "C" void qiwu_spmv_destroy(QiwuSpmvStorage* storage, hipStream_t) noexcept(false) {
     if (!storage) return;
+    if (storage->adaptive_row_blocks) check(hipFree(storage->adaptive_row_blocks), "free AlphaSparse HIP adaptive row blocks");
     if (storage->workspace) check(hipFree(storage->workspace), "free AlphaSparse HIP workspace");
     delete storage;
 }
@@ -247,15 +307,24 @@ extern "C" void qiwu_spmv_destroy(QiwuSpmvStorage* storage, hipStream_t) noexcep
 
 #include <cuda_bf16.h>
 #include <cuda_fp16.h>
+#include <cuComplex.h>
 
+#include <algorithm>
 #include <cstdint>
 #include <limits>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
-// Load the public status and scalar definitions without the incomplete CUDA
-// FP16 declarations in the upstream umbrella header. The selected FP32/FP64
-// kernels only require a handle carrying a CUDA stream.
+// The umbrella header is intentionally loaded in Hygon compatibility mode
+// below. Import only the real FP32/FP64 CUDA helpers needed by this plugin;
+// loading every half and complex overload introduces unrelated dependencies.
+#include "upstream/include/alphasparse/type/r_f32_types.h"
+#include "upstream/include/alphasparse/type/r_f64_types.h"
+
+// Load the public status and scalar definitions without selecting the upstream
+// CUDA FP16 API surface. The selected FP32/FP64 kernels only require a handle
+// carrying a CUDA stream.
 #ifdef __CUDA__
 #undef __CUDA__
 #endif
@@ -266,8 +335,6 @@ extern "C" void qiwu_spmv_destroy(QiwuSpmvStorage* storage, hipStream_t) noexcep
 #undef device
 #undef cuFloatComplex
 #undef cuDoubleComplex
-
-#include <cuComplex.h>
 
 struct QiwuAlphaSparseHandle {
     cudaStream_t stream = nullptr;
@@ -280,14 +347,17 @@ struct QiwuAlphaSparseHandle {
 #define __attribute__(...)
 #endif
 
-// The complete AlphaSparse/Library commit 39734b2 is vendored under upstream/.
-// These are the CUDA kernels selected by its alphasparseSpMV CSR dispatch.
+// The vendored tree includes AlphaSparse/Library pull request #31. Integration
+// details are documented in provenance.json. These are the CUDA kernels selected
+// by the upstream alphasparseSpMV CSR dispatch.
 #ifndef WARP_SIZE
 #define WARP_SIZE 32
 #endif
 
 #include "upstream/cuda/kernel/level2/alphasparse_spmv_csr_scalar.h"
 #include "upstream/cuda/kernel/level2/alphasparse_spmv_csr_vector.h"
+
+#include "upstream/cuda/kernel/level2/alphasparse_spmv_csr_adaptive.h"
 #include "upstream/cuda/kernel/level2/alphasparse_spmv_csr_merge_ginkgo.h"
 #include "upstream/cuda/kernel/level2/alphasparse_spmv_csr_line_enhance.h"
 #include "upstream/cuda/kernel/level2/alphasparse_spmv_csr_flat.h"
@@ -300,6 +370,7 @@ struct QiwuAlphaSparseHandle {
 enum class AlphaSparseAlgorithm : int {
     scalar = 1,
     vector = 2,
+    adaptive = 3,
     merge = 4,
     line_enhance = 5,
     flat1 = 6,
@@ -321,6 +392,8 @@ struct QiwuSpmvStorage {
     const QiwuSpmvScalar* x = nullptr;
     QiwuSpmvScalar* y = nullptr;
     void* workspace = nullptr;
+    unsigned long long* adaptive_row_blocks = nullptr;
+    size_t adaptive_row_block_entries = 0;
     QiwuAlphaSparseHandle handle{};
 };
 
@@ -339,6 +412,54 @@ inline size_t merge_workspace(int64_t rows, int64_t nnz) {
 inline size_t flat_workspace(int64_t nnz) {
     const int64_t partitions = (nnz + 2 * 512 - 1) / (2 * 512);
     return static_cast<size_t>(std::max<int64_t>(partitions, 1) + 1) * sizeof(int32_t);
+}
+
+void prepare_adaptive(QiwuSpmvStorage* storage, cudaStream_t stream) {
+    std::vector<int32_t> host_row_offsets(static_cast<size_t>(storage->rows) + 1);
+    check(cudaMemcpyAsync(
+        host_row_offsets.data(), storage->row_offsets,
+        host_row_offsets.size() * sizeof(int32_t), cudaMemcpyDeviceToHost, stream
+    ), "copy AlphaSparse adaptive row offsets");
+    check(cudaStreamSynchronize(stream), "synchronize AlphaSparse adaptive row offsets");
+
+    size_t row_block_entries = 0;
+    ComputeRowBlocks(
+        static_cast<unsigned long long*>(nullptr), row_block_entries,
+        host_row_offsets.data(), static_cast<int32_t>(storage->rows), false
+    );
+    if (row_block_entries < 4) {
+        throw std::runtime_error("AlphaSparse adaptive generated no workgroups");
+    }
+    std::vector<unsigned long long> host_row_blocks(row_block_entries, 0);
+    ComputeRowBlocks(
+        host_row_blocks.data(), row_block_entries, host_row_offsets.data(),
+        static_cast<int32_t>(storage->rows), true
+    );
+    check(cudaMalloc(
+        reinterpret_cast<void**>(&storage->adaptive_row_blocks),
+        row_block_entries * sizeof(unsigned long long)
+    ), "allocate AlphaSparse adaptive row blocks");
+    check(cudaMemcpyAsync(
+        storage->adaptive_row_blocks, host_row_blocks.data(),
+        row_block_entries * sizeof(unsigned long long), cudaMemcpyHostToDevice, stream
+    ), "upload AlphaSparse adaptive row blocks");
+    storage->adaptive_row_block_entries = row_block_entries;
+}
+
+template <typename T>
+alphasparseStatus_t adaptive_on_stream(
+    QiwuSpmvStorage* storage, T alpha, T beta, cudaStream_t stream
+) {
+    if (!storage->adaptive_row_blocks || storage->adaptive_row_block_entries < 4) {
+        throw std::runtime_error("AlphaSparse adaptive storage is not initialized");
+    }
+    const auto workgroups = static_cast<unsigned int>(storage->adaptive_row_block_entries / 2 - 1);
+    csrmvn_adaptive_device<int32_t, T, T, T><<<workgroups, 256, 0, stream>>>(
+        storage->adaptive_row_blocks, alpha, static_cast<int32_t>(storage->nnz),
+        storage->row_offsets, storage->column_indices, storage->values,
+        storage->x, beta, storage->y
+    );
+    return ALPHA_SPARSE_STATUS_SUCCESS;
 }
 
 template <typename T>
@@ -362,6 +483,8 @@ inline alphasparseStatus_t solve_with_upstream(
     case AlphaSparseAlgorithm::vector:
         return spmv_csr_vector<int32_t, T, T, T>(
             handle, m, n, nnz, alpha, values, row_offsets, columns, x, beta, y);
+    case AlphaSparseAlgorithm::adaptive:
+        return adaptive_on_stream(storage, alpha, beta, handle->stream);
     case AlphaSparseAlgorithm::merge:
         return spmv_csr_merge_ginkgo<int32_t, T, T, T>(
             handle, m, n, nnz, alpha, values, row_offsets, columns, x, beta, y,
@@ -432,6 +555,9 @@ extern "C" QiwuSpmvStorage* qiwu_spmv_preprocess(
         check(cudaMalloc(&storage->workspace, workspace_bytes),
               "allocate AlphaSparseLib workspace");
     }
+    if (algorithm == AlphaSparseAlgorithm::adaptive) {
+        prepare_adaptive(storage, stream);
+    }
     // Output initialization is part of setup, so it is excluded from the
     // solve-only event timing. The benchmark requests another reset only for
     // its out-of-band validation call.
@@ -460,6 +586,7 @@ extern "C" void qiwu_spmv_solve(
 
 extern "C" void qiwu_spmv_destroy(QiwuSpmvStorage* storage, cudaStream_t) noexcept(false) {
     if (!storage) return;
+    if (storage->adaptive_row_blocks) check(cudaFree(storage->adaptive_row_blocks), "free AlphaSparse adaptive row blocks");
     if (storage->workspace) check(cudaFree(storage->workspace), "free AlphaSparse workspace");
     delete storage;
 }

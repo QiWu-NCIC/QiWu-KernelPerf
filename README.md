@@ -137,8 +137,8 @@ for complete configuration sweeps. The JSON manifests are authoritative; see
 
 The reference operator is CSR-input SpMV with FP32 and FP64 variants. The
 baseline plugins cover cuSPARSE format/configuration sweeps, CSR5,
-CSR-Adaptive, AlphaSparseLib, rocSPARSE and GHOST SELL-C-sigma. The BW1000 HIP
-regression scope uses only the native HIP AlphaSparseLib and rocSPARSE
+CSR-Adaptive, AlphaSparseLib, rocSPARSE and GHOST SELL-C-sigma. The BW1000 and
+Z100 regression scope uses the native HIP AlphaSparseLib and rocSPARSE
 submissions. New operators should add
 an independent driver under `KernelPerf/benchmarks/<operator>/` and declare it
 in `KernelPerf/config/benchmarks.json`; the scheduler does not need operator-

@@ -634,14 +634,14 @@ function configurationDescription(item) {
   if (method.includes("csr5")) {
     return "CSR5 | https://github.com/weifengliu-ssslab/Benchmark_SpMV_using_CSR5/pull/13 | caff9d8";
   }
+  if (method.includes("alphasparse")) {
+    return "AlphaSparse/Library | https://github.com/AlphaSparse/Library | commit 248af573 (PR #31)";
+  }
   if (method.includes("adaptive")) {
     return "CSR-Adaptive | https://github.com/clMathLibraries/clSPARSE | csrmv_adaptive.cl port";
   }
   if (method.includes("ghost")) {
     return "GHOST | https://github.com/RRZE-HPC/GHOST | commit 22a004d";
-  }
-  if (method.includes("alphasparse")) {
-    return "AlphaSparse/Library | https://github.com/AlphaSparse/Library | commit 39734b2";
   }
   return "";
 }

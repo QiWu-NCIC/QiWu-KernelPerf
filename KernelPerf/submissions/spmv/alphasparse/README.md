@@ -1,19 +1,18 @@
 # AlphaSparse CSR submission
 
-`upstream/` is a complete snapshot of
-[AlphaSparse/Library](https://github.com/AlphaSparse/Library) at commit
-`39734b2d458a9a38059cd72795f3e64a8400e6f5`.
-One non-algorithmic source patch moves a UTF-8 trailing comment in
-`include/alphasparse/handle.h`; nvcc 12.x otherwise drops the following opening
-brace on some hosts. Selected SpMV launches are also routed from the hard-coded
-default stream to `handle->stream`. Kernel bodies, launch geometry, branches, reductions, and tuning
-constants are unchanged.
+`upstream/` is a complete snapshot of [AlphaSparse/Library](https://github.com/AlphaSparse/Library)
+with the CSR-Adaptive changes from [pull request #31](https://github.com/AlphaSparse/Library/pull/31)
+at head commit `248af573c867cf4c7e05d40c611c7c34ebac4715`.
+Integration changes are recorded in `provenance.json`. They include a source
+encoding fix, routing selected launches through the caller stream, and the
+CSR-Adaptive kernel-path changes evaluated by this submission. The adaptive
+analysis and launch geometry remain upstream-compatible.
 
 The only implementation bridge is `adapter.cu`. It calls the official CUDA CSR
-Scalar, Vector, Merge, LineEnhance, Flat1, Flat4, and Flat8
-kernels directly. Temporary partition and merge buffers are allocated in
-`qiwu_spmv_preprocess`. Every launch uses the CUDA stream supplied by the caller,
-so KernelPerf CUDA events measure the GPU solve directly.
+Scalar, Vector, Adaptive, Merge, LineEnhance, Flat1, Flat4, and Flat8 kernels
+directly. Adaptive row-block analysis and temporary workspace allocation run in
+`qiwu_spmv_preprocess`. Every launch uses the stream supplied by the caller, so
+KernelPerf events measure the GPU solve directly.
 
 Build a standalone plugin with CUDA and CMake:
 

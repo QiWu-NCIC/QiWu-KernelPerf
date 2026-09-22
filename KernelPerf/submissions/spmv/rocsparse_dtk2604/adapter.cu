@@ -8,7 +8,7 @@
 #include <string>
 
 #ifndef KERNELPERF_ROCSPARSE_ALGORITHM
-#define KERNELPERF_ROCSPARSE_ALGORITHM rocsparse_spmv_alg_default
+#define KERNELPERF_ROCSPARSE_ALGORITHM rocsparse_spmv_alg_csr_adaptive
 #endif
 
 namespace kernelperf_rocsparse {

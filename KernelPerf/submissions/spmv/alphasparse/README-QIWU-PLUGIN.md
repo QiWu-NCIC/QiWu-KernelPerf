@@ -13,11 +13,15 @@ cmake --build build -j
 evaluated entry source, configurations, and dependencies. CMake uses its
 `entry_source` by default. Select another packaged variant with
 `-DQIWU_PLUGIN_ENTRY=variants/name.cu`. The `upstream/` directory is the complete
-AlphaSparse/Library snapshot. Its CUDA kernels are unchanged; the only source
-syntax patch moves a UTF-8 comment in `handle.h` so nvcc preserves the following
-brace. The selected SpMV launch sites are routed through `handle->stream` without
-changing launch geometry or kernel logic. `adapter.cu` calls those official CUDA
-SpMV kernels directly.
+AlphaSparse/Library snapshot with the CSR-Adaptive changes from
+[pull request #31](https://github.com/AlphaSparse/Library/pull/31) at head commit
+`248af573c867cf4c7e05d40c611c7c34ebac4715`. Integration changes are listed
+in `provenance.json`. The CSR-Adaptive HIP and CUDA headers contain the small
+kernel-path changes tested on BW1000: row offsets are cached per
+workgroup, the full-block CSR-Stream load uses a bounds-safe fast path,
+invalid row-pointer reads are kept behind the row guard, and beta-zero output
+stores avoid reading the old output. The adapter invokes the upstream kernel
+directly and keeps preprocessing outside solve-only timing.
 
 Applications include `include/qiwu/spmv_plugin.cuh`, link either
 `qiwu_spmv_fp32` or `qiwu_spmv_fp64`, and call `qiwu_spmv_preprocess`,

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 from kernelperf.benchmark import benchmark_registry_from_config
@@ -22,7 +23,7 @@ def test_alphasparse_csr_candidates_use_managed_lifecycle():
         files.append(SourceFile(path=path.relative_to(root).as_posix(), content=content))
     driver = benchmark_registry_from_config("config/benchmarks.json").get("spmv")
     operator = driver.operators()[0]
-    for name in ("scalar", "vector", "merge", "line_enhance", "flat1", "flat4", "flat8"):
+    for name in ("scalar", "vector", "adaptive", "merge", "line_enhance", "flat1", "flat4", "flat8"):
         kernel = KernelArtifact(
             name=f"alphasparse-{name}",
             language="cuda",
@@ -56,6 +57,28 @@ def test_alphasparse_csr_candidates_use_managed_lifecycle():
 def test_alphasparse_standalone_cmake_has_a_repository_default_entry():
     cmake = Path("submissions/spmv/alphasparse/CMakeLists.txt").read_text()
     assert 'set(QIWU_PLUGIN_ENTRY "variants/vector.cu")' in cmake
+    assert "CUDA::cusparse" not in cmake
+
+
+def test_alphasparse_provenance_matches_upstream_base_and_adaptive_patch():
+    root = Path("submissions/spmv/alphasparse")
+    submission = json.loads((root / "submission.json").read_text(encoding="utf-8"))
+    provenance = json.loads((root / "provenance.json").read_text(encoding="utf-8"))
+
+    assert submission["upstream"]["repository"] == provenance["repository"]
+    assert submission["upstream"]["commit"] == provenance["commit"]
+    assert "adaptive" in provenance["algorithms"]
+    assert any("row block" in patch for patch in provenance["upstream_patches"])
+
+
+def test_alphasparse_adaptive_fast_load_stays_within_the_row_block():
+    root = Path("submissions/spmv/alphasparse/upstream")
+    for backend in ("cuda", "hip"):
+        source = (root / backend / "kernel/level2/alphasparse_spmv_csr_adaptive.h").read_text(
+            encoding="utf-8"
+        )
+        assert "const T block_end = csr_row_ptr[stop_row];" in source
+        assert "col + BLOCK_SIZE - WG_SIZE < block_end" in source
 
 
 def test_alphasparse_submission_can_select_native_hip():

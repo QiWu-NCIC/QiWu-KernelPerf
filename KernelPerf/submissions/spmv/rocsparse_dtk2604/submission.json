@@ -8,7 +8,7 @@
   "supported_operators": ["spmv.csr.fp32", "spmv.csr.fp64"],
   "base_format": "csr",
   "candidate_group": "rocSPARSE-DTK26.04-CSR",
-  "entry_source": "variants/default.cu",
+  "entry_source": "variants/adaptive.cu",
   "configurations_file": "sweep.json",
   "build_profile": "rocsparse-hip",
   "upstream": {
