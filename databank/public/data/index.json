@@ -7193,7 +7193,7 @@
       "source_kind": "source",
       "created_at": "2026-09-21T04:48:26.716371+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
-      "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
+      "source_manifest": "source/baselines/alphasparse/plugin.json"
     },
     {
       "submission_id": "AlphaSparseLib-CSR-best-A100-SXM4-80GB-suitesparse_sample_100-fp64",
@@ -7214,7 +7214,7 @@
       "source_kind": "derived",
       "created_at": "2026-09-01T18:33:16.775807+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
-      "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
+      "source_manifest": "source/baselines/alphasparse/plugin.json"
     },
     {
       "submission_id": "e13901b4-472a-47de-bb72-6832589d8884-A100-SXM4-80GB-spmv.csr.fp64-adaptive",
@@ -7235,7 +7235,7 @@
       "source_kind": "source",
       "created_at": "2026-09-21T05:01:43.178437+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
-      "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
+      "source_manifest": "source/baselines/alphasparse/plugin.json"
     },
     {
       "submission_id": "15bed17c-5f8a-462f-ad0b-bee3d61f4a39-BW1000-gfx936-spmv.csr.fp32-adaptive",
@@ -7256,7 +7256,7 @@
       "source_kind": "source",
       "created_at": "2026-09-21T04:41:20.078832+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
-      "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
+      "source_manifest": "source/baselines/alphasparse/plugin.json"
     },
     {
       "submission_id": "d3f72e88-23f2-49f8-9710-ef3af0fc2ebe-BW1000-gfx936-spmv.csr.fp64-adaptive",
@@ -7277,7 +7277,7 @@
       "source_kind": "source",
       "created_at": "2026-09-21T05:00:32.906425+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
-      "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
+      "source_manifest": "source/baselines/alphasparse/plugin.json"
     },
     {
       "submission_id": "AlphaSparseLib-CSR-best-A100-SXM4-80GB-suitesparse_sample_100-fp32",
@@ -7298,7 +7298,7 @@
       "source_kind": "derived",
       "created_at": "2026-09-21T04:48:26.716371+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
-      "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
+      "source_manifest": "source/baselines/alphasparse/plugin.json"
     },
     {
       "submission_id": "AlphaSparseLib-CSR-best-BW1000-gfx936-suitesparse_sample_100-fp32",
@@ -7319,7 +7319,7 @@
       "source_kind": "derived",
       "created_at": "2026-09-21T04:41:20.078832+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
-      "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
+      "source_manifest": "source/baselines/alphasparse/plugin.json"
     },
     {
       "submission_id": "AlphaSparseLib-CSR-best-BW1000-gfx936-suitesparse_sample_100-fp64",
@@ -7340,7 +7340,7 @@
       "source_kind": "derived",
       "created_at": "2026-09-21T05:00:32.906425+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
-      "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
+      "source_manifest": "source/baselines/alphasparse/plugin.json"
     },
     {
       "submission_id": "6c2e4035-c9d4-4eb5-b212-38cf18f48144-H100-SXM5-80GB-spmv.csr.fp32-adaptive",
@@ -7361,7 +7361,7 @@
       "source_kind": "source",
       "created_at": "2026-09-21T09:22:05.440833+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
-      "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
+      "source_manifest": "source/baselines/alphasparse/plugin.json"
     },
     {
       "submission_id": "9a0f3105-77ed-4798-94a6-7150f5cb91ea-H100-SXM5-80GB-spmv.csr.fp64-adaptive",
@@ -7382,7 +7382,7 @@
       "source_kind": "source",
       "created_at": "2026-09-21T09:28:28.268014+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
-      "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
+      "source_manifest": "source/baselines/alphasparse/plugin.json"
     },
     {
       "submission_id": "AlphaSparseLib-CSR-best-H100-SXM5-80GB-suitesparse_sample_100-fp32",
@@ -7403,7 +7403,7 @@
       "source_kind": "derived",
       "created_at": "2026-09-21T09:22:05.440833+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
-      "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
+      "source_manifest": "source/baselines/alphasparse/plugin.json"
     },
     {
       "submission_id": "AlphaSparseLib-CSR-best-H100-SXM5-80GB-suitesparse_sample_100-fp64",
@@ -7424,7 +7424,7 @@
       "source_kind": "derived",
       "created_at": "2026-09-21T09:28:28.268014+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
-      "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
+      "source_manifest": "source/baselines/alphasparse/plugin.json"
     },
     {
       "submission_id": "e143f783-7b8f-4c69-97fd-e93d8a47ba8b-RTX5090-SL3061-spmv.csr.fp32-adaptive",
@@ -7445,7 +7445,7 @@
       "source_kind": "source",
       "created_at": "2026-09-21T09:29:42.253401+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
-      "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
+      "source_manifest": "source/baselines/alphasparse/plugin.json"
     },
     {
       "submission_id": "b8382f22-a735-4733-99fe-b3342d94ef7e-RTX5090-SL3061-spmv.csr.fp64-adaptive",
@@ -7466,7 +7466,7 @@
       "source_kind": "source",
       "created_at": "2026-09-21T09:37:49.687525+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
-      "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
+      "source_manifest": "source/baselines/alphasparse/plugin.json"
     },
     {
       "submission_id": "AlphaSparseLib-CSR-best-RTX5090-SL3061-suitesparse_sample_100-fp32",
@@ -7487,7 +7487,7 @@
       "source_kind": "derived",
       "created_at": "2026-09-21T09:29:42.253401+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
-      "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
+      "source_manifest": "source/baselines/alphasparse/plugin.json"
     },
     {
       "submission_id": "AlphaSparseLib-CSR-best-RTX5090-SL3061-suitesparse_sample_100-fp64",
@@ -7508,7 +7508,7 @@
       "source_kind": "derived",
       "created_at": "2026-09-21T09:37:49.687525+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
-      "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
+      "source_manifest": "source/baselines/alphasparse/plugin.json"
     },
     {
       "submission_id": "d850a077-f9da-461a-8023-d4e9a02eeb14-Z100-gfx906-spmv.csr.fp32-adaptive",
@@ -7529,7 +7529,7 @@
       "source_kind": "source",
       "created_at": "2026-09-21T15:02:49.511754+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
-      "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
+      "source_manifest": "source/baselines/alphasparse/plugin.json"
     },
     {
       "submission_id": "7a4aac10-709c-4817-aaa6-9bedf123e316-Z100-gfx906-spmv.csr.fp64-adaptive",
@@ -7550,7 +7550,7 @@
       "source_kind": "source",
       "created_at": "2026-09-21T15:30:41.114456+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
-      "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
+      "source_manifest": "source/baselines/alphasparse/plugin.json"
     },
     {
       "submission_id": "AlphaSparseLib-CSR-best-Z100-gfx906-suitesparse_sample_100-fp32",
@@ -7571,7 +7571,7 @@
       "source_kind": "derived",
       "created_at": "2026-09-15T10:40:22.208705+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
-      "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
+      "source_manifest": "source/baselines/alphasparse/plugin.json"
     },
     {
       "submission_id": "AlphaSparseLib-CSR-best-Z100-gfx906-suitesparse_sample_100-fp64",
@@ -7592,7 +7592,7 @@
       "source_kind": "derived",
       "created_at": "2026-09-15T13:19:17.842382+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
-      "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
+      "source_manifest": "source/baselines/alphasparse/plugin.json"
     }
   ]
 }
