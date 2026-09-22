@@ -32,9 +32,10 @@ GitHub Actions checks the manifest, paths, source size and Python tests. After
 review, a maintainer checks out the PR on an isolated worker, runs the evaluator,
 reviews the CSVs, and updates `databank/public/data` in a separate change.
 
-Existing KernelPerf schema-v2 results can also be submitted directly as CSVs:
+Existing KernelPerf result CSVs can also be submitted directly:
 use the leaderboard's **Submit result** button, upload one file per configuration
-and precision under `databank/result-submissions/spmv/`, and open a pull request.
+and precision under `databank/result-submissions/spmv/` or
+`databank/result-submissions/spmm/`, and open a pull request.
 The result workflow validates identities, matrix rows and derived metrics. A
 maintainer then imports accepted files into the canonical catalog and links the
 reviewed source package; contributors do not edit JSON indexes manually.
@@ -72,12 +73,13 @@ The evaluator owns matrix loading, correctness checks, warmup/repeat timing and
 CSV export. Result files are written below
 `KernelPerf/data/result_exports/<suite>/<backend>/<dataset>/` with the canonical
 name `method_id-backend_id-dataset_id-dtype.csv`.
+SpMM adds `dtype/n<RHS>/dense-layout` directories so rankings never mix dense
+matrix widths.
 
 Use `KernelPerf/config/private/service-<platform>.json` for maintainer GPU
 profiles; those files are intentionally excluded from the published tree.
 
 ### SpMV measurement protocol
-
 The published SpMV settings come from
 [`KernelPerf/config/benchmarks.json`](KernelPerf/config/benchmarks.json). The
 current FP32 and FP64 profiles both use 5 untimed warmup calls followed by 20
@@ -112,6 +114,32 @@ the dynamic row bound above is the pass/fail criterion. The lifecycle and timing
 [`KernelPerf/benchmarks/spmv/template.cu`](KernelPerf/benchmarks/spmv/template.cu),
 and the configuration handoff and result parsing are in
 [`KernelPerf/benchmarks/spmv/driver.py`](KernelPerf/benchmarks/spmv/driver.py).
+
+### SpMM measurement protocol
+
+The P0 SpMM campaign evaluates CSR `A * B` with row-major `B` and `C`,
+`op(A)=N`, `op(B)=N`, `alpha=1`, and `beta=0`. Main rankings use
+`N={2,4,8,16,32,64,128}`; `N=1` is a sanity-only case. Each run uses five
+untimed warmups, twenty measured iterations, and deterministic dense inputs
+with seed `20260922`.
+
+The driver records solve-only, preprocess-plus-solve, and amortized
+preprocess-plus-solve timing independently. Real-valued operation counts are
+`2 * nnz * N`. FP32 stores output in `float`, FP64 stores output in `double`,
+and both compare against a host `long double` reference with the dynamic
+row-length bound and safety factor `C=4`.
+
+Reviewed implementations live under `KernelPerf/submissions/spmm/`; the
+independent plugin contract is `KernelPerf/include/qiwu/spmm_plugin.cuh`.
+Run all declared operators for one method with:
+
+```bash
+python scripts/run_regression.py \
+  --config config/private/service-h100.json \
+  --backend H100-SXM5-80GB \
+  --dataset-id suitesparse_sample_100 \
+  --submission submissions/spmm/cusparse
+```
 
 ### Static databank
 

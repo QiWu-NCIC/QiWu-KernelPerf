@@ -7,16 +7,19 @@
     "node": ">=20"
   },
   "scripts": {
-    "prepare:sources": "node scripts/prepare-submission-sources.mjs",
+    "prepare:sources": "node scripts/prepare-submission-sources.mjs && node scripts/prepare-spmm-sources.mjs",
     "predev": "npm run prepare:sources",
     "dev": "vite",
     "prebuild": "npm run prepare:sources",
     "build": "vite build",
     "preview": "vite preview",
     "add:spmv": "node scripts/add-spmv-result.mjs",
+    "add:spmm": "node scripts/add-spmm-result.mjs",
     "check:result-submissions": "node scripts/check-result-submissions.mjs",
     "preaudit:spmv": "npm run prepare:sources",
-    "audit:spmv": "node scripts/audit-spmv-data.mjs public"
+    "audit:spmv": "node scripts/audit-spmv-data.mjs public",
+    "audit:spmm": "node scripts/audit-spmm-data.mjs public",
+    "audit:all": "npm run audit:spmv && npm run audit:spmm"
   },
   "dependencies": {
     "jszip": "^3.10.1",

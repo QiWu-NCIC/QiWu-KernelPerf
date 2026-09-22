@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import base64
 import json
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any
 
 from .models import JobSubmitRequest, KernelArtifact, SourceFile
@@ -20,7 +20,12 @@ def _safe_relative(value: str) -> str:
     return value
 
 
-def _source_files(root: Path, include_prefixes: list[str] | None = None) -> list[SourceFile]:
+def _source_files(
+    root: Path,
+    include_prefixes: list[str] | None = None,
+    *,
+    target_prefix: str = "",
+) -> list[SourceFile]:
     files: list[SourceFile] = []
     total = 0
     prefixes = [value.rstrip("/") for value in (include_prefixes or [])]
@@ -37,6 +42,7 @@ def _source_files(root: Path, include_prefixes: list[str] | None = None) -> list
         if relative.as_posix() in {
             "examples/standalone.cu",
             "include/qiwu/spmv_plugin.cuh",
+            "include/qiwu/spmm_plugin.cuh",
             "include/qiwu/gpu_runtime.h",
         }:
             continue
@@ -58,7 +64,8 @@ def _source_files(root: Path, include_prefixes: list[str] | None = None) -> list
             except UnicodeDecodeError as exc:
                 raise ValueError(f"submission files must be UTF-8 or GB18030 text: {relative}") from exc
         total += len(content.encode("utf-8"))
-        files.append(SourceFile(path=_safe_relative(relative.as_posix()), content=content))
+        target = PurePosixPath(target_prefix) / PurePosixPath(relative.as_posix())
+        files.append(SourceFile(path=_safe_relative(target.as_posix()), content=content))
         if len(files) > MAX_FILES or total > MAX_BYTES:
             raise ValueError(f"submission exceeds {MAX_FILES} files or {MAX_BYTES} bytes")
     if not files:
@@ -88,6 +95,9 @@ def load_submission_artifacts(
     if operator_id and operator_id not in supported:
         raise ValueError(f"submission supports {supported}, not {operator_id}")
     selected_operator = operator_id or declared_operator
+    entrypoint = str(manifest.get("entrypoint") or (
+        "qiwu_spmm_plugin" if selected_operator.startswith("spmm.") else "qiwu_spmv_plugin"
+    ))
     declared_languages = [
         str(value).strip().lower()
         for value in manifest.get("languages", [manifest.get("language", "cuda")])
@@ -132,11 +142,53 @@ def load_submission_artifacts(
                 raise ValueError("source_include(_by_language) must be a list of paths")
             include_prefixes = [_safe_relative(value) for value in include_prefixes]
         files = _source_files(root, include_prefixes)
+        shared_roots = manifest.get("shared_source_roots", [])
+        if shared_roots:
+            if not isinstance(shared_roots, list):
+                raise ValueError("shared_source_roots must be a list")
+            submissions_root = root.parent.parent.resolve()
+            for shared in shared_roots:
+                if not isinstance(shared, dict):
+                    raise ValueError("shared_source_roots entries must be objects")
+                shared_source = _safe_relative(str(shared.get("source", "")))
+                target_prefix = _safe_relative(str(shared.get("target", "")))
+                shared_root = (submissions_root / shared_source).resolve()
+                if submissions_root != shared_root and submissions_root not in shared_root.parents:
+                    raise ValueError("shared source root must remain inside submissions")
+                if not shared_root.is_dir():
+                    raise ValueError(f"shared source root does not exist: {shared_source}")
+                shared_by_language = shared.get("include_by_language", {})
+                shared_prefixes = shared_by_language.get(selected_language, shared.get("include"))
+                if shared_prefixes is not None:
+                    if not isinstance(shared_prefixes, list) or not all(
+                        isinstance(value, str) for value in shared_prefixes
+                    ):
+                        raise ValueError("shared source include lists must contain paths")
+                    shared_prefixes = [_safe_relative(value) for value in shared_prefixes]
+                files.extend(
+                    _source_files(
+                        shared_root,
+                        shared_prefixes,
+                        target_prefix=target_prefix,
+                    )
+                )
+        if len({item.path for item in files}) != len(files):
+            raise ValueError("submission source paths must be unique")
+        if len(files) > MAX_FILES or sum(len(item.content.encode("utf-8")) for item in files) > MAX_BYTES:
+            raise ValueError(f"submission exceeds {MAX_FILES} files or {MAX_BYTES} bytes")
         paths = {item.path for item in files}
         entry_source = str(manifest.get("entry_source") or "adapter.cu")
         if entry_source not in paths:
             raise ValueError(f"entry_source is missing from submission: {entry_source}")
-        compile_units = [_safe_relative(str(value)) for value in manifest.get("compile_units", [])]
+        compile_units_by_language = manifest.get("compile_units_by_language", {})
+        if compile_units_by_language and not isinstance(compile_units_by_language, dict):
+            raise ValueError("compile_units_by_language must be an object")
+        raw_compile_units = compile_units_by_language.get(
+            selected_language, manifest.get("compile_units", [])
+        )
+        if not isinstance(raw_compile_units, list):
+            raise ValueError("compile_units(_by_language) must be a list")
+        compile_units = [_safe_relative(str(value)) for value in raw_compile_units]
         missing = sorted(set(compile_units) - paths)
         if missing:
             raise ValueError("compile_units are missing: " + ", ".join(missing))
@@ -158,6 +210,7 @@ def load_submission_artifacts(
                 name=_versioned_name(name, manifest, cuda_version, selected_language),
                 kind="source",
                 language=selected_language,
+                entrypoint=entrypoint,
                 source_files=files,
                 entry_source=entry_source,
                 compile_units=compile_units,
@@ -180,6 +233,10 @@ def load_submission_artifacts(
             metadata = dict(base_metadata)
             metadata["configuration_id"] = configuration_id
             metadata["selection_role"] = "candidate"
+            extra_metadata = configuration.get("metadata", {})
+            if extra_metadata and not isinstance(extra_metadata, dict):
+                raise ValueError("configuration metadata must be an object")
+            metadata.update({str(key): value for key, value in extra_metadata.items()})
             if configuration.get("base_format"):
                 metadata["base_format"] = str(configuration["base_format"])
             elif metadata["base_format"] == "auto":
@@ -196,6 +253,7 @@ def load_submission_artifacts(
                 name=_versioned_name(configuration_name, manifest, cuda_version, selected_language),
                 kind="source",
                 language=selected_language,
+                entrypoint=entrypoint,
                 source_files=files,
                 entry_source=configuration_entry,
                 compile_units=compile_units,

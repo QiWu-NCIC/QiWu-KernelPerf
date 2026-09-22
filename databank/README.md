@@ -6,7 +6,7 @@ directory and is not a second source tree or a versioned data directory.
 
 ```bash
 npm ci
-npm run audit:spmv       # also generates public/source
+npm run audit:all        # also generates public/source
 npm run dev
 ```
 
@@ -24,6 +24,14 @@ comes from the actual `float` or `double` storage. Both FP32 and FP64 use a host
 Numerical-noise rows are
 reported separately. Its formulas, timing boundaries and implementation locations are documented in the repository
 [`README.md`](../README.md#spmv-measurement-protocol).
+
+The SpMM view is independent from SpMV and filters by platform, dtype, RHS
+columns, sparse format, base format, and timing scope. Its catalog is rooted at
+`public/data/spmm/index.json`; candidate and BEST CSVs remain partitioned by
+RHS count and dense layout. Use `npm run add:spmm -- result.csv --source-dir
+public/source/spmm-baselines/<plugin>` to import reviewed data and
+`npm run audit:spmm` to verify identities, source hashes, metrics, coverage,
+and BEST selections.
 
 Result files are partitioned by `operator/backend/dataset`:
 

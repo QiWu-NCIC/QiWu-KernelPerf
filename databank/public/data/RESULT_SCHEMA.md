@@ -7,3 +7,21 @@
 The evaluator runs 5 untimed warmups and 20 timed solves. Correctness is a separate CPU CSR solve. For row `i`, it uses `rho_i = abs(y_i-y_ref_i)/s_i` with `s_i = sum_j(abs(a_ij*x_j))` and accepts `rho_i <= 4*n_i*u`, where `n_i` is the row length and `u = eps(float)/2` or `eps(double)/2` for the actual output storage. Both FP32 and FP64 reference rows use host `long double` accumulation, with products promoted to `long double` before accumulation. Numerical-noise rows (`n_i*u*kappa_i >= 1`) are reported separately; zero-scale rows still require zero output. The implementation is documented in the repository README and `KernelPerf/benchmarks/spmv/template.cu`.
 
 The result filename is `method_id-backend_id-dataset_id-dtype.csv`; `submission_id` remains in each row for provenance but is not part of the retained filename. Public results and candidate sweeps are additionally partitioned by `operator/backend/dataset` directories, so files from different datasets cannot share a directory or a curation key.
+
+## KernelPerf SpMM CSV Schema
+
+`schema_version=3` identifies the independent `kernelperf-spmm-v3` row
+contract. SpMM files are additionally partitioned by dtype, `n<RHS>`, and
+dense layout. The P0 contract is CSR with row-major B/C, `op(A)=N`,
+`op(B)=N`, `alpha=1`, and `beta=0`; `N=1` is sanity-only and
+`N={2,4,8,16,32,64,128}` is the ranking set.
+
+For real-valued SpMM, `operations = 2 * nnz * rhs_columns`. Each row records
+solve-only, preprocess-plus-solve, and preprocess-per-iteration-plus-solve
+timings and their corresponding performance fields. Passing rows require a
+versioned library name, while failed rows retain `validation_status`,
+`error_type`, `failure_stage`, error text, failed-element counts, and NaN/Inf
+counts. BEST rows are per-matrix selections scoped by platform, dtype, RHS,
+layout, candidate group, and timing metric; non-ranked aliases such as an
+explicit cuSPARSE DEFAULT configuration remain downloadable but are excluded
+from public ranking.

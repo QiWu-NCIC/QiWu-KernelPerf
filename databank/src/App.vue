@@ -5,12 +5,25 @@
         <img class="qiwu-logo" src="./assets/images/logo.png" alt="QiWu" />
       </div>
     </header>
-    <Contest />
+    <nav class="operator-tabs" aria-label="Benchmark operator">
+      <button :class="{ active: selectedOperator === 'spmv' }" @click="selectOperator('spmv')">SpMV</button>
+      <button :class="{ active: selectedOperator === 'spmm' }" @click="selectOperator('spmm')">SpMM</button>
+    </nav>
+    <Spmv v-if="selectedOperator === 'spmv'" />
+    <Spmm v-else />
   </div>
 </template>
 
 <script setup>
-import Contest from "./views/SPMV/index.vue";
+import { ref } from "vue";
+import Spmv from "./views/SPMV/index.vue";
+import Spmm from "./views/SPMM/index.vue";
+
+const selectedOperator = ref(window.location.hash === "#spmm" ? "spmm" : "spmv");
+function selectOperator(value) {
+  selectedOperator.value = value;
+  window.location.hash = value;
+}
 </script>
 
 <style scoped>
@@ -35,6 +48,27 @@ import Contest from "./views/SPMV/index.vue";
   display: block;
   width: auto;
   height: 50px;
+}
+
+.operator-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 12px 10%;
+  background: #17366f;
+}
+
+.operator-tabs button {
+  border: 1px solid #9bb4e8;
+  border-radius: 999px;
+  padding: 7px 24px;
+  color: white;
+  background: transparent;
+  cursor: pointer;
+}
+
+.operator-tabs button.active {
+  color: #17366f;
+  background: white;
 }
 
 @media (max-width: 750px) {

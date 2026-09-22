@@ -93,7 +93,7 @@ class LocalResultExporter:
         operator_id: str,
         configuration_id: str | None = None,
         kernel_name: str | None = None,
-    ) -> Path | None:
+    ) -> Path | list[Path] | None:
         backend, operator, kernel, target = self._resolve_selection(
             job, backend_id, suite, operator_id, configuration_id, kernel_name
         )
@@ -109,6 +109,10 @@ class LocalResultExporter:
                 == configuration_id
             )
         ]
+        if suite == "spmm":
+            return self._export_spmm_selection(
+                job, backend, operator, kernel, rows
+            )
         rows = self._latest_attempt_per_matrix(rows)
         if not rows:
             return None
@@ -117,6 +121,57 @@ class LocalResultExporter:
         )
         self._atomic_write(target, csv_content)
         return target.resolve()
+
+    def _spmm_target(
+        self,
+        job: JobRecord,
+        backend_id: str,
+        operator: Any,
+        method_id: str,
+        rhs_columns: int,
+        dense_layout: str,
+    ) -> Path:
+        dataset_id = slug(job.dataset_id or "none")
+        layout_id = slug(dense_layout)
+        return (
+            self.root / "spmm" / slug(backend_id) / dataset_id / operator.dtype /
+            f"n{rhs_columns}" / layout_id /
+            f"{method_id}-{slug(backend_id)}-{dataset_id}-{operator.dtype}-n{rhs_columns}-{layout_id}.csv"
+        )
+
+    def _export_spmm_selection(
+        self,
+        job: JobRecord,
+        backend: Any,
+        operator: Any,
+        kernel: Any,
+        rows: list[dict[str, Any]],
+    ) -> list[Path]:
+        from benchmarks.spmm.results import make_spmm_submission
+
+        grouped: dict[tuple[int, str], list[dict[str, Any]]] = {}
+        for row in rows:
+            metadata = row.get("metadata") or {}
+            key = (int(metadata.get("rhs_columns", 0)), str(metadata.get("dense_layout", "")))
+            if key[0] > 0 and key[1]:
+                grouped.setdefault(key, []).append(row)
+        exported: list[Path] = []
+        method_id = slug(kernel.name)
+        for (rhs_columns, dense_layout), scoped_rows in sorted(grouped.items()):
+            scoped_rows = self._latest_attempt_per_matrix(scoped_rows)
+            _, _, csv_content = make_spmm_submission(
+                job=job,
+                results=scoped_rows,
+                backend=backend,
+                operator=operator,
+                kernel=kernel,
+            )
+            target = self._spmm_target(
+                job, backend.backend_id, operator, method_id, rhs_columns, dense_layout
+            )
+            self._atomic_write(target, csv_content)
+            exported.append(target.resolve())
+        return exported
 
     def ensure_selection(
         self,
@@ -198,6 +253,101 @@ class LocalResultExporter:
         self._atomic_write(target, csv_content)
         return target.resolve()
 
+    def _export_spmm_best(
+        self,
+        job: JobRecord,
+        backend_id: str,
+        operator: Any,
+        kernels: list[Any],
+    ) -> list[Path]:
+        from benchmarks.spmm.results import make_spmm_submission
+
+        ranked_kernels = [
+            kernel for kernel in kernels
+            if bool(kernel.metadata.get("public_ranked", True))
+        ]
+        groups = {str(kernel.metadata.get("candidate_group", "")).strip() for kernel in ranked_kernels}
+        config_ids = {self._config_id(kernel) for kernel in ranked_kernels}
+        if len(groups) != 1 or not next(iter(groups)) or len(config_ids) < 2 or "" in config_ids:
+            return []
+        group = next(iter(groups))
+        rows = self.db.query_results(
+            job_ids=[job.job_id], backend_ids=[backend_id], suites=["spmm"],
+            operator_ids=[operator.op_id]
+        )
+        rows = [
+            row for row in rows
+            if row["status"] == "pass"
+            and (row.get("metadata") or {}).get("ranking_scope", "main") == "main"
+            and str((row.get("metadata") or {}).get("implementation", {}).get("candidate_group", "")) == group
+            and str((row.get("metadata") or {}).get("implementation", {}).get("configuration_id", "")) in config_ids
+        ]
+        timing_fields = {
+            "solve-only": lambda row: float(row["runtime_ms"]),
+            "pre-plus-solve": lambda row: float((row.get("metadata") or {})["pre_plus_solve_ms"]),
+            "pre-amortized": lambda row: float((row.get("metadata") or {})["pre_amortized_ms"]),
+        }
+        backend = self.backends.get(backend_id).info()
+        selected_from = ",".join(sorted(config_ids))
+        exported: list[Path] = []
+        scopes = sorted({
+            (
+                int((row.get("metadata") or {})["rhs_columns"]),
+                str((row.get("metadata") or {})["dense_layout"]),
+            )
+            for row in rows
+        })
+        for rhs_columns, dense_layout in scopes:
+            scoped_rows = [
+                row for row in rows
+                if int((row.get("metadata") or {})["rhs_columns"]) == rhs_columns
+                and str((row.get("metadata") or {})["dense_layout"]) == dense_layout
+            ]
+            for selection_metric, timing in timing_fields.items():
+                selected: dict[str, dict[str, Any]] = {}
+                for row in scoped_rows:
+                    implementation = (row.get("metadata") or {}).get("implementation", {})
+                    config_id = str(implementation.get("configuration_id", ""))
+                    previous = selected.get(str(row["matrix_id"]))
+                    previous_config = str(
+                        ((previous or {}).get("metadata") or {}).get("implementation", {}).get("configuration_id", "")
+                    )
+                    if previous is None or (timing(row), config_id) < (timing(previous), previous_config):
+                        selected[str(row["matrix_id"])] = row
+                if not selected:
+                    continue
+                representative_id = str(
+                    (next(iter(selected.values())).get("metadata") or {})
+                    .get("implementation", {}).get("configuration_id", "")
+                )
+                representative = next(
+                    kernel for kernel in ranked_kernels
+                    if self._config_id(kernel) == representative_id
+                )
+                method_id = slug(f"{group}-best-{selection_metric}")
+                _, _, csv_content = make_spmm_submission(
+                    job=job,
+                    results=list(selected.values()),
+                    backend=backend,
+                    operator=operator,
+                    kernel=representative,
+                    method_id=method_id,
+                    method_name=f"{group} BEST {selection_metric}",
+                    configuration_id="per-matrix-best",
+                    candidate_group=group,
+                    selection_role="best",
+                    selection_metric=selection_metric,
+                    selected_from=selected_from,
+                    source_kind="derived",
+                    base_format="manual-selection",
+                )
+                target = self._spmm_target(
+                    job, backend_id, operator, method_id, rhs_columns, dense_layout
+                )
+                self._atomic_write(target, csv_content)
+                exported.append(target.resolve())
+        return exported
+
     def ensure_best(
         self,
         job: JobRecord,
@@ -222,7 +372,7 @@ class LocalResultExporter:
         exported: list[str] = []
         for backend_id in job.backends:
             for suite in job.suites:
-                if suite != "spmv":
+                if suite not in {"spmv", "spmm"}:
                     continue
                 benchmark = self.benchmarks.get(suite)
                 operators = benchmark.selected_operators(job.operator_ids)
@@ -236,7 +386,9 @@ class LocalResultExporter:
                             self._config_id(kernel) or None,
                             kernel.name,
                         )
-                        if target is not None:
+                        if isinstance(target, list):
+                            exported.extend(str(path) for path in target)
+                        elif target is not None:
                             exported.append(str(target))
                 for operator in operators:
                     candidate_groups: dict[str, list[Any]] = {}
@@ -250,9 +402,16 @@ class LocalResultExporter:
                         if group:
                             candidate_groups.setdefault(group, []).append(kernel)
                     for candidates in candidate_groups.values():
-                        target = self._export_best(job, backend_id, suite, operator, candidates)
-                        if target is not None:
-                            exported.append(str(target))
+                        if suite == "spmm":
+                            exported.extend(
+                                str(path) for path in self._export_spmm_best(
+                                    job, backend_id, operator, candidates
+                                )
+                            )
+                        else:
+                            target = self._export_best(job, backend_id, suite, operator, candidates)
+                            if target is not None:
+                                exported.append(str(target))
         return exported
 
     @staticmethod

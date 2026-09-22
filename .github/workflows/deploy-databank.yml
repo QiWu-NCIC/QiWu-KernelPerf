@@ -41,7 +41,7 @@ jobs:
           enablement: true
           token: ${{ secrets.PAGES_PAT || github.token }}
       - working-directory: databank
-        run: npm run audit:spmv
+        run: npm run audit:all
       - working-directory: databank
         env:
           VITE_PUBLIC_PATH: ${{ steps.pages.outputs.base_path }}

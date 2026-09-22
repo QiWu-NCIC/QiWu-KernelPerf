@@ -86,6 +86,105 @@
     }
   },
   {
+    "benchmark_id": "spmm",
+    "display_name": "Managed CSR SpMM",
+    "driver": "benchmarks.spmm.driver:SpmmBenchmark",
+    "template": "benchmarks/spmm/template.cu",
+    "public": true,
+    "default_dataset_id": "suitesparse_sample_100",
+    "operators": [
+      {
+        "op_id": "spmm.csr.fp32",
+        "name": "CSR SpMM FP32",
+        "dtype": "fp32",
+        "problem_kind": "spmm",
+        "flops_formula": "2 * nnz * rhs_columns",
+        "metadata": {
+          "requires_matrix": true,
+          "input_format": "csr",
+          "format": "csr",
+          "driver_config": {
+            "warmup": 5,
+            "iterations": 20,
+            "validation_safety_factor": 4.0,
+            "rhs_columns": [2, 4, 8, 16, 32, 64, 128],
+            "sanity_rhs_columns": [1],
+            "dense_layout": "row-major",
+            "op_a": "N",
+            "op_b": "N",
+            "alpha": 1.0,
+            "beta": 0.0,
+            "input_seed": 20260922
+          },
+          "contract": "independent SpMM preprocess/solve/destroy plugin interface"
+        }
+      },
+      {
+        "op_id": "spmm.csr.fp64",
+        "name": "CSR SpMM FP64",
+        "dtype": "fp64",
+        "problem_kind": "spmm",
+        "flops_formula": "2 * nnz * rhs_columns",
+        "metadata": {
+          "requires_matrix": true,
+          "input_format": "csr",
+          "format": "csr",
+          "driver_config": {
+            "warmup": 5,
+            "iterations": 20,
+            "validation_safety_factor": 4.0,
+            "rhs_columns": [2, 4, 8, 16, 32, 64, 128],
+            "sanity_rhs_columns": [1],
+            "dense_layout": "row-major",
+            "op_a": "N",
+            "op_b": "N",
+            "alpha": 1.0,
+            "beta": 0.0,
+            "input_seed": 20260922
+          },
+          "contract": "independent SpMM preprocess/solve/destroy plugin interface"
+        }
+      }
+    ],
+    "options": {
+      "driver_id": "spmm-lifecycle",
+      "contract": "include/qiwu/spmm_plugin.cuh",
+      "language": "cuda",
+      "languages": ["cuda", "hip"],
+      "entrypoint": "qiwu_spmm_plugin",
+      "source_limit_bytes": 33554432,
+      "max_source_files": 4096,
+      "object_limit_bytes": 16000000,
+      "compiler": "nvcc",
+      "compile_options": ["-O3", "-std=c++17"],
+      "link_options": ["-lcusparse"],
+      "compile_options_by_language": {
+        "cuda": ["-O3", "-std=c++17"],
+        "hip": ["-O3", "-std=c++17"]
+      },
+      "link_options_by_language": {
+        "cuda": ["-lcusparse"],
+        "hip": []
+      },
+      "source_filename_by_language": {
+        "cuda": "benchmark.cu",
+        "hip": "benchmark.hip"
+      },
+      "relocatable_option_by_language": {
+        "cuda": "-rdc=true",
+        "hip": ""
+      },
+      "arch_flag_by_language": {
+        "cuda": "-arch=",
+        "hip": "--offload-arch="
+      },
+      "compile_timeout_seconds": 300,
+      "run_timeout_seconds": 1200,
+      "build_root": "data/build/spmm",
+      "validation_method": "cpu-csr-spmm-reference-dynamic-row-bound"
+    }
+  },
+  {
     "benchmark_id": "sol-execbench",
     "display_name": "SOL-ExecBench",
     "driver": "benchmarks.sol_execbench.driver:SolExecBenchBenchmark",

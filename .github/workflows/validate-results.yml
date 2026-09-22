@@ -5,6 +5,10 @@ on:
     paths:
       - "databank/result-submissions/**/*.csv"
       - "databank/public/data/**"
+      - "databank/public/source/spmm/**"
+      - "databank/scripts/add-spmm-result.mjs"
+      - "databank/scripts/audit-spmm-data.mjs"
+      - "databank/scripts/spmm-data.mjs"
       - "databank/scripts/add-spmv-result.mjs"
       - "databank/scripts/check-result-submissions.mjs"
       - "databank/package.json"
@@ -32,4 +36,4 @@ jobs:
         run: npm run check:result-submissions
       - name: Audit the published catalog
         working-directory: databank
-        run: npm run audit:spmv
+        run: npm run audit:all

@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "kind": "source",
+  "languages": ["cuda", "hip"],
+  "method_name": "AlphaSparse SpMM CSR",
+  "operator_id": "spmm.csr.fp32",
+  "supported_operators": ["spmm.csr.fp32", "spmm.csr.fp64"],
+  "base_format": "csr",
+  "candidate_group": "AlphaSparse-SpMM-CSR",
+  "entry_source": "variants/csr_alg1.cu",
+  "compile_units_by_language": {
+    "cuda": [],
+    "hip": []
+  },
+  "include_dirs_by_language": {
+    "cuda": ["upstream/include", "upstream/cuda", "upstream/cuda/kernel/level3"],
+    "hip": ["upstream/include", "upstream/hip", "upstream/hip/kernel/level3"]
+  },
+  "shared_source_roots": [
+    {
+      "source": "spmv/alphasparse/upstream",
+      "target": "upstream",
+      "include_by_language": {
+        "cuda": ["include", "cuda/format", "cuda/kernel/level3", "cuda/util"],
+        "hip": ["include", "hip/format", "hip/kernel/level3", "hip/util"]
+      }
+    }
+  ],
+  "configurations_file": "sweep.json",
+  "upstream": {
+    "repository": "https://github.com/yjkyjkyjk/Library",
+    "commit": "248af573c867cf4c7e05d40c611c7c34ebac4715",
+    "upstream_repository": "https://github.com/AlphaSparse/Library",
+    "base_commit": "39734b2d458a9a38059cd72795f3e64a8400e6f5"
+  }
+}

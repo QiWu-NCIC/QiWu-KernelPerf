@@ -24,6 +24,25 @@ long sweeps with independent SQLite and export directories; preserve rows for
 failed matrices. Exports are written below
 `KernelPerf/data/result_exports/<suite>/<backend>/<dataset>/`.
 
+For the fixed CSR SpMM campaign, run the checkpointed driver inside `tmux` or
+one Slurm allocation:
+
+```bash
+python scripts/run_spmm_campaign.py \
+  --config config/private/service-h100.json \
+  --backend H100-SXM5-80GB \
+  --dataset-id suitesparse_sample_100 \
+  --campaign-id h100-spmm-p0-20260922-v1 \
+  --phase all
+```
+
+The campaign ID deterministically identifies its jobs. The runner verifies a
+source/protocol/dataset/worker fingerprint, checkpoints after each matrix,
+exports partial CSVs, and skips existing `(candidate-group,configuration,matrix,N)`
+rows on restart.
+Exit code 75 means the time budget or a termination signal produced a safe
+checkpoint and the same command can resume.
+
 Copy accepted results into the matching databank scope. Use
 `npm run add:spmv -- <file.csv>` for a single public result, or
 `--candidate` for a configuration sweep. For a CSV pull request, first run
@@ -38,6 +57,11 @@ npm run add:spmv -- result-submissions/spmv/<file.csv> \
   --source-dir public/source/baselines/<submission>
 rm result-submissions/spmv/<file.csv>
 ```
+
+Use `npm run add:spmm -- <file.csv> --source-dir
+public/source/spmm-baselines/<submission>` for reviewed SpMM CSVs. Keep each
+RHS count and dense layout in its own CSV and run `npm run audit:spmm` after
+import.
 
 Then run:
 
