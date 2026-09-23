@@ -31,6 +31,9 @@ for (const entry of index.submissions) {
     const manifestFile = path.join(root, entry.source_manifest);
     const plugin = JSON.parse(fs.readFileSync(manifestFile, "utf8"));
     if (plugin.kind !== "qiwu-spmm-source-plugin" || plugin.source_sha256 !== entry.source_sha256) throw new Error("source identity mismatch");
+    if (plugin.candidate_group !== entry.candidate_group || !plugin.supported_operators?.includes(entry.operator_id)) {
+      throw new Error("source package does not match the result adapter or operator");
+    }
     const digest = crypto.createHash("sha256");
     for (const file of [...plugin.files].sort()) {
       if (!safePath(file)) throw new Error("unsafe source path");

@@ -19,6 +19,9 @@ const sourceDirectory = option("--source-dir", "");
 if (!sourceDirectory && !dryRun) throw new Error("a corresponding source package is required");
 const plugin = sourceDirectory ? JSON.parse(fs.readFileSync(path.join(sourceDirectory, "plugin.json"), "utf8")) : null;
 if (plugin && (plugin.kind !== "qiwu-spmm-source-plugin" || !/^[a-f0-9]{64}$/.test(plugin.source_sha256))) throw new Error("invalid SpMM source manifest");
+if (plugin && (plugin.candidate_group !== first.candidate_group || !plugin.supported_operators?.includes(first.operator_id))) {
+  throw new Error("source package does not match the result adapter or operator");
+}
 const digest = crypto.createHash("sha256");
 const payload = [];
 for (const file of [...(plugin?.files || [])].sort()) {
