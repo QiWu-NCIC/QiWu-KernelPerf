@@ -8,7 +8,7 @@ const spmmRoot = path.join(submissionsRoot, "spmm");
 const outputRoot = path.resolve("public/source/spmm-baselines");
 const catalogRoot = path.resolve("public/source/spmm");
 fs.rmSync(outputRoot, { recursive: true, force: true });
-fs.rmSync(catalogRoot, { recursive: true, force: true });
+fs.mkdirSync(catalogRoot, { recursive: true });
 let generated = 0;
 for (const item of fs.readdirSync(spmmRoot, { withFileTypes: true })) {
   if (!item.isDirectory()) continue;

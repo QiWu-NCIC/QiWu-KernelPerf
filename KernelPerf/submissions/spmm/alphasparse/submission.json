@@ -16,12 +16,16 @@
     "cuda": ["upstream/include", "upstream/cuda", "upstream/cuda/kernel/level3"],
     "hip": ["upstream/include", "upstream/hip", "upstream/hip/kernel/level3"]
   },
+  "source_include_by_language": {
+    "cuda": ["README.md", "adapter.cu", "sweep.json", "variants", "upstream/cuda"],
+    "hip": ["README.md", "adapter.cu", "sweep.json", "variants"]
+  },
   "shared_source_roots": [
     {
       "source": "spmv/alphasparse/upstream",
       "target": "upstream",
       "include_by_language": {
-        "cuda": ["include", "cuda/format", "cuda/kernel/level3", "cuda/util"],
+        "cuda": ["include", "cuda/format", "cuda/util"],
         "hip": ["include", "hip/format", "hip/kernel/level3", "hip/util"]
       }
     }

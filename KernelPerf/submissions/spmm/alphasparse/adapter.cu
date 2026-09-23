@@ -72,7 +72,9 @@ struct QiwuAlphaSparseSpmmHandle {
 #include "upstream/include/alphasparse/common.h"
 #define half float
 #define half2 cuFloatComplex
+#define QIWU_SPMM_REAL_TYPES_ONLY 1
 #include "upstream/cuda/kernel/level3/alphasparse_spmm.cu"
+#undef QIWU_SPMM_REAL_TYPES_ONLY
 #undef half2
 #undef half
 #endif

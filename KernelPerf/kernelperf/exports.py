@@ -51,6 +51,30 @@ class LocalResultExporter:
                 selected[matrix_id] = row
         return list(selected.values())
 
+    @staticmethod
+    def _latest_spmm_attempts(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        """Keep the latest attempt for each SpMM configuration and scope."""
+        selected: dict[tuple[str, str, str, int, str], dict[str, Any]] = {}
+        for row in rows:
+            metadata = row.get("metadata") or {}
+            implementation = metadata.get("implementation") or {}
+            key = (
+                str(implementation.get("candidate_group", "")),
+                str(implementation.get("configuration_id", row["kernel_name"])),
+                str(row["matrix_id"]),
+                int(metadata.get("rhs_columns", 0)),
+                str(metadata.get("dense_layout", "")),
+            )
+            previous = selected.get(key)
+            current_rank = (str(row["timestamp"]), str(row["result_id"]))
+            previous_rank = (
+                (str(previous["timestamp"]), str(previous["result_id"]))
+                if previous is not None else ("", "")
+            )
+            if previous is None or current_rank > previous_rank:
+                selected[key] = row
+        return list(selected.values())
+
     def _resolve_selection(
         self,
         job: JobRecord,
@@ -158,7 +182,7 @@ class LocalResultExporter:
         exported: list[Path] = []
         method_id = slug(kernel.name)
         for (rhs_columns, dense_layout), scoped_rows in sorted(grouped.items()):
-            scoped_rows = self._latest_attempt_per_matrix(scoped_rows)
+            scoped_rows = self._latest_spmm_attempts(scoped_rows)
             _, _, csv_content = make_spmm_submission(
                 job=job,
                 results=scoped_rows,
@@ -275,6 +299,7 @@ class LocalResultExporter:
             job_ids=[job.job_id], backend_ids=[backend_id], suites=["spmm"],
             operator_ids=[operator.op_id]
         )
+        rows = self._latest_spmm_attempts(rows)
         rows = [
             row for row in rows
             if row["status"] == "pass"

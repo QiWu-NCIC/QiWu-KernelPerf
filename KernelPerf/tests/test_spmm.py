@@ -54,6 +54,11 @@ def test_p0_manifests_and_standalone_packages(name, language, count):
     if name == "alphasparse":
         assert any(path.startswith(f"upstream/{language}/kernel/level3/") for path in files)
         assert not any(path.startswith(f"upstream/{'hip' if language == 'cuda' else 'cuda'}/") for path in files)
+        if language == "cuda":
+            adapter = files["adapter.cu"]
+            upstream = files["upstream/cuda/kernel/level3/alphasparse_spmm.cu"]
+            assert "#define QIWU_SPMM_REAL_TYPES_ONLY 1" in adapter
+            assert "#if !defined(QIWU_SPMM_REAL_TYPES_ONLY)" in upstream
 
 
 def test_protocol_and_independent_contract():
@@ -233,3 +238,66 @@ def test_best_scopes_and_metric_selection(tmp_path):
     rows = runtime.db.query_results(job_ids=[job.job_id], suites=["spmm"])
     with pytest.raises(ValueError, match="mix RHS"):
         make_spmm_submission(job=job, results=rows, backend=backend, operator=operator, kernel=artifacts[0])
+
+
+def test_latest_spmm_failure_is_exported_and_excluded_from_best(tmp_path):
+    runtime = create_runtime(database_path=tmp_path / "test.sqlite", result_exports_path=tmp_path / "exports")
+    benchmark = runtime.benchmarks.get("spmm")
+    operator = benchmark.operators()[0]
+    backend = runtime.backends.backends()[0].info()
+    artifacts = []
+    for configuration in ("a", "b"):
+        artifact = kernel()
+        artifact.name = configuration
+        artifact.metadata.update(configuration_id=configuration, candidate_group="test-group")
+        artifacts.append(artifact)
+    job = JobRecord(
+        generator_id="test", backends=[backend.backend_id], suites=["spmm"],
+        dataset_id="test", operator_ids=[operator.op_id], kernels=artifacts,
+        status=JobStatus.succeeded,
+    )
+
+    def insert(artifact, status, runtime_ms, timestamp):
+        passed = status == CaseStatus.passed
+        runtime.db.insert_result(BenchmarkResult(
+            job_id=job.job_id, generator_id="test", backend_id=backend.backend_id,
+            backend_kind=backend.kind, suite="spmm", operator_id=operator.op_id,
+            operator_name=operator.name, matrix_id="rect", matrix_name="rect",
+            rows=3, cols=4, nnz=5, kernel_name=artifact.name, status=status,
+            runtime_ms=runtime_ms, preprocess_ms=0.0, gflops=0.0,
+            arithmetic_intensity=0.0, timestamp=timestamp,
+            metadata={
+                "implementation": artifact.metadata, "dtype": "fp32",
+                "rhs_columns": 2, "dense_layout": "row-major", "op_a": "N",
+                "op_b": "N", "alpha": 1.0, "beta": 0.0,
+                "operations": 20, "ranking_scope": "main",
+                "pre_plus_solve_ms": runtime_ms, "pre_amortized_ms": runtime_ms,
+                "library_version": "test 1.2.3",
+                "validation": {"status": "pass" if passed else "precision-error"},
+                "error_type": "" if passed else "ValidationError",
+                "failure_stage": "" if passed else "validation",
+                "error": "" if passed else "incorrect output",
+            },
+        ))
+
+    insert(artifacts[0], CaseStatus.passed, 0.1, "2026-09-23T00:00:00+00:00")
+    insert(artifacts[0], CaseStatus.failed, 0.0, "2026-09-23T00:00:01+00:00")
+    insert(artifacts[1], CaseStatus.passed, 1.0, "2026-09-23T00:00:00+00:00")
+
+    paths = LocalResultExporter(
+        tmp_path / "exports", runtime.db, runtime.backends, runtime.benchmarks
+    ).export_job(job)
+    candidate_path = next(Path(path) for path in paths if Path(path).name.startswith("a-"))
+    with candidate_path.open(newline="", encoding="utf-8") as stream:
+        candidate_rows = list(csv.DictReader(stream))
+    assert len(candidate_rows) == 1
+    assert candidate_rows[0]["status"] == "fail"
+    assert candidate_rows[0]["failure_stage"] == "validation"
+
+    best_paths = [Path(path) for path in paths if "-best-" in Path(path).name]
+    assert len(best_paths) == 3
+    for path in best_paths:
+        with path.open(newline="", encoding="utf-8") as stream:
+            rows = list(csv.DictReader(stream))
+        assert len(rows) == 1
+        assert rows[0]["selected_configuration_id"] == "b"

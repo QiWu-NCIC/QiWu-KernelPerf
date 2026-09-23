@@ -59,8 +59,8 @@ function selectOperator(value) {
 
 .operator-tabs button {
   border: 1px solid #9bb4e8;
-  border-radius: 999px;
-  padding: 7px 24px;
+  border-radius: 4px;
+  padding: 7px 16px;
   color: white;
   background: transparent;
   cursor: pointer;

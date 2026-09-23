@@ -4,7 +4,7 @@
       <div>
         <p class="eyebrow">QiWu / Databank / SpMM</p>
         <h1>CSR SpMM benchmark</h1>
-        <p>FP32/FP64, row-major B/C, op(A)=N, op(B)=N. Rankings never mix RHS counts.</p>
+        <p>FP32/FP64 · CSR · row-major B/C<br />op(A)=N · op(B)=N</p>
       </div>
       <div class="actions">
         <button :disabled="busy || !index.submissions.length" @click="downloadArchive(index.submissions, 'qiwu-spmm-results.zip')">Download all SpMM results</button>
@@ -109,7 +109,8 @@ const filteredEntries = computed(() => index.value.submissions.filter((item) =>
   && Number(item.rhs_columns) === Number(filters.rhs)
   && (filters.format === "all" || item.format === filters.format)
   && (filters.base === "all" || item.base_format === filters.base)));
-const ranking = computed(() => filteredEntries.value.filter((entry) => entry.public_ranked).map((entry) => {
+const ranking = computed(() => filteredEntries.value.filter((entry) =>
+  entry.public_ranked && entry.ranking_scope === "main").map((entry) => {
   const rows = rowsBySubmission.get(entry.submission_id) || [];
   const passedRows = rows.filter((row) => row.status === "pass");
   const mean = (field) => passedRows.length ? passedRows.reduce((sum, row) => sum + Number(row[field]), 0) / passedRows.length : 0;
@@ -165,12 +166,41 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.spmm-page { padding: 32px 5%; color: #14213d; background: #f5f7fb; min-height: 100vh; }
-.page-header, .filters, .status, .protocol { display: flex; gap: 18px; align-items: center; justify-content: space-between; }
-.page-header h1 { margin: 4px 0; font-size: 36px; }.eyebrow { color: #47679e; text-transform: uppercase; letter-spacing: .12em; }.actions button, .download-cell button { cursor: pointer; }
-.filters { flex-wrap: wrap; padding: 18px; background: white; border-radius: 12px; box-shadow: 0 4px 18px #17366f12; }
-.filters label { display: grid; gap: 5px; font-size: 12px; font-weight: 700; }.filters select { min-width: 130px; padding: 8px; }
-.status, .protocol { margin: 14px 0; justify-content: flex-start; flex-wrap: wrap; }.status span, .protocol span, .protocol strong { padding: 7px 12px; border-radius: 999px; background: #e8eefb; }.error, .fail { color: #b42318; }.pass { color: #067647; }
-.panel { margin-top: 18px; padding: 20px; background: white; border-radius: 12px; }.table-wrap { overflow: auto; } table { width: 100%; border-collapse: collapse; font-size: 13px; } th, td { padding: 10px; border-bottom: 1px solid #e5e7eb; text-align: left; white-space: nowrap; } th { background: #eef3fc; position: sticky; top: 0; } td small { display: block; color: #667085; max-width: 340px; white-space: normal; }.download-cell { display: flex; gap: 8px; }
-@media (max-width: 760px) { .spmm-page { padding: 20px 3%; }.page-header { align-items: flex-start; flex-direction: column; }.page-header h1 { font-size: 28px; } }
+.spmm-page { box-sizing: border-box; width: 100%; min-height: 100vh; padding: 28px 5%; overflow-x: clip; color: #14213d; background: #f5f7fb; }
+.page-header, .status, .protocol, .filters, .panel { box-sizing: border-box; max-width: 100%; min-width: 0; }
+.page-header, .status, .protocol { display: flex; gap: 16px; align-items: center; justify-content: space-between; }
+.page-header { align-items: flex-end; }
+.page-header > div:first-child { flex: 1 1 auto; min-width: 0; }
+.page-header p { width: 100%; max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+.page-header h1 { margin: 4px 0; font-size: 32px; }
+.eyebrow { color: #47679e; text-transform: uppercase; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+.actions button, .download-cell button { padding: 7px 10px; border: 1px solid #98a2b3; border-radius: 4px; color: #14213d; background: white; font: inherit; font-size: 13px; cursor: pointer; }
+.actions button:disabled { cursor: not-allowed; opacity: .55; }
+.filters { display: grid; width: 100%; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 16px; margin-top: 18px; padding: 16px 0; border-block: 1px solid #d5dbe5; }
+.filters label { display: grid; min-width: 0; gap: 5px; font-size: 12px; font-weight: 700; }
+.filters select { box-sizing: border-box; width: 100%; min-width: 0; padding: 8px; }
+.status, .protocol { justify-content: flex-start; flex-wrap: wrap; margin: 14px 0; }
+.status span, .protocol span, .protocol strong { min-width: 0; }
+.protocol { padding: 10px 0; border-block: 1px solid #d5dbe5; }
+.error, .fail { color: #b42318; }.pass { color: #067647; }
+.panel { margin-top: 22px; padding-top: 16px; border-top: 1px solid #d5dbe5; }
+.table-wrap { box-sizing: border-box; max-width: 100%; min-width: 0; overflow-x: auto; overscroll-behavior-x: contain; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { padding: 10px; border-bottom: 1px solid #e5e7eb; text-align: left; white-space: nowrap; }
+th { position: sticky; top: 0; background: #eef3fc; }
+td small { display: block; max-width: 340px; color: #667085; white-space: normal; }
+.download-cell { display: flex; gap: 8px; }
+@media (max-width: 760px) {
+  .spmm-page { padding: 20px 4%; }
+  .page-header { width: 100%; align-items: flex-start; flex-direction: column; }
+  .page-header > div:first-child, .actions { box-sizing: border-box; width: 100%; flex: none; }
+  .page-header h1 { font-size: 28px; }
+  .actions { justify-content: flex-start; }
+  .filters { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .status { align-items: flex-start; flex-direction: column; gap: 6px; }
+  .protocol { align-items: flex-start; flex-direction: column; gap: 6px; }
+  .panel { margin-top: 18px; padding-top: 14px; }
+  .table-wrap table { min-width: 1000px; }
+}
 </style>
