@@ -1,0 +1,7 @@
+[
+  {"configuration_id":"csr-alg1","entry_source":"variants/csr_alg1.cu","method_name":"AlphaSparse SpMM CSR ALG1","metadata":{"algorithm":"ALPHASPARSE_SPMM_CSR_ALG1","preprocess_policy":"workspace-setup","public_ranked":true}},
+  {"configuration_id":"csr-alg2","entry_source":"variants/csr_alg2.cu","method_name":"AlphaSparse SpMM CSR ALG2","metadata":{"algorithm":"ALPHASPARSE_SPMM_CSR_ALG2","preprocess_policy":"workspace-setup","public_ranked":true}},
+  {"configuration_id":"csr-alg3","entry_source":"variants/csr_alg3.cu","method_name":"AlphaSparse SpMM CSR ALG3","metadata":{"algorithm":"ALPHASPARSE_SPMM_CSR_ALG3","preprocess_policy":"workspace-setup","public_ranked":true}},
+  {"configuration_id":"csr-alg4","entry_source":"variants/csr_alg4.cu","method_name":"AlphaSparse SpMM CSR ALG4","metadata":{"algorithm":"ALPHASPARSE_SPMM_CSR_ALG4","preprocess_policy":"workspace-setup","public_ranked":true}},
+  {"configuration_id":"csr-alg5","entry_source":"variants/csr_alg5.cu","method_name":"AlphaSparse SpMM CSR ALG5","metadata":{"algorithm":"ALPHASPARSE_SPMM_CSR_ALG5","preprocess_policy":"workspace-setup","public_ranked":true}}
+]
