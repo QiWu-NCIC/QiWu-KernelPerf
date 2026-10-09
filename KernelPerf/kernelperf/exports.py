@@ -254,7 +254,10 @@ class LocalResultExporter:
         representative_id = str(
             (next(iter(selected.values())).get("metadata") or {}).get("implementation", {}).get("configuration_id", "")
         )
-        representative = next(kernel for kernel in kernels if self._config_id(kernel) == representative_id)
+        representative = next(
+            (kernel for kernel in kernels if self._config_id(kernel) == representative_id),
+            kernels[0],
+        )
         backend = self.backends.get(backend_id).info()
         method_id = slug(f"{group}-best")
         from benchmarks.spmv.results import make_spmv_submission
@@ -350,8 +353,11 @@ class LocalResultExporter:
                     .get("implementation", {}).get("configuration_id", "")
                 )
                 representative = next(
-                    kernel for kernel in ranked_kernels
-                    if self._config_id(kernel) == representative_id
+                    (
+                        kernel for kernel in kernels
+                        if self._config_id(kernel) == representative_id
+                    ),
+                    ranked_kernels[0],
                 )
                 method_id = slug(f"{group}-best-{selection_metric}")
                 _, _, csv_content = make_spmm_submission(
