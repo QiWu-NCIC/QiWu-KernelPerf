@@ -11,9 +11,8 @@ const submissionNames = fs.readdirSync(submissionRoot, { withFileTypes: true })
   .map((item) => item.name)
   .sort();
 
-// Baselines are regenerated from the canonical submissions. Content-addressed
-// packages imported with `add:spmv --source-dir` live beside this directory and
-// survive later audits and deployments.
+// Baselines and content-addressed packages are regenerated from canonical
+// submissions so a clean checkout satisfies both historical index formats.
 fs.rmSync(outputRoot, { recursive: true, force: true });
 for (const submissionName of submissionNames) {
   const outputName = submissionName.replaceAll("_", "-");
@@ -29,12 +28,8 @@ for (const submissionName of submissionNames) {
   for (const file of files.sort((left, right) => left.path < right.path ? -1 : left.path > right.path ? 1 : 0)) {
     digest.update(file.path).update("\0").update(file.content).update("\0");
   }
+  const sourceSha256 = digest.digest("hex");
   const target = path.join(outputRoot, outputName);
-  for (const file of files) {
-    const destination = path.join(target, "files", ...file.path.split("/"));
-    fs.mkdirSync(path.dirname(destination), { recursive: true });
-    fs.writeFileSync(destination, file.content);
-  }
   const plugin = {
     schema_version: 1,
     kind: "qiwu-spmv-source-plugin",
@@ -50,12 +45,19 @@ for (const submissionName of submissionNames) {
     candidate_group: manifest.candidate_group || "",
     upstream: manifest.upstream || null,
     configurations,
-    source_sha256: digest.digest("hex"),
+    source_sha256: sourceSha256,
     source_path: `KernelPerf/submissions/spmv/${submissionName}`,
     files: files.map((file) => file.path),
   };
-  fs.mkdirSync(target, { recursive: true });
-  fs.writeFileSync(path.join(target, "plugin.json"), JSON.stringify(plugin, null, 2) + "\n");
+  for (const targetRoot of [target, path.resolve("public", "source", sourceSha256)]) {
+    for (const file of files) {
+      const destination = path.join(targetRoot, "files", ...file.path.split("/"));
+      fs.mkdirSync(path.dirname(destination), { recursive: true });
+      fs.writeFileSync(destination, file.content);
+    }
+    fs.mkdirSync(targetRoot, { recursive: true });
+    fs.writeFileSync(path.join(targetRoot, "plugin.json"), JSON.stringify(plugin, null, 2) + "\n");
+  }
 }
 console.log(JSON.stringify({ generated: submissionNames.length, output: outputRoot }, null, 2));
 
