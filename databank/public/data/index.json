@@ -10515,7 +10515,7 @@
     },
     {
       "submission_id": "AlphaSparseLib-CSR-best-A100-SXM4-80GB-suitesparse_all-fp32",
-      "path": "data/results/spmv/A100-SXM4-80GB/suitesparse_all/AlphaSparseLib-CSR-BEST-A100-SXM4-80GB-suitesparse_all-fp32.csv",
+      "path": "data/results/spmv/A100-SXM4-80GB/suitesparse_all/AlphaSparseLib-CSR-best-A100-SXM4-80GB-suitesparse_all-fp32.csv",
       "method_id": "AlphaSparseLib-CSR-BEST",
       "method_name": "AlphaSparseLib CSR BEST",
       "configuration_id": "per-matrix-best",
@@ -10536,7 +10536,7 @@
     },
     {
       "submission_id": "AlphaSparseLib-CSR-best-A100-SXM4-80GB-suitesparse_all-fp64",
-      "path": "data/results/spmv/A100-SXM4-80GB/suitesparse_all/AlphaSparseLib-CSR-BEST-A100-SXM4-80GB-suitesparse_all-fp64.csv",
+      "path": "data/results/spmv/A100-SXM4-80GB/suitesparse_all/AlphaSparseLib-CSR-best-A100-SXM4-80GB-suitesparse_all-fp64.csv",
       "method_id": "AlphaSparseLib-CSR-BEST",
       "method_name": "AlphaSparseLib CSR BEST",
       "configuration_id": "per-matrix-best",
@@ -10599,7 +10599,7 @@
     },
     {
       "submission_id": "AlphaSparseLib-CSR-best-H100-SXM5-80GB-suitesparse_all-fp32",
-      "path": "data/results/spmv/H100-SXM5-80GB/suitesparse_all/AlphaSparseLib-CSR-BEST-H100-SXM5-80GB-suitesparse_all-fp32.csv",
+      "path": "data/results/spmv/H100-SXM5-80GB/suitesparse_all/AlphaSparseLib-CSR-best-H100-SXM5-80GB-suitesparse_all-fp32.csv",
       "method_id": "AlphaSparseLib-CSR-BEST",
       "method_name": "AlphaSparseLib CSR BEST",
       "configuration_id": "per-matrix-best",
@@ -10620,7 +10620,7 @@
     },
     {
       "submission_id": "AlphaSparseLib-CSR-best-H100-SXM5-80GB-suitesparse_all-fp64",
-      "path": "data/results/spmv/H100-SXM5-80GB/suitesparse_all/AlphaSparseLib-CSR-BEST-H100-SXM5-80GB-suitesparse_all-fp64.csv",
+      "path": "data/results/spmv/H100-SXM5-80GB/suitesparse_all/AlphaSparseLib-CSR-best-H100-SXM5-80GB-suitesparse_all-fp64.csv",
       "method_id": "AlphaSparseLib-CSR-BEST",
       "method_name": "AlphaSparseLib CSR BEST",
       "configuration_id": "per-matrix-best",
@@ -10683,7 +10683,7 @@
     },
     {
       "submission_id": "AlphaSparseLib-CSR-best-RTX5090-SL3061-suitesparse_all-fp32",
-      "path": "data/results/spmv/RTX5090-SL3061/suitesparse_all/AlphaSparseLib-CSR-BEST-RTX5090-SL3061-suitesparse_all-fp32.csv",
+      "path": "data/results/spmv/RTX5090-SL3061/suitesparse_all/AlphaSparseLib-CSR-best-RTX5090-SL3061-suitesparse_all-fp32.csv",
       "method_id": "AlphaSparseLib-CSR-BEST",
       "method_name": "AlphaSparseLib CSR BEST",
       "configuration_id": "per-matrix-best",
@@ -10704,7 +10704,7 @@
     },
     {
       "submission_id": "AlphaSparseLib-CSR-best-RTX5090-SL3061-suitesparse_all-fp64",
-      "path": "data/results/spmv/RTX5090-SL3061/suitesparse_all/AlphaSparseLib-CSR-BEST-RTX5090-SL3061-suitesparse_all-fp64.csv",
+      "path": "data/results/spmv/RTX5090-SL3061/suitesparse_all/AlphaSparseLib-CSR-best-RTX5090-SL3061-suitesparse_all-fp64.csv",
       "method_id": "AlphaSparseLib-CSR-BEST",
       "method_name": "AlphaSparseLib CSR BEST",
       "configuration_id": "per-matrix-best",
