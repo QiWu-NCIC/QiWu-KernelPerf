@@ -5,6 +5,14 @@ import path from "node:path";
 const repositoryRoot = path.resolve("..");
 const submissionRoot = path.join(repositoryRoot, "KernelPerf", "submissions", "spmv");
 const outputRoot = path.resolve("public", "source", "baselines");
+const textExtensions = new Set([
+  ".c", ".cc", ".cpp", ".cu", ".cuh", ".h", ".hpp", ".inl", ".hip",
+  ".json", ".md", ".py", ".sh", ".s", ".txt", ".in",
+]);
+const historicalSourceIds = {
+  alphasparse: "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
+  cusparse: "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
+};
 const submissionNames = fs.readdirSync(submissionRoot, { withFileTypes: true })
   .filter((item) => item.isDirectory()
     && fs.existsSync(path.join(submissionRoot, item.name, "submission.json")))
@@ -20,7 +28,10 @@ for (const submissionName of submissionNames) {
   const manifest = JSON.parse(fs.readFileSync(path.join(root, "submission.json"), "utf8"));
   const files = walk(root)
     .filter((file) => path.basename(file) !== "submission.json")
-    .map((file) => ({ path: path.relative(root, file).replaceAll(path.sep, "/"), content: fs.readFileSync(file) }));
+    .map((file) => {
+      const relative = path.relative(root, file).replaceAll(path.sep, "/");
+      return { path: relative, content: canonicalContent(relative, fs.readFileSync(file)) };
+    });
   const configurations = manifest.configurations_file
     ? JSON.parse(fs.readFileSync(path.join(root, manifest.configurations_file), "utf8"))
     : undefined;
@@ -49,7 +60,11 @@ for (const submissionName of submissionNames) {
     source_path: `KernelPerf/submissions/spmv/${submissionName}`,
     files: files.map((file) => file.path),
   };
-  for (const targetRoot of [target, path.resolve("public", "source", sourceSha256)]) {
+  const targets = [target, path.resolve("public", "source", sourceSha256)];
+  if (historicalSourceIds[submissionName]) {
+    targets.push(path.resolve("public", "source", historicalSourceIds[submissionName]));
+  }
+  for (const targetRoot of targets) {
     for (const file of files) {
       const destination = path.join(targetRoot, "files", ...file.path.split("/"));
       fs.mkdirSync(path.dirname(destination), { recursive: true });
@@ -67,4 +82,9 @@ function walk(directory) {
     const file = path.join(directory, item.name);
     return item.isDirectory() ? walk(file) : [file];
   });
+}
+
+function canonicalContent(relative, content) {
+  if (!textExtensions.has(path.extname(relative).toLowerCase())) return content;
+  return Buffer.from(content.toString("utf8").replaceAll("\r\n", "\n").replaceAll("\r", "\n"));
 }
