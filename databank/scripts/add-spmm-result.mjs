@@ -1,16 +1,17 @@
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
-import { parseCsv, validateRows, readIndex, safePath } from "./spmm-data.mjs";
+import { parseCsv, presentationMethodName, validateRows, readIndex, safePath } from "./spmm-data.mjs";
 
 const args = process.argv.slice(2);
 const option = (name, fallback) => args.includes(name) ? args[args.indexOf(name) + 1] : fallback;
 const input = args[0];
-if (!input || input.startsWith("--")) throw new Error("Usage: add-spmm-result.mjs result.csv --source-dir PACKAGE [--root public] [--dry-run]");
+if (!input || input.startsWith("--")) throw new Error("Usage: add-spmm-result.mjs result.csv --source-dir PACKAGE [--root public] [--dry-run] [--merge-checkpoint]");
 const root = path.resolve(option("--root", "public"));
 const dryRun = args.includes("--dry-run");
-const text = fs.readFileSync(input, "utf8");
-const rows = validateRows(parseCsv(text));
+const mergeCheckpoint = args.includes("--merge-checkpoint");
+let text = fs.readFileSync(input, "utf8");
+let rows = validateRows(parseCsv(text)).map((row) => ({ ...row, method_name: presentationMethodName(row) }));
 const first = rows[0];
 for (const field of ["submission_id", "method_id", "backend_id", "dataset_id"]) {
   if (!/^[A-Za-z0-9._-]+$/.test(first[field])) throw new Error("unsafe identifier: " + field);
@@ -33,7 +34,7 @@ for (const file of [...(plugin?.files || [])].sort()) {
   payload.push({ file, content });
 }
 if (plugin && digest.digest("hex") !== plugin.source_sha256) throw new Error("source hash mismatch");
-const relative = ["data/spmm/results", first.backend_id, first.dataset_id, first.dtype,
+const relative = ["data/results/spmm", first.backend_id, first.dataset_id, first.dtype,
   "n" + first.rhs_columns, first.dense_layout, first.method_id, first.submission_id + ".csv"].join("/");
 const sourceRoot = plugin ? "source/spmm/" + plugin.source_sha256 : "";
 const passed = rows.filter((row) => row.status === "pass");
@@ -53,21 +54,67 @@ const entry = {
 };
 const index = readIndex(root);
 const previous = index.submissions.find((item) => item.submission_id === entry.submission_id);
-if (previous && previous.csv_sha256 !== entry.csv_sha256) throw new Error("refusing to overwrite a different result with the same submission_id");
+let mergedCheckpoint = false;
+if (previous && previous.csv_sha256 !== entry.csv_sha256) {
+  if (!mergeCheckpoint) throw new Error("refusing to overwrite a different result with the same submission_id");
+  const previousText = fs.readFileSync(path.join(root, previous.path), "utf8");
+  const previousRows = validateRows(parseCsv(previousText)).map((row) => ({ ...row, method_name: presentationMethodName(row) }));
+  const previousByMatrix = new Map(previousRows.map((row) => [row.matrix_id, row]));
+  const mergedByMatrix = new Map(previousRows.map((row) => [row.matrix_id, row]));
+  for (const row of rows) {
+    const old = previousByMatrix.get(row.matrix_id);
+    if (old && JSON.stringify(old) !== JSON.stringify(row)) {
+      throw new Error("checkpoint overlap changed for matrix: " + row.matrix_id);
+    }
+    mergedByMatrix.set(row.matrix_id, row);
+  }
+  rows = [...mergedByMatrix.values()].sort((left, right) => left.matrix_id.localeCompare(right.matrix_id));
+  const headers = text.split(/\r?\n/, 1)[0].split(",");
+  const escape = (value) => {
+    const cell = String(value ?? "");
+    return /[",\r\n]/.test(cell) ? `"${cell.replaceAll('"', '""')}"` : cell;
+  };
+  text = [headers.join(","), ...rows.map((row) => headers.map((header) => escape(row[header])).join(","))].join("\n") + "\n";
+  validateRows(parseCsv(text));
+  mergedCheckpoint = true;
+}
+const finalPassed = rows.filter((row) => row.status === "pass");
+entry.csv_sha256 = crypto.createHash("sha256").update(text).digest("hex");
+entry.passed = finalPassed.length;
+entry.failed = rows.length - finalPassed.length;
+entry.total = rows.length;
+entry.library_versions = [...new Set(rows.map((row) => row.library_version))];
+for (const [key, column] of [["solve-only", "solve_only_efficiency_percent"], ["pre-plus-solve", "pre_plus_solve_efficiency_percent"], ["pre-amortized", "pre_amortized_efficiency_percent"]]) {
+  entry.metrics[key] = finalPassed.length ? finalPassed.reduce((sum, row) => sum + Number(row[column]), 0) / finalPassed.length : 0;
+}
 if (!dryRun) {
   const destination = path.join(root, relative);
   fs.mkdirSync(path.dirname(destination), { recursive: true });
-  if (!fs.existsSync(destination)) fs.writeFileSync(destination, text, { flag: "wx" });
+  if (mergedCheckpoint) fs.writeFileSync(destination, text);
+  else if (!fs.existsSync(destination)) fs.writeFileSync(destination, text, { flag: "wx" });
   for (const { file, content } of payload) {
     const target = path.join(root, sourceRoot, "files", file);
     fs.mkdirSync(path.dirname(target), { recursive: true });
     if (!fs.existsSync(target)) fs.writeFileSync(target, content, { flag: "wx" });
   }
   fs.writeFileSync(path.join(root, sourceRoot, "plugin.json"), JSON.stringify(plugin, null, 2) + "\n");
-  if (!previous) index.submissions.push(entry);
+  if (previous) index.submissions[index.submissions.indexOf(previous)] = entry;
+  else index.submissions.push(entry);
   index.submissions.sort((left, right) => left.path.localeCompare(right.path));
-  fs.mkdirSync(path.join(root, "data/spmm"), { recursive: true });
-  fs.writeFileSync(path.join(root, "data/spmm/index.json.tmp"), JSON.stringify(index, null, 2) + "\n");
-  fs.renameSync(path.join(root, "data/spmm/index.json.tmp"), path.join(root, "data/spmm/index.json"));
+  const indexDirectory = path.join(root, "data/results/spmm");
+  const indexPath = path.join(indexDirectory, "index.json");
+  const temporaryIndexPath = path.join(indexDirectory, `.index-${process.pid}.tmp`);
+  fs.mkdirSync(indexDirectory, { recursive: true });
+  try {
+    fs.writeFileSync(temporaryIndexPath, JSON.stringify(index, null, 2) + "\n");
+    try {
+      fs.renameSync(temporaryIndexPath, indexPath);
+    } catch (error) {
+      if (process.platform !== "win32" || !["EPERM", "EEXIST"].includes(error.code)) throw error;
+      fs.copyFileSync(temporaryIndexPath, indexPath);
+    }
+  } finally {
+    if (fs.existsSync(temporaryIndexPath)) fs.unlinkSync(temporaryIndexPath);
+  }
 }
-console.log(JSON.stringify({ ...entry, rows: rows.length, target: relative, source_required: !plugin }, null, 2));
+console.log(JSON.stringify({ ...entry, rows: rows.length, target: relative, source_required: !plugin, merged_checkpoint: mergedCheckpoint }, null, 2));

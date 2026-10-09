@@ -22,6 +22,31 @@ export const requiredColumns = [...identityColumns,
   "error", "error_type", "failure_stage", "warmup", "iterations", "validation_safety_factor", "public_ranked",
 ];
 
+export function configurationLabel(configurationId) {
+  const value = String(configurationId || "").replace(/^csr-?/i, "").replaceAll("-", " ").trim();
+  return value ? value.toUpperCase() : "BEST";
+}
+
+export function presentationMethodName(row) {
+  const methodId = String(row.method_id || "");
+  const candidateGroup = String(row.candidate_group || methodId);
+  const configuration = configurationLabel(row.configuration_id);
+  const sourceName = String(row.method_name || methodId);
+  if (/alphasparse/i.test(candidateGroup)) return `AlphaSparseLib CSR ${configuration}`;
+  if (/cusparse/i.test(candidateGroup)) {
+    const version = sourceName.match(/CUDA\s+([\d.]+)/i)?.[1]
+      || methodId.match(/CUDA[- ]([\d.]+)/i)?.[1]
+      || String(row.library_version || "").match(/([\d]+(?:\.[\d]+)+)/)?.[1];
+    return `cuSPARSE${version ? ` CUDA ${version}` : ""} CSR ${configuration}`.replace(/\s+/g, " ").trim();
+  }
+  if (/rocsparse/i.test(candidateGroup)) {
+    const version = sourceName.match(/DTK\s+([\d.]+)/i)?.[1]
+      || methodId.match(/DTK[- ]?([\d.]+)/i)?.[1];
+    return `rocSPARSE${version ? ` DTK ${version}` : ""} CSR ${configuration}`.replace(/\s+/g, " ").trim();
+  }
+  return sourceName.replace(/\s+SpMM\s+/i, " ").replace(/\s+\[[^\]]+\]$/, "").replace(/\s+(?:solve-only|pre-plus-solve|pre-amortized)$/, "");
+}
+
 export function safePath(value) {
   return typeof value === "string" && Boolean(value) && !value.includes("\\")
     && !value.includes(":") && value.split("/").every((part) => part && part !== "." && part !== "..");
@@ -78,7 +103,8 @@ export function validateRows(rows, { official = true } = {}) {
     if (row.status === "pass") {
       if (row.validation_status !== "pass" || Number(row.failed_elements) || Number(row.invalid_elements)) throw new Error("inconsistent pass status");
       if (!row.library_version || row.library_version === "unknown") throw new Error("passing result has no library version");
-      if (!row.method_name.includes(row.library_version)) throw new Error("method name is not versioned");
+      if (/cuSPARSE/i.test(row.method_name) && !/CUDA\s+[\d]+(?:\.[\d]+)+/i.test(row.method_name)) throw new Error("cuSPARSE method name is not versioned");
+      if (/rocSPARSE/i.test(row.method_name) && !/DTK\s+[\d]+(?:\.[\d]+)+/i.test(row.method_name)) throw new Error("rocSPARSE method name is not versioned");
       if (!close(Number(row.pre_plus_solve_ms), Number(row.preprocess_ms) + Number(row.solve_ms))) throw new Error("pre+solve mismatch");
       if (!close(Number(row.pre_amortized_ms), Number(row.preprocess_ms) / Number(row.iterations) + Number(row.solve_ms))) throw new Error("amortization mismatch");
     }
@@ -95,7 +121,7 @@ export function validateRows(rows, { official = true } = {}) {
 }
 
 export function readIndex(root) {
-  const filename = path.join(root, "data/spmm/index.json");
+  const filename = path.join(root, "data/results/spmm/index.json");
   if (!fs.existsSync(filename)) return { schema_version: 3, result_schema: schema, submissions: [] };
   const index = JSON.parse(fs.readFileSync(filename, "utf8"));
   if (index.schema_version !== 3 || index.result_schema !== schema || !Array.isArray(index.submissions)) throw new Error("invalid SpMM catalog");

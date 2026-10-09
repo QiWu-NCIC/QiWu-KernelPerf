@@ -204,6 +204,29 @@ for (const entry of candidateManifest.submissions || []) {
     failures.push(`matrix-set mismatch: ${key}/${entry.configuration_id}`);
   } else if (!previous) groups.set(key, ids);
 }
+const publicCandidateMinimums = new Map();
+for (const entry of manifest.submissions || []) {
+  if (entry.selection_role !== "candidate") continue;
+  const file = path.join(publicRoot, entry.path.replaceAll("/", path.sep));
+  if (!fs.existsSync(file)) continue;
+  const { headers, rows } = readCsv(file);
+  const matrixIndex = headers.indexOf("matrix_id");
+  const statusIndex = headers.indexOf("status");
+  const solveIndex = headers.indexOf("solve_ms");
+  const key = [
+    operatorOf(entry.operator_id), canonicalBackend(entry.backend_id),
+    datasetOf(entry.dataset_id), entry.dtype, entry.candidate_group,
+  ].join("|");
+  const minimums = publicCandidateMinimums.get(key) || new Map();
+  for (const row of rows) {
+    if (row[statusIndex] !== "pass") continue;
+    const matrix = row[matrixIndex];
+    const solve = Number(row[solveIndex]);
+    if (!matrix || !Number.isFinite(solve) || solve <= 0) continue;
+    if (!minimums.has(matrix) || solve < minimums.get(matrix)) minimums.set(matrix, solve);
+  }
+  publicCandidateMinimums.set(key, minimums);
+}
 for (const entry of manifest.submissions || []) {
   if (entry.method_id !== "cusparse-best") continue;
   const file = path.join(publicRoot, entry.path.replaceAll("/", path.sep));
@@ -219,7 +242,9 @@ for (const entry of manifest.submissions || []) {
   }
   const matrixIndex = headers.indexOf("matrix_id");
   const solveIndex = headers.indexOf("solve_ms");
-  const minimums = candidateMinimums.get(`${operatorOf(entry.operator_id)}|${canonicalBackend(entry.backend_id)}|${datasetOf(entry.dataset_id)}|${entry.dtype}`);
+  const candidateKey = `${operatorOf(entry.operator_id)}|${canonicalBackend(entry.backend_id)}|${datasetOf(entry.dataset_id)}|${entry.dtype}`;
+  const minimums = candidateMinimums.get(candidateKey)
+    || publicCandidateMinimums.get(`${candidateKey}|cusparse`);
   for (const row of rows) {
     if (row[schemaIndex] !== "2") failures.push(`invalid schema row: ${entry.path}`);
     if (row[baseFormatIndex] !== "manual-selection") {
@@ -263,7 +288,7 @@ for (const [key, configurations] of observedCandidateScopes) {
     failures.push(`BEST uses incomplete candidate scope: ${key} (${configurations.size}/${required.size})`);
   }
 }
-for (const file of walkCsv(path.join(publicRoot, "data", "results"))) {
+for (const file of walkCsv(path.join(publicRoot, "data", "results", "spmv"))) {
   if (!publicPaths.has(path.resolve(file))) failures.push(`unindexed public CSV: ${file}`);
 }
 for (const file of walkCsv(path.join(publicRoot, "data", "candidate-pool"))) {

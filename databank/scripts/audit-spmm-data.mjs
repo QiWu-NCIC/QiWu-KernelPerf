@@ -13,7 +13,10 @@ const completeness = new Set();
 for (const entry of index.submissions) {
   if (seen.has(entry.submission_id)) throw new Error("duplicate submission id");
   seen.add(entry.submission_id);
-  if (!safePath(entry.path) || !entry.path.startsWith("data/spmm/results/")) throw new Error("unsafe SpMM result path");
+  if (!safePath(entry.path) || !entry.path.startsWith("data/results/spmm/")) throw new Error("unsafe SpMM result path");
+  const expectedPath = ["data/results/spmm", entry.backend_id, entry.dataset_id, entry.dtype,
+    "n" + entry.rhs_columns, entry.dense_layout, entry.method_id, entry.submission_id + ".csv"].join("/");
+  if (entry.path !== expectedPath) throw new Error("SpMM result path does not match the shared results layout");
   if (!safePath(entry.source_manifest) || !entry.source_manifest.startsWith("source/spmm/")) throw new Error("unsafe SpMM source path");
   const text = fs.readFileSync(path.join(root, entry.path), "utf8");
   if (crypto.createHash("sha256").update(text).digest("hex") !== entry.csv_sha256) throw new Error("CSV hash mismatch: " + entry.path);

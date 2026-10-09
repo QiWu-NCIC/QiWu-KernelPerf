@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "dataset_id": "suitesparse_all",
+  "description": "Full SuiteSparse campaign selections aligned with the sample100 configuration sets.",
+  "backends": {
+    "A100-SXM4-80GB": {
+      "spmv": [
+        {"submission": "submissions/spmv/alphasparse", "configuration_ids": ["scalar", "vector", "adaptive", "merge", "line-enhance", "flat1", "flat4", "flat8"]},
+        {"submission": "submissions/spmv/csr5"},
+        {"submission": "submissions/spmv/csr_adaptive"},
+        {"submission": "submissions/spmv/cusparse", "configuration_ids": ["coo-default", "coo-alg1", "coo-alg2", "csr-default", "csr-alg1", "csr-alg2", "csc-default", "csc-alg1", "csc-alg2", "sell-c16-default", "sell-c16-alg1", "sell-nrows-default", "sell-nrows-alg1"]},
+        {"submission": "submissions/spmv/ghost_sell", "configuration_ids": ["sigma-32768"]}
+      ],
+      "spmm": [
+        {"submission": "submissions/spmm/alphasparse", "configuration_ids": ["csr-alg1", "csr-alg2", "csr-alg3", "csr-alg4", "csr-alg5"]},
+        {"submission": "submissions/spmm/cusparse", "configuration_ids": ["csr-default", "csr-alg1", "csr-alg2", "csr-alg3"]}
+      ]
+    },
+    "H100-SXM5-80GB": {
+      "spmv": [
+        {"submission": "submissions/spmv/alphasparse", "configuration_ids": ["scalar", "vector", "adaptive", "merge", "line-enhance", "flat1", "flat4", "flat8"]},
+        {"submission": "submissions/spmv/csr5"},
+        {"submission": "submissions/spmv/csr_adaptive"},
+        {"submission": "submissions/spmv/cusparse", "configuration_ids": ["coo-default", "coo-alg1", "coo-alg2", "csr-default", "csr-alg1", "csr-alg2", "csc-default", "csc-alg1", "csc-alg2", "sell-c16-default", "sell-c8-alg1", "sell-nrows-default", "sell-nrows-alg1"]},
+        {"submission": "submissions/spmv/ghost_sell", "configuration_ids": ["sigma-131072"]}
+      ],
+      "spmm": [
+        {"submission": "submissions/spmm/alphasparse", "configuration_ids": ["csr-alg1", "csr-alg2", "csr-alg3", "csr-alg4", "csr-alg5"]},
+        {"submission": "submissions/spmm/cusparse", "configuration_ids": ["csr-default", "csr-alg1", "csr-alg2", "csr-alg3"]}
+      ]
+    },
+    "RTX5090-SL3061": {
+      "spmv": [
+        {"submission": "submissions/spmv/alphasparse", "configuration_ids": ["scalar", "vector", "adaptive", "merge", "line-enhance", "flat1", "flat4", "flat8"]},
+        {"submission": "submissions/spmv/csr5"},
+        {"submission": "submissions/spmv/csr_adaptive"},
+        {"submission": "submissions/spmv/cusparse", "configuration_ids": ["coo-default", "coo-alg1", "coo-alg2", "csr-default", "csr-alg1", "csr-alg2", "csc-default", "csc-alg1", "csc-alg2", "sell-c16-default", "sell-c16-alg1", "sell-nrows-default", "sell-nrows-alg1"]},
+        {"submission": "submissions/spmv/ghost_sell", "configuration_ids": ["sigma-32"]}
+      ],
+      "spmm": [
+        {"submission": "submissions/spmm/alphasparse", "configuration_ids": ["csr-alg1", "csr-alg2", "csr-alg3", "csr-alg4", "csr-alg5"]},
+        {"submission": "submissions/spmm/cusparse", "configuration_ids": ["csr-default", "csr-alg1", "csr-alg2", "csr-alg3"]}
+      ]
+    },
+    "BW1000-gfx936": {
+      "spmv": [
+        {"submission": "submissions/spmv/alphasparse", "configuration_ids": ["scalar", "vector", "adaptive", "merge", "line-enhance", "flat1", "flat4", "flat8"]},
+        {"submission": "submissions/spmv/rocsparse", "configuration_ids": ["adaptive", "stream", "lrb"]}
+      ],
+      "spmm": [
+        {"submission": "submissions/spmm/alphasparse", "configuration_ids": ["csr-alg1", "csr-alg2", "csr-alg3", "csr-alg4", "csr-alg5"]},
+        {"submission": "submissions/spmm/rocsparse", "configuration_ids": ["csr", "csr-row-split", "csr-nnz-split", "csr-merge-path"]}
+      ]
+    },
+    "Z100-gfx906": {
+      "spmv": [
+        {"submission": "submissions/spmv/alphasparse", "configuration_ids": ["scalar", "vector", "adaptive", "merge", "line-enhance", "flat1", "flat4", "flat8"]},
+        {"submission": "submissions/spmv/rocsparse", "configuration_ids": ["adaptive", "stream", "lrb"]}
+      ],
+      "spmm": [
+        {"submission": "submissions/spmm/alphasparse", "configuration_ids": ["csr-alg1", "csr-alg2", "csr-alg3", "csr-alg4", "csr-alg5"]},
+        {"submission": "submissions/spmm/rocsparse", "configuration_ids": ["csr", "csr-row-split", "csr-nnz-split", "csr-merge-path"]}
+      ]
+    }
+  }
+}

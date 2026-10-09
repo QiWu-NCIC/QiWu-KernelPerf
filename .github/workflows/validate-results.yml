@@ -37,3 +37,6 @@ jobs:
       - name: Audit the published catalog
         working-directory: databank
         run: npm run audit:all
+      - name: Test leaderboard coverage
+        working-directory: databank
+        run: npm test

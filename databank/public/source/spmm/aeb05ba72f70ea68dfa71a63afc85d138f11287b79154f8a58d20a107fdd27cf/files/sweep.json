@@ -1,0 +1,6 @@
+[
+  {"configuration_id":"csr-default","entry_source":"variants/csr_default.cu","method_name":"cuSPARSE SpMM CSR DEFAULT","metadata":{"algorithm":"CUSPARSE_SPMM_ALG_DEFAULT","preprocess_policy":"library-preprocess","public_ranked":false}},
+  {"configuration_id":"csr-alg1","entry_source":"variants/csr_alg1.cu","method_name":"cuSPARSE SpMM CSR ALG1","metadata":{"algorithm":"CUSPARSE_SPMM_CSR_ALG1","preprocess_policy":"library-preprocess","public_ranked":true}},
+  {"configuration_id":"csr-alg2","entry_source":"variants/csr_alg2.cu","method_name":"cuSPARSE SpMM CSR ALG2","metadata":{"algorithm":"CUSPARSE_SPMM_CSR_ALG2","preprocess_policy":"library-preprocess","public_ranked":true}},
+  {"configuration_id":"csr-alg3","entry_source":"variants/csr_alg3.cu","method_name":"cuSPARSE SpMM CSR ALG3","metadata":{"algorithm":"CUSPARSE_SPMM_CSR_ALG3","preprocess_policy":"library-preprocess","public_ranked":true}}
+]

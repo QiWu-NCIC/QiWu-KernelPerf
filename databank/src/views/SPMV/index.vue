@@ -10,18 +10,14 @@
         <a class="action-link" :href="submissionsUrl" target="_blank" rel="noopener noreferrer">Submit code</a>
         <a class="action-link" :href="resultSubmissionsUrl" target="_blank" rel="noopener noreferrer">Submit result</a>
         <button class="action-button" type="button" :disabled="downloading !== null" @click="downloadAllResults">
-          {{ downloading ? "Preparing..." : "Download all CSVs" }}
+          {{ downloading ? "Preparing..." : "Download all SpMV CSVs" }}
         </button>
       </nav>
     </header>
 
+    <OperatorTabs current="spmv" />
+
     <section class="control-band" aria-label="Leaderboard filters">
-      <label>
-        <span>Operator</span>
-        <select v-model="filters.operator">
-          <option v-for="value in operatorOptions" :key="value" :value="value">{{ formatOperator(value) }}</option>
-        </select>
-      </label>
       <label>
         <span>Hardware</span>
         <select v-model="filters.backend">
@@ -162,7 +158,7 @@
               <td>{{ formatMilliseconds(item.geomeanPreprocessMs) }}</td>
               <td>{{ formatMilliseconds(item.geomeanSolveMs) }}</td>
               <td>{{ formatMilliseconds(item.geomeanEffectiveMs) }}</td>
-              <td>{{ item.passCount }}/{{ item.expectedCaseCount }}<small v-if="item.failedCount">{{ item.failedCount }} failed</small></td>
+              <td>{{ item.passCount }}/{{ item.expectedCaseCount }}<small v-if="item.failedCount">{{ item.failedCount }} failed</small><small v-if="item.missingCount">{{ item.missingCount }} missing results</small></td>
             </tr>
           </tbody>
         </table>
@@ -179,46 +175,46 @@
         <span class="score-unit">ranked by FP32 + FP64 efficiency geomean</span>
       </div>
 
-      <div v-if="ranking.length" class="method-bands">
+      <div v-if="selectedPlotItem" class="method-bands">
         <article
-          v-for="item in ranking"
-          :id="methodBandId(item.key)"
-          :key="item.key"
+          :id="methodBandId(selectedPlotItem.key)"
+          :key="selectedPlotItem.key"
           class="method-band"
           tabindex="-1"
         >
           <header class="method-band-header">
             <div class="method-identity">
-              <span class="rank-number">{{ item.rank ?? "UR" }}</span>
+              <span class="rank-number">{{ selectedPlotItem.rank ?? "UR" }}</span>
               <div class="method-copy">
-                <strong>{{ item.methodName }}</strong>
-                <span>GPU: {{ item.hardware }} &middot; CPU: {{ item.cpuModel || "not recorded" }} &middot; {{ formatBaseFormat(item.baseFormat) }} &middot; {{ item.dataset }}</span>
-                <small v-if="item.configurationId">config: {{ item.configurationId }}<span v-if="item.selectionRole === 'best'"> &middot; per-matrix best</span></small>
-                <small v-if="configurationDescription(item)" class="config-provenance">{{ configurationDescription(item) }}</small>
-                <small v-if="item.selectedFrom">selected from: {{ item.selectedFrom }}</small>
-                <small>{{ item.passCount }}/{{ item.expectedCaseCount }} passing cases &middot; {{ formatPercent(item.coverageRatio * 100) }}% coverage<span v-if="item.failedCount"> &middot; {{ item.failedCount }} failed</span></small>
+                <strong>{{ selectedPlotItem.methodName }}</strong>
+                <span>GPU: {{ selectedPlotItem.hardware }} &middot; CPU: {{ selectedPlotItem.cpuModel || "not recorded" }} &middot; {{ formatBaseFormat(selectedPlotItem.baseFormat) }} &middot; {{ selectedPlotItem.dataset }}</span>
+                <small v-if="selectedPlotItem.configurationId">config: {{ selectedPlotItem.configurationId }}<span v-if="selectedPlotItem.selectionRole === 'best'"> &middot; per-matrix best</span></small>
+                <small v-if="configurationDescription(selectedPlotItem)" class="config-provenance">{{ configurationDescription(selectedPlotItem) }}</small>
+                <small v-if="selectedPlotItem.selectedFrom">selected from: {{ selectedPlotItem.selectedFrom }}</small>
+                <small>{{ selectedPlotItem.passCount }}/{{ selectedPlotItem.expectedCaseCount }} passing cases &middot; {{ formatPercent(selectedPlotItem.coverageRatio * 100) }}% coverage<span v-if="selectedPlotItem.failedCount"> &middot; {{ selectedPlotItem.failedCount }} failed</span></small>
+                <small v-if="selectedPlotItem.missingCount">{{ selectedPlotItem.missingCount }} missing results</small>
               </div>
             </div>
             <div class="method-band-actions">
-              <div class="efficiency-score" :aria-label="item.score > 0 ? `Efficiency ${formatPercent(item.score)} percent` : 'No passing cases'">
+              <div class="efficiency-score" :aria-label="selectedPlotItem.score > 0 ? `Efficiency ${formatPercent(selectedPlotItem.score)} percent` : 'No passing cases'">
                 <span>Efficiency</span>
-                <strong v-if="item.score > 0">{{ formatPercent(item.score) }}%</strong>
+                <strong v-if="selectedPlotItem.score > 0">{{ formatPercent(selectedPlotItem.score) }}%</strong>
                 <strong v-else>n/a</strong>
-                <small v-if="item.rankEligible">FP32 + FP64 geomean</small>
+                <small v-if="selectedPlotItem.rankEligible">FP32 + FP64 geomean</small>
                 <small v-else>Unranked: coverage below 90%</small>
               </div>
               <div class="download-actions">
-                <button class="submission-download" type="button" :disabled="downloading !== null" @click="downloadSubmission(item)">
-                  {{ downloading === `result:${item.key}` ? "Preparing..." : "Download result CSVs" }}
+                <button class="submission-download" type="button" :disabled="downloading !== null" @click="downloadSubmission(selectedPlotItem)">
+                  {{ downloading === `result:${selectedPlotItem.key}` ? "Preparing..." : "Download result CSVs" }}
                 </button>
                 <button
-                  v-if="item.sourceManifests.length"
+                  v-if="selectedPlotItem.sourceManifests.length"
                   class="source-download"
                   type="button"
-                  :disabled="downloading !== null || !item.sourceManifests.length"
-                  :title="item.sourceManifests.length ? 'Download associated source package' : 'No source package was published for this result'"
-                  @click="downloadSource(item)"
-                >{{ downloading === `source:${item.key}` ? "Preparing..." : "Download source" }}</button>
+                  :disabled="downloading !== null || !selectedPlotItem.sourceManifests.length"
+                  :title="selectedPlotItem.sourceManifests.length ? 'Download associated source package' : 'No source package was published for this result'"
+                  @click="downloadSource(selectedPlotItem)"
+                >{{ downloading === `source:${selectedPlotItem.key}` ? "Preparing..." : "Download source" }}</button>
               </div>
             </div>
           </header>
@@ -227,12 +223,12 @@
             <section v-for="dtype in dtypes" :key="dtype" class="dtype-plot">
               <div class="plot-card-heading">
                 <h3>{{ dtype.toUpperCase() }}</h3>
-                <span>{{ methodRows(item, dtype).length }} cases &middot; GFLOP/s</span>
+                <span>{{ methodRows(selectedPlotItem, dtype).length }} cases &middot; GFLOP/s</span>
               </div>
               <canvas
-                :ref="(element) => setCanvasRef(item.key, dtype, element)"
+                :ref="(element) => setCanvasRef(dtype, element)"
                 class="scatter-canvas"
-                :aria-label="`${item.methodName} ${dtype.toUpperCase()} GFLOP/s scatter plot`"
+                :aria-label="`${selectedPlotItem.methodName} ${dtype.toUpperCase()} GFLOP/s scatter plot`"
               ></canvas>
             </section>
           </div>
@@ -256,7 +252,12 @@
 <script setup>
 import JSZip from "jszip";
 import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } from "vue";
+import OperatorTabs from "../../components/OperatorTabs.vue";
+import { drawContestScatter } from "../../utils/contestCharts.js";
+import { expectedMatrixCount } from "../../utils/contestCoverage.js";
+import { selectContestEntries } from "../../utils/contestData.js";
 import benchmarkSpecs from "../../../../KernelPerf/config/benchmarks.json";
+import datasetSpecs from "../../../../KernelPerf/config/datasets.json";
 
 const spmvBenchmarkSpec = benchmarkSpecs.find((item) => item.benchmark_id === "spmv");
 const spmvProtocolByDtype = Object.fromEntries((spmvBenchmarkSpec?.operators || []).map((operator) => [
@@ -303,18 +304,15 @@ const platformMetadata = ref({});
 const dtypes = ["fp32", "fp64"];
 const timeModes = ["solve-only", "pre+solve", "pre/iteration+solve"];
 const canvasRefs = new Map();
-const filters = reactive({ operator: "", backend: "", dataset: "", baseFormat: "all", timeMode: "solve-only", iterations: 100 });
+const selectedMethodKey = ref("");
+const filters = reactive({ backend: "", dataset: "suitesparse_sample_100", baseFormat: "all", timeMode: "solve-only", iterations: 100 });
 const pageSize = 20;
 const currentPage = ref(1);
+let resultController = null;
 
-function canvasKey(methodKey, dtype) {
-  return `${methodKey}|${dtype}`;
-}
-
-function setCanvasRef(methodKey, dtype, element) {
-  const key = canvasKey(methodKey, dtype);
-  if (element) canvasRefs.set(key, element);
-  else canvasRefs.delete(key);
+function setCanvasRef(dtype, element) {
+  if (element) canvasRefs.set(dtype, element);
+  else canvasRefs.delete(dtype);
 }
 
 function methodBandId(methodKey) {
@@ -327,6 +325,7 @@ function methodBandId(methodKey) {
 }
 
 async function scrollToMethod(methodKey) {
+  selectedMethodKey.value = methodKey;
   await nextTick();
   const target = document.getElementById(methodBandId(methodKey));
   if (!target) return;
@@ -346,12 +345,10 @@ function operatorFamily(operatorId) {
   return String(operatorId || "unknown").split(".", 1)[0];
 }
 
-const operatorOptions = computed(() => [...new Set(rows.value.map((row) => operatorFamily(row.operator_id)).filter(Boolean))].sort());
-const backendOptions = computed(() => [...new Set(rows.value.map((row) => row.backend_id).filter(Boolean))].sort());
-const datasetOptions = computed(() => [...new Set(rows.value.map((row) => row.dataset_id).filter(Boolean))].sort());
+const backendOptions = computed(() => [...new Set(submissionEntries.value.map((entry) => entry.backend_id).filter(Boolean))].sort());
+const datasetOptions = computed(() => [...new Set(submissionEntries.value.map((entry) => entry.dataset_id).filter(Boolean))].sort());
 const baseFormatOptions = computed(() => [...new Set(rows.value.map((row) => baseFormatKey(row.base_format)))].sort());
 const scopedRows = computed(() => rows.value.filter((row) => {
-  if (filters.operator && operatorFamily(row.operator_id) !== filters.operator) return false;
   if (filters.backend && row.backend_id !== filters.backend) return false;
   if (filters.dataset && row.dataset_id !== filters.dataset) return false;
   return true;
@@ -401,7 +398,6 @@ const displayRows = computed(() => {
 });
 
 const filteredSubmissionEntries = computed(() => submissionEntries.value.filter((entry) => {
-  if (filters.operator && operatorFamily(entry.operator_id) !== filters.operator) return false;
   if (filters.backend && entry.backend_id !== filters.backend) return false;
   if (filters.dataset && (entry.dataset_id || "none") !== filters.dataset) return false;
   if (filters.baseFormat !== "all" && baseFormatKey(inferredBaseFormat(
@@ -413,7 +409,6 @@ const filteredSubmissionEntries = computed(() => submissionEntries.value.filter(
 }));
 
 function selectFirstAvailableFilter() {
-  if (!operatorOptions.value.includes(filters.operator)) filters.operator = operatorOptions.value[0] || "";
   if (!backendOptions.value.includes(filters.backend)) filters.backend = backendOptions.value[0] || "";
   if (!datasetOptions.value.includes(filters.dataset)) filters.dataset = datasetOptions.value[0] || "";
 }
@@ -527,25 +522,37 @@ async function loadData() {
     });
     const submissions = [...latest.values()];
     submissionEntries.value = submissions;
-    const loaded = await Promise.allSettled(submissions.map(async (entry) => {
-      const response = await fetch(`${base}${entry.path}?v=${encodeURIComponent(entry.submission_id)}`, { cache: "no-store" });
-      if (!response.ok) throw new Error(`${entry.path}: ${response.status}`);
-      return normalizeRows(await response.text(), entry);
-    }));
-    rows.value = loaded
-      .filter((result) => result.status === "fulfilled")
-      .flatMap((result) => result.value);
     selectFirstAvailableFilter();
-    const failures = loaded.filter((result) => result.status === "rejected");
-    if (failures.length) {
-      error.value = `${failures.length} result file(s) could not be loaded.`;
-    }
   } catch (cause) {
     error.value = `Unable to load result data: ${cause.message}`;
   } finally {
-    loading.value = false;
+    if (!resultController) loading.value = false;
     await nextTick();
-    drawAll();
+    drawSelected();
+  }
+}
+
+async function loadSelectedData() {
+  resultController?.abort();
+  const controller = new AbortController();
+  resultController = controller;
+  loading.value = true;
+  error.value = "";
+  rows.value = [];
+  try {
+    const entries = selectContestEntries(submissionEntries.value, filters);
+    const loaded = await Promise.allSettled(entries.map(async (entry) => {
+      const response = await fetch(`${assetUrl(entry.path)}?v=${encodeURIComponent(entry.submission_id)}`,
+        { cache: "no-store", signal: controller.signal });
+      if (!response.ok) throw new Error(`${entry.path}: ${response.status}`);
+      return normalizeRows(await response.text(), entry);
+    }));
+    if (controller.signal.aborted) return;
+    rows.value = loaded.filter((result) => result.status === "fulfilled").flatMap((result) => result.value);
+    const failures = loaded.filter((result) => result.status === "rejected");
+    if (failures.length) error.value = `${failures.length} result file(s) could not be loaded.`;
+  } finally {
+    if (!controller.signal.aborted) loading.value = false;
   }
 }
 
@@ -661,10 +668,6 @@ function baseFormatKey(value) {
   return normalized.startsWith("sell-") ? "sell" : (normalized || "unknown");
 }
 
-function formatOperator(value) {
-  return String(value).toLowerCase() === "spmv" ? "SpMV" : String(value);
-}
-
 function formatMetricGflops(value) {
   if (!value) return "0";
   if (value >= 100) return value.toFixed(1);
@@ -679,13 +682,6 @@ function formatMilliseconds(value) {
   if (value >= 1) return `${value.toFixed(3)} ms`;
   if (value >= 0.001) return `${value.toFixed(5)} ms`;
   return `${value.toExponential(3)} ms`;
-}
-
-function formatGflops(value) {
-  if (value >= 100) return value.toFixed(0);
-  if (value >= 1) return value.toFixed(2);
-  if (value >= 0.01) return value.toFixed(3);
-  return value.toExponential(1);
 }
 
 function assetUrl(path) {
@@ -735,11 +731,12 @@ const ranking = computed(() => {
       const coverageByDtype = ["fp32", "fp64"].map((dtype) => {
         const expected = requiredMatrices.get([item.backendId, item.operatorFamily, item.dataset, dtype].join("|"));
         const actual = item.matricesByDtype.get(dtype);
-        return expected?.size ? (actual?.size || 0) / expected.size : 0;
+        const expectedCount = expectedMatrixCount(item.dataset, expected?.size || 0, datasetSpecs);
+        return expectedCount ? (actual?.size || 0) / expectedCount : 0;
       });
       const expectedCaseCount = ["fp32", "fp64"].reduce((sum, dtype) => {
         const expected = requiredMatrices.get([item.backendId, item.operatorFamily, item.dataset, dtype].join("|"));
-        return sum + (expected?.size || 0);
+        return sum + expectedMatrixCount(item.dataset, expected?.size || 0, datasetSpecs);
       }, 0);
       const coverageRatio = expectedCaseCount ? item.passCount / expectedCaseCount : 0;
       const rankEligible = coverageByDtype.every((value) => value >= 0.9) && scores.length === 2;
@@ -756,7 +753,8 @@ const ranking = computed(() => {
         coverageRatio,
         coverageByDtype,
         expectedCaseCount,
-        failedCount: Math.max(item.failedCount, expectedCaseCount - item.passCount),
+        failedCount: item.failedCount,
+        missingCount: Math.max(0, expectedCaseCount - item.caseCount),
         rankEligible,
       };
     })
@@ -775,78 +773,15 @@ const pageStart = computed(() => Math.min((currentPage.value - 1) * pageSize, Ma
 const pageEnd = computed(() => Math.min(pageStart.value + pageSize, ranking.value.length));
 const pagedRanking = computed(() => ranking.value.slice(pageStart.value, pageEnd.value));
 
-function drawScatter(canvas, data) {
-  if (!canvas) return;
-  const rect = canvas.getBoundingClientRect();
-  const width = Math.max(280, rect.width || 640);
-  const height = 340;
-  const dpr = window.devicePixelRatio || 1;
-  canvas.width = width * dpr;
-  canvas.height = height * dpr;
-  canvas.style.height = `${height}px`;
-  const context = canvas.getContext("2d");
-  context.setTransform(dpr, 0, 0, dpr, 0, 0);
-  context.fillStyle = "#ffffff";
-  context.fillRect(0, 0, width, height);
-  const pad = { left: 68, right: 18, top: 20, bottom: 44 };
-  const plotWidth = width - pad.left - pad.right;
-  const plotHeight = height - pad.top - pad.bottom;
-  const xValues = data.map((row) => Math.max(1, Number.isFinite(row.nnz) ? row.nnz : 1));
-  const yValues = data.map(performanceGflops);
-  const rawXMin = Math.min(...(xValues.length ? xValues : [1]));
-  const rawXMax = Math.max(...(xValues.length ? xValues : [10]));
-  const xLogMin = Math.floor(Math.log10(rawXMin));
-  const xLogMax = Math.max(xLogMin + 1, Math.ceil(Math.log10(rawXMax)));
-  const xMin = 10 ** xLogMin;
-  const xMax = 10 ** xLogMax;
-  const yMax = Math.max(...(yValues.length ? yValues : [1])) * 1.15;
-  const xScale = (value) => pad.left + (Math.log10(Math.max(xMin, value)) - xLogMin) / (xLogMax - xLogMin) * plotWidth;
-  const yScale = (value) => pad.top + plotHeight - Math.max(0, value) / yMax * plotHeight;
-  context.strokeStyle = "#e8edf2";
-  context.fillStyle = "#647180";
-  context.font = "12px system-ui, sans-serif";
-  for (let index = 0; index <= 4; index += 1) {
-    const y = pad.top + plotHeight * index / 4;
-    context.beginPath(); context.moveTo(pad.left, y); context.lineTo(pad.left + plotWidth, y); context.stroke();
-    context.fillStyle = "#647180";
-    context.textAlign = "right";
-    context.fillText(formatGflops(yMax * (4 - index) / 4), pad.left - 8, y + 4);
-  }
-  const exponentSpan = xLogMax - xLogMin;
-  const tickExponents = exponentSpan <= 6
-    ? Array.from({ length: exponentSpan + 1 }, (_, index) => xLogMin + index)
-    : Array.from({ length: 5 }, (_, index) => Math.round(xLogMin + exponentSpan * index / 4));
-  tickExponents.forEach((exponent) => {
-    const tick = 10 ** exponent;
-    const x = xScale(tick);
-    context.beginPath(); context.moveTo(x, pad.top); context.lineTo(x, pad.top + plotHeight); context.stroke();
-    context.textAlign = "center";
-    context.fillText(formatNnz(tick), x, height - 27);
-  });
-  context.strokeStyle = "#aeb9c5";
-  context.beginPath(); context.moveTo(pad.left, pad.top); context.lineTo(pad.left, pad.top + plotHeight); context.lineTo(pad.left + plotWidth, pad.top + plotHeight); context.stroke();
-  context.textAlign = "center"; context.fillText("matrix nnz (log)", pad.left + plotWidth / 2, height - 12);
-  context.save(); context.translate(14, pad.top + plotHeight / 2); context.rotate(-Math.PI / 2); context.fillText("GFLOP/s", 0, 0); context.restore();
-  data.forEach((row) => {
-    context.fillStyle = "rgba(37, 77, 158, 0.48)";
-    context.beginPath(); context.arc(xScale(row.nnz), yScale(performanceGflops(row)), 4, 0, Math.PI * 2); context.fill();
-  });
-  if (!data.length) {
-    context.fillStyle = "#647180"; context.textAlign = "center"; context.fillText("No published cases", pad.left + plotWidth / 2, pad.top + plotHeight / 2);
-  }
-}
+const selectedPlotItem = computed(() => ranking.value.find((item) => item.key === selectedMethodKey.value)
+  || ranking.value[0]
+  || null);
 
-function formatNnz(value) {
-  if (value >= 1e6) return `${(value / 1e6).toPrecision(3)}M`;
-  if (value >= 1e3) return `${(value / 1e3).toPrecision(3)}K`;
-  return Math.round(value).toString();
-}
-
-function drawAll() {
-  ranking.value.forEach((item) => {
-    dtypes.forEach((dtype) => {
-      drawScatter(canvasRefs.get(canvasKey(item.key, dtype)), methodRows(item, dtype));
-    });
+function drawSelected() {
+  const item = selectedPlotItem.value;
+  if (!item) return;
+  dtypes.forEach((dtype) => {
+    drawContestScatter(canvasRefs.get(dtype), methodRows(item, dtype), performanceGflops);
   });
 }
 
@@ -994,7 +929,7 @@ async function downloadAllResults() {
   downloading.value = "all";
   error.value = "";
   try {
-    const name = `${filters.operator || "operator"}-${filters.backend || "platform"}-${filters.dataset || "dataset"}-results`;
+    const name = `spmv-${filters.backend || "platform"}-${filters.dataset || "dataset"}-results`;
     await downloadEntries(filteredSubmissionEntries.value, name);
   } catch (cause) {
     error.value = `Unable to download result data: ${cause.message}`;
@@ -1003,10 +938,21 @@ async function downloadAllResults() {
   }
 }
 
-watch(() => [filters.operator, filters.backend, filters.dataset, filters.baseFormat, filters.timeMode, rows.value.length], async () => {
+watch(() => [filters.backend, filters.dataset], loadSelectedData);
+watch(() => [filters.backend, filters.dataset, filters.baseFormat, filters.timeMode, rows.value.length], async () => {
   currentPage.value = 1;
+  selectedMethodKey.value = ranking.value[0]?.key || "";
   await nextTick();
-  drawAll();
+  drawSelected();
+});
+watch(ranking, (items) => {
+  if (!items.some((item) => item.key === selectedMethodKey.value)) {
+    selectedMethodKey.value = items[0]?.key || "";
+  }
+});
+watch(selectedPlotItem, async () => {
+  await nextTick();
+  drawSelected();
 });
 watch(pageCount, (value) => {
   if (currentPage.value > value) currentPage.value = value;
@@ -1016,869 +962,10 @@ onMounted(() => {
   updateBackToTopVisibility();
   loadData();
 });
-onBeforeUnmount(() => window.removeEventListener("scroll", updateBackToTopVisibility));
+onBeforeUnmount(() => {
+  resultController?.abort();
+  window.removeEventListener("scroll", updateBackToTopVisibility);
+});
 </script>
 
-<style scoped>
-.spmv-page {
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  min-height: 100vh;
-  padding: 40px 10% 64px;
-  overflow-x: hidden;
-  background: #f5f7fb;
-  color: #202d3d;
-  font-family: "Microsoft YaHei", Arial, sans-serif;
-}
-
-.spmv-page,
-.spmv-page * {
-  box-sizing: border-box;
-  letter-spacing: 0;
-}
-
-.page-header,
-.control-band,
-.status-line,
-.protocol-section,
-.summary-section,
-.leaderboard-content {
-  min-width: 0;
-  max-width: 1440px;
-  margin: 0 auto;
-}
-
-.page-header {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 32px;
-  padding-bottom: 26px;
-}
-
-.page-header > div,
-.header-copy,
-.control-band label,
-.protocol-heading > div {
-  min-width: 0;
-  max-width: 100%;
-}
-
-.eyebrow {
-  margin: 0 0 7px;
-  color: #64748a;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-h1,
-h2,
-h3,
-p {
-  margin-top: 0;
-}
-
-h1 {
-  max-width: 100%;
-  margin-bottom: 8px;
-  color: #17263a;
-  font-size: 32px;
-  line-height: 1.2;
-  white-space: normal;
-  overflow-wrap: anywhere;
-}
-
-.header-copy {
-  margin-bottom: 0;
-  color: #66758a;
-  font-size: 14px;
-  line-height: 1.6;
-  overflow-wrap: anywhere;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.action-link,
-.action-button {
-  min-height: 38px;
-  padding: 9px 14px;
-  border: 1px solid #aebdd0;
-  border-radius: 4px;
-  background: #ffffff;
-  color: #254d9e;
-  font: inherit;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.action-button {
-  border-color: #0a55d5;
-  background: #0a55d5;
-  color: #ffffff;
-}
-
-.action-link:hover {
-  border-color: #0a55d5;
-  color: #0a55d5;
-}
-
-.action-button:hover {
-  border-color: #0848b4;
-  background: #0848b4;
-}
-
-.action-button:disabled,
-.submission-download:disabled {
-  cursor: wait;
-  opacity: .58;
-}
-
-.source-download:disabled {
-  cursor: not-allowed;
-  opacity: .58;
-}
-
-.control-band {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(140px, 1fr)) minmax(150px, auto);
-  align-items: end;
-  gap: 14px;
-  padding: 17px;
-  border: 1px solid #d8e0ea;
-  border-radius: 4px;
-  background: #ffffff;
-}
-
-.control-band label {
-  display: grid;
-  gap: 6px;
-  color: #526276;
-  font-size: 12px;
-  font-weight: 500;
-}
-
-select {
-  width: 100%;
-  min-height: 38px;
-  padding: 0 10px;
-  border: 1px solid #b9c7d6;
-  border-radius: 4px;
-  background: #ffffff;
-  color: #202d3d;
-  font: inherit;
-}
-
-select:focus {
-  border-color: #0a55d5;
-  outline: 2px solid rgba(10, 85, 213, .14);
-  outline-offset: 1px;
-}
-
-.metric-note {
-  display: grid;
-  gap: 4px;
-  padding: 4px 8px;
-  color: #526276;
-  font-size: 12px;
-}
-
-.metric-note strong {
-  color: #202d3d;
-}
-
-.status-line {
-  display: flex;
-  gap: 22px;
-  padding: 12px 2px 20px;
-  color: #66758a;
-  font-size: 12px;
-  flex-wrap: wrap;
-}
-
-.error-text {
-  color: #c34d49;
-}
-
-.protocol-section {
-  margin-bottom: 34px;
-  padding: 20px 0;
-  border-top: 1px solid #d8e0ea;
-  border-bottom: 1px solid #d8e0ea;
-}
-
-.protocol-heading {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 20px;
-  margin-bottom: 18px;
-}
-
-.protocol-heading h2 {
-  margin-bottom: 0;
-  font-size: 20px;
-}
-
-.protocol-heading > span {
-  color: #66758a;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.protocol-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-.protocol-item {
-  min-width: 0;
-  padding: 0 20px;
-  border-left: 1px solid #d8e0ea;
-}
-
-.protocol-item:first-child {
-  padding-left: 0;
-  border-left: 0;
-}
-
-.protocol-item:last-child {
-  padding-right: 0;
-}
-
-.protocol-label {
-  display: block;
-  margin-bottom: 7px;
-  color: #64748a;
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.protocol-item strong {
-  display: block;
-  margin-bottom: 8px;
-  color: #17263a;
-  font-size: 13px;
-  line-height: 1.4;
-  overflow-wrap: anywhere;
-}
-
-.protocol-item p {
-  margin-bottom: 8px;
-  color: #526276;
-  font-size: 12px;
-  line-height: 1.6;
-  overflow-wrap: anywhere;
-}
-
-.protocol-item > code,
-.protocol-paths code,
-.protocol-paths a {
-  color: #254d9e;
-  font-family: Consolas, "Courier New", monospace;
-  font-size: 10px;
-  overflow-wrap: anywhere;
-}
-
-.protocol-item > code {
-  display: block;
-  margin: 2px 0 8px;
-  line-height: 1.45;
-}
-
-.protocol-definitions {
-  display: grid;
-  gap: 5px;
-}
-
-.protocol-definition {
-  display: grid;
-  grid-template-columns: minmax(68px, auto) 1fr;
-  align-items: baseline;
-  gap: 8px;
-  color: #526276;
-  font-size: 11px;
-  line-height: 1.35;
-}
-
-.protocol-definition code {
-  color: #254d9e;
-  font-family: Consolas, "Courier New", monospace;
-  font-size: 10px;
-  white-space: nowrap;
-}
-
-.protocol-paths {
-  display: grid;
-  gap: 7px;
-  padding-top: 1px;
-}
-
-.protocol-paths a:hover {
-  color: #0a55d5;
-}
-
-.leaderboard-content {
-  min-width: 0;
-}
-
-.summary-section {
-  min-width: 0;
-  margin-bottom: 34px;
-}
-
-.summary-heading {
-  align-items: flex-end;
-  margin-bottom: 14px;
-}
-
-.summary-tools {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
-  min-width: 0;
-  flex-wrap: wrap;
-}
-
-.ranking-mode {
-  display: inline-grid;
-  grid-template-columns: repeat(3, minmax(105px, 1fr));
-  overflow: hidden;
-  border: 1px solid #b9c7d6;
-  border-radius: 4px;
-  background: #ffffff;
-}
-
-.ranking-mode button {
-  min-height: 36px;
-  padding: 8px 12px;
-  border: 0;
-  border-left: 1px solid #d8e0ea;
-  background: transparent;
-  color: #526276;
-  font: inherit;
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.ranking-mode button:first-child {
-  border-left: 0;
-}
-
-.ranking-mode button:hover {
-  background: #f1f5fb;
-}
-
-.ranking-mode button.active {
-  background: #254d9e;
-  color: #ffffff;
-  font-weight: 600;
-}
-
-.pagination {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: #526276;
-  font-size: 12px;
-  white-space: nowrap;
-}
-
-.pagination button {
-  display: grid;
-  width: 30px;
-  height: 30px;
-  place-items: center;
-  padding: 0;
-  border: 1px solid #b9c7d6;
-  border-radius: 4px;
-  background: #ffffff;
-  color: #254d9e;
-  font: inherit;
-  font-size: 17px;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.pagination button:hover:not(:disabled) {
-  border-color: #254d9e;
-  background: #f2f6fd;
-}
-
-.pagination button:disabled {
-  color: #aeb9c5;
-  cursor: not-allowed;
-}
-
-.pagination button:focus-visible {
-  outline: 2px solid #256b87;
-  outline-offset: 2px;
-}
-
-.table-summary {
-  margin: 0 0 8px;
-  color: #66758a;
-  font-size: 11px;
-  text-align: right;
-}
-
-.ranking-table-scroll {
-  overflow-x: auto;
-  border: 1px solid #d8e0ea;
-  border-radius: 4px;
-  background: #ffffff;
-}
-
-.ranking-table {
-  width: 100%;
-  min-width: 1060px;
-  border-collapse: collapse;
-  font-variant-numeric: tabular-nums;
-}
-
-.ranking-table th,
-.ranking-table td {
-  padding: 12px 14px;
-  border-bottom: 1px solid #e6ebf1;
-  text-align: right;
-  vertical-align: middle;
-  white-space: nowrap;
-}
-
-.ranking-table th {
-  background: #f7f9fc;
-  color: #526276;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.ranking-table th:nth-child(2),
-.ranking-table td:nth-child(2),
-.ranking-table th:nth-child(3),
-.ranking-table td:nth-child(3) {
-  text-align: left;
-}
-
-.submission-download,
-.source-download {
-  min-height: 30px;
-  padding: 6px 10px;
-  border: 1px solid #aebdd0;
-  border-radius: 4px;
-  background: #ffffff;
-  color: #254d9e;
-  font: inherit;
-  font-size: 11px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.submission-download:hover:not(:disabled),
-.source-download:hover:not(:disabled) {
-  border-color: #254d9e;
-  background: #f2f6fd;
-}
-
-.ranking-table tbody tr:last-child td {
-  border-bottom: 0;
-}
-
-.ranking-table tbody tr:hover {
-  background: #f8faff;
-}
-
-.ranking-row {
-  cursor: pointer;
-}
-
-.ranking-row:focus-visible {
-  background: #eef4f8;
-  outline: 2px solid #256b87;
-  outline-offset: -2px;
-}
-
-.ranking-table td {
-  color: #344257;
-  font-size: 12px;
-}
-
-.ranking-table td strong,
-.ranking-table td small {
-  display: block;
-}
-
-.ranking-table td strong {
-  max-width: 260px;
-  overflow: hidden;
-  color: #202d3d;
-  text-overflow: ellipsis;
-}
-
-.ranking-table td small {
-  max-width: 260px;
-  margin-top: 3px;
-  overflow: hidden;
-  color: #728095;
-  text-overflow: ellipsis;
-}
-
-.table-rank {
-  color: #254d9e !important;
-  font-size: 16px !important;
-  font-weight: 700;
-  text-align: center !important;
-}
-
-.format-label {
-  display: inline-block;
-  padding: 3px 7px;
-  border: 1px solid #cad5e2;
-  border-radius: 3px;
-  background: #f6f8fb;
-  color: #43546a;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.section-heading {
-  display: flex;
-  max-width: 100%;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.section-heading h2 {
-  margin-bottom: 0;
-  font-size: 19px;
-}
-
-.score-unit {
-  color: #728095;
-  font-size: 11px;
-  white-space: nowrap;
-}
-
-.leaderboard-heading {
-  margin-bottom: 14px;
-}
-
-.method-bands {
-  display: grid;
-  gap: 18px;
-}
-
-.method-band {
-  min-width: 0;
-  padding: 18px 20px 20px;
-  border: 1px solid #d8e0ea;
-  border-radius: 4px;
-  background: #ffffff;
-  box-shadow: 0 2px 5px rgba(31, 52, 78, .08);
-}
-
-.method-band:focus {
-  outline: none;
-}
-
-.method-band-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 24px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid #e3e9f0;
-}
-
-.method-identity {
-  display: grid;
-  grid-template-columns: 32px minmax(0, 1fr);
-  gap: 12px;
-  min-width: 0;
-}
-
-.rank-number {
-  color: #254d9e;
-  font-size: 19px;
-  font-weight: 700;
-}
-
-.method-copy {
-  display: grid;
-  gap: 3px;
-  min-width: 0;
-}
-
-.method-copy strong {
-  overflow-wrap: anywhere;
-}
-
-.method-copy span,
-.method-copy small {
-  color: #66758a;
-  font-size: 12px;
-}
-
-.method-copy .config-provenance {
-  overflow-wrap: anywhere;
-}
-
-.method-copy a {
-  width: fit-content;
-  color: #254d9e;
-  font-size: 12px;
-}
-
-.method-band-actions {
-  display: grid;
-  flex: 0 0 auto;
-  justify-items: end;
-  gap: 9px;
-}
-
-.download-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 7px;
-  flex-wrap: wrap;
-}
-
-.efficiency-score {
-  display: grid;
-  flex: 0 0 auto;
-  justify-items: end;
-  gap: 2px;
-  text-align: right;
-}
-
-.efficiency-score span,
-.efficiency-score small {
-  color: #66758a;
-  font-size: 11px;
-}
-
-.efficiency-score strong {
-  color: #254d9e;
-  font-size: 22px;
-  line-height: 1.1;
-}
-
-.empty-state {
-  margin: 28px 0 0;
-  color: #66758a;
-  font-size: 13px;
-}
-
-.method-plot-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.dtype-plot {
-  min-width: 0;
-  padding: 16px 18px 0 0;
-}
-
-.dtype-plot + .dtype-plot {
-  padding-right: 0;
-  padding-left: 18px;
-  border-left: 1px solid #e3e9f0;
-}
-
-.plot-card-heading {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.plot-card-heading h3 {
-  margin-bottom: 0;
-  font-size: 16px;
-}
-
-.plot-card-heading span {
-  color: #728095;
-  font-size: 11px;
-}
-
-.scatter-canvas {
-  display: block;
-  width: 100%;
-  min-height: 280px;
-  margin-top: 8px;
-}
-
-.back-to-top {
-  position: fixed;
-  right: 28px;
-  bottom: 28px;
-  z-index: 10;
-  display: grid;
-  width: 42px;
-  height: 42px;
-  place-items: center;
-  padding: 0;
-  border: 1px solid #aebdd0;
-  border-radius: 50%;
-  background: #ffffff;
-  color: #254d9e;
-  font: inherit;
-  font-size: 22px;
-  line-height: 1;
-  cursor: pointer;
-  box-shadow: 0 3px 10px rgba(31, 52, 78, .16);
-}
-
-.back-to-top:hover {
-  border-color: #254d9e;
-  background: #f2f6fd;
-}
-
-.back-to-top:focus-visible {
-  outline: 2px solid #256b87;
-  outline-offset: 2px;
-}
-
-@media (max-width: 1050px) {
-  .spmv-page {
-    padding-right: 24px;
-    padding-left: 24px;
-  }
-
-  .control-band {
-    grid-template-columns: repeat(2, minmax(160px, 1fr));
-  }
-
-  .protocol-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 22px 0;
-  }
-
-  .protocol-item:nth-child(3) {
-    padding-left: 0;
-    border-left: 0;
-  }
-}
-
-@media (max-width: 750px) {
-  .spmv-page {
-    padding: 24px 14px 44px;
-  }
-
-  .back-to-top {
-    right: 16px;
-    bottom: 16px;
-  }
-
-  .page-header {
-    display: grid;
-    min-width: 0;
-    align-items: start;
-  }
-
-  h1 {
-    font-size: 27px;
-  }
-
-  .control-band,
-  .method-plot-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .summary-heading {
-    align-items: flex-start;
-  }
-
-  .summary-tools {
-    width: 100%;
-    justify-content: flex-start;
-  }
-
-  .protocol-heading {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .protocol-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .protocol-item,
-  .protocol-item:first-child,
-  .protocol-item:nth-child(3),
-  .protocol-item:last-child {
-    padding: 0 0 18px;
-    border-bottom: 1px solid #d8e0ea;
-    border-left: 0;
-  }
-
-  .protocol-item:last-child {
-    padding-bottom: 0;
-    border-bottom: 0;
-  }
-
-  .ranking-mode {
-    width: 100%;
-    grid-template-columns: 1fr;
-  }
-
-  .ranking-mode button,
-  .ranking-mode button:first-child {
-    border-top: 1px solid #d8e0ea;
-    border-left: 0;
-  }
-
-  .ranking-mode button:first-child {
-    border-top: 0;
-  }
-
-  .leaderboard-content,
-  .method-band {
-    max-width: 100%;
-  }
-
-  .section-heading {
-    flex-wrap: wrap;
-  }
-
-  .score-unit {
-    white-space: normal;
-  }
-
-  .method-band {
-    padding: 14px;
-  }
-
-  .method-band-header {
-    gap: 12px;
-  }
-
-  .dtype-plot {
-    padding: 14px 0 0;
-  }
-
-  .dtype-plot + .dtype-plot {
-    margin-top: 14px;
-    padding-left: 0;
-    border-top: 1px solid #e3e9f0;
-    border-left: 0;
-  }
-
-  .efficiency-score strong {
-    font-size: 18px;
-  }
-}
-</style>
+<style src="../../assets/styles/contest.css"></style>

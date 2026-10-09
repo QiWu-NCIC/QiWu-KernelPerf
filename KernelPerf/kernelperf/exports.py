@@ -8,7 +8,7 @@ from typing import Any
 from .backends import BackendRegistry
 from .benchmark import BenchmarkRegistry
 from .database import PerfDatabase
-from .results import make_submission, slug
+from .results import slug
 from .models import JobRecord, JobStatus
 
 
@@ -137,10 +137,12 @@ class LocalResultExporter:
             return self._export_spmm_selection(
                 job, backend, operator, kernel, rows
             )
+        from benchmarks.spmv.results import make_spmv_submission
+
         rows = self._latest_attempt_per_matrix(rows)
         if not rows:
             return None
-        _, _, csv_content = make_submission(
+        _, _, csv_content = make_spmv_submission(
             job=job, results=rows, backend=backend, operator=operator, kernel=kernel
         )
         self._atomic_write(target, csv_content)
@@ -255,7 +257,9 @@ class LocalResultExporter:
         representative = next(kernel for kernel in kernels if self._config_id(kernel) == representative_id)
         backend = self.backends.get(backend_id).info()
         method_id = slug(f"{group}-best")
-        _, _, csv_content = make_submission(
+        from benchmarks.spmv.results import make_spmv_submission
+
+        _, _, csv_content = make_spmv_submission(
             job=job,
             results=list(selected.values()),
             backend=backend,

@@ -8,15 +8,17 @@
   },
   {
     "dataset_id": "suitesparse_all",
-    "name": "Configured sparse-matrix corpus",
+    "matrix_count": 2904,
+    "name": "SuiteSparse complete collection (2904 official records)",
     "kind": "matrix-market-manifest",
     "root": "data/datasets/suitesparse",
     "manifest": "config/datasets/suitesparse_all.json",
-    "path_template": "{root}/{name}",
-    "description": "All configured Matrix Market cases."
+    "path_template": "{root}/{group}/{name}/{name}.mtx",
+    "description": "The current official SuiteSparse statistics collection, including real, integer, pattern, binary, and complex coordinate records."
   },
   {
     "dataset_id": "suitesparse_sample_100",
+    "matrix_count": 100,
     "name": "SuiteSparse performance corpus (100 real matrices)",
     "kind": "matrix-market-manifest",
     "root": "data/datasets/suitesparse",
@@ -26,6 +28,7 @@
   },
   {
     "dataset_id": "suitesparse_validation_100",
+    "matrix_count": 100,
     "name": "SuiteSparse validation corpus (legacy 100 matrices)",
     "kind": "matrix-market-manifest",
     "root": "data/datasets/suitesparse",

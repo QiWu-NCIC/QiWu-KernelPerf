@@ -13,7 +13,11 @@ npm run dev
 Node.js 20+ is required. The browser uses geometric means for aggregate GFLOP/s,
 efficiency, preprocess time, solve time and effective time, and applies the 90%
 coverage rule. A method below 90% successful coverage remains visible with
-failure counts but is marked `Unranked`. Platform CPU/GPU labels are maintained
+failure counts but is marked `Unranked`. Known datasets use the declared
+`matrix_count` in `KernelPerf/config/datasets.json` as the coverage denominator,
+including matrices and dtypes whose results have not arrived yet. Partial
+full-corpus checkpoints remain visible and downloadable without implying that
+the campaign is complete. Platform CPU/GPU labels are maintained
 in `public/data/platforms.json`.
 
 The protocol shown on the leaderboard is authoritative: 5 untimed warmups, 20
@@ -25,10 +29,16 @@ Numerical-noise rows are
 reported separately. Its formulas, timing boundaries and implementation locations are documented in the repository
 [`README.md`](../README.md#spmv-measurement-protocol).
 
-The SpMM view is independent from SpMV and filters by platform, dtype, RHS
-columns, sparse format, base format, and timing scope. Its catalog is rooted at
-`public/data/spmm/index.json`; candidate and BEST CSVs remain partitioned by
-RHS count and dense layout. Use `npm run add:spmm -- result.csv --source-dir
+The SpMM view combines FP32 and FP64 efficiency like SpMV, and filters by
+platform, dataset, RHS columns, base format, and timing scope. Its catalog is stored at
+`public/data/results/spmm/index.json` alongside candidate and BEST CSVs, which
+remain partitioned by RHS count and dense layout:
+
+```text
+public/data/results/spmm/<backend>/<dataset>/<dtype>/n<N>/<layout>/<method>/<submission>.csv
+```
+
+Use `npm run add:spmm -- result.csv --source-dir
 public/source/spmm-baselines/<plugin>` to import reviewed data and
 `npm run audit:spmm` to verify identities, source hashes, metrics, coverage,
 and BEST selections.

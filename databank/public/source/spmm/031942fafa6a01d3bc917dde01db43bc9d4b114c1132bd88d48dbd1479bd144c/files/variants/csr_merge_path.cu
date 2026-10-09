@@ -1,0 +1,3 @@
+#define KERNELPERF_ROCSPARSE_SPMM_ALGORITHM rocsparse_spmm_alg_csr_merge_path
+#define KERNELPERF_ROCSPARSE_SPMM_ALGORITHM_NAME "rocsparse_spmm_alg_csr_merge_path"
+#include "adapter.cu"

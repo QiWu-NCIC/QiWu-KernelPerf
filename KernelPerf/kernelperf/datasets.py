@@ -53,6 +53,7 @@ def _load_manifest(path: Path, spec: DatasetSpec) -> list[MatrixCase]:
                 dataset_id=spec.dataset_id,
                 matrix_id=item["matrix_id"],
                 name=item["name"],
+                group=item.get("group", ""),
             )
         matrices.append(MatrixCase.model_validate(item))
     return matrices

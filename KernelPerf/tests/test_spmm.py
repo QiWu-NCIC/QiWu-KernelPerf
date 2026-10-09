@@ -11,7 +11,7 @@ import pytest
 
 from benchmarks.spmm.driver import validate_kernel
 from benchmarks.spmm.results import make_spmm_submission
-from scripts.run_spmm_campaign import kernel_key, row_key
+from scripts.run_spmm_campaign import completed_keys, kernel_key, phase_cases, row_key
 from kernelperf.backends import LocalBackend
 from kernelperf.benchmark import benchmark_registry_from_config
 from kernelperf.exports import LocalResultExporter
@@ -34,7 +34,7 @@ def kernel():
 
 @pytest.mark.parametrize("name,language,count", [
     ("alphasparse", "cuda", 5), ("alphasparse", "hip", 5),
-    ("cusparse", "cuda", 4), ("rocsparse_dtk2604", "hip", 4),
+    ("cusparse", "cuda", 4), ("rocsparse", "hip", 4),
 ])
 def test_p0_manifests_and_standalone_packages(name, language, count):
     artifacts = load_submission_artifacts(Path("submissions/spmm") / name, language=language)
@@ -102,12 +102,57 @@ def test_campaign_checkpoint_key_keeps_configurations_separate():
     assert (*kernel_key(artifact), "group/rect", 2) == row_key({"kernel_name": artifact.name, **base})
 
 
+def test_campaign_rhs_filter_skips_unrequested_phases():
+    matrices = ["first", "second", "third", "fourth"]
+    assert phase_cases(matrices, "n2", (4, 8)) == []
+    assert phase_cases(matrices, "full", (4, 8)) == [
+        (matrix, [1, 4, 8]) for matrix in matrices
+    ]
+
+
+def test_campaign_retry_failures_only_reopens_nonpassing_rows():
+    passed = {
+        "matrix_id": "group/pass", "kernel_name": "method", "status": "pass",
+        "metadata": {"rhs_columns": 2, "implementation": {
+            "candidate_group": "AlphaSparse-SpMM-CSR", "configuration_id": "csr-alg1",
+        }},
+    }
+    failed = {
+        **passed, "matrix_id": "group/fail", "status": "error",
+    }
+    assert completed_keys([passed, failed]) == {row_key(passed), row_key(failed)}
+    assert completed_keys([passed, failed], retry_failures=True) == {row_key(passed)}
+
+
+def test_campaign_completion_uses_requested_rhs_scope():
+    matrices = ["first"]
+    requested = phase_cases(matrices, "full", (4, 8))
+    target = {
+        ("group", "config", matrix, rhs)
+        for matrix, rhs_values in requested
+        for rhs in rhs_values
+    }
+    covered = target | {("group", "config", "first", 2)}
+    assert target.issubset(covered)
+
+
+def test_campaign_can_select_one_configuration():
+    artifacts = load_submission_artifacts(
+        Path("submissions/spmm/alphasparse"),
+        operator_id="spmm.csr.fp32",
+        configuration_ids=["csr-alg4"],
+        language="cuda",
+    )
+    assert [artifact.metadata["configuration_id"] for artifact in artifacts] == ["csr-alg4"]
+
+
 class FakeBackend(LocalBackend):
     def __init__(self, valid=True, error=False, fail_rhs=None):
-        super().__init__({
+        spec = {
             "worker_id": "test", "backend_id": "test", "endpoint": "local",
             "transport": "local", "kind": "gpu", "peak_gflops": 100,
-        })
+        }
+        super().__init__(spec)
         self.valid = valid
         self.error = error
         self.fail_rhs = fail_rhs

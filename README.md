@@ -163,19 +163,19 @@ for complete configuration sweeps. The JSON manifests are authoritative; see
 
 ## Current scope
 
-The reference operator is CSR-input SpMV with FP32 and FP64 variants. The
-baseline plugins cover cuSPARSE format/configuration sweeps, CSR5,
-CSR-Adaptive, AlphaSparseLib, rocSPARSE and GHOST SELL-C-sigma. The BW1000 and
-Z100 regression scope uses the native HIP AlphaSparseLib and rocSPARSE
-submissions. New operators should add
-an independent driver under `KernelPerf/benchmarks/<operator>/` and declare it
-in `KernelPerf/config/benchmarks.json`; the scheduler does not need operator-
-specific changes.
+The reference operators are CSR SpMV and SpMM, each with FP32 and FP64
+variants. SpMV baselines cover cuSPARSE, CSR5, CSR-Adaptive, AlphaSparseLib,
+rocSPARSE and GHOST SELL-C-sigma. The independent SpMM driver evaluates
+AlphaSparseLib plus cuSPARSE on CUDA platforms and rocSPARSE on HIP platforms.
+New operators should add an independent driver under
+`KernelPerf/benchmarks/<operator>/` and declare it in
+`KernelPerf/config/benchmarks.json`.
 
-The performance corpus is `suitesparse_sample_100`, a deterministic set of 100
+The reference corpus is `suitesparse_sample_100`, a deterministic set of 100
 real SuiteSparse matrices with `10^2 <= nnz <= 10^8`. The smaller
 `suitesparse_validation_100` corpus is retained for correctness and smoke
-checks. Selection and download instructions are in
+checks. Full campaigns use the separately indexed `suitesparse_all` manifest
+with 2,904 records. Results from different datasets remain separate. Selection and download instructions are in
 [`docs/DATA.md`](docs/DATA.md).
 
 ## Contribution and release flow
@@ -220,6 +220,4 @@ be built without importing the Python evaluator. See
 - [`docs/CONTRIBUTING.md`](docs/CONTRIBUTING.md): plugin contract and pull requests.
 - [`docs/OPERATIONS.md`](docs/OPERATIONS.md): maintainer workflow and data ownership.
 - [`docs/DATA.md`](docs/DATA.md): datasets, CSV data and download layout.
-- [`docs/FUTURE_REMOTE_ACTIONS.md`](docs/FUTURE_REMOTE_ACTIONS.md): explicitly deferred protected-runner design.
-- [`docs/RELEASE_REVIEW.md`](docs/RELEASE_REVIEW.md): release cleanup, verification and remaining decisions.
 - [`docs/RELEASE_PACKAGE.md`](docs/RELEASE_PACKAGE.md): publishable tree, data ownership and hand-off checks.

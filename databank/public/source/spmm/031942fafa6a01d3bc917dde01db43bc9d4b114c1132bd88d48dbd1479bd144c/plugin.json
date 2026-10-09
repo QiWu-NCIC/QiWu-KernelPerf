@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "kind": "qiwu-spmm-source-plugin",
+  "snapshot_kind": "standalone-source-plugin",
+  "plugin_id": "rocsparse-hip",
+  "operator_id": "spmm.csr.fp32",
+  "supported_operators": [
+    "spmm.csr.fp32",
+    "spmm.csr.fp64"
+  ],
+  "base_format": "csr",
+  "language": "hip",
+  "entry_source": "variants/csr.cu",
+  "compile_units": [],
+  "include_dirs": [],
+  "build_profile": "rocsparse-hip",
+  "candidate_group": "rocSPARSE-DTK26.04-SpMM-CSR",
+  "upstream": {
+    "name": "rocSPARSE",
+    "repository": "https://github.com/ROCm/rocm-libraries/tree/develop/projects/rocsparse",
+    "version": "worker-probed DTK 26.04 runtime"
+  },
+  "configurations": [
+    {
+      "configuration_id": "csr",
+      "entry_source": "variants/csr.cu",
+      "method_name": "rocSPARSE DTK 26.04 SpMM CSR",
+      "metadata": {
+        "algorithm": "rocsparse_spmm_alg_csr",
+        "preprocess_policy": "staged-preprocess",
+        "public_ranked": true
+      }
+    },
+    {
+      "configuration_id": "csr-row-split",
+      "entry_source": "variants/csr_row_split.cu",
+      "method_name": "rocSPARSE DTK 26.04 SpMM CSR ROW SPLIT",
+      "metadata": {
+        "algorithm": "rocsparse_spmm_alg_csr_row_split",
+        "preprocess_policy": "staged-preprocess",
+        "public_ranked": true
+      }
+    },
+    {
+      "configuration_id": "csr-nnz-split",
+      "entry_source": "variants/csr_nnz_split.cu",
+      "method_name": "rocSPARSE DTK 26.04 SpMM CSR NNZ SPLIT",
+      "metadata": {
+        "algorithm": "rocsparse_spmm_alg_csr_nnz_split",
+        "preprocess_policy": "staged-preprocess",
+        "public_ranked": true
+      }
+    },
+    {
+      "configuration_id": "csr-merge-path",
+      "entry_source": "variants/csr_merge_path.cu",
+      "method_name": "rocSPARSE DTK 26.04 SpMM CSR MERGE PATH",
+      "metadata": {
+        "algorithm": "rocsparse_spmm_alg_csr_merge_path",
+        "preprocess_policy": "staged-preprocess",
+        "public_ranked": true
+      }
+    }
+  ],
+  "source_sha256": "031942fafa6a01d3bc917dde01db43bc9d4b114c1132bd88d48dbd1479bd144c",
+  "source_path": "KernelPerf/submissions/spmm/rocsparse",
+  "files": [
+    "README.md",
+    "adapter.cu",
+    "sweep.json",
+    "variants/csr.cu",
+    "variants/csr_merge_path.cu",
+    "variants/csr_nnz_split.cu",
+    "variants/csr_row_split.cu"
+  ]
+}

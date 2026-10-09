@@ -1,0 +1,3 @@
+#define KERNELPERF_ROCSPARSE_SPMM_ALGORITHM rocsparse_spmm_alg_csr_row_split
+#define KERNELPERF_ROCSPARSE_SPMM_ALGORITHM_NAME "rocsparse_spmm_alg_csr_row_split"
+#include "adapter.cu"

@@ -701,7 +701,16 @@ class SpmmBenchmark(Benchmark):
                 ),
             )
             try:
-                results.append(self._run_rhs_case(replay, job, operator, matrix, kernel, rhs_columns))
+                results.append(
+                    self._run_rhs_case(
+                        replay,
+                        job,
+                        operator,
+                        matrix,
+                        kernel,
+                        rhs_columns,
+                    )
+                )
             except Exception as error:
                 results.append(self._failed_result(backend, job, operator, matrix, kernel, rhs_columns, error))
         return results

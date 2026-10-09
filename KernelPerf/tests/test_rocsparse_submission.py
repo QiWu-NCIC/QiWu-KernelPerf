@@ -6,7 +6,7 @@ from kernelperf.benchmark import benchmark_registry_from_config
 from kernelperf.submissions import load_submission_artifacts, request_for_submission
 
 
-SUBMISSION = Path("submissions/spmv/rocsparse_dtk2604")
+SUBMISSION = Path("submissions/spmv/rocsparse")
 
 
 @pytest.mark.parametrize("operator_id", ["spmv.csr.fp32", "spmv.csr.fp64"])

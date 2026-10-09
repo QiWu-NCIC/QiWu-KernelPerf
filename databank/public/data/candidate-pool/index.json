@@ -13088,7 +13088,7 @@
       "source_kind": "source",
       "created_at": "2026-09-14T14:43:56.185639+00:00",
       "source_sha256": "feb0b547baf99ae8b25867ec4f42ccdcbd1c5470790c6a3ebbf34ad38fba0541",
-      "source_manifest": "source/baselines/rocsparse-dtk2604/plugin.json"
+      "source_manifest": "source/baselines/rocsparse/plugin.json"
     },
     {
       "submission_id": "bw1000-rocsparse-v1-corrected-fp64-adaptive",
@@ -13109,7 +13109,7 @@
       "source_kind": "source",
       "created_at": "2026-09-14T15:59:03.644058+00:00",
       "source_sha256": "feb0b547baf99ae8b25867ec4f42ccdcbd1c5470790c6a3ebbf34ad38fba0541",
-      "source_manifest": "source/baselines/rocsparse-dtk2604/plugin.json"
+      "source_manifest": "source/baselines/rocsparse/plugin.json"
     },
     {
       "submission_id": "rocSPARSE-CSR-best-BW1000-gfx936-suitesparse_sample_100-fp32",
@@ -13130,7 +13130,7 @@
       "source_kind": "derived",
       "created_at": "2026-09-14T14:43:56.185639+00:00",
       "source_sha256": "feb0b547baf99ae8b25867ec4f42ccdcbd1c5470790c6a3ebbf34ad38fba0541",
-      "source_manifest": "source/baselines/rocsparse-dtk2604/plugin.json"
+      "source_manifest": "source/baselines/rocsparse/plugin.json"
     },
     {
       "submission_id": "rocSPARSE-CSR-best-BW1000-gfx936-suitesparse_sample_100-fp64",
@@ -13151,7 +13151,7 @@
       "source_kind": "derived",
       "created_at": "2026-09-14T15:59:03.644058+00:00",
       "source_sha256": "feb0b547baf99ae8b25867ec4f42ccdcbd1c5470790c6a3ebbf34ad38fba0541",
-      "source_manifest": "source/baselines/rocsparse-dtk2604/plugin.json"
+      "source_manifest": "source/baselines/rocsparse/plugin.json"
     },
     {
       "submission_id": "bw1000-rocsparse-v1-corrected-fp32-lrb",
@@ -13172,7 +13172,7 @@
       "source_kind": "source",
       "created_at": "2026-09-14T15:19:51.990657+00:00",
       "source_sha256": "feb0b547baf99ae8b25867ec4f42ccdcbd1c5470790c6a3ebbf34ad38fba0541",
-      "source_manifest": "source/baselines/rocsparse-dtk2604/plugin.json"
+      "source_manifest": "source/baselines/rocsparse/plugin.json"
     },
     {
       "submission_id": "bw1000-rocsparse-v1-corrected-fp64-lrb",
@@ -13193,7 +13193,7 @@
       "source_kind": "source",
       "created_at": "2026-09-14T16:34:35.123571+00:00",
       "source_sha256": "feb0b547baf99ae8b25867ec4f42ccdcbd1c5470790c6a3ebbf34ad38fba0541",
-      "source_manifest": "source/baselines/rocsparse-dtk2604/plugin.json"
+      "source_manifest": "source/baselines/rocsparse/plugin.json"
     },
     {
       "submission_id": "bw1000-rocsparse-v1-corrected-fp32-stream",
@@ -13214,7 +13214,7 @@
       "source_kind": "source",
       "created_at": "2026-09-14T15:01:59.158637+00:00",
       "source_sha256": "feb0b547baf99ae8b25867ec4f42ccdcbd1c5470790c6a3ebbf34ad38fba0541",
-      "source_manifest": "source/baselines/rocsparse-dtk2604/plugin.json"
+      "source_manifest": "source/baselines/rocsparse/plugin.json"
     },
     {
       "submission_id": "bw1000-rocsparse-v1-corrected-fp64-stream",
@@ -13235,7 +13235,7 @@
       "source_kind": "source",
       "created_at": "2026-09-14T16:16:54.285104+00:00",
       "source_sha256": "feb0b547baf99ae8b25867ec4f42ccdcbd1c5470790c6a3ebbf34ad38fba0541",
-      "source_manifest": "source/baselines/rocsparse-dtk2604/plugin.json"
+      "source_manifest": "source/baselines/rocsparse/plugin.json"
     },
     {
       "submission_id": "39b179dd-8972-4899-918a-e9c3755d14fe-Z100-gfx906-spmv.csr.fp32-adaptive",
@@ -13256,7 +13256,7 @@
       "source_kind": "source",
       "created_at": "2026-09-18T02:37:12.797931+00:00",
       "source_sha256": "feb0b547baf99ae8b25867ec4f42ccdcbd1c5470790c6a3ebbf34ad38fba0541",
-      "source_manifest": "source/baselines/rocsparse-dtk2604/plugin.json"
+      "source_manifest": "source/baselines/rocsparse/plugin.json"
     },
     {
       "submission_id": "2de9ebfd-02e6-430e-9ac5-164076e0ac1d-Z100-gfx906-spmv.csr.fp64-adaptive",
@@ -13277,7 +13277,7 @@
       "source_kind": "source",
       "created_at": "2026-09-18T02:37:18.828009+00:00",
       "source_sha256": "feb0b547baf99ae8b25867ec4f42ccdcbd1c5470790c6a3ebbf34ad38fba0541",
-      "source_manifest": "source/baselines/rocsparse-dtk2604/plugin.json"
+      "source_manifest": "source/baselines/rocsparse/plugin.json"
     },
     {
       "submission_id": "rocSPARSE-DTK26.04-CSR-best-Z100-gfx906-suitesparse_sample_100-fp32",
@@ -13298,7 +13298,7 @@
       "source_kind": "derived",
       "created_at": "2026-09-18T02:37:12.797931+00:00",
       "source_sha256": "feb0b547baf99ae8b25867ec4f42ccdcbd1c5470790c6a3ebbf34ad38fba0541",
-      "source_manifest": "source/baselines/rocsparse-dtk2604/plugin.json"
+      "source_manifest": "source/baselines/rocsparse/plugin.json"
     },
     {
       "submission_id": "rocSPARSE-DTK26.04-CSR-best-Z100-gfx906-suitesparse_sample_100-fp64",
@@ -13319,7 +13319,7 @@
       "source_kind": "derived",
       "created_at": "2026-09-18T02:37:18.828009+00:00",
       "source_sha256": "feb0b547baf99ae8b25867ec4f42ccdcbd1c5470790c6a3ebbf34ad38fba0541",
-      "source_manifest": "source/baselines/rocsparse-dtk2604/plugin.json"
+      "source_manifest": "source/baselines/rocsparse/plugin.json"
     },
     {
       "submission_id": "39b179dd-8972-4899-918a-e9c3755d14fe-Z100-gfx906-spmv.csr.fp32-lrb",
@@ -13340,7 +13340,7 @@
       "source_kind": "source",
       "created_at": "2026-09-18T03:16:59.999421+00:00",
       "source_sha256": "feb0b547baf99ae8b25867ec4f42ccdcbd1c5470790c6a3ebbf34ad38fba0541",
-      "source_manifest": "source/baselines/rocsparse-dtk2604/plugin.json"
+      "source_manifest": "source/baselines/rocsparse/plugin.json"
     },
     {
       "submission_id": "2de9ebfd-02e6-430e-9ac5-164076e0ac1d-Z100-gfx906-spmv.csr.fp64-lrb",
@@ -13361,7 +13361,7 @@
       "source_kind": "source",
       "created_at": "2026-09-18T03:17:07.115620+00:00",
       "source_sha256": "feb0b547baf99ae8b25867ec4f42ccdcbd1c5470790c6a3ebbf34ad38fba0541",
-      "source_manifest": "source/baselines/rocsparse-dtk2604/plugin.json"
+      "source_manifest": "source/baselines/rocsparse/plugin.json"
     },
     {
       "submission_id": "39b179dd-8972-4899-918a-e9c3755d14fe-Z100-gfx906-spmv.csr.fp32-stream",
@@ -13382,7 +13382,7 @@
       "source_kind": "source",
       "created_at": "2026-09-18T02:57:11.527776+00:00",
       "source_sha256": "feb0b547baf99ae8b25867ec4f42ccdcbd1c5470790c6a3ebbf34ad38fba0541",
-      "source_manifest": "source/baselines/rocsparse-dtk2604/plugin.json"
+      "source_manifest": "source/baselines/rocsparse/plugin.json"
     },
     {
       "submission_id": "2de9ebfd-02e6-430e-9ac5-164076e0ac1d-Z100-gfx906-spmv.csr.fp64-stream",
@@ -13403,7 +13403,7 @@
       "source_kind": "source",
       "created_at": "2026-09-18T02:57:12.637418+00:00",
       "source_sha256": "feb0b547baf99ae8b25867ec4f42ccdcbd1c5470790c6a3ebbf34ad38fba0541",
-      "source_manifest": "source/baselines/rocsparse-dtk2604/plugin.json"
+      "source_manifest": "source/baselines/rocsparse/plugin.json"
     },
     {
       "submission_id": "15bed17c-5f8a-462f-ad0b-bee3d61f4a39-BW1000-gfx936-spmv.csr.fp32-adaptive",
