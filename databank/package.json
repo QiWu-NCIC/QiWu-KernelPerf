@@ -16,6 +16,7 @@
     "preview": "vite preview",
     "add:spmv": "node scripts/add-spmv-result.mjs",
     "add:spmm": "node scripts/add-spmm-result.mjs",
+    "rebuild:ghost-spmv": "node scripts/rebuild-ghost-sell-spmv.mjs",
     "check:result-submissions": "node scripts/check-result-submissions.mjs",
     "preaudit:spmv": "npm run prepare:sources",
     "audit:spmv": "node scripts/audit-spmv-data.mjs public",

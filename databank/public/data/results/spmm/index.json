@@ -16721,21 +16721,21 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp32/n2/row-major/AlphaSparse-SpMM-CSR-ALG1/full-20261009-BW1000-gfx936-spmm-fp32-alphasparse-csr-alg1-n2.csv",
       "source_manifest": "source/spmm/a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717/plugin.json",
       "source_sha256": "a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717",
-      "csv_sha256": "a900863814aee2a18f0b8d95d7057eb91199eb58aace2c36b66ee30643fd2465",
+      "csv_sha256": "3737e4c649786e98d588b4bda6b5ed61d47fd2f0ccd8249b997aa869a3a11848",
       "public_ranked": true,
-      "passed": 2359,
-      "failed": 5,
-      "total": 2364,
+      "passed": 2537,
+      "failed": 6,
+      "total": 2543,
       "library_versions": [
         "AlphaSparse 248af573c867cf4c7e05d40c611c7c34ebac4715",
         "unknown"
       ],
       "metrics": {
-        "solve-only": 0.07696169026081714,
-        "pre-plus-solve": 0.03598295992746936,
-        "pre-amortized": 0.06978273273177159
+        "solve-only": 0.07656139801157534,
+        "pre-plus-solve": 0.03563455895403159,
+        "pre-amortized": 0.06938171737866351
       },
-      "created_at": "2026-10-13T06:50:51.828223+00:00"
+      "created_at": "2026-10-13T11:01:43.886685+00:00"
     },
     {
       "submission_id": "full-20261009-BW1000-gfx936-spmm-fp32-alphasparse-csr-alg2-n2",
@@ -16759,11 +16759,11 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp32/n2/row-major/AlphaSparse-SpMM-CSR-ALG2/full-20261009-BW1000-gfx936-spmm-fp32-alphasparse-csr-alg2-n2.csv",
       "source_manifest": "source/spmm/a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717/plugin.json",
       "source_sha256": "a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717",
-      "csv_sha256": "548cdb75af2797d3d5805739d4084026604d33a2b1dd1e1fbd6699738015763f",
+      "csv_sha256": "f610cac26d0920656db16804a3e9200c6d5eb006b692d9a9990d71d9c216ba37",
       "public_ranked": true,
       "passed": 14,
-      "failed": 2172,
-      "total": 2186,
+      "failed": 2351,
+      "total": 2365,
       "library_versions": [
         "AlphaSparse 248af573c867cf4c7e05d40c611c7c34ebac4715",
         "unknown"
@@ -16773,7 +16773,7 @@
         "pre-plus-solve": 0.003597805219155427,
         "pre-amortized": 0.003964570169074275
       },
-      "created_at": "2026-10-13T07:09:11.320217+00:00"
+      "created_at": "2026-10-13T11:56:05.979963+00:00"
     },
     {
       "submission_id": "full-20261009-BW1000-gfx936-spmm-fp32-alphasparse-csr-alg3-n2",
@@ -16911,18 +16911,18 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp32/n2/row-major/rocSPARSE-DTK-26.04-SpMM-CSR-MERGE-PATH/full-20261009-BW1000-gfx936-spmm-fp32-rocsparse-csr-merge-path-n2.csv",
       "source_manifest": "source/spmm/031942fafa6a01d3bc917dde01db43bc9d4b114c1132bd88d48dbd1479bd144c/plugin.json",
       "source_sha256": "031942fafa6a01d3bc917dde01db43bc9d4b114c1132bd88d48dbd1479bd144c",
-      "csv_sha256": "ef31782d868df2464db4dabc24c8e4b6db06235587f607d5730e0488588b4522",
+      "csv_sha256": "276c6e7785a5fbbbb88f2e732ad391df932c564d405be05716d6cb9e05c82192",
       "public_ranked": true,
-      "passed": 757,
+      "passed": 780,
       "failed": 0,
-      "total": 757,
+      "total": 780,
       "library_versions": [
         "rocSPARSE 3.3.0 (08e9b279)"
       ],
       "metrics": {
-        "solve-only": 0.01662928806595927,
-        "pre-plus-solve": 2.4053648381940354e-05,
-        "pre-amortized": 0.0001970679535064068
+        "solve-only": 0.01623520580582627,
+        "pre-plus-solve": 2.3347101035799856e-05,
+        "pre-amortized": 0.00019131148299684675
       },
       "created_at": "2026-10-13T05:17:12.111528+00:00"
     },
@@ -17022,20 +17022,20 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp32/n2/row-major/rocSPARSE-DTK-26.04-SpMM-CSR/full-20261009-BW1000-gfx936-spmm-fp32-rocsparse-csr-n2.csv",
       "source_manifest": "source/spmm/031942fafa6a01d3bc917dde01db43bc9d4b114c1132bd88d48dbd1479bd144c/plugin.json",
       "source_sha256": "031942fafa6a01d3bc917dde01db43bc9d4b114c1132bd88d48dbd1479bd144c",
-      "csv_sha256": "47aaeb74de5a4edcf892964ebe6f7fb3496babc2abadbd4693676aa047369fa1",
+      "csv_sha256": "f29baf331b424fce7089699ca4cfa7d3c48f07e593074384a81527da526a9951",
       "public_ranked": true,
-      "passed": 1115,
+      "passed": 1293,
       "failed": 0,
-      "total": 1115,
+      "total": 1293,
       "library_versions": [
         "rocSPARSE 3.3.0 (08e9b279)"
       ],
       "metrics": {
-        "solve-only": 0.057795093727152906,
-        "pre-plus-solve": 2.17131320154671e-05,
-        "pre-amortized": 0.0003364337900751267
+        "solve-only": 0.05870648756598535,
+        "pre-plus-solve": 2.0292133868786493e-05,
+        "pre-amortized": 0.0003202065424480827
       },
-      "created_at": "2026-10-13T03:52:29.601560+00:00"
+      "created_at": "2026-10-13T10:17:15.854642+00:00"
     },
     {
       "submission_id": "full-20261009-BW1000-gfx936-spmm-fp32-alphasparse-csr-alg1-n32",
@@ -18763,7 +18763,7 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp64/n16/row-major/AlphaSparse-SpMM-CSR-ALG2/full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg2-n16.csv",
       "source_manifest": "source/spmm/a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717/plugin.json",
       "source_sha256": "a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717",
-      "csv_sha256": "6d8ae199ed6de248ed0d1c598bece7688a976f4158866e6c6099168addcc06ef",
+      "csv_sha256": "76c25a5470ee9cd77f7434b71d16e8866bfac6b136a4a4be17e86b7f5dbaad89",
       "public_ranked": true,
       "passed": 0,
       "failed": 45,
@@ -18776,7 +18776,7 @@
         "pre-plus-solve": 0.0,
         "pre-amortized": 0.0
       },
-      "created_at": "2026-10-12T19:56:51.229248+00:00"
+      "created_at": "2026-10-13T11:56:24.524739+00:00"
     },
     {
       "submission_id": "full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg3-n16",
@@ -19059,18 +19059,18 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp64/n2/row-major/AlphaSparse-SpMM-CSR-ALG1/full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg1-n2.csv",
       "source_manifest": "source/spmm/a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717/plugin.json",
       "source_sha256": "a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717",
-      "csv_sha256": "05b609395113abd9c1f3453c68ea04bc8fd995ca31d43a23e7bb3cb9725a600d",
+      "csv_sha256": "86ee63df447d2d8e88e5916b5fae2d5448bbd96e44cede1676cabe5afd821928",
       "public_ranked": true,
-      "passed": 1293,
+      "passed": 1443,
       "failed": 0,
-      "total": 1293,
+      "total": 1443,
       "library_versions": [
         "AlphaSparse 248af573c867cf4c7e05d40c611c7c34ebac4715"
       ],
       "metrics": {
-        "solve-only": 0.10277222721526538,
-        "pre-plus-solve": 0.05283092666670383,
-        "pre-amortized": 0.09464216494228142
+        "solve-only": 0.10323824043260453,
+        "pre-plus-solve": 0.05316135031795246,
+        "pre-amortized": 0.0951053202439045
       },
       "created_at": "2026-10-13T08:25:07.836579+00:00"
     },
@@ -19096,7 +19096,7 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp64/n2/row-major/AlphaSparse-SpMM-CSR-ALG2/full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg2-n2.csv",
       "source_manifest": "source/spmm/a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717/plugin.json",
       "source_sha256": "a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717",
-      "csv_sha256": "f5fa4c8c7cb086a60ac1aa4b0570dab3b2eaec49a62f07ef2b5375841be2457a",
+      "csv_sha256": "96475744a7d3588a5be0d376c371e8b4911398c2947e8500a51820a55ed41a13",
       "public_ranked": true,
       "passed": 5,
       "failed": 1288,
@@ -19109,7 +19109,7 @@
         "pre-plus-solve": 4.187069376549117e-05,
         "pre-amortized": 0.00014230608846752554
       },
-      "created_at": "2026-10-13T08:43:47.488602+00:00"
+      "created_at": "2026-10-13T11:56:24.346571+00:00"
     },
     {
       "submission_id": "full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg3-n2",
@@ -19318,20 +19318,20 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp64/n2/row-major/rocSPARSE-DTK-26.04-SpMM-CSR-ROW-SPLIT/full-20261009-BW1000-gfx936-spmm-fp64-rocsparse-csr-row-split-n2.csv",
       "source_manifest": "source/spmm/031942fafa6a01d3bc917dde01db43bc9d4b114c1132bd88d48dbd1479bd144c/plugin.json",
       "source_sha256": "031942fafa6a01d3bc917dde01db43bc9d4b114c1132bd88d48dbd1479bd144c",
-      "csv_sha256": "cf938482402230ab615631f722e1075fe80c525a3d95959df2a33b012667c2d8",
+      "csv_sha256": "4ce645184967c8e9ccce49f8c93721abb285b767f709fc8f8ec07ef48700ac6d",
       "public_ranked": true,
-      "passed": 579,
+      "passed": 757,
       "failed": 0,
-      "total": 579,
+      "total": 757,
       "library_versions": [
         "rocSPARSE 3.3.0 (08e9b279)"
       ],
       "metrics": {
-        "solve-only": 0.08170175012459843,
-        "pre-plus-solve": 6.337880255986172e-05,
-        "pre-amortized": 0.0009119561930902248
+        "solve-only": 0.08575598745252422,
+        "pre-plus-solve": 5.230680577666979e-05,
+        "pre-amortized": 0.0007724463570645984
       },
-      "created_at": "2026-10-13T01:45:04.743736+00:00"
+      "created_at": "2026-10-13T06:12:46.041901+00:00"
     },
     {
       "submission_id": "full-20261009-BW1000-gfx936-spmm-fp64-rocsparse-csr-n2",
@@ -19355,20 +19355,20 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp64/n2/row-major/rocSPARSE-DTK-26.04-SpMM-CSR/full-20261009-BW1000-gfx936-spmm-fp64-rocsparse-csr-n2.csv",
       "source_manifest": "source/spmm/031942fafa6a01d3bc917dde01db43bc9d4b114c1132bd88d48dbd1479bd144c/plugin.json",
       "source_sha256": "031942fafa6a01d3bc917dde01db43bc9d4b114c1132bd88d48dbd1479bd144c",
-      "csv_sha256": "8f3e9c990960bd8f6e631c9d37b99e345d2f302707f30c65a568363b6dbaad0d",
+      "csv_sha256": "ecaee1ae906c0c93e9e76aea381f61ac9c5bff89c8a22f7e537d5fed147643e0",
       "public_ranked": true,
-      "passed": 579,
+      "passed": 757,
       "failed": 0,
-      "total": 579,
+      "total": 757,
       "library_versions": [
         "rocSPARSE 3.3.0 (08e9b279)"
       ],
       "metrics": {
-        "solve-only": 0.08405268712285205,
-        "pre-plus-solve": 6.34564326006039e-05,
-        "pre-amortized": 0.0009253192018430979
+        "solve-only": 0.08832972795974174,
+        "pre-plus-solve": 5.244259911463217e-05,
+        "pre-amortized": 0.0007841203915394858
       },
-      "created_at": "2026-10-13T01:18:21.588388+00:00"
+      "created_at": "2026-10-13T05:45:03.322488+00:00"
     },
     {
       "submission_id": "full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg1-n32",
@@ -19429,7 +19429,7 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp64/n32/row-major/AlphaSparse-SpMM-CSR-ALG2/full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg2-n32.csv",
       "source_manifest": "source/spmm/a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717/plugin.json",
       "source_sha256": "a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717",
-      "csv_sha256": "3d5227eb860206da30d164d646c5fc02f9c1501bd8c449cbbd32097c4be71027",
+      "csv_sha256": "acb3e89d0abcfc5987a8652d3fb6361e5316311951b15221cff5acff14efff4e",
       "public_ranked": true,
       "passed": 0,
       "failed": 45,
@@ -19442,7 +19442,7 @@
         "pre-plus-solve": 0.0,
         "pre-amortized": 0.0
       },
-      "created_at": "2026-10-12T19:56:51.288005+00:00"
+      "created_at": "2026-10-13T11:56:24.583928+00:00"
     },
     {
       "submission_id": "full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg3-n32",
@@ -19762,7 +19762,7 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp64/n4/row-major/AlphaSparse-SpMM-CSR-ALG2/full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg2-n4.csv",
       "source_manifest": "source/spmm/a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717/plugin.json",
       "source_sha256": "a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717",
-      "csv_sha256": "993220efa55ae38bb41c54e151858b500aee9753db695d8f66fc11c83459f63c",
+      "csv_sha256": "a6a267e270769be00970df597ff2e32f79cb9b6600fc264b1ac972fc679e361a",
       "public_ranked": true,
       "passed": 2,
       "failed": 43,
@@ -19775,7 +19775,7 @@
         "pre-plus-solve": 0.00010281230173120529,
         "pre-amortized": 0.0002966705087069124
       },
-      "created_at": "2026-10-12T19:56:51.111740+00:00"
+      "created_at": "2026-10-13T11:56:24.405609+00:00"
     },
     {
       "submission_id": "full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg3-n4",
@@ -20095,7 +20095,7 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp64/n64/row-major/AlphaSparse-SpMM-CSR-ALG2/full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg2-n64.csv",
       "source_manifest": "source/spmm/a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717/plugin.json",
       "source_sha256": "a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717",
-      "csv_sha256": "fbf9f7a7528b38f58b520e7c819d5716c461c109432c43835329684d13d49639",
+      "csv_sha256": "d08892ecf7d460134814b4751a0f7e4cc83f76d5615f8690882004ac0e73a6bb",
       "public_ranked": true,
       "passed": 0,
       "failed": 45,
@@ -20108,7 +20108,7 @@
         "pre-plus-solve": 0.0,
         "pre-amortized": 0.0
       },
-      "created_at": "2026-10-12T19:56:51.346621+00:00"
+      "created_at": "2026-10-13T11:56:24.642935+00:00"
     },
     {
       "submission_id": "full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg3-n64",
@@ -20428,7 +20428,7 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp64/n8/row-major/AlphaSparse-SpMM-CSR-ALG2/full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg2-n8.csv",
       "source_manifest": "source/spmm/a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717/plugin.json",
       "source_sha256": "a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717",
-      "csv_sha256": "49c32598c6a464d0bfcba68e0ee9b23a826b66ba94f97d495a1cadb8f6be81d3",
+      "csv_sha256": "bd77bab29f622f046ebd007445fc841acdaee722793f8d7702dcd7be4ab86575",
       "public_ranked": true,
       "passed": 1,
       "failed": 44,
@@ -20441,7 +20441,7 @@
         "pre-plus-solve": 0.00024388429650937376,
         "pre-amortized": 0.0006582877937647999
       },
-      "created_at": "2026-10-12T19:56:51.170568+00:00"
+      "created_at": "2026-10-13T11:56:24.465148+00:00"
     },
     {
       "submission_id": "full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg3-n8",
@@ -28316,7 +28316,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n128/row-major/AlphaSparse-SpMM-CSR-ALG1/full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg1-n128.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "c5d3d41e76e06010f59a2f221ae140d5d60acf0315dd300e64238ffcec4b28be",
+      "csv_sha256": "7b559e3e59b6359cc6eb4414c628e515969c98874cd9593cc0bb68d8d72cf07e",
       "public_ranked": true,
       "passed": 900,
       "failed": 9,
@@ -28330,7 +28330,7 @@
         "pre-plus-solve": 1.1748446579931715,
         "pre-amortized": 1.5865865115194406
       },
-      "created_at": "2026-10-12T01:31:55.583435+00:00"
+      "created_at": "2026-10-13T10:34:26.331988+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg2-n128",
@@ -28354,7 +28354,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n128/row-major/AlphaSparse-SpMM-CSR-ALG2/full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg2-n128.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "4cb8c1de2010103427b6a0fec2ad658eb2f86599e51681334bb3c0e5b277acb8",
+      "csv_sha256": "bc20648768e0df3fae8255e2e9974fa60d3558c95a9ecaa927ea7cd419cd79b4",
       "public_ranked": true,
       "passed": 842,
       "failed": 4,
@@ -28368,7 +28368,7 @@
         "pre-plus-solve": 1.2063366869168823,
         "pre-amortized": 1.4602005089906278
       },
-      "created_at": "2026-10-12T01:53:52.315430+00:00"
+      "created_at": "2026-10-13T10:36:11.161104+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg3-n128",
@@ -28392,7 +28392,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n128/row-major/AlphaSparse-SpMM-CSR-ALG3/full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg3-n128.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "d07d2485eaca5744a1011aff479465af6d0e12c9b982e527f9294bcc718231d8",
+      "csv_sha256": "119ab041c3d24b0cbffec4397b33890af6eaa9d3db0100a6d1e3c724e4f33308",
       "public_ranked": true,
       "passed": 726,
       "failed": 5,
@@ -28406,7 +28406,7 @@
         "pre-plus-solve": 0.9564222631495867,
         "pre-amortized": 1.1704942483428
       },
-      "created_at": "2026-10-12T07:57:57.837158+00:00"
+      "created_at": "2026-10-13T10:37:51.403967+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg4-n128",
@@ -28430,7 +28430,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n128/row-major/AlphaSparse-SpMM-CSR-ALG4/full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg4-n128.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "47cf9d2f5cee5cb1f3e5f87acc68bbdcefa47041a50aef98c9a6d7078cbcdac1",
+      "csv_sha256": "6fa9ce80aba7723f227f7630363933735ed0b9942f5adfa7b76e87490d4b71d8",
       "public_ranked": true,
       "passed": 708,
       "failed": 7,
@@ -28444,7 +28444,7 @@
         "pre-plus-solve": 1.003631937592387,
         "pre-amortized": 1.2733749905970562
       },
-      "created_at": "2026-10-12T08:28:33.482723+00:00"
+      "created_at": "2026-10-13T10:39:32.116659+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg5-n128",
@@ -28468,7 +28468,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n128/row-major/AlphaSparse-SpMM-CSR-ALG5/full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg5-n128.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "85a2199a2b8b10bba8106a214637ce7f7586921ed15c1748ad14c4153dc73d62",
+      "csv_sha256": "2b99fcbcd5c87ee386bfa1db5d95a20ca47bb4f855a518dd853c0b88edb4ffba",
       "public_ranked": true,
       "passed": 371,
       "failed": 3,
@@ -28482,7 +28482,7 @@
         "pre-plus-solve": 0.4839640818006845,
         "pre-amortized": 0.574867284237128
       },
-      "created_at": "2026-10-12T02:58:00.982478+00:00"
+      "created_at": "2026-10-13T10:41:12.438188+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg1-n128-13.4.1",
@@ -28506,20 +28506,21 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n128/row-major/cuSPARSE-CUDA-13.4.1-SpMM-CSR-ALG1/full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg1-n128-13.4.1.csv",
       "source_manifest": "source/spmm/aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf/plugin.json",
       "source_sha256": "aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf",
-      "csv_sha256": "3dee9907de3ed76b0f520b8384f9392e86883d8862934f9888398f59083cf261",
+      "csv_sha256": "f70daa39a38eb205bf8f7b5a2c871872c30322893f6f2f87ff9a29056c930a4a",
       "public_ranked": true,
-      "passed": 18,
-      "failed": 0,
-      "total": 18,
+      "passed": 195,
+      "failed": 1,
+      "total": 196,
       "library_versions": [
-        "cuSPARSE 12.8.6"
+        "cuSPARSE 12.8.6",
+        "unknown"
       ],
       "metrics": {
-        "solve-only": 0.20749462575724859,
-        "pre-plus-solve": 0.09209184730572495,
-        "pre-amortized": 0.15656032131285713
+        "solve-only": 0.29667774762212507,
+        "pre-plus-solve": 0.14482221862216293,
+        "pre-amortized": 0.23452642043904706
       },
-      "created_at": "2026-10-10T00:18:51.135855+00:00"
+      "created_at": "2026-10-13T11:27:54.492646+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg2-n128-13.4.1",
@@ -28543,20 +28544,21 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n128/row-major/cuSPARSE-CUDA-13.4.1-SpMM-CSR-ALG2/full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg2-n128-13.4.1.csv",
       "source_manifest": "source/spmm/aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf/plugin.json",
       "source_sha256": "aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf",
-      "csv_sha256": "be35b84c6cd5b5364afd847b23cf36570783da90473975545530e335d14d786a",
+      "csv_sha256": "572d54a30b63ef4b36d81a2fb4cc48f126ce5e289f1c7fe18b70095956769902",
       "public_ranked": true,
-      "passed": 18,
-      "failed": 0,
-      "total": 18,
+      "passed": 195,
+      "failed": 1,
+      "total": 196,
       "library_versions": [
-        "cuSPARSE 12.8.6"
+        "cuSPARSE 12.8.6",
+        "unknown"
       ],
       "metrics": {
-        "solve-only": 0.6381830875927194,
-        "pre-plus-solve": 0.24839639845376127,
-        "pre-amortized": 0.577164928652302
+        "solve-only": 1.5208342629735447,
+        "pre-plus-solve": 1.0293413994818978,
+        "pre-amortized": 1.4773517362416209
       },
-      "created_at": "2026-10-10T00:18:58.259719+00:00"
+      "created_at": "2026-10-13T11:46:58.315877+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg3-n128-13.4.1",
@@ -28617,20 +28619,21 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n128/row-major/cuSPARSE-CUDA-13.4.1-SpMM-CSR-DEFAULT/full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-default-n128-13.4.1.csv",
       "source_manifest": "source/spmm/aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf/plugin.json",
       "source_sha256": "aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf",
-      "csv_sha256": "1c1f429acdc0fb0fb61ae6f5c14323a030c8384df51284a9659f8bdff20ab6d9",
+      "csv_sha256": "9d29efeb5f6deed024e2e35815a62defcde54ddc72713035f736c1331d45d658",
       "public_ranked": false,
-      "passed": 18,
-      "failed": 0,
-      "total": 18,
+      "passed": 195,
+      "failed": 1,
+      "total": 196,
       "library_versions": [
-        "cuSPARSE 12.8.6"
+        "cuSPARSE 12.8.6",
+        "unknown"
       ],
       "metrics": {
-        "solve-only": 0.6498427841044312,
-        "pre-plus-solve": 0.24781949159282307,
-        "pre-amortized": 0.5838409937090895
+        "solve-only": 1.4563335603761751,
+        "pre-plus-solve": 0.9771884980416252,
+        "pre-amortized": 1.4132383735403369
       },
-      "created_at": "2026-10-10T00:18:44.171061+00:00"
+      "created_at": "2026-10-13T11:08:53.401833+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg1-n16",
@@ -28842,20 +28845,21 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n16/row-major/cuSPARSE-CUDA-13.4.1-SpMM-CSR-ALG1/full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg1-n16-13.4.1.csv",
       "source_manifest": "source/spmm/aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf/plugin.json",
       "source_sha256": "aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf",
-      "csv_sha256": "80faf07f21d21443b0cbebcd69fbd171c714597f0edca6ea4f5b9fd988e1d42a",
+      "csv_sha256": "fbb2365fdf7ac8726ed8bd3bc32cc8848ec105bf613733743fc92321861802d5",
       "public_ranked": true,
-      "passed": 18,
-      "failed": 0,
-      "total": 18,
+      "passed": 195,
+      "failed": 1,
+      "total": 196,
       "library_versions": [
-        "cuSPARSE 12.8.6"
+        "cuSPARSE 12.8.6",
+        "unknown"
       ],
       "metrics": {
-        "solve-only": 0.08951592968073717,
-        "pre-plus-solve": 0.02948099785299998,
-        "pre-amortized": 0.06994273950632642
+        "solve-only": 0.23213115986407953,
+        "pre-plus-solve": 0.09318366860204921,
+        "pre-amortized": 0.1760535532821794
       },
-      "created_at": "2026-10-10T00:18:51.131093+00:00"
+      "created_at": "2026-10-13T11:27:54.487848+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg2-n16-13.4.1",
@@ -28879,20 +28883,20 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n16/row-major/cuSPARSE-CUDA-13.4.1-SpMM-CSR-ALG2/full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg2-n16-13.4.1.csv",
       "source_manifest": "source/spmm/aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf/plugin.json",
       "source_sha256": "aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf",
-      "csv_sha256": "c582622ea891c567a771f1e8925476516b9b4d0df38ed3b8427f1f7bca093d94",
+      "csv_sha256": "6eb3517e840c3bbc6f57a668cb7a4dbe01a6a6223f9606038853d9e5420252a0",
       "public_ranked": true,
-      "passed": 18,
+      "passed": 196,
       "failed": 0,
-      "total": 18,
+      "total": 196,
       "library_versions": [
         "cuSPARSE 12.8.6"
       ],
       "metrics": {
-        "solve-only": 0.08213113374789623,
-        "pre-plus-solve": 0.04558740706934217,
-        "pre-amortized": 0.07892001751879889
+        "solve-only": 0.23095586616500355,
+        "pre-plus-solve": 0.16447467426950851,
+        "pre-amortized": 0.2253950477423841
       },
-      "created_at": "2026-10-10T00:18:58.254916+00:00"
+      "created_at": "2026-10-13T11:46:58.310919+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg3-n16-13.4.1",
@@ -28953,20 +28957,20 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n16/row-major/cuSPARSE-CUDA-13.4.1-SpMM-CSR-DEFAULT/full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-default-n16-13.4.1.csv",
       "source_manifest": "source/spmm/aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf/plugin.json",
       "source_sha256": "aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf",
-      "csv_sha256": "52227425fd1ce78b08532b44721cfc1c044407fb786146deb83cdff7dcd8b87c",
+      "csv_sha256": "e74686cd4175b848544e901d5dc3a948bae068e205591bd3d715cadbff0f5fc2",
       "public_ranked": false,
-      "passed": 18,
+      "passed": 196,
       "failed": 0,
-      "total": 18,
+      "total": 196,
       "library_versions": [
         "cuSPARSE 12.8.6"
       ],
       "metrics": {
-        "solve-only": 0.08375190869387443,
-        "pre-plus-solve": 0.04650999082887578,
-        "pre-amortized": 0.08049198435060484
+        "solve-only": 0.2294487925791839,
+        "pre-plus-solve": 0.16316479716255392,
+        "pre-amortized": 0.2238914565484172
       },
-      "created_at": "2026-10-10T00:18:44.166366+00:00"
+      "created_at": "2026-10-13T11:08:53.397017+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg1-n2",
@@ -29324,7 +29328,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n32/row-major/AlphaSparse-SpMM-CSR-ALG1/full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg1-n32.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "9ad6059762b8989dfba1ee1744f9e3bce434573a48a65ea21c27c4adcf5a8e9b",
+      "csv_sha256": "9cccf449997674bdee7e3729d5cab9e119abafd85a6c291df97355eab6ec8436",
       "public_ranked": true,
       "passed": 905,
       "failed": 4,
@@ -29338,7 +29342,7 @@
         "pre-plus-solve": 0.618040051025261,
         "pre-amortized": 0.8602997558891163
       },
-      "created_at": "2026-10-12T01:31:55.511455+00:00"
+      "created_at": "2026-10-13T10:34:26.331433+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg2-n32",
@@ -29362,7 +29366,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n32/row-major/AlphaSparse-SpMM-CSR-ALG2/full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg2-n32.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "f6a5f0503387e7c25659e63ff1db8a3ca9b997dfc6ce3291221181dbbc1f1584",
+      "csv_sha256": "516bbd4dd6afc66e1178072c79cec4952938846a685715d1e307951531792ed3",
       "public_ranked": true,
       "passed": 843,
       "failed": 3,
@@ -29376,7 +29380,7 @@
         "pre-plus-solve": 0.4712877720038194,
         "pre-amortized": 0.5720278913259724
       },
-      "created_at": "2026-10-12T01:53:52.244659+00:00"
+      "created_at": "2026-10-13T10:36:11.160636+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg3-n32",
@@ -29400,7 +29404,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n32/row-major/AlphaSparse-SpMM-CSR-ALG3/full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg3-n32.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "aeda9479e37995e465320776da954e9a0a373504965c79f0b12fc12e3dcaa04f",
+      "csv_sha256": "a72cde944eb47167a9f03b0408002a2da7ff08e0d66df2a634c0434a5ed26442",
       "public_ranked": true,
       "passed": 728,
       "failed": 3,
@@ -29414,7 +29418,7 @@
         "pre-plus-solve": 0.38467933544291505,
         "pre-amortized": 0.47312691686277336
       },
-      "created_at": "2026-10-12T07:57:57.762431+00:00"
+      "created_at": "2026-10-13T10:37:51.403568+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg4-n32",
@@ -29438,7 +29442,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n32/row-major/AlphaSparse-SpMM-CSR-ALG4/full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg4-n32.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "2ff7cff94e3daeda5cac63124155a2dc6827d766900e9ab291ba96238c357095",
+      "csv_sha256": "35b6231cedb0fdcbe1613465ced03902d43d78b048b3b42b3291524bd1f38c46",
       "public_ranked": true,
       "passed": 713,
       "failed": 2,
@@ -29452,7 +29456,7 @@
         "pre-plus-solve": 0.4720266092416392,
         "pre-amortized": 0.6092315837697817
       },
-      "created_at": "2026-10-12T08:28:33.348419+00:00"
+      "created_at": "2026-10-13T10:39:32.116262+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg5-n32",
@@ -29476,7 +29480,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n32/row-major/AlphaSparse-SpMM-CSR-ALG5/full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg5-n32.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "da1989c191c62396f1e3e0cc59f55f4539129fbfbdb0181de2670833c675fd0f",
+      "csv_sha256": "58a274a98855405641ffc941c3580f2acbb672445c61991c81dbab259e7b898d",
       "public_ranked": true,
       "passed": 372,
       "failed": 2,
@@ -29490,7 +29494,7 @@
         "pre-plus-solve": 0.3538702936298453,
         "pre-amortized": 0.44155902757694176
       },
-      "created_at": "2026-10-12T02:58:00.907933+00:00"
+      "created_at": "2026-10-13T10:41:12.437802+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg1-n32-13.4.1",
@@ -29514,20 +29518,21 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n32/row-major/cuSPARSE-CUDA-13.4.1-SpMM-CSR-ALG1/full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg1-n32-13.4.1.csv",
       "source_manifest": "source/spmm/aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf/plugin.json",
       "source_sha256": "aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf",
-      "csv_sha256": "778ce14527768f1f005fc957cb521b0424c839a024f0a8442c2fed2d96464348",
+      "csv_sha256": "0a9f237904dfbb27f3bea93106742053e74ef4b47bd66807fb1967dcd5b23e6a",
       "public_ranked": true,
-      "passed": 18,
-      "failed": 0,
-      "total": 18,
+      "passed": 194,
+      "failed": 2,
+      "total": 196,
       "library_versions": [
-        "cuSPARSE 12.8.6"
+        "cuSPARSE 12.8.6",
+        "unknown"
       ],
       "metrics": {
-        "solve-only": 0.1115503879230677,
-        "pre-plus-solve": 0.04345339337224628,
-        "pre-amortized": 0.08482276247995481
+        "solve-only": 0.21902372790871236,
+        "pre-plus-solve": 0.09821572542686263,
+        "pre-amortized": 0.166662910688252
       },
-      "created_at": "2026-10-10T00:18:51.132679+00:00"
+      "created_at": "2026-10-13T11:27:54.489511+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg2-n32-13.4.1",
@@ -29551,20 +29556,21 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n32/row-major/cuSPARSE-CUDA-13.4.1-SpMM-CSR-ALG2/full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg2-n32-13.4.1.csv",
       "source_manifest": "source/spmm/aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf/plugin.json",
       "source_sha256": "aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf",
-      "csv_sha256": "96a7f26011adbd89c4eeaf1642aa0517a971e057105e6215fdded14345088d67",
+      "csv_sha256": "845347f2b93b7157198f05bd8a36ace74086ead34d757d8be1110c45bb2554bb",
       "public_ranked": true,
-      "passed": 18,
-      "failed": 0,
-      "total": 18,
+      "passed": 195,
+      "failed": 1,
+      "total": 196,
       "library_versions": [
-        "cuSPARSE 12.8.6"
+        "cuSPARSE 12.8.6",
+        "unknown"
       ],
       "metrics": {
-        "solve-only": 0.16402846293390738,
-        "pre-plus-solve": 0.08908559279579882,
-        "pre-amortized": 0.15730582679864064
+        "solve-only": 0.4473585916553708,
+        "pre-plus-solve": 0.31710739665897303,
+        "pre-amortized": 0.43694645621301764
       },
-      "created_at": "2026-10-10T00:18:58.256485+00:00"
+      "created_at": "2026-10-13T11:46:58.312619+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg3-n32-13.4.1",
@@ -29625,20 +29631,21 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n32/row-major/cuSPARSE-CUDA-13.4.1-SpMM-CSR-DEFAULT/full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-default-n32-13.4.1.csv",
       "source_manifest": "source/spmm/aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf/plugin.json",
       "source_sha256": "aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf",
-      "csv_sha256": "1b0174232b4b99cc9b89dc4cf963b474d01f462b6d2427718778d03f9d0f0210",
+      "csv_sha256": "fa7c93232e30e0aa4547aca559ca21b9f27450704440b78308123504f7771cca",
       "public_ranked": false,
-      "passed": 18,
-      "failed": 0,
-      "total": 18,
+      "passed": 195,
+      "failed": 1,
+      "total": 196,
       "library_versions": [
-        "cuSPARSE 12.8.6"
+        "cuSPARSE 12.8.6",
+        "unknown"
       ],
       "metrics": {
-        "solve-only": 0.16696576497866983,
-        "pre-plus-solve": 0.09059824586139187,
-        "pre-amortized": 0.16014877753561482
+        "solve-only": 0.45101920611846014,
+        "pre-plus-solve": 0.3182959558797094,
+        "pre-amortized": 0.4404785270411213
       },
-      "created_at": "2026-10-10T00:18:44.167922+00:00"
+      "created_at": "2026-10-13T11:08:53.398628+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg1-n4",
@@ -29849,20 +29856,21 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n4/row-major/cuSPARSE-CUDA-13.4.1-SpMM-CSR-ALG1/full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg1-n4-13.4.1.csv",
       "source_manifest": "source/spmm/aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf/plugin.json",
       "source_sha256": "aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf",
-      "csv_sha256": "633b3e2ba11d07610d7cd6a3a00106d7e6740b3113159296b0d009031fc954bd",
+      "csv_sha256": "672674074098741d22e64130e7f60a11eb48da17fcadca4fb5e449c9e17ab003",
       "public_ranked": true,
-      "passed": 18,
-      "failed": 0,
-      "total": 18,
+      "passed": 195,
+      "failed": 1,
+      "total": 196,
       "library_versions": [
-        "cuSPARSE 12.8.6"
+        "cuSPARSE 12.8.6",
+        "unknown"
       ],
       "metrics": {
-        "solve-only": 0.03286981209835574,
-        "pre-plus-solve": 0.008208234013196338,
-        "pre-amortized": 0.026185590021419458
+        "solve-only": 0.14245176557509442,
+        "pre-plus-solve": 0.04359451523456524,
+        "pre-amortized": 0.10343916653318776
       },
-      "created_at": "2026-10-10T00:18:51.127860+00:00"
+      "created_at": "2026-10-13T11:27:54.484540+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg2-n4-13.4.1",
@@ -29886,20 +29894,20 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n4/row-major/cuSPARSE-CUDA-13.4.1-SpMM-CSR-ALG2/full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg2-n4-13.4.1.csv",
       "source_manifest": "source/spmm/aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf/plugin.json",
       "source_sha256": "aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf",
-      "csv_sha256": "fd8e77ee8c45c35ff5231156a0ae7cf601405415dec127a198d2f58f66153c99",
+      "csv_sha256": "111893d1c9833a647d7012bdae20aa59a1605e73f9efede67a1e7e142c4df2f9",
       "public_ranked": true,
-      "passed": 18,
+      "passed": 196,
       "failed": 0,
-      "total": 18,
+      "total": 196,
       "library_versions": [
         "cuSPARSE 12.8.6"
       ],
       "metrics": {
-        "solve-only": 0.021912670883851654,
-        "pre-plus-solve": 0.010620394163987416,
-        "pre-amortized": 0.020766227815289875
+        "solve-only": 0.06349361189936929,
+        "pre-plus-solve": 0.040018648419494034,
+        "pre-amortized": 0.0612164582604036
       },
-      "created_at": "2026-10-10T00:18:58.251708+00:00"
+      "created_at": "2026-10-13T11:46:58.307475+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg3-n4-13.4.1",
@@ -29960,20 +29968,20 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n4/row-major/cuSPARSE-CUDA-13.4.1-SpMM-CSR-DEFAULT/full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-default-n4-13.4.1.csv",
       "source_manifest": "source/spmm/aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf/plugin.json",
       "source_sha256": "aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf",
-      "csv_sha256": "c8a8725263dffdfdcaa0f3a36fd2380bb5784d45be48f750bc778f5d6556e881",
+      "csv_sha256": "d155013d984800d7c68e626f4334599fb09d6fe11c509dcf8baa687bffd7a2be",
       "public_ranked": false,
-      "passed": 18,
+      "passed": 196,
       "failed": 0,
-      "total": 18,
+      "total": 196,
       "library_versions": [
         "cuSPARSE 12.8.6"
       ],
       "metrics": {
-        "solve-only": 0.02236425936386321,
-        "pre-plus-solve": 0.010845390862079137,
-        "pre-amortized": 0.021203508576156157
+        "solve-only": 0.06201736481381875,
+        "pre-plus-solve": 0.03911470952913053,
+        "pre-amortized": 0.05866064991376143
       },
-      "created_at": "2026-10-10T00:18:44.163118+00:00"
+      "created_at": "2026-10-13T11:08:53.393774+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg1-n64",
@@ -29997,7 +30005,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n64/row-major/AlphaSparse-SpMM-CSR-ALG1/full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg1-n64.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "e4e97d03131ca9f5dff9606f511a5a28896e62de2c0cafd501a1aeb108c56f80",
+      "csv_sha256": "7a10d30761b18f9ac7e84a2681281eb0268ba8cc9a575d4fa5d3c1f9a865b0cc",
       "public_ranked": true,
       "passed": 904,
       "failed": 5,
@@ -30011,7 +30019,7 @@
         "pre-plus-solve": 0.8225295269103028,
         "pre-amortized": 1.124954730832381
       },
-      "created_at": "2026-10-12T01:31:55.547476+00:00"
+      "created_at": "2026-10-13T10:34:26.331967+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg2-n64",
@@ -30035,7 +30043,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n64/row-major/AlphaSparse-SpMM-CSR-ALG2/full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg2-n64.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "ee77c557fde55657c5c9ce6fb48c5d9846c1aa48bddd3a27274cc720fc5941b9",
+      "csv_sha256": "c9c1a09c7e2566bd0d5627cb7e9631725093fac507ea2bf49c869e4bedcb3648",
       "public_ranked": true,
       "passed": 843,
       "failed": 3,
@@ -30049,7 +30057,7 @@
         "pre-plus-solve": 0.8181653703299152,
         "pre-amortized": 1.0031464117014044
       },
-      "created_at": "2026-10-12T01:53:52.279777+00:00"
+      "created_at": "2026-10-13T10:36:11.161083+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg3-n64",
@@ -30073,7 +30081,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n64/row-major/AlphaSparse-SpMM-CSR-ALG3/full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg3-n64.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "22871ed436e1917ec6f34b14edcc5d9ef337a3958a9bd963db4969f06b47ca90",
+      "csv_sha256": "ccd1b372bd2300daba05757ef84686d2e8984ca29818014d346211d30403d2d5",
       "public_ranked": true,
       "passed": 728,
       "failed": 3,
@@ -30087,7 +30095,7 @@
         "pre-plus-solve": 0.666080065464589,
         "pre-amortized": 0.8249676831389867
       },
-      "created_at": "2026-10-12T07:57:57.800173+00:00"
+      "created_at": "2026-10-13T10:37:51.403945+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg4-n64",
@@ -30111,7 +30119,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n64/row-major/AlphaSparse-SpMM-CSR-ALG4/full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg4-n64.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "f5c5e3a99153c48ccdd978ba7ca69c94801b2eaa880be8b2b5957c545a5ffc46",
+      "csv_sha256": "5b6cfce40a4eacbacab7024ac505814da9fac67684ea1f46d682b624bde3542e",
       "public_ranked": true,
       "passed": 711,
       "failed": 4,
@@ -30125,7 +30133,7 @@
         "pre-plus-solve": 0.7079042310334955,
         "pre-amortized": 0.9125346044035274
       },
-      "created_at": "2026-10-12T08:28:33.415665+00:00"
+      "created_at": "2026-10-13T10:39:32.116638+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg5-n64",
@@ -30149,7 +30157,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n64/row-major/AlphaSparse-SpMM-CSR-ALG5/full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg5-n64.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "7d89350f19c4f11a253cd8f79a1cf86f72e75e5023a7bde389c56a57cc2b5dd0",
+      "csv_sha256": "f13a7dee4dc4a4da9c2812d8585b1bfe8cb00ad411887487b646a585dcfcad52",
       "public_ranked": true,
       "passed": 371,
       "failed": 3,
@@ -30163,7 +30171,7 @@
         "pre-plus-solve": 0.42854052425201195,
         "pre-amortized": 0.520990166444127
       },
-      "created_at": "2026-10-12T02:58:00.945941+00:00"
+      "created_at": "2026-10-13T10:41:12.438167+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg1-n64-13.4.1",
@@ -30187,20 +30195,21 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n64/row-major/cuSPARSE-CUDA-13.4.1-SpMM-CSR-ALG1/full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg1-n64-13.4.1.csv",
       "source_manifest": "source/spmm/aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf/plugin.json",
       "source_sha256": "aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf",
-      "csv_sha256": "e9d796a7bf66120eb78a95772570507b63143043805fa1eba6f6b62262e464d7",
+      "csv_sha256": "95f8bc9263e80185aac5c636b71d09b920c36dfca0593a04a4e3792ffda0184e",
       "public_ranked": true,
-      "passed": 18,
-      "failed": 0,
-      "total": 18,
+      "passed": 195,
+      "failed": 1,
+      "total": 196,
       "library_versions": [
-        "cuSPARSE 12.8.6"
+        "cuSPARSE 12.8.6",
+        "unknown"
       ],
       "metrics": {
-        "solve-only": 0.15403645975747116,
-        "pre-plus-solve": 0.0658052877640926,
-        "pre-amortized": 0.11861898622201784
+        "solve-only": 0.2573220486371398,
+        "pre-plus-solve": 0.12360001907425194,
+        "pre-amortized": 0.19915752434138212
       },
-      "created_at": "2026-10-10T00:18:51.134252+00:00"
+      "created_at": "2026-10-13T11:27:54.491075+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg2-n64-13.4.1",
@@ -30224,20 +30233,21 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n64/row-major/cuSPARSE-CUDA-13.4.1-SpMM-CSR-ALG2/full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg2-n64-13.4.1.csv",
       "source_manifest": "source/spmm/aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf/plugin.json",
       "source_sha256": "aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf",
-      "csv_sha256": "8639316ec84a06f0244946a954aa0407dfb67cc8632e283009b695b916852f7a",
+      "csv_sha256": "f5e53483867a6c0cca0523263d3ab9d8f107887af36357f624c8a09b78eaf2d2",
       "public_ranked": true,
-      "passed": 18,
-      "failed": 0,
-      "total": 18,
+      "passed": 195,
+      "failed": 1,
+      "total": 196,
       "library_versions": [
-        "cuSPARSE 12.8.6"
+        "cuSPARSE 12.8.6",
+        "unknown"
       ],
       "metrics": {
-        "solve-only": 0.3279046221342423,
-        "pre-plus-solve": 0.12857777247691893,
-        "pre-amortized": 0.296590112204431
+        "solve-only": 0.8526559209211076,
+        "pre-plus-solve": 0.5856636335427711,
+        "pre-amortized": 0.8290173645719312
       },
-      "created_at": "2026-10-10T00:18:58.258124+00:00"
+      "created_at": "2026-10-13T11:46:58.314276+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg3-n64-13.4.1",
@@ -30298,20 +30308,21 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n64/row-major/cuSPARSE-CUDA-13.4.1-SpMM-CSR-DEFAULT/full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-default-n64-13.4.1.csv",
       "source_manifest": "source/spmm/aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf/plugin.json",
       "source_sha256": "aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf",
-      "csv_sha256": "2491f6fd12648ada64c3cd641ff243505dda78589801bcea9ba2dbb68e5b8c98",
+      "csv_sha256": "6e9676bca208034f198212605a89bb51e707dbdf9c6214bbb7dcff4caa8631b1",
       "public_ranked": false,
-      "passed": 18,
-      "failed": 0,
-      "total": 18,
+      "passed": 195,
+      "failed": 1,
+      "total": 196,
       "library_versions": [
-        "cuSPARSE 12.8.6"
+        "cuSPARSE 12.8.6",
+        "unknown"
       ],
       "metrics": {
-        "solve-only": 0.3324478229946867,
-        "pre-plus-solve": 0.13293363408558415,
-        "pre-amortized": 0.2989017688524088
+        "solve-only": 0.8483584007773177,
+        "pre-plus-solve": 0.5863427156244102,
+        "pre-amortized": 0.825599358157602
       },
-      "created_at": "2026-10-10T00:18:44.169523+00:00"
+      "created_at": "2026-10-13T11:08:53.400237+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-alphasparse-csr-alg1-n8",
@@ -30522,20 +30533,21 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n8/row-major/cuSPARSE-CUDA-13.4.1-SpMM-CSR-ALG1/full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg1-n8-13.4.1.csv",
       "source_manifest": "source/spmm/aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf/plugin.json",
       "source_sha256": "aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf",
-      "csv_sha256": "6c63b2f64ae8ae04b12ffeccea4790233ef5d140246e48318afc85e84e004530",
+      "csv_sha256": "d16cc1d91b9b1c70e67f5ce3c717ed0ba914d7898a0fe0d4cbf607d0dcf07f3b",
       "public_ranked": true,
-      "passed": 18,
-      "failed": 0,
-      "total": 18,
+      "passed": 195,
+      "failed": 1,
+      "total": 196,
       "library_versions": [
-        "cuSPARSE 12.8.6"
+        "cuSPARSE 12.8.6",
+        "unknown"
       ],
       "metrics": {
-        "solve-only": 0.05896950367587103,
-        "pre-plus-solve": 0.017719195918373416,
-        "pre-amortized": 0.04980480868993745
+        "solve-only": 0.20269397317476812,
+        "pre-plus-solve": 0.0722321051657467,
+        "pre-amortized": 0.1513095305180624
       },
-      "created_at": "2026-10-10T00:18:51.129475+00:00"
+      "created_at": "2026-10-13T11:27:54.486234+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg2-n8-13.4.1",
@@ -30559,20 +30571,20 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n8/row-major/cuSPARSE-CUDA-13.4.1-SpMM-CSR-ALG2/full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg2-n8-13.4.1.csv",
       "source_manifest": "source/spmm/aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf/plugin.json",
       "source_sha256": "aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf",
-      "csv_sha256": "f6bcd7de09351475dee3bb03fa3f12295fc401029fd4ef2382eee857339c9bca",
+      "csv_sha256": "ad9a3b942044d3acfa455f31b22b0ab8122cbf4926c33652fe8a1a54ee6b4745",
       "public_ranked": true,
-      "passed": 18,
+      "passed": 196,
       "failed": 0,
-      "total": 18,
+      "total": 196,
       "library_versions": [
         "cuSPARSE 12.8.6"
       ],
       "metrics": {
-        "solve-only": 0.04102071397116172,
-        "pre-plus-solve": 0.022707102472876415,
-        "pre-amortized": 0.03940412143640337
+        "solve-only": 0.11837104531559677,
+        "pre-plus-solve": 0.08265572898169933,
+        "pre-amortized": 0.11524622351195261
       },
-      "created_at": "2026-10-10T00:18:58.253338+00:00"
+      "created_at": "2026-10-13T11:46:58.309091+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-alg3-n8-13.4.1",
@@ -30633,20 +30645,20 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp32/n8/row-major/cuSPARSE-CUDA-13.4.1-SpMM-CSR-DEFAULT/full-20261009-H100-SXM5-80GB-spmm-fp32-cusparse-csr-default-n8-13.4.1.csv",
       "source_manifest": "source/spmm/aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf/plugin.json",
       "source_sha256": "aeb05ba72f70ea68dfa71a63afc85d138f11287b79154f8a58d20a107fdd27cf",
-      "csv_sha256": "ff32427cba6591491cb91c67af209c6578c454a6bfff401e1cff3397d9a941b2",
+      "csv_sha256": "e692c60a9c583270d52a289f7099bdb7381ee9d6ca544ef5336587363590201c",
       "public_ranked": false,
-      "passed": 18,
+      "passed": 196,
       "failed": 0,
-      "total": 18,
+      "total": 196,
       "library_versions": [
         "cuSPARSE 12.8.6"
       ],
       "metrics": {
-        "solve-only": 0.041721701741854585,
-        "pre-plus-solve": 0.023097785782397153,
-        "pre-amortized": 0.04009060316989313
+        "solve-only": 0.1175016813625391,
+        "pre-plus-solve": 0.08126688785198985,
+        "pre-amortized": 0.11407546948400178
       },
-      "created_at": "2026-10-10T00:18:44.164772+00:00"
+      "created_at": "2026-10-13T11:08:53.395397+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg1-n128",
@@ -30670,7 +30682,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp64/n128/row-major/AlphaSparse-SpMM-CSR-ALG1/full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg1-n128.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "67250289c430afa9f978c0f89b9e18c18e90ce53d2a89e0afe12b15e3acb1e76",
+      "csv_sha256": "dc580301752ae71bcbf370b77239d0a9ae380f547b7725c07e3b10c1a18f7136",
       "public_ranked": true,
       "passed": 370,
       "failed": 4,
@@ -30684,7 +30696,7 @@
         "pre-plus-solve": 1.516055790577766,
         "pre-amortized": 2.0046042578659766
       },
-      "created_at": "2026-10-12T03:20:48.372430+00:00"
+      "created_at": "2026-10-13T10:42:42.892038+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg2-n128",
@@ -30708,7 +30720,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp64/n128/row-major/AlphaSparse-SpMM-CSR-ALG2/full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg2-n128.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "7521df4891c83b4faf99442cee71e12f1d4e306623f5ed417ba97fc09235bdc2",
+      "csv_sha256": "4743babbcff10846e08762cadb809bafc35f01c55c49e86c549caffee3da8365",
       "public_ranked": true,
       "passed": 195,
       "failed": 1,
@@ -30722,7 +30734,7 @@
         "pre-plus-solve": 1.449301067307391,
         "pre-amortized": 1.7151273262644173
       },
-      "created_at": "2026-10-11T18:46:28.334176+00:00"
+      "created_at": "2026-10-13T10:43:59.182242+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg3-n128",
@@ -30746,7 +30758,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp64/n128/row-major/AlphaSparse-SpMM-CSR-ALG3/full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg3-n128.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "3b6df6f7cec994a4441095f9dfb6d259104f86a8f91f60c1cb5791720c164063",
+      "csv_sha256": "65dbd6453dfa99698678023b67d9ef55036f1173bc6a683c5aef44eddb597775",
       "public_ranked": true,
       "passed": 195,
       "failed": 1,
@@ -30760,7 +30772,7 @@
         "pre-plus-solve": 1.472870618249765,
         "pre-amortized": 1.7389805338130522
       },
-      "created_at": "2026-10-11T19:04:22.564858+00:00"
+      "created_at": "2026-10-13T10:45:15.426828+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg4-n128",
@@ -30784,7 +30796,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp64/n128/row-major/AlphaSparse-SpMM-CSR-ALG4/full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg4-n128.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "a5fb5c31fba58c11a114d70825c5fd776f5ce47b9377d5415e74cd3f716d8eac",
+      "csv_sha256": "3a4ef1b458e68c35db191eadd5bde7a2c42088b42835f58dea5d5d57d607c069",
       "public_ranked": true,
       "passed": 195,
       "failed": 1,
@@ -30798,7 +30810,7 @@
         "pre-plus-solve": 1.6323146667215613,
         "pre-amortized": 1.9991523981895263
       },
-      "created_at": "2026-10-11T19:23:08.369179+00:00"
+      "created_at": "2026-10-13T10:46:31.491908+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg5-n128",
@@ -30822,20 +30834,21 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp64/n128/row-major/AlphaSparse-SpMM-CSR-ALG5/full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg5-n128.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "322116732f9d025bd4dd50fee840db1ed2664654de25cb8a12413ec9c9bb6777",
+      "csv_sha256": "f65dc50a782344b702667c947fc62fd3880b8e16a77b12683702b685cd08b330",
       "public_ranked": true,
-      "passed": 18,
-      "failed": 0,
-      "total": 18,
+      "passed": 195,
+      "failed": 1,
+      "total": 196,
       "library_versions": [
-        "AlphaSparse 248af573c867cf4c7e05d40c611c7c34ebac4715"
+        "AlphaSparse 248af573c867cf4c7e05d40c611c7c34ebac4715",
+        "unknown"
       ],
       "metrics": {
-        "solve-only": 0.7666258509105349,
-        "pre-plus-solve": 0.5883417055202869,
-        "pre-amortized": 0.754629318337583
+        "solve-only": 1.1388965762640642,
+        "pre-plus-solve": 0.9687599309794954,
+        "pre-amortized": 1.1275774988923108
       },
-      "created_at": "2026-10-10T00:18:34.979772+00:00"
+      "created_at": "2026-10-13T10:49:37.181736+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp64-cusparse-csr-alg1-n128-13.4.1",
@@ -31156,20 +31169,20 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp64/n16/row-major/AlphaSparse-SpMM-CSR-ALG5/full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg5-n16.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "797f9cfeaaf8cf8ea552741008b6f1e110b6f14a1b981a9d850487191baca3d7",
+      "csv_sha256": "c7e2b153434f7ef2d6690274498d865da0ab34c6d006489f6b5c03c4492f306b",
       "public_ranked": true,
-      "passed": 18,
+      "passed": 196,
       "failed": 0,
-      "total": 18,
+      "total": 196,
       "library_versions": [
         "AlphaSparse 248af573c867cf4c7e05d40c611c7c34ebac4715"
       ],
       "metrics": {
-        "solve-only": 0.25175190806003234,
-        "pre-plus-solve": 0.16452773684580446,
-        "pre-amortized": 0.24522535564633807
+        "solve-only": 0.713445180411866,
+        "pre-plus-solve": 0.5550080797170109,
+        "pre-amortized": 0.7017649335704016
       },
-      "created_at": "2026-10-10T00:18:34.846816+00:00"
+      "created_at": "2026-10-13T10:49:37.048333+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp64-cusparse-csr-alg1-n16-13.4.1",
@@ -31678,7 +31691,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp64/n32/row-major/AlphaSparse-SpMM-CSR-ALG1/full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg1-n32.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "43cde4c745515eb417ebce05c9681f9da89cce44fee76a9769511522a22f72c1",
+      "csv_sha256": "25b74691c442abf4f2d52f5bdfae9e2e6b1f2b878317c7cb7ed870418869d9b9",
       "public_ranked": true,
       "passed": 371,
       "failed": 3,
@@ -31692,7 +31705,7 @@
         "pre-plus-solve": 0.9099907893601814,
         "pre-amortized": 1.27617072953454
       },
-      "created_at": "2026-10-12T03:20:48.298716+00:00"
+      "created_at": "2026-10-13T10:42:42.891649+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg2-n32",
@@ -31716,7 +31729,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp64/n32/row-major/AlphaSparse-SpMM-CSR-ALG2/full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg2-n32.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "0a69e9589a68cee724f050f644cf043013dbb2078be1703dece62ad957f63f56",
+      "csv_sha256": "bbcb2a82b3023d1c7d430f0ae1ed94ae0cb495fea7987c0f1c5190efd46d5207",
       "public_ranked": true,
       "passed": 195,
       "failed": 1,
@@ -31730,7 +31743,7 @@
         "pre-plus-solve": 0.7869289652133691,
         "pre-amortized": 0.959416093097915
       },
-      "created_at": "2026-10-11T18:46:28.261935+00:00"
+      "created_at": "2026-10-13T10:43:59.181847+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg3-n32",
@@ -31754,7 +31767,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp64/n32/row-major/AlphaSparse-SpMM-CSR-ALG3/full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg3-n32.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "2a437dd314ffec2bc7fb4bbd35230bf29836d5c7ce3adfa652032e3871ce8c4f",
+      "csv_sha256": "4a94e3d119809d1f28e7898f74f494d9bf060b91207dfe690c8dade6b0b5b2e8",
       "public_ranked": true,
       "passed": 195,
       "failed": 1,
@@ -31768,7 +31781,7 @@
         "pre-plus-solve": 0.7794197679879968,
         "pre-amortized": 0.9463169917761498
       },
-      "created_at": "2026-10-11T19:04:22.493375+00:00"
+      "created_at": "2026-10-13T10:45:15.426439+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg4-n32",
@@ -31792,7 +31805,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp64/n32/row-major/AlphaSparse-SpMM-CSR-ALG4/full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg4-n32.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "45b4b4c4af74ef3c69c5d477104b5fb83e16bba9c3cee0667bf35f20d33d799a",
+      "csv_sha256": "b36bd257b6bd31e9cb16a3e3a8909d6e0bae6368246903c97b9b2a75302f37fb",
       "public_ranked": true,
       "passed": 195,
       "failed": 1,
@@ -31806,7 +31819,7 @@
         "pre-plus-solve": 0.8463014089436164,
         "pre-amortized": 1.0772624885781117
       },
-      "created_at": "2026-10-11T19:23:08.297562+00:00"
+      "created_at": "2026-10-13T10:46:31.491518+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg5-n32",
@@ -31830,20 +31843,21 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp64/n32/row-major/AlphaSparse-SpMM-CSR-ALG5/full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg5-n32.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "d9a79629083be0ec7778bb8c22808242438f394d31fa26fb052f8ee4c1c9cc64",
+      "csv_sha256": "d7a38e6fd0e64f4e4c18a17f1d52503c16ded19f508e429de6227219ccda1ae2",
       "public_ranked": true,
-      "passed": 18,
-      "failed": 0,
-      "total": 18,
+      "passed": 195,
+      "failed": 1,
+      "total": 196,
       "library_versions": [
-        "AlphaSparse 248af573c867cf4c7e05d40c611c7c34ebac4715"
+        "AlphaSparse 248af573c867cf4c7e05d40c611c7c34ebac4715",
+        "unknown"
       ],
       "metrics": {
-        "solve-only": 0.3922929739097481,
-        "pre-plus-solve": 0.27205001027190373,
-        "pre-amortized": 0.3837706677072783
+        "solve-only": 0.8538798787912676,
+        "pre-plus-solve": 0.6798807479456728,
+        "pre-amortized": 0.8364854183513568
       },
-      "created_at": "2026-10-10T00:18:34.891060+00:00"
+      "created_at": "2026-10-13T10:49:37.092936+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp64-cusparse-csr-alg1-n32-13.4.1",
@@ -32163,20 +32177,20 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp64/n4/row-major/AlphaSparse-SpMM-CSR-ALG5/full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg5-n4.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "71ae060a935e2bcf074fcada496a1ce26a94a0daeaa104152a418428b6c26774",
+      "csv_sha256": "1f7fd5893e9ca5a18d1c963a905eda5a9b9afd8f8a38adf194bc8ba0296d30c5",
       "public_ranked": true,
-      "passed": 18,
+      "passed": 196,
       "failed": 0,
-      "total": 18,
+      "total": 196,
       "library_versions": [
         "AlphaSparse 248af573c867cf4c7e05d40c611c7c34ebac4715"
       ],
       "metrics": {
-        "solve-only": 0.08491678091182592,
-        "pre-plus-solve": 0.04823034399709081,
-        "pre-amortized": 0.08170066125678987
+        "solve-only": 0.39711249680399097,
+        "pre-plus-solve": 0.28624591931811005,
+        "pre-amortized": 0.3855434607110574
       },
-      "created_at": "2026-10-10T00:18:34.758812+00:00"
+      "created_at": "2026-10-13T10:49:36.959072+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp64-cusparse-csr-alg1-n4-13.4.1",
@@ -32348,7 +32362,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp64/n64/row-major/AlphaSparse-SpMM-CSR-ALG1/full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg1-n64.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "26c26576eb4b1f4eeee6076e18728559d50728027c1f22bfab219d7ed87e9d7c",
+      "csv_sha256": "fe4b6dbf1ce6c5131fd54ffd0f97442baedffe3128d9237991130920d7c600b9",
       "public_ranked": true,
       "passed": 371,
       "failed": 3,
@@ -32362,7 +32376,7 @@
         "pre-plus-solve": 1.109591215585727,
         "pre-amortized": 1.5216756993376213
       },
-      "created_at": "2026-10-12T03:20:48.334479+00:00"
+      "created_at": "2026-10-13T10:42:42.892018+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg2-n64",
@@ -32386,7 +32400,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp64/n64/row-major/AlphaSparse-SpMM-CSR-ALG2/full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg2-n64.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "ffb3c20cb763828517398a8f628152de8bbe362f60857991406e64590b79f447",
+      "csv_sha256": "d9b78638f6dd0e047a535e6890546c36063a7edd0d2b9b82455293ddc0670cae",
       "public_ranked": true,
       "passed": 195,
       "failed": 1,
@@ -32400,7 +32414,7 @@
         "pre-plus-solve": 1.177900734014111,
         "pre-amortized": 1.436781139961107
       },
-      "created_at": "2026-10-11T18:46:28.298395+00:00"
+      "created_at": "2026-10-13T10:43:59.182220+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg3-n64",
@@ -32424,7 +32438,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp64/n64/row-major/AlphaSparse-SpMM-CSR-ALG3/full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg3-n64.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "659531a7ca41cdc6b6cc07acf6331b2c69046465eab73e3ad0db302a30c30e37",
+      "csv_sha256": "3fa8824c99e578cfcea193f0dfaf4697f5afd933ccf59dd7ab0082a960a43b26",
       "public_ranked": true,
       "passed": 195,
       "failed": 1,
@@ -32438,7 +32452,7 @@
         "pre-plus-solve": 1.1958374449251734,
         "pre-amortized": 1.445903572513209
       },
-      "created_at": "2026-10-11T19:04:22.529124+00:00"
+      "created_at": "2026-10-13T10:45:15.426807+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg4-n64",
@@ -32462,7 +32476,7 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp64/n64/row-major/AlphaSparse-SpMM-CSR-ALG4/full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg4-n64.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "9b105177dd52e1f802578d4212de3ef1a3f153f4c834265d878fd19439e06f3a",
+      "csv_sha256": "d70fe8dddd969002775ee9cccfd033c7fad57825f4b698ba46b6650a7181a2bb",
       "public_ranked": true,
       "passed": 195,
       "failed": 1,
@@ -32476,7 +32490,7 @@
         "pre-plus-solve": 1.176148966891994,
         "pre-amortized": 1.4890024780433342
       },
-      "created_at": "2026-10-11T19:23:08.333365+00:00"
+      "created_at": "2026-10-13T10:46:31.491886+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg5-n64",
@@ -32500,20 +32514,21 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp64/n64/row-major/AlphaSparse-SpMM-CSR-ALG5/full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg5-n64.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "9a12585f004a3905e15adc5560b3fa5c2796ca93707b3f60bb1a375f4cd2a29c",
+      "csv_sha256": "67a3989e55d9303aca8a3a6f532fe0ba9f22e3c7a89d079eca79f033dbdc217b",
       "public_ranked": true,
-      "passed": 18,
-      "failed": 0,
-      "total": 18,
+      "passed": 195,
+      "failed": 1,
+      "total": 196,
       "library_versions": [
-        "AlphaSparse 248af573c867cf4c7e05d40c611c7c34ebac4715"
+        "AlphaSparse 248af573c867cf4c7e05d40c611c7c34ebac4715",
+        "unknown"
       ],
       "metrics": {
-        "solve-only": 0.5701402152808476,
-        "pre-plus-solve": 0.4222684685140471,
-        "pre-amortized": 0.5601773032618982
+        "solve-only": 1.0016746307586586,
+        "pre-plus-solve": 0.8338030142520122,
+        "pre-amortized": 0.9870404340159716
       },
-      "created_at": "2026-10-10T00:18:34.935460+00:00"
+      "created_at": "2026-10-13T10:49:37.137512+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp64-cusparse-csr-alg1-n64-13.4.1",
@@ -32833,20 +32848,20 @@
       "path": "data/results/spmm/H100-SXM5-80GB/suitesparse_all/fp64/n8/row-major/AlphaSparse-SpMM-CSR-ALG5/full-20261009-H100-SXM5-80GB-spmm-fp64-alphasparse-csr-alg5-n8.csv",
       "source_manifest": "source/spmm/c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55/plugin.json",
       "source_sha256": "c3e1b45d34b9af14b7f276f97bc38756649282338514b6b85469ab0fbc319e55",
-      "csv_sha256": "4279a4b3c501acf7abf20d32f86cffcfb68df0773c0b1dfc8603afcdd3d4bce6",
+      "csv_sha256": "ddbb1344e67ac4210341f62168c2ebcde869c98a418caedcd8e0f789ffa869d7",
       "public_ranked": true,
-      "passed": 18,
+      "passed": 196,
       "failed": 0,
-      "total": 18,
+      "total": 196,
       "library_versions": [
         "AlphaSparse 248af573c867cf4c7e05d40c611c7c34ebac4715"
       ],
       "metrics": {
-        "solve-only": 0.15699125595516833,
-        "pre-plus-solve": 0.09117427723267896,
-        "pre-amortized": 0.15133892894062978
+        "solve-only": 0.5961777772324612,
+        "pre-plus-solve": 0.4298650227540908,
+        "pre-amortized": 0.5664296485134278
       },
-      "created_at": "2026-10-10T00:18:34.802754+00:00"
+      "created_at": "2026-10-13T10:49:37.003757+00:00"
     },
     {
       "submission_id": "full-20261009-H100-SXM5-80GB-spmm-fp64-cusparse-csr-alg1-n8-13.4.1",
@@ -47934,5 +47949,5 @@
       }
     }
   ],
-  "generated_at": "2026-10-13T17:48:10.807099+08:00"
+  "generated_at": "2026-10-13T20:05:19.606360+08:00"
 }
