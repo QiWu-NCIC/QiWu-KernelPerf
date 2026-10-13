@@ -4,6 +4,11 @@ import crypto from "node:crypto";
 import { parseCsv, presentationMethodName, readIndex, validateRows, timingColumns } from "./spmm-data.mjs";
 
 const root = path.resolve(process.argv[2] || "public");
+const datasetManifest = JSON.parse(fs.readFileSync(
+  new URL("../../KernelPerf/config/datasets/suitesparse_all.json", import.meta.url), "utf8",
+).replace(/^\uFEFF/, ""));
+const expectedMatrices = new Set(datasetManifest.map((matrix) => matrix.matrix_id));
+if (expectedMatrices.size !== 2904) throw new Error("unexpected suitesparse_all matrix manifest");
 const index = readIndex(root);
 const sourceByHash = new Map();
 const sourceRoot = path.join(root, "source/spmm");
@@ -30,6 +35,7 @@ const readEntryRows = (entry) => {
 const candidates = [];
 for (const entry of index.submissions) {
   if (entry.selection_role !== "candidate" || entry.rhs_columns === 1) continue;
+  if (entry.dataset_id !== "suitesparse_all") continue;
   const loaded = readEntryRows(entry);
   if (loaded.rows[0].ranking_scope !== "main") continue;
   candidates.push(loaded);
@@ -46,13 +52,38 @@ for (const loaded of candidates) {
   scopeGroups.get(scope).push(loaded);
 }
 
-const oldBest = index.submissions.filter((entry) => entry.selection_role === "best");
+const oldBest = index.submissions.filter((entry) => entry.selection_role === "best" && entry.dataset_id === "suitesparse_all");
 const oldBestPaths = new Set(oldBest.map((entry) => entry.path));
 const generated = [];
 const generatedPaths = new Set();
 
+const expectedFullDatasetConfigurations = (candidateGroup) => {
+  if (candidateGroup === "AlphaSparse-SpMM-CSR") {
+    return new Set(["csr-alg1", "csr-alg2", "csr-alg3", "csr-alg4", "csr-alg5"]);
+  }
+  if (candidateGroup === "cuSPARSE-SpMM-CSR") {
+    return new Set(["csr-default", "csr-alg1", "csr-alg2", "csr-alg3"]);
+  }
+  if (candidateGroup === "rocSPARSE-DTK26.04-SpMM-CSR") {
+    return new Set(["csr", "csr-row-split", "csr-nnz-split", "csr-merge-path"]);
+  }
+  return null;
+};
+
+const isCompleteFullDatasetScope = (entries, first) => {
+  if (first.dataset_id !== "suitesparse_all") return true;
+  const expected = expectedFullDatasetConfigurations(first.candidate_group);
+  if (!expected) return false;
+  const actual = new Set(entries.map((entry) => entry.entry.configuration_id));
+  if (actual.size !== expected.size || [...expected].some((configuration) => !actual.has(configuration))) return false;
+  const matrixCounts = entries.map((entry) => new Set(entry.rows.map((row) => row.matrix_id)));
+  return matrixCounts.every((matrices) => matrices.size === expectedMatrices.size
+    && [...expectedMatrices].every((matrix) => matrices.has(matrix)));
+};
+
 for (const [scope, entries] of scopeGroups) {
   const first = entries[0].rows[0];
+  if (!isCompleteFullDatasetScope(entries, first)) continue;
   const source = sourceByHash.get(entries[0].entry.source_sha256);
   if (!source) throw new Error(`no source package for ${first.candidate_group}/${entries[0].entry.source_sha256}`);
 
@@ -60,7 +91,7 @@ for (const [scope, entries] of scopeGroups) {
   const rowsByMatrix = new Map();
   for (const loaded of entries) {
     for (const row of loaded.rows) {
-      if (row.status !== "pass" || row.public_ranked !== "true") continue;
+      if (row.public_ranked !== "true") continue;
       if (!rowsByMatrix.has(row.matrix_id)) rowsByMatrix.set(row.matrix_id, []);
       rowsByMatrix.get(row.matrix_id).push(row);
     }
@@ -73,11 +104,19 @@ for (const [scope, entries] of scopeGroups) {
   for (const [selectionMetric, timingColumn] of Object.entries(timingColumns)) {
     const selected = [];
     for (const rows of rowsByMatrix.values()) {
-      rows.sort((left, right) => Number(left[timingColumn]) - Number(right[timingColumn])
+      const passing = rows.filter((row) => row.status === "pass" && Number(row[timingColumn]) > 0);
+      if (passing.length) {
+        passing.sort((left, right) => Number(left[timingColumn]) - Number(right[timingColumn])
+          || left.configuration_id.localeCompare(right.configuration_id));
+        selected.push(passing[0]);
+        continue;
+      }
+      const failed = rows.filter((row) => row.status === "fail" || row.status === "error");
+      failed.sort((left, right) => String(right.timestamp || "").localeCompare(String(left.timestamp || ""))
         || left.configuration_id.localeCompare(right.configuration_id));
-      selected.push(rows[0]);
+      if (failed.length) selected.push(failed[0]);
     }
-    if (!selected.length) continue;
+    if (!selected.length || (first.dataset_id === "suitesparse_all" && selected.length !== 2904)) continue;
     selected.sort((left, right) => left.matrix_id.localeCompare(right.matrix_id));
     const methodId = slug(`${first.candidate_group}-best-${selectionMetric}`);
     const submissionId = slug([
@@ -123,7 +162,7 @@ for (const [scope, entries] of scopeGroups) {
     const passed = rows.filter((row) => row.status === "pass").length;
     const metrics = {};
     for (const [metric, field] of Object.entries(timingColumns)) {
-      metrics[metric] = passed ? rows.reduce((sum, row) => sum + Number(row[`${metric === "solve-only" ? "solve_only" : metric === "pre-plus-solve" ? "pre_plus_solve" : "pre_amortized"}_efficiency_percent`]), 0) / passed : 0;
+      metrics[metric] = passed ? rows.filter((row) => row.status === "pass").reduce((sum, row) => sum + Number(row[`${metric === "solve-only" ? "solve_only" : metric === "pre-plus-solve" ? "pre_plus_solve" : "pre_amortized"}_efficiency_percent`]), 0) / passed : 0;
     }
     generated.push({
       submission_id: submissionId,
@@ -164,7 +203,7 @@ for (const relative of oldBestPaths) {
     if (fs.existsSync(filename)) fs.unlinkSync(filename);
   }
 }
-index.submissions = [...index.submissions.filter((entry) => entry.selection_role !== "best"), ...generated]
+index.submissions = [...index.submissions.filter((entry) => !(entry.selection_role === "best" && entry.dataset_id === "suitesparse_all")), ...generated]
   .sort((left, right) => left.path.localeCompare(right.path));
 const indexPath = path.join(root, "data/results/spmm/index.json");
 const temporary = `${indexPath}.tmp`;

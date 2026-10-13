@@ -273,6 +273,80 @@ def test_multi_configuration_job_exports_candidates_and_per_matrix_best(tmp_path
     assert all(row["selection_role"] == "best" for row in rows)
     assert all(row["base_format"] == "manual-selection" for row in rows)
     assert all(row["source_kind"] == "derived" for row in rows)
+    assert all(row["selected_from"] == "a,b" for row in rows)
+
+
+def test_per_matrix_best_keeps_matrices_when_every_candidate_fails(tmp_path):
+    runtime = create_runtime(
+        database_path=tmp_path / "perf.sqlite",
+        result_exports_path=tmp_path / "exports",
+    )
+    backend = runtime.backends.backends()[0].info()
+    operator = runtime.benchmarks.get("spmv").operators()[0]
+    kernels = [
+        KernelArtifact(
+            name=f"cfg-{configuration}",
+            source="candidate",
+            metadata={
+                "operator_id": operator.op_id,
+                "base_format": "csr",
+                "configuration_id": configuration,
+                "candidate_group": "alpha",
+            },
+        )
+        for configuration in ("a", "b")
+    ]
+    job = JobRecord(
+        job_id="all-candidates-fail",
+        generator_id="alpha",
+        backends=[backend.backend_id],
+        suites=["spmv"],
+        dataset_id="suitesparse_sample_100",
+        operator_ids=[operator.op_id],
+        kernels=kernels,
+        status=JobStatus.succeeded,
+    )
+    for kernel in kernels:
+        runtime.db.insert_result(BenchmarkResult(
+            job_id=job.job_id,
+            generator_id=job.generator_id,
+            backend_id=backend.backend_id,
+            backend_kind=backend.kind,
+            suite="spmv",
+            operator_id=operator.op_id,
+            operator_name=operator.name,
+            matrix_id="failed-matrix",
+            matrix_name="failed-matrix",
+            rows=2,
+            cols=2,
+            nnz=4,
+            kernel_name=kernel.name,
+            status=CaseStatus.failed,
+            runtime_ms=0.0,
+            gflops=0.0,
+            arithmetic_intensity=0.0,
+            metadata={
+                "operations": 8,
+                "dtype": operator.dtype,
+                "implementation": {
+                    "configuration_id": kernel.metadata["configuration_id"],
+                    "candidate_group": "alpha",
+                    "selection_role": "candidate",
+                },
+            },
+        ))
+
+    paths = LocalResultExporter(
+        tmp_path / "exports", runtime.db, runtime.backends, runtime.benchmarks
+    ).export_job(job)
+    best = next(Path(path) for path in paths if "best" in Path(path).name)
+    with best.open(newline="", encoding="utf-8") as stream:
+        rows = list(csv.DictReader(stream))
+
+    assert len(rows) == 1
+    assert rows[0]["matrix_id"] == "failed-matrix"
+    assert rows[0]["status"] == "fail"
+    assert rows[0]["configuration_id"] == "per-matrix-best"
 
 
 def test_multiple_candidate_groups_export_independent_best_results(tmp_path):

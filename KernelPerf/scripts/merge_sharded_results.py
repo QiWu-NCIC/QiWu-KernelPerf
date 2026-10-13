@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
+import shutil
 import sys
 from collections import defaultdict
 from datetime import datetime
@@ -19,6 +21,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--index", type=Path, required=True)
     parser.add_argument("--shards", type=int, required=True)
     parser.add_argument("--operator", default="spmv")
+    parser.add_argument("--allow-partial", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     return parser.parse_args()
 
@@ -50,13 +53,29 @@ def row_key(row: dict[str, str]) -> tuple[int, tuple[int, str], str]:
 def validate_metadata(rows: list[dict[str, str]], filename: str) -> None:
     identity_columns = (
         "method_id", "method_name", "configuration_id", "candidate_group",
-        "selection_role", "selected_from", "base_format", "operator_id", "dtype",
+        "selection_role", "base_format", "operator_id", "dtype",
         "backend_id", "hardware", "peak_gflops", "dataset_id", "source_kind",
     )
+    if rows and rows[0].get("selection_role") != "best":
+        identity_columns += ("selected_from",)
+    if rows and str(rows[0].get("operator_id", "")).startswith("spmm."):
+        identity_columns += ("rhs_columns", "dense_layout")
     for column in identity_columns:
         values = {row.get(column, "") for row in rows if column in row}
         if len(values) > 1:
             raise ValueError(f"inconsistent {column} values for {filename}")
+
+
+def submission_key(item: dict[str, str], operator: str) -> tuple[str, ...]:
+    key = (
+        str(item.get("method_id", "")).casefold(),
+        str(item.get("backend_id", "")),
+        str(item.get("dataset_id", "")),
+        str(item.get("dtype", "")),
+    )
+    if operator == "spmm":
+        return (*key, str(item.get("rhs_columns", "")), str(item.get("dense_layout", "")))
+    return key
 
 
 def latest_rows(rows: list[dict[str, str]]) -> list[dict[str, str]]:
@@ -78,7 +97,35 @@ def write_csv(path: Path, fieldnames: list[str], rows: list[dict[str, str]]) -> 
         writer = csv.DictWriter(stream, fieldnames=fieldnames, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
-    temporary.replace(path)
+    try:
+        temporary.replace(path)
+    except PermissionError:
+        shutil.copyfile(temporary, path)
+        temporary.unlink(missing_ok=True)
+
+
+def update_spmm_entry(entry: dict[str, object], rows: list[dict[str, str]], target: Path) -> None:
+    passed = [row for row in rows if row.get("status") == "pass"]
+    entry["csv_sha256"] = hashlib.sha256(target.read_bytes()).hexdigest()
+    entry["passed"] = len(passed)
+    entry["failed"] = len(rows) - len(passed)
+    entry["total"] = len(rows)
+    entry["library_versions"] = sorted({
+        row.get("library_version", "") for row in rows if row.get("library_version")
+    })
+    metrics = entry.setdefault("metrics", {})
+    if not isinstance(metrics, dict):
+        metrics = {}
+        entry["metrics"] = metrics
+    for name, column in (
+        ("solve-only", "solve_only_efficiency_percent"),
+        ("pre-plus-solve", "pre_plus_solve_efficiency_percent"),
+        ("pre-amortized", "pre_amortized_efficiency_percent"),
+    ):
+        metrics[name] = (
+            sum(float(row.get(column, 0) or 0) for row in passed) / len(passed)
+            if passed else 0.0
+        )
 
 
 def main() -> int:
@@ -88,12 +135,7 @@ def main() -> int:
     expected = {str(item["matrix_id"]) for item in matrices}
     index = json.loads(args.index.read_text(encoding="utf-8"))
     entries = {
-        (
-            str(item.get("method_id", "")),
-            str(item.get("backend_id", "")),
-            str(item.get("dataset_id", "")),
-            str(item.get("dtype", "")),
-        ): item
+        submission_key(item, args.operator): item
         for item in index.get("submissions", [])
         if str(item.get("operator_id", "")).split(".", 1)[0] == args.operator
     }
@@ -105,7 +147,7 @@ def main() -> int:
     skipped = 0
     report: list[dict[str, object]] = []
     for filename, paths in sorted(grouped.items()):
-        if len(paths) < args.shards:
+        if len(paths) < args.shards and not args.allow_partial:
             skipped += 1
             continue
         fieldnames: list[str] | None = None
@@ -120,24 +162,17 @@ def main() -> int:
         validate_metadata(rows, filename)
         selected = latest_rows(rows)
         ids = {str(row.get("matrix_id", "")) for row in selected}
-        if ids != expected:
+        if not ids <= expected:
             skipped += 1
             report.append({
-                "file": filename,
-                "status": "incomplete",
+                "file": filename, "status": "unexpected_matrices",
                 "shard_files": len(paths),
                 "rows": len(selected),
-                "missing": len(expected - ids),
                 "unexpected": len(ids - expected),
             })
             continue
         first = selected[0]
-        key = (
-            str(first.get("method_id", "")),
-            str(first.get("backend_id", "")),
-            str(first.get("dataset_id", "")),
-            str(first.get("dtype", "")),
-        )
+        key = submission_key(first, args.operator)
         entry = entries.get(key)
         if entry is None:
             skipped += 1
@@ -146,17 +181,48 @@ def main() -> int:
         target = (args.public_root / str(entry["path"])).resolve()
         if not target.is_relative_to(args.public_root.resolve()):
             raise ValueError(f"public result path escapes its root: {entry['path']}")
+        partial = ids != expected
+        if partial and (not args.allow_partial or entry.get("selection_role") == "best"
+                        or not target.is_file()):
+            skipped += 1
+            report.append({
+                "file": filename, "status": "incomplete",
+                "shard_files": len(paths), "rows": len(selected),
+                "missing": len(expected - ids), "unexpected": 0,
+            })
+            continue
+        if partial:
+            existing_fields, existing_rows = read_csv(target)
+            if existing_fields != fieldnames:
+                raise ValueError(f"existing CSV columns differ for {filename}")
+            validate_metadata(existing_rows, filename)
+            selected = latest_rows(existing_rows + selected)
+            merged_ids = {str(row.get("matrix_id", "")) for row in selected}
+            if not merged_ids <= expected:
+                raise ValueError(f"existing result has unexpected matrices for {filename}")
         if not args.dry_run:
             for row in selected:
                 row["submission_id"] = str(entry["submission_id"])
             write_csv(target, fieldnames or [], selected)
+            if args.operator == "spmm":
+                update_spmm_entry(entry, selected, target)
+            else:
+                if "csv_sha256" in entry:
+                    entry["csv_sha256"] = hashlib.sha256(target.read_bytes()).hexdigest()
+                for name, value in (
+                    ("total", len(selected)),
+                    ("passed", sum(row.get("status") == "pass" for row in selected)),
+                    ("failed", sum(row.get("status") != "pass" for row in selected)),
+                ):
+                    if name in entry:
+                        entry[name] = value
             newest = max((row.get("timestamp", "") for row in selected), key=timestamp_key)
             if newest:
                 entry["created_at"] = newest
         merged += 1
         report.append({
             "file": filename,
-            "status": "merged",
+            "status": "checkpoint_merged" if partial else "merged",
             "shard_files": len(paths),
             "rows": len(selected),
             "pass": sum(row.get("status") == "pass" for row in selected),

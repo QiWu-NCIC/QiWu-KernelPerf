@@ -255,6 +255,7 @@ import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } 
 import OperatorTabs from "../../components/OperatorTabs.vue";
 import { drawContestScatter } from "../../utils/contestCharts.js";
 import { expectedMatrixCount } from "../../utils/contestCoverage.js";
+import { isPublicSpmvSellRow, sellCWinnerByScope } from "../../utils/sellCSelection.js";
 import { selectContestEntries } from "../../utils/contestData.js";
 import benchmarkSpecs from "../../../../KernelPerf/config/benchmarks.json";
 import datasetSpecs from "../../../../KernelPerf/config/datasets.json";
@@ -366,7 +367,14 @@ function cusparseCsrBestName(candidates) {
 // Derive the cuSPARSE CSR per-matrix winner in the browser so the contest
 // shows the same solve-only selection that is used for the other BEST rows.
 const displayRows = computed(() => {
-  const source = scopedRows.value;
+  const winners = sellCWinnerByScope(
+    scopedRows.value,
+    efficiency,
+    (dataset, observed) => expectedMatrixCount(dataset, observed, datasetSpecs),
+  );
+  const source = scopedRows.value.filter((row) => (
+    isPublicSpmvSellRow(row, winners)
+  ));
   const derived = [];
   for (const dtype of dtypes) {
     const candidates = source.filter((row) => row.dtype === dtype

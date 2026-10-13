@@ -131,3 +131,20 @@ export function readIndex(root) {
 export function scopeKey(row) {
   return [row.backend_id, row.dataset_id, row.operator_id, row.rhs_columns, row.dense_layout, row.candidate_group].join("|");
 }
+
+export function assertBestWinner(best, candidates, timingColumn) {
+  const passing = candidates.filter((row) => row.status === "pass");
+  passing.sort((left, right) => Number(left[timingColumn]) - Number(right[timingColumn])
+    || left.configuration_id.localeCompare(right.configuration_id));
+  if (best.status === "pass") {
+    const winner = passing[0];
+    if (!winner || winner.configuration_id !== best.selected_configuration_id
+        || Number(winner[timingColumn]) !== Number(best[timingColumn])) {
+      throw new Error("BEST does not match the fastest passing candidate");
+    }
+    return;
+  }
+  if (!["fail", "error"].includes(best.status) || passing.length > 0) {
+    throw new Error("failed BEST exists despite a passing candidate");
+  }
+}

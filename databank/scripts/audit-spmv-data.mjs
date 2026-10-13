@@ -1,9 +1,19 @@
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
+import { fileURLToPath } from "node:url";
 
 const root = path.resolve(process.argv[2] || "public");
 const failures = [];
+const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+const datasetSpecs = JSON.parse(
+  fs.readFileSync(path.join(repositoryRoot, "KernelPerf", "config", "datasets.json"), "utf8"),
+);
+const datasetMatrixCounts = new Map(
+  datasetSpecs
+    .filter((dataset) => Number.isInteger(dataset.matrix_count))
+    .map((dataset) => [dataset.dataset_id, dataset.matrix_count]),
+);
 const manifest = JSON.parse(fs.readFileSync(path.join(root, "data", "index.json"), "utf8"));
 if (manifest.schema_version !== 2 || manifest.result_schema !== "kernelperf-spmv-v2") {
   failures.push("manifest schema is not kernelperf-spmv-v2");
@@ -179,11 +189,14 @@ for (const entry of candidateManifest.submissions || []) {
   const statuses = headers.indexOf("status");
   const solveIndex = headers.indexOf("solve_ms");
   const passing = rows.filter((row) => row[statuses] === "pass" && Number(row[solveIndex]) > 0);
-  // Coverage is a ranking policy, not a CSV validity requirement. A complete
-  // 100-matrix sweep may contain failed cases; its passing rows still belong
-  // in per-matrix BEST selection, while the frontend applies the rankability
-  // threshold when displaying the aggregate result.
-  if (rows.length !== 100 || rows.some((row) => row[matrixIndex]?.startsWith("generated/"))) {
+  // Coverage is a ranking policy, not a CSV validity requirement. Complete
+  // sweeps may contain failed cases; those rows still belong in BEST selection.
+  const expectedCount = datasetMatrixCounts.get(entry.dataset_id);
+  if (!expectedCount) {
+    failures.push(`unknown candidate dataset size: ${entry.dataset_id}`);
+    continue;
+  }
+  if (rows.length !== expectedCount || rows.some((row) => row[matrixIndex]?.startsWith("generated/"))) {
     failures.push(`incomplete candidate: ${entry.backend_id}/${entry.dtype}/${entry.configuration_id}`);
     continue;
   }
@@ -242,6 +255,7 @@ for (const entry of manifest.submissions || []) {
   }
   const matrixIndex = headers.indexOf("matrix_id");
   const solveIndex = headers.indexOf("solve_ms");
+  const statusIndex = headers.indexOf("status");
   const candidateKey = `${operatorOf(entry.operator_id)}|${canonicalBackend(entry.backend_id)}|${datasetOf(entry.dataset_id)}|${entry.dtype}`;
   const minimums = candidateMinimums.get(candidateKey)
     || publicCandidateMinimums.get(`${candidateKey}|cusparse`);
@@ -251,6 +265,12 @@ for (const entry of manifest.submissions || []) {
       failures.push(`cuSPARSE BEST row base format is not manual-selection: ${entry.path}`);
     }
     const expected = minimums?.get(row[matrixIndex]);
+    if (row[statusIndex] !== "pass") {
+      if (expected !== undefined) {
+        failures.push(`BEST failed despite a passing candidate: ${entry.backend_id}/${entry.dtype}/${row[matrixIndex]}`);
+      }
+      continue;
+    }
     if (expected === undefined || Math.abs(Number(row[solveIndex]) - expected) > 1e-9) {
       failures.push(`BEST is not candidate minimum: ${entry.backend_id}/${entry.dtype}/${row[matrixIndex]}`);
     }
@@ -264,6 +284,22 @@ for (const entry of manifest.submissions || []) {
   const baseFormatIndex = headers.indexOf("base_format");
   if (rows.some((row) => row[baseFormatIndex] !== "manual-selection")) {
     failures.push(`AlphaSparseLib BEST row base format is not manual-selection: ${entry.path}`);
+  }
+  if (entry.dataset_id !== "suitesparse_all") continue;
+  const candidateKey = [operatorOf(entry.operator_id), canonicalBackend(entry.backend_id),
+    datasetOf(entry.dataset_id), entry.dtype, "AlphaSparseLib-CSR"].join("|");
+  const matrixIndex = headers.indexOf("matrix_id");
+  const statusIndex = headers.indexOf("status");
+  const solveIndex = headers.indexOf("solve_ms");
+  for (const row of rows) {
+    const expected = publicCandidateMinimums.get(candidateKey)?.get(row[matrixIndex]);
+    if (row[statusIndex] === "pass") {
+      if (expected === undefined || Math.abs(expected - Number(row[solveIndex])) > 1e-9) {
+        failures.push(`AlphaSparse BEST is not candidate minimum: ${entry.backend_id}/${entry.dtype}/${row[matrixIndex]}`);
+      }
+    } else if (expected !== undefined) {
+      failures.push(`AlphaSparse BEST failed despite a passing candidate: ${entry.backend_id}/${entry.dtype}/${row[matrixIndex]}`);
+    }
   }
 }
 const observedCandidateScopes = new Map();

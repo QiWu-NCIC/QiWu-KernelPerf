@@ -232,22 +232,35 @@ class LocalResultExporter:
         )
         rows = [
             row for row in rows
-            if row["status"] == "pass"
-            and str((row.get("metadata") or {}).get("implementation", {}).get("candidate_group", "")) == group
+            if str((row.get("metadata") or {}).get("implementation", {}).get("candidate_group", "")) == group
             and str((row.get("metadata") or {}).get("implementation", {}).get("selection_role", "candidate")) == "candidate"
+            and str((row.get("metadata") or {}).get("implementation", {}).get("configuration_id", "")) in config_ids
         ]
-        selected: dict[str, dict[str, Any]] = {}
+        by_matrix: dict[str, list[dict[str, Any]]] = {}
         for row in rows:
-            implementation = (row.get("metadata") or {}).get("implementation", {})
-            config_id = str(implementation.get("configuration_id", ""))
-            if not config_id:
+            by_matrix.setdefault(str(row["matrix_id"]), []).append(row)
+        selected: dict[str, dict[str, Any]] = {}
+        for matrix_id, candidates in by_matrix.items():
+            passed = [row for row in candidates if row["status"] == "pass"]
+            if passed:
+                selected[matrix_id] = min(
+                    passed,
+                    key=lambda row: (
+                        float(row["runtime_ms"]),
+                        str((row.get("metadata") or {}).get("implementation", {}).get("configuration_id", "")),
+                    ),
+                )
                 continue
-            previous = selected.get(str(row["matrix_id"]))
-            previous_impl = (previous or {}).get("metadata", {}).get("implementation", {})
-            if previous is None or (float(row["runtime_ms"]), config_id) < (
-                float(previous["runtime_ms"]), str(previous_impl.get("configuration_id", ""))
-            ):
-                selected[str(row["matrix_id"])] = row
+            failures = [row for row in candidates if row["status"] in {"fail", "error"}]
+            if failures:
+                preferred_status = "fail" if any(row["status"] == "fail" for row in failures) else "error"
+                selected[matrix_id] = max(
+                    (row for row in failures if row["status"] == preferred_status),
+                    key=lambda row: (
+                        str(row.get("timestamp", "")),
+                        str((row.get("metadata") or {}).get("implementation", {}).get("configuration_id", "")),
+                    ),
+                )
         if not selected:
             return None
         selected_from = ",".join(sorted(config_ids))

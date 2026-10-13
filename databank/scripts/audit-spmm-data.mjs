@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
-import { readIndex, parseCsv, validateRows, safePath, scopeKey, timingColumns } from "./spmm-data.mjs";
+import { readIndex, parseCsv, validateRows, safePath, scopeKey, timingColumns, assertBestWinner } from "./spmm-data.mjs";
 
 const root = path.resolve(process.argv[2] || "public");
 const index = readIndex(root);
@@ -53,9 +53,27 @@ for (const entry of index.submissions) {
       if (row.status !== "pass" || row.public_ranked !== "true" || row.ranking_scope !== "main") continue;
       const key = scopeKey(row) + "|" + row.matrix_id;
       if (!candidates.has(key)) candidates.set(key, []);
-      candidates.get(key).push(row);
+      candidates.get(key).push({
+        status: row.status,
+        configuration_id: row.configuration_id,
+        ...Object.fromEntries(Object.values(timingColumns).map((field) => [field, row[field]])),
+      });
     }
-  } else if (entry.selection_role === "best") bestRows.push(...rows);
+  } else if (entry.selection_role === "best") bestRows.push(...rows.map((row) => ({
+    backend_id: row.backend_id,
+    dataset_id: row.dataset_id,
+    operator_id: row.operator_id,
+    rhs_columns: row.rhs_columns,
+    dense_layout: row.dense_layout,
+    candidate_group: row.candidate_group,
+    matrix_id: row.matrix_id,
+    ranking_scope: row.ranking_scope,
+    selected_from: row.selected_from,
+    selected_configuration_id: row.selected_configuration_id,
+    selection_metric: row.selection_metric,
+    status: row.status,
+    ...Object.fromEntries(Object.values(timingColumns).map((field) => [field, row[field]])),
+  })));
   else throw new Error("unknown selection role");
 }
 for (const best of bestRows) {
@@ -64,9 +82,8 @@ for (const best of bestRows) {
   if (!field) throw new Error("BEST has unknown timing metric");
   const configurations = new Set(best.selected_from.split(","));
   const rows = (candidates.get(scopeKey(best) + "|" + best.matrix_id) || []).filter((row) => configurations.has(row.configuration_id));
-  rows.sort((left, right) => Number(left[field]) - Number(right[field]) || left.configuration_id.localeCompare(right.configuration_id));
-  const winner = rows[0];
-  if (!winner || winner.configuration_id !== best.selected_configuration_id || Number(winner[field]) !== Number(best[field])) throw new Error("incorrect BEST winner for " + scopeKey(best) + "|" + best.matrix_id);
+  try { assertBestWinner(best, rows, field); }
+  catch (error) { throw new Error("incorrect BEST winner for " + scopeKey(best) + "|" + best.matrix_id, { cause: error }); }
 }
 if (process.argv.includes("--require-complete")) {
   const platforms = [
