@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "result_schema": "kernelperf-spmv-v2",
-  "generated_at": "2026-10-13T17:24:21.297727+08:00",
+  "generated_at": "2026-10-13T17:46:17.149653+08:00",
   "baselines": [],
   "submissions": [
     {
@@ -4307,7 +4307,7 @@
       "peak_gflops": 67000,
       "dataset_id": "suitesparse_all",
       "source_kind": "source",
-      "created_at": "2026-10-13T06:56:36.931163+00:00",
+      "created_at": "2026-10-13T02:47:13.994185+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
     },
@@ -4401,7 +4401,7 @@
       "peak_gflops": 67000,
       "dataset_id": "suitesparse_all",
       "source_kind": "source",
-      "created_at": "2026-10-13T08:23:22.578672+00:00",
+      "created_at": "2026-10-13T03:47:26.992242+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
     },
@@ -4443,7 +4443,7 @@
       "peak_gflops": 67000,
       "dataset_id": "suitesparse_all",
       "source_kind": "source",
-      "created_at": "2026-10-13T08:51:22.946274+00:00",
+      "created_at": "2026-10-13T04:07:31.623039+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
     },
@@ -4485,7 +4485,7 @@
       "peak_gflops": 67000,
       "dataset_id": "suitesparse_all",
       "source_kind": "source",
-      "created_at": "2026-10-13T09:19:21.526861+00:00",
+      "created_at": "2026-10-13T04:27:35.847767+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
     },
@@ -4527,7 +4527,7 @@
       "peak_gflops": 67000,
       "dataset_id": "suitesparse_all",
       "source_kind": "source",
-      "created_at": "2026-10-13T07:55:22.494045+00:00",
+      "created_at": "2026-10-13T03:27:22.780965+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
     },
@@ -4569,7 +4569,7 @@
       "peak_gflops": 67000,
       "dataset_id": "suitesparse_all",
       "source_kind": "source",
-      "created_at": "2026-10-13T07:24:36.634309+00:00",
+      "created_at": "2026-10-13T09:30:29.085059+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
     },
@@ -4611,7 +4611,7 @@
       "peak_gflops": 67000,
       "dataset_id": "suitesparse_all",
       "source_kind": "source",
-      "created_at": "2026-10-13T05:57:50.638842+00:00",
+      "created_at": "2026-10-13T01:49:57.579376+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
     },
@@ -4653,7 +4653,7 @@
       "peak_gflops": 67000,
       "dataset_id": "suitesparse_all",
       "source_kind": "source",
-      "created_at": "2026-10-13T06:25:53.201732+00:00",
+      "created_at": "2026-10-13T02:14:33.106766+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json"
     },
@@ -5241,7 +5241,7 @@
       "peak_gflops": 67000,
       "dataset_id": "suitesparse_all",
       "source_kind": "source",
-      "created_at": "2026-10-11T15:05:40.099541+00:00",
+      "created_at": "2026-10-13T09:40:48.864785+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json"
     },
@@ -5283,7 +5283,7 @@
       "peak_gflops": 67000,
       "dataset_id": "suitesparse_all",
       "source_kind": "source",
-      "created_at": "2026-10-11T23:17:29.782911+00:00",
+      "created_at": "2026-10-13T09:39:30.866370+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json"
     },
