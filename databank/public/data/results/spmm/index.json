@@ -16921,7 +16921,7 @@
       ],
       "metrics": {
         "solve-only": 0.01662928806595927,
-        "pre-plus-solve": 0.000024053648381940354,
+        "pre-plus-solve": 2.4053648381940354e-05,
         "pre-amortized": 0.0001970679535064068
       },
       "created_at": "2026-10-13T05:17:12.111528+00:00"
@@ -16958,7 +16958,7 @@
       ],
       "metrics": {
         "solve-only": 0.06563015087404282,
-        "pre-plus-solve": 0.000023350409218409398,
+        "pre-plus-solve": 2.3350409218409398e-05,
         "pre-amortized": 0.00037019972456555744
       },
       "created_at": "2026-10-13T04:49:00.305335+00:00"
@@ -16995,7 +16995,7 @@
       ],
       "metrics": {
         "solve-only": 0.05520289373376142,
-        "pre-plus-solve": 0.000024070078371156192,
+        "pre-plus-solve": 2.4070078371156192e-05,
         "pre-amortized": 0.00036595949141628105
       },
       "created_at": "2026-10-13T04:20:45.102066+00:00"
@@ -17032,7 +17032,7 @@
       ],
       "metrics": {
         "solve-only": 0.057795093727152906,
-        "pre-plus-solve": 0.0000217131320154671,
+        "pre-plus-solve": 2.17131320154671e-05,
         "pre-amortized": 0.0003364337900751267
       },
       "created_at": "2026-10-13T03:52:29.601560+00:00"
@@ -18772,9 +18772,9 @@
         "AlphaSparse 248af573c867cf4c7e05d40c611c7c34ebac4715"
       ],
       "metrics": {
-        "solve-only": 0,
-        "pre-plus-solve": 0,
-        "pre-amortized": 0
+        "solve-only": 0.0,
+        "pre-plus-solve": 0.0,
+        "pre-amortized": 0.0
       },
       "created_at": "2026-10-12T19:56:51.229248+00:00"
     },
@@ -19106,7 +19106,7 @@
       ],
       "metrics": {
         "solve-only": 0.0001637333950656893,
-        "pre-plus-solve": 0.00004187069376549117,
+        "pre-plus-solve": 4.187069376549117e-05,
         "pre-amortized": 0.00014230608846752554
       },
       "created_at": "2026-10-13T08:43:47.488602+00:00"
@@ -19133,20 +19133,20 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp64/n2/row-major/AlphaSparse-SpMM-CSR-ALG3/full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg3-n2.csv",
       "source_manifest": "source/spmm/a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717/plugin.json",
       "source_sha256": "a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717",
-      "csv_sha256": "fabad73b82b82e7827507556ebfaa97d1b0b76e5bf17f07710378a46a61ea7d2",
+      "csv_sha256": "d4ce7fb1223c9bdd2a26e1fd93c06a517be7e9c93fa367ecbecbd92b08a38633",
       "public_ranked": true,
-      "passed": 1115,
+      "passed": 1293,
       "failed": 0,
-      "total": 1115,
+      "total": 1293,
       "library_versions": [
         "AlphaSparse 248af573c867cf4c7e05d40c611c7c34ebac4715"
       ],
       "metrics": {
-        "solve-only": 0.08042020104331192,
-        "pre-plus-solve": 0.03542437632800762,
-        "pre-amortized": 0.07416077296595447
+        "solve-only": 0.08125208105369079,
+        "pre-plus-solve": 0.03571428437646661,
+        "pre-amortized": 0.07488032658013172
       },
-      "created_at": "2026-10-13T03:02:58.342093+00:00"
+      "created_at": "2026-10-13T09:02:39.040606+00:00"
     },
     {
       "submission_id": "full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg4-n2",
@@ -19170,20 +19170,20 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp64/n2/row-major/AlphaSparse-SpMM-CSR-ALG4/full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg4-n2.csv",
       "source_manifest": "source/spmm/a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717/plugin.json",
       "source_sha256": "a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717",
-      "csv_sha256": "2a9444e14f64abfc5458104195e50d1a4a3cf1e544a1719b8de9f08697f2ea54",
+      "csv_sha256": "3de397b8262b3ebb593fe117af9cf1271fe4d7cf9170babba38b3bedc9537eed",
       "public_ranked": true,
-      "passed": 1115,
+      "passed": 1293,
       "failed": 0,
-      "total": 1115,
+      "total": 1293,
       "library_versions": [
         "AlphaSparse 248af573c867cf4c7e05d40c611c7c34ebac4715"
       ],
       "metrics": {
-        "solve-only": 0.06731398715498238,
-        "pre-plus-solve": 0.04367524761321162,
-        "pre-amortized": 0.06489268623556319
+        "solve-only": 0.06872805226574531,
+        "pre-plus-solve": 0.04475886168330082,
+        "pre-amortized": 0.06626837448862144
       },
-      "created_at": "2026-10-13T03:13:31.022652+00:00"
+      "created_at": "2026-10-13T09:21:26.852694+00:00"
     },
     {
       "submission_id": "full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg5-n2",
@@ -19254,7 +19254,7 @@
       ],
       "metrics": {
         "solve-only": 0.024722277431084454,
-        "pre-plus-solve": 0.00007223598281365395,
+        "pre-plus-solve": 7.223598281365395e-05,
         "pre-amortized": 0.0004544723007733503
       },
       "created_at": "2026-10-12T20:01:50.414110+00:00"
@@ -19291,7 +19291,7 @@
       ],
       "metrics": {
         "solve-only": 0.12140092502311274,
-        "pre-plus-solve": 0.00006034012524400164,
+        "pre-plus-solve": 6.034012524400164e-05,
         "pre-amortized": 0.0009291384911884104
       },
       "created_at": "2026-10-13T02:11:47.908048+00:00"
@@ -19328,7 +19328,7 @@
       ],
       "metrics": {
         "solve-only": 0.08170175012459843,
-        "pre-plus-solve": 0.00006337880255986172,
+        "pre-plus-solve": 6.337880255986172e-05,
         "pre-amortized": 0.0009119561930902248
       },
       "created_at": "2026-10-13T01:45:04.743736+00:00"
@@ -19365,7 +19365,7 @@
       ],
       "metrics": {
         "solve-only": 0.08405268712285205,
-        "pre-plus-solve": 0.0000634564326006039,
+        "pre-plus-solve": 6.34564326006039e-05,
         "pre-amortized": 0.0009253192018430979
       },
       "created_at": "2026-10-13T01:18:21.588388+00:00"
@@ -19438,9 +19438,9 @@
         "AlphaSparse 248af573c867cf4c7e05d40c611c7c34ebac4715"
       ],
       "metrics": {
-        "solve-only": 0,
-        "pre-plus-solve": 0,
-        "pre-amortized": 0
+        "solve-only": 0.0,
+        "pre-plus-solve": 0.0,
+        "pre-amortized": 0.0
       },
       "created_at": "2026-10-12T19:56:51.288005+00:00"
     },
@@ -20104,9 +20104,9 @@
         "AlphaSparse 248af573c867cf4c7e05d40c611c7c34ebac4715"
       ],
       "metrics": {
-        "solve-only": 0,
-        "pre-plus-solve": 0,
-        "pre-amortized": 0
+        "solve-only": 0.0,
+        "pre-plus-solve": 0.0,
+        "pre-amortized": 0.0
       },
       "created_at": "2026-10-12T19:56:51.346621+00:00"
     },
@@ -22111,7 +22111,7 @@
       ],
       "metrics": {
         "solve-only": 0.019401248536879204,
-        "pre-plus-solve": 0.000015594426634928855,
+        "pre-plus-solve": 1.5594426634928855e-05,
         "pre-amortized": 0.00030269345827503113
       }
     },
@@ -22147,7 +22147,7 @@
       ],
       "metrics": {
         "solve-only": 0.05394624200638031,
-        "pre-plus-solve": 0.000015330902927152267,
+        "pre-plus-solve": 1.5330902927152267e-05,
         "pre-amortized": 0.0003019484944227732
       }
     },
@@ -22183,7 +22183,7 @@
       ],
       "metrics": {
         "solve-only": 0.052890755519823515,
-        "pre-plus-solve": 0.00001560974302794725,
+        "pre-plus-solve": 1.560974302794725e-05,
         "pre-amortized": 0.00030498436474090366
       }
     },
@@ -22219,7 +22219,7 @@
       ],
       "metrics": {
         "solve-only": 0.05115125986110179,
-        "pre-plus-solve": 0.00001408906888445745,
+        "pre-plus-solve": 1.408906888445745e-05,
         "pre-amortized": 0.00027654239139065384
       }
     },
@@ -22255,7 +22255,7 @@
       ],
       "metrics": {
         "solve-only": 0.044889611351916575,
-        "pre-plus-solve": 0.000016084670068729544,
+        "pre-plus-solve": 1.6084670068729544e-05,
         "pre-amortized": 0.0003148558228018904
       }
     },
@@ -22291,7 +22291,7 @@
       ],
       "metrics": {
         "solve-only": 0.041364519447690117,
-        "pre-plus-solve": 0.000016095687630690514,
+        "pre-plus-solve": 1.6095687630690514e-05,
         "pre-amortized": 0.0003140671864181115
       }
     },
@@ -22327,7 +22327,7 @@
       ],
       "metrics": {
         "solve-only": 0.07408447601113882,
-        "pre-plus-solve": 0.000014719476831038998,
+        "pre-plus-solve": 1.4719476831038998e-05,
         "pre-amortized": 0.00029100307348671863
       }
     },
@@ -25900,7 +25900,7 @@
       ],
       "metrics": {
         "solve-only": 0.031508704588111495,
-        "pre-plus-solve": 0.00003044749037025534,
+        "pre-plus-solve": 3.044749037025534e-05,
         "pre-amortized": 0.0005875927013500662
       }
     },
@@ -25936,7 +25936,7 @@
       ],
       "metrics": {
         "solve-only": 0.10520511797949801,
-        "pre-plus-solve": 0.00003125062815630437,
+        "pre-plus-solve": 3.125062815630437e-05,
         "pre-amortized": 0.0006145794727893467
       }
     },
@@ -25972,7 +25972,7 @@
       ],
       "metrics": {
         "solve-only": 0.07980842646491836,
-        "pre-plus-solve": 0.00003068499295033335,
+        "pre-plus-solve": 3.068499295033335e-05,
         "pre-amortized": 0.0005973126148766658
       }
     },
@@ -26008,7 +26008,7 @@
       ],
       "metrics": {
         "solve-only": 0.0830913152388244,
-        "pre-plus-solve": 0.000031172320427487914,
+        "pre-plus-solve": 3.1172320427487914e-05,
         "pre-amortized": 0.0006072146684213903
       }
     },
@@ -26044,7 +26044,7 @@
       ],
       "metrics": {
         "solve-only": 0.08410696913168497,
-        "pre-plus-solve": 0.00003237464035710002,
+        "pre-plus-solve": 3.237464035710002e-05,
         "pre-amortized": 0.0006339658063691452
       }
     },
@@ -26080,7 +26080,7 @@
       ],
       "metrics": {
         "solve-only": 0.07505902966025765,
-        "pre-plus-solve": 0.00003242827633195171,
+        "pre-plus-solve": 3.242827633195171e-05,
         "pre-amortized": 0.0006318176469158591
       }
     },
@@ -26116,7 +26116,7 @@
       ],
       "metrics": {
         "solve-only": 0.1225966141462215,
-        "pre-plus-solve": 0.00003116613705232148,
+        "pre-plus-solve": 3.116613705232148e-05,
         "pre-amortized": 0.0006136828128061819
       }
     },
@@ -47934,5 +47934,5 @@
       }
     }
   ],
-  "generated_at": "2026-10-13T17:06:23.510100+08:00"
+  "generated_at": "2026-10-13T17:24:18.615681+08:00"
 }
