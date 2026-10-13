@@ -16759,7 +16759,7 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp32/n2/row-major/AlphaSparse-SpMM-CSR-ALG2/full-20261009-BW1000-gfx936-spmm-fp32-alphasparse-csr-alg2-n2.csv",
       "source_manifest": "source/spmm/a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717/plugin.json",
       "source_sha256": "a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717",
-      "csv_sha256": "f610cac26d0920656db16804a3e9200c6d5eb006b692d9a9990d71d9c216ba37",
+      "csv_sha256": "f72894d595cb2ad3344f8193d52649fd7f5591c12560998886c2894e3a3cb250",
       "public_ranked": true,
       "passed": 14,
       "failed": 2351,
@@ -16773,7 +16773,7 @@
         "pre-plus-solve": 0.003597805219155427,
         "pre-amortized": 0.003964570169074275
       },
-      "created_at": "2026-10-13T11:56:05.979963+00:00"
+      "created_at": "2026-10-13T12:25:42.581647+00:00"
     },
     {
       "submission_id": "full-20261009-BW1000-gfx936-spmm-fp32-alphasparse-csr-alg3-n2",
@@ -16911,20 +16911,20 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp32/n2/row-major/rocSPARSE-DTK-26.04-SpMM-CSR-MERGE-PATH/full-20261009-BW1000-gfx936-spmm-fp32-rocsparse-csr-merge-path-n2.csv",
       "source_manifest": "source/spmm/031942fafa6a01d3bc917dde01db43bc9d4b114c1132bd88d48dbd1479bd144c/plugin.json",
       "source_sha256": "031942fafa6a01d3bc917dde01db43bc9d4b114c1132bd88d48dbd1479bd144c",
-      "csv_sha256": "276c6e7785a5fbbbb88f2e732ad391df932c564d405be05716d6cb9e05c82192",
+      "csv_sha256": "dcbbde9cf35864fbc7229923693c85d24fb38267842a7a71241cc6fee58c0212",
       "public_ranked": true,
-      "passed": 780,
+      "passed": 936,
       "failed": 0,
-      "total": 780,
+      "total": 936,
       "library_versions": [
         "rocSPARSE 3.3.0 (08e9b279)"
       ],
       "metrics": {
-        "solve-only": 0.01623520580582627,
-        "pre-plus-solve": 2.3347101035799856e-05,
-        "pre-amortized": 0.00019131148299684675
+        "solve-only": 0.01711138172146588,
+        "pre-plus-solve": 2.1236399824440355e-05,
+        "pre-amortized": 0.00019338551127261189
       },
-      "created_at": "2026-10-13T05:17:12.111528+00:00"
+      "created_at": "2026-10-13T12:56:49.276675+00:00"
     },
     {
       "submission_id": "full-20261009-BW1000-gfx936-spmm-fp32-rocsparse-csr-nnz-split-n2",
@@ -19059,20 +19059,20 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp64/n2/row-major/AlphaSparse-SpMM-CSR-ALG1/full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg1-n2.csv",
       "source_manifest": "source/spmm/a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717/plugin.json",
       "source_sha256": "a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717",
-      "csv_sha256": "86ee63df447d2d8e88e5916b5fae2d5448bbd96e44cede1676cabe5afd821928",
+      "csv_sha256": "5a1d6b37ef6ded44ed8098dd0667bca2e974f05f834b83fe3d116898dd6bd9f5",
       "public_ranked": true,
-      "passed": 1443,
+      "passed": 1472,
       "failed": 0,
-      "total": 1443,
+      "total": 1472,
       "library_versions": [
         "AlphaSparse 248af573c867cf4c7e05d40c611c7c34ebac4715"
       ],
       "metrics": {
-        "solve-only": 0.10323824043260453,
-        "pre-plus-solve": 0.05316135031795246,
-        "pre-amortized": 0.0951053202439045
+        "solve-only": 0.10448867663202868,
+        "pre-plus-solve": 0.05462305073546094,
+        "pre-amortized": 0.09644819816404791
       },
-      "created_at": "2026-10-13T08:25:07.836579+00:00"
+      "created_at": "2026-10-13T12:47:32.785655+00:00"
     },
     {
       "submission_id": "full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg2-n2",
@@ -19096,7 +19096,7 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp64/n2/row-major/AlphaSparse-SpMM-CSR-ALG2/full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg2-n2.csv",
       "source_manifest": "source/spmm/a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717/plugin.json",
       "source_sha256": "a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717",
-      "csv_sha256": "96475744a7d3588a5be0d376c371e8b4911398c2947e8500a51820a55ed41a13",
+      "csv_sha256": "8dda59e0a49fe8be213e4f657d4e9d4b2fdd27f05debdedbefb58524cd136345",
       "public_ranked": true,
       "passed": 5,
       "failed": 1288,
@@ -19109,7 +19109,7 @@
         "pre-plus-solve": 4.187069376549117e-05,
         "pre-amortized": 0.00014230608846752554
       },
-      "created_at": "2026-10-13T11:56:24.346571+00:00"
+      "created_at": "2026-10-13T12:26:46.516988+00:00"
     },
     {
       "submission_id": "full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg3-n2",
@@ -47949,5 +47949,5 @@
       }
     }
   ],
-  "generated_at": "2026-10-13T20:05:19.606360+08:00"
+  "generated_at": "2026-10-13T21:03:13.883168+08:00"
 }
