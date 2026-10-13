@@ -7,6 +7,8 @@ from kernelperf.campaign_selection import load_campaign_selection
 
 ROOT = Path(__file__).resolve().parents[1]
 SELECTION = ROOT / "config/campaigns/suitesparse_all.json"
+GHOST_SIGMAS = {f"sigma-{value}" for value in (1, 2, 4, 8, 16, 32, 64, 128,
+    256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072)}
 
 
 def _selection(backend: str, benchmark: str) -> dict[str, set[str]]:
@@ -31,17 +33,16 @@ def test_cuda_full_selection_matches_sample100_configuration_sets():
         "csr5": set(),
         "csr_adaptive": set(),
         "cusparse": expected_cusparse,
-        "ghost_sell": {"sigma-32768"},
+        "ghost_sell": GHOST_SIGMAS,
     }
-    expected_h100_spmv = {**expected_spmv, "ghost_sell": {"sigma-131072"}}
     expected_spmm = {
         "alphasparse": {"csr-alg1", "csr-alg2", "csr-alg3", "csr-alg4", "csr-alg5"},
         "cusparse": {"csr-default", "csr-alg1", "csr-alg2", "csr-alg3"},
     }
 
     assert _selection("A100-SXM4-80GB", "spmv") == expected_spmv
-    assert _selection("RTX5090-SL3061", "spmv") == expected_spmv | {"ghost_sell": {"sigma-32"}}
-    assert _selection("H100-SXM5-80GB", "spmv") == expected_h100_spmv
+    assert _selection("RTX5090-SL3061", "spmv") == expected_spmv
+    assert _selection("H100-SXM5-80GB", "spmv") == expected_spmv
     for backend in ("A100-SXM4-80GB", "H100-SXM5-80GB", "RTX5090-SL3061"):
         assert _selection(backend, "spmm") == expected_spmm
 
