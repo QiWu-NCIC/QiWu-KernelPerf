@@ -20,6 +20,7 @@
     "check:result-submissions": "node scripts/check-result-submissions.mjs",
     "preaudit:spmv": "npm run prepare:sources",
     "audit:spmv": "node scripts/audit-spmv-data.mjs public",
+    "audit:spmv-failures": "node scripts/audit-spmv-failures.mjs public",
     "audit:spmm": "node scripts/audit-spmm-data.mjs public",
     "audit:all": "npm run audit:spmv && npm run audit:spmm"
   },
