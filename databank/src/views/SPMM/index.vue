@@ -309,7 +309,7 @@ const displayRows = computed(() => {
         selection_metric: resultTimeMode(),
         selected_from: selectedFrom,
         selected_configuration_id: row.configuration_id,
-        base_format: "manual-selection",
+        base_format: "csr",
         backend_id: backendId,
         dataset_id: datasetId,
         dtype,

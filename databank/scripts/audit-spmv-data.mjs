@@ -250,7 +250,8 @@ for (const entry of manifest.submissions || []) {
   if (!headers.includes("solve_only_efficiency_percent")) {
     failures.push(`missing solve-only efficiency column: ${entry.path}`);
   }
-  if (entry.base_format !== "manual-selection") {
+  const isCusparseCsrBest = entry.method_id === "cusparse-csr-best";
+  if (entry.base_format !== "manual-selection" && !isCusparseCsrBest) {
     failures.push(`cuSPARSE BEST base format is not manual-selection: ${entry.path}`);
   }
   const matrixIndex = headers.indexOf("matrix_id");
@@ -261,7 +262,7 @@ for (const entry of manifest.submissions || []) {
     || publicCandidateMinimums.get(`${candidateKey}|cusparse`);
   for (const row of rows) {
     if (row[schemaIndex] !== "2") failures.push(`invalid schema row: ${entry.path}`);
-    if (row[baseFormatIndex] !== "manual-selection") {
+    if (row[baseFormatIndex] !== "manual-selection" && !(isCusparseCsrBest && row[baseFormatIndex] === "csr")) {
       failures.push(`cuSPARSE BEST row base format is not manual-selection: ${entry.path}`);
     }
     const expected = minimums?.get(row[matrixIndex]);

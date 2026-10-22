@@ -151,6 +151,7 @@
               <td>
                 <strong>{{ item.methodName }}</strong>
                 <small v-if="item.configurationId">{{ item.configurationId }}</small>
+                <small v-if="item.selectionSummary" :title="item.selectionSummary">{{ item.selectionSummary }}</small>
               </td>
               <td><span class="format-label">{{ formatBaseFormat(item.baseFormat) }}</span></td>
               <td>{{ formatMetricGflops(item.geomeanGflops) }}</td>
@@ -191,6 +192,7 @@
                 <small v-if="selectedPlotItem.configurationId">config: {{ selectedPlotItem.configurationId }}<span v-if="selectedPlotItem.selectionRole === 'best'"> &middot; per-matrix best</span></small>
                 <small v-if="configurationDescription(selectedPlotItem)" class="config-provenance">{{ configurationDescription(selectedPlotItem) }}</small>
                 <small v-if="selectedPlotItem.selectedFrom">selected from: {{ selectedPlotItem.selectedFrom }}</small>
+                <small v-if="selectedPlotItem.selectionSummary">Per-matrix winners: {{ selectedPlotItem.selectionSummary }}</small>
                 <small>{{ selectedPlotItem.passCount }}/{{ selectedPlotItem.expectedCaseCount }} passing cases &middot; {{ formatPercent(selectedPlotItem.coverageRatio * 100) }}% coverage<span v-if="selectedPlotItem.failedCount"> &middot; {{ selectedPlotItem.failedCount }} failed</span></small>
                 <small v-if="selectedPlotItem.missingCount">{{ selectedPlotItem.missingCount }} missing results</small>
               </div>
@@ -257,6 +259,7 @@ import { drawContestScatter } from "../../utils/contestCharts.js";
 import { expectedMatrixCount } from "../../utils/contestCoverage.js";
 import { isPublicSpmvSellRow, sellCWinnerByScope } from "../../utils/sellCSelection.js";
 import { selectContestEntries } from "../../utils/contestData.js";
+import { deriveCusparseCsrBest, summarizeCusparseCsrBest } from "./cusparseCsrBest.mjs";
 import benchmarkSpecs from "../../../../KernelPerf/config/benchmarks.json";
 import datasetSpecs from "../../../../KernelPerf/config/datasets.json";
 
@@ -355,15 +358,6 @@ const scopedRows = computed(() => rows.value.filter((row) => {
   return true;
 }));
 
-function cusparseCsrBestName(candidates) {
-  const versions = [...new Set(candidates.map((row) => (
-    /^cuSPARSE CUDA ([^\s]+)/i.exec(row.method_name || "")?.[1]
-  )).filter(Boolean))].sort();
-  return versions.length
-    ? `cuSPARSE CUDA ${versions.join("/")} CSR BEST`
-    : "cuSPARSE CSR BEST";
-}
-
 // Derive the cuSPARSE CSR per-matrix winner in the browser so the contest
 // shows the same solve-only selection that is used for the other BEST rows.
 const displayRows = computed(() => {
@@ -375,31 +369,7 @@ const displayRows = computed(() => {
   const source = scopedRows.value.filter((row) => (
     isPublicSpmvSellRow(row, winners)
   ));
-  const derived = [];
-  for (const dtype of dtypes) {
-    const candidates = source.filter((row) => row.dtype === dtype
-      && row.candidate_group === "cusparse"
-      && ["csr-default", "csr-alg1", "csr-alg2"].includes(row.configuration_id)
-      && row.status === "pass" && row.solve_ms > 0);
-    const byMatrix = new Map();
-    const methodName = cusparseCsrBestName(candidates);
-    for (const row of candidates) {
-      const previous = byMatrix.get(row.matrix_id);
-      if (!previous || row.solve_ms < previous.solve_ms) byMatrix.set(row.matrix_id, row);
-    }
-    for (const row of byMatrix.values()) {
-      derived.push({
-        ...row,
-        method_id: "cusparse-csr-best",
-        method_name: methodName,
-        configuration_id: "per-matrix-best",
-        candidate_group: "cusparse-csr-best",
-        selection_role: "best",
-        selected_from: row.configuration_id,
-        base_format: "manual-selection",
-      });
-    }
-  }
+  const derived = deriveCusparseCsrBest(source);
   return [...source, ...derived].filter((row) => (
     filters.baseFormat === "all" || baseFormatKey(row.base_format) === filters.baseFormat
   ));
@@ -711,11 +681,12 @@ const ranking = computed(() => {
     const family = operatorFamily(row.operator_id);
     const configurationId = row.configuration_id || "";
     const key = `${methodId}|${configurationId}|${backendId}|${family}|${dataset}`;
-    if (!grouped.has(key)) grouped.set(key, { key, methodId, configurationId, backendId, operatorFamily: family, methodName: row.method_name || row.method_id, hardware: row.hardware, cpuModel: row.cpu_model || platformMetadata.value[backendId]?.cpu_model || "", baseFormat: row.base_format, candidateGroup: row.candidate_group || "", selectionRole: row.selection_role || "candidate", selectedFrom: row.selected_from || "", dataset, sourceManifests: new Set(), submissionIds: new Set(), byDtype: new Map(), matricesByDtype: new Map(), performanceValues: [], preprocessValues: [], solveValues: [], effectiveValues: [], caseCount: 0, passCount: 0, failedCount: 0 });
+    if (!grouped.has(key)) grouped.set(key, { key, methodId, configurationId, backendId, operatorFamily: family, methodName: row.method_name || row.method_id, hardware: row.hardware, cpuModel: row.cpu_model || platformMetadata.value[backendId]?.cpu_model || "", baseFormat: row.base_format, candidateGroup: row.candidate_group || "", selectionRole: row.selection_role || "candidate", selectedFrom: row.selected_from || "", dataset, sourceManifests: new Set(), submissionIds: new Set(), byDtype: new Map(), matricesByDtype: new Map(), selectedConfigurationRows: [], performanceValues: [], preprocessValues: [], solveValues: [], effectiveValues: [], caseCount: 0, passCount: 0, failedCount: 0 });
     const item = grouped.get(key);
     if (row.submission_id) item.submissionIds.add(row.submission_id);
     if (row.source_manifest) item.sourceManifests.add(row.source_manifest);
     item.caseCount += 1;
+    if (row.selection_role === "best" && row.selected_configuration_id) item.selectedConfigurationRows.push(row);
     if (row.status !== "pass") {
       item.failedCount += 1;
       return;
@@ -750,6 +721,9 @@ const ranking = computed(() => {
       const rankEligible = coverageByDtype.every((value) => value >= 0.9) && scores.length === 2;
       return {
         ...item,
+        selectionSummary: item.selectedConfigurationRows.length
+          ? summarizeCusparseCsrBest(item.selectedConfigurationRows)
+          : "",
         submissionIds: [...item.submissionIds],
         sourceManifests: [...item.sourceManifests],
         score: geometricMean(scores),
