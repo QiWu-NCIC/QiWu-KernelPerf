@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { deriveCusparseCsrBest, summarizeCusparseCsrBest } from "../src/views/SPMV/cusparseCsrBest.mjs";
+import { deriveCusparseCsrBest } from "../src/views/SPMV/cusparseCsrBest.mjs";
 
 const candidate = (matrix_id, configuration_id, solve_ms, dtype = "fp32") => ({
   candidate_group: "cusparse",
@@ -29,15 +29,4 @@ test("cuSPARSE CSR BEST compares only the registered CSR configurations per matr
   ]);
   assert.equal(best[0].selected_from, "csr-default,csr-alg1,csr-alg2");
   assert.equal(best[0].method_name, "cuSPARSE CUDA 13.4.1 CSR BEST");
-});
-
-test("CSR BEST selection summary reports winners separately by dtype", () => {
-  const summary = summarizeCusparseCsrBest([
-    { dtype: "fp32", status: "pass", selected_configuration_id: "csr-alg1" },
-    { dtype: "fp32", status: "pass", selected_configuration_id: "csr-alg2" },
-    { dtype: "fp64", status: "pass", selected_configuration_id: "csr-default" },
-    { dtype: "fp64", status: "fail", selected_configuration_id: "csr-alg2" },
-  ]);
-
-  assert.equal(summary, "FP32: ALG1 1, ALG2 1 | FP64: DEFAULT 1");
 });

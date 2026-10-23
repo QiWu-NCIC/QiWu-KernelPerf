@@ -34,18 +34,3 @@ export function deriveCusparseCsrBest(rows) {
     ranking_scope: "main",
   }));
 }
-
-export function summarizeCusparseCsrBest(rows) {
-  return ["fp32", "fp64"].map((dtype) => {
-    const counts = new Map();
-    for (const row of rows) {
-      if (row.dtype !== dtype || row.status !== "pass") continue;
-      const configuration = row.selected_configuration_id;
-      if (configuration) counts.set(configuration, (counts.get(configuration) || 0) + 1);
-    }
-    const details = cusparseCsrBestConfigurations
-      .filter((configuration) => counts.has(configuration))
-      .map((configuration) => `${configuration.replace("csr-", "").toUpperCase()} ${counts.get(configuration)}`);
-    return `${dtype.toUpperCase()}: ${details.length ? details.join(", ") : "no passing selections"}`;
-  }).join(" | ");
-}

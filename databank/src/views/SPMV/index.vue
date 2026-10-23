@@ -151,7 +151,6 @@
               <td>
                 <strong>{{ item.methodName }}</strong>
                 <small v-if="item.configurationId">{{ item.configurationId }}</small>
-                <small v-if="item.selectionSummary" :title="item.selectionSummary">{{ item.selectionSummary }}</small>
               </td>
               <td><span class="format-label">{{ formatBaseFormat(item.baseFormat) }}</span></td>
               <td>{{ formatMetricGflops(item.geomeanGflops) }}</td>
@@ -192,7 +191,6 @@
                 <small v-if="selectedPlotItem.configurationId">config: {{ selectedPlotItem.configurationId }}<span v-if="selectedPlotItem.selectionRole === 'best'"> &middot; per-matrix best</span></small>
                 <small v-if="configurationDescription(selectedPlotItem)" class="config-provenance">{{ configurationDescription(selectedPlotItem) }}</small>
                 <small v-if="selectedPlotItem.selectedFrom">selected from: {{ selectedPlotItem.selectedFrom }}</small>
-                <small v-if="selectedPlotItem.selectionSummary">Per-matrix winners: {{ selectedPlotItem.selectionSummary }}</small>
                 <small>{{ selectedPlotItem.passCount }}/{{ selectedPlotItem.expectedCaseCount }} passing cases &middot; {{ formatPercent(selectedPlotItem.coverageRatio * 100) }}% coverage<span v-if="selectedPlotItem.failedCount"> &middot; {{ selectedPlotItem.failedCount }} failed</span></small>
                 <small v-if="selectedPlotItem.missingCount">{{ selectedPlotItem.missingCount }} missing results</small>
               </div>
@@ -259,7 +257,7 @@ import { drawContestScatter } from "../../utils/contestCharts.js";
 import { expectedMatrixCount } from "../../utils/contestCoverage.js";
 import { isPublicSpmvSellRow, sellCWinnerByScope } from "../../utils/sellCSelection.js";
 import { selectContestEntries } from "../../utils/contestData.js";
-import { deriveCusparseCsrBest, summarizeCusparseCsrBest } from "./cusparseCsrBest.mjs";
+import { deriveCusparseCsrBest } from "./cusparseCsrBest.mjs";
 import benchmarkSpecs from "../../../../KernelPerf/config/benchmarks.json";
 import datasetSpecs from "../../../../KernelPerf/config/datasets.json";
 
@@ -681,12 +679,11 @@ const ranking = computed(() => {
     const family = operatorFamily(row.operator_id);
     const configurationId = row.configuration_id || "";
     const key = `${methodId}|${configurationId}|${backendId}|${family}|${dataset}`;
-    if (!grouped.has(key)) grouped.set(key, { key, methodId, configurationId, backendId, operatorFamily: family, methodName: row.method_name || row.method_id, hardware: row.hardware, cpuModel: row.cpu_model || platformMetadata.value[backendId]?.cpu_model || "", baseFormat: row.base_format, candidateGroup: row.candidate_group || "", selectionRole: row.selection_role || "candidate", selectedFrom: row.selected_from || "", dataset, sourceManifests: new Set(), submissionIds: new Set(), byDtype: new Map(), matricesByDtype: new Map(), selectedConfigurationRows: [], performanceValues: [], preprocessValues: [], solveValues: [], effectiveValues: [], caseCount: 0, passCount: 0, failedCount: 0 });
+    if (!grouped.has(key)) grouped.set(key, { key, methodId, configurationId, backendId, operatorFamily: family, methodName: row.method_name || row.method_id, hardware: row.hardware, cpuModel: row.cpu_model || platformMetadata.value[backendId]?.cpu_model || "", baseFormat: row.base_format, candidateGroup: row.candidate_group || "", selectionRole: row.selection_role || "candidate", selectedFrom: row.selected_from || "", dataset, sourceManifests: new Set(), submissionIds: new Set(), byDtype: new Map(), matricesByDtype: new Map(), performanceValues: [], preprocessValues: [], solveValues: [], effectiveValues: [], caseCount: 0, passCount: 0, failedCount: 0 });
     const item = grouped.get(key);
     if (row.submission_id) item.submissionIds.add(row.submission_id);
     if (row.source_manifest) item.sourceManifests.add(row.source_manifest);
     item.caseCount += 1;
-    if (row.selection_role === "best" && row.selected_configuration_id) item.selectedConfigurationRows.push(row);
     if (row.status !== "pass") {
       item.failedCount += 1;
       return;
@@ -721,9 +718,6 @@ const ranking = computed(() => {
       const rankEligible = coverageByDtype.every((value) => value >= 0.9) && scores.length === 2;
       return {
         ...item,
-        selectionSummary: item.selectedConfigurationRows.length
-          ? summarizeCusparseCsrBest(item.selectedConfigurationRows)
-          : "",
         submissionIds: [...item.submissionIds],
         sourceManifests: [...item.sourceManifests],
         score: geometricMean(scores),
