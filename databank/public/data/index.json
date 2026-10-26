@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "result_schema": "kernelperf-spmv-v2",
-  "generated_at": "2026-10-26T16:22:30.299284+08:00",
+  "generated_at": "2026-10-26T16:46:06.852396+08:00",
   "baselines": [],
   "submissions": [
     {
@@ -4507,11 +4507,11 @@
       "source_kind": "derived",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "created_at": "2026-10-26T08:12:57.866665+00:00",
+      "created_at": "2026-10-26T08:33:03.677114+00:00",
       "total": 2904,
       "passed": 2891,
       "failed": 13,
-      "csv_sha256": "f48b2e3eee0b273ba018d92ce6d0ddbc2d1e8c5ab44048af842c752f64e6f46e",
+      "csv_sha256": "8f76734cd3f11efdf99d37ea9481b41a7f86ce46b419de978660a1648ee939e7",
       "public_ranked": true
     },
     {
@@ -4657,10 +4657,10 @@
       "peak_gflops": 67000,
       "dataset_id": "suitesparse_all",
       "source_kind": "source",
-      "created_at": "2026-10-26T05:52:46.815066+00:00",
+      "created_at": "2026-10-26T08:33:03.677114+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "405071388c8ba8c39459b191d8b3a7db76975a5acb3c01d3cd839582112f6f7c",
+      "csv_sha256": "045ed32cf00d06a5686fec830b64ed2e6967601d7217a8a976d5be8c57bfabcc",
       "total": 2904,
       "passed": 2890,
       "failed": 14
