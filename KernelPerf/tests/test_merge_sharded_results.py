@@ -181,12 +181,13 @@ def test_partial_merge_appends_only_new_matrix_rows(tmp_path, monkeypatch):
                          "timestamp": "2026-01-01T00:00:00+00:00"}])
     index_path.write_text(json.dumps({"submissions": [{
         "submission_id": "published", "method_id": "method", "backend_id": "backend",
+        "method_name": "Method",
         "dataset_id": "dataset", "dtype": "fp32", "operator_id": "spmm.csr.fp32",
         "rhs_columns": 2, "dense_layout": "row-major", "selection_role": "candidate",
         "path": relative, "metrics": {},
     }]}))
     write_rows(input_root / "shard" / "method.csv", [{
-        **fixed, "submission_id": "checkpoint", "matrix_id": "b",
+        **fixed, "method_name": "Other Method", "submission_id": "checkpoint", "matrix_id": "b",
     }])
     monkeypatch.setattr(merge_sharded_results.sys, "argv", [
         "merge_sharded_results", "--input-root", str(input_root),
@@ -201,6 +202,7 @@ def test_partial_merge_appends_only_new_matrix_rows(tmp_path, monkeypatch):
         rows = list(csv.DictReader(stream))
     assert {row["matrix_id"] for row in rows} == {"a", "b"}
     assert all(row["submission_id"] == "published" for row in rows)
+    assert all(row["method_name"] == "Method" for row in rows)
     entry = json.loads(index_path.read_text())["submissions"][0]
     assert entry["total"] == 2
     assert entry["passed"] == 2

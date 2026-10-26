@@ -18462,7 +18462,7 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp64/n128/row-major/AlphaSparse-SpMM-CSR-ALG2/full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg2-n128.csv",
       "source_manifest": "source/spmm/a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717/plugin.json",
       "source_sha256": "a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717",
-      "csv_sha256": "19db0a6c59f3f10f2abd77e3e7821e2a327e61bfb82e3ea5501e15e3d9a21748",
+      "csv_sha256": "386c5408a107566dfc07ec62c17f105907017537a36c7ddfc9a0ab5fd37328b3",
       "public_ranked": true,
       "passed": 1279,
       "failed": 14,
@@ -18476,7 +18476,7 @@
         "pre-plus-solve": 0.586573446600719,
         "pre-amortized": 0.7239086357784571
       },
-      "created_at": "2026-10-26T00:12:24.755840+00:00"
+      "created_at": "2026-10-26T02:09:23.598823+00:00"
     },
     {
       "submission_id": "full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg3-n128",
@@ -18500,7 +18500,7 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp64/n128/row-major/AlphaSparse-SpMM-CSR-ALG3/full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg3-n128.csv",
       "source_manifest": "source/spmm/a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717/plugin.json",
       "source_sha256": "a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717",
-      "csv_sha256": "8c28fcfab311487410480e923c9b55a9afc18d3b30c28c9f80847f033ee5a4a2",
+      "csv_sha256": "55ede4070240d7c6d68ca9e99d0291a5329258292dbdd82f64e2c4e263a51d42",
       "public_ranked": true,
       "passed": 1279,
       "failed": 14,
@@ -18514,7 +18514,7 @@
         "pre-plus-solve": 0.5053516067931755,
         "pre-amortized": 0.5927344697233958
       },
-      "created_at": "2026-10-26T00:23:46.530100+00:00"
+      "created_at": "2026-10-26T02:26:11.657758+00:00"
     },
     {
       "submission_id": "full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg4-n128",
@@ -18804,7 +18804,7 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp64/n16/row-major/AlphaSparse-SpMM-CSR-ALG2/full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg2-n16.csv",
       "source_manifest": "source/spmm/a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717/plugin.json",
       "source_sha256": "a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717",
-      "csv_sha256": "6a731146b060daf0ae879c3e46287a8811e7d0340fbba0da8ae5f9d5e5dd5ee4",
+      "csv_sha256": "0497e8aa47edb2bc6ea984b9040ee5ad794bf23bd2042a8fed9529687b402720",
       "public_ranked": true,
       "passed": 3,
       "failed": 1290,
@@ -18818,7 +18818,7 @@
         "pre-plus-solve": 2.0244875984802492e-05,
         "pre-amortized": 5.345810907761585e-05
       },
-      "created_at": "2026-10-26T00:18:28.783538+00:00"
+      "created_at": "2026-10-26T02:12:40.345317+00:00"
     },
     {
       "submission_id": "full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg3-n16",
@@ -19141,7 +19141,7 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp64/n2/row-major/AlphaSparse-SpMM-CSR-ALG2/full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg2-n2.csv",
       "source_manifest": "source/spmm/a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717/plugin.json",
       "source_sha256": "a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717",
-      "csv_sha256": "f704009dfe3f7705678499892e99dc975fa2df7a60879b1736adf48f41f9d9d3",
+      "csv_sha256": "7ba2de4ac50861edec1c80cc4a1930ef9fa5637ee0d12ff5c52e08ce8b597d02",
       "public_ranked": true,
       "passed": 14,
       "failed": 1458,
@@ -19154,7 +19154,7 @@
         "pre-plus-solve": 3.845644022955362e-05,
         "pre-amortized": 0.0001331100762586002
       },
-      "created_at": "2026-10-26T00:18:28.604327+00:00"
+      "created_at": "2026-10-26T02:12:40.155637+00:00"
     },
     {
       "submission_id": "full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg3-n2",
@@ -19475,7 +19475,7 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp64/n32/row-major/AlphaSparse-SpMM-CSR-ALG2/full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg2-n32.csv",
       "source_manifest": "source/spmm/a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717/plugin.json",
       "source_sha256": "a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717",
-      "csv_sha256": "4cb806c4e5ac76845869393edb5c9da0f6b4904ab81d1dacb4365745305a423d",
+      "csv_sha256": "67aecfc04509e781245653d815267e3ba8fb36013a135a541c79e9cb7d3721b6",
       "public_ranked": true,
       "passed": 9,
       "failed": 1284,
@@ -19489,7 +19489,7 @@
         "pre-plus-solve": 0.00013092503188593156,
         "pre-amortized": 0.00029355629334364695
       },
-      "created_at": "2026-10-26T00:18:28.842939+00:00"
+      "created_at": "2026-10-26T02:12:40.408156+00:00"
     },
     {
       "submission_id": "full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg3-n32",
@@ -19817,7 +19817,7 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp64/n4/row-major/AlphaSparse-SpMM-CSR-ALG2/full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg2-n4.csv",
       "source_manifest": "source/spmm/a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717/plugin.json",
       "source_sha256": "a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717",
-      "csv_sha256": "a5065ea2492c142e080d399b67fa4d86efa54331b5ce6bef1afc7450e33fca46",
+      "csv_sha256": "462cbc8d3abe42b9e95dd7acaf874b5e1d61581c4e6c766c37806d52469bdcfa",
       "public_ranked": true,
       "passed": 6,
       "failed": 1287,
@@ -19830,7 +19830,7 @@
         "pre-plus-solve": 6.752199343700407e-05,
         "pre-amortized": 0.0002103316665888856
       },
-      "created_at": "2026-10-26T00:18:28.664115+00:00"
+      "created_at": "2026-10-26T02:12:40.219287+00:00"
     },
     {
       "submission_id": "full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg3-n4",
@@ -20151,7 +20151,7 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp64/n64/row-major/AlphaSparse-SpMM-CSR-ALG2/full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg2-n64.csv",
       "source_manifest": "source/spmm/a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717/plugin.json",
       "source_sha256": "a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717",
-      "csv_sha256": "5ef0b0abe921f28eb363413ab0bdb223c77ae98244c00c3916eb43fe4e8e2e2d",
+      "csv_sha256": "fe003d62e0143188599de4ff7738bc5998244029e3cf0caf674ba218bab0d753",
       "public_ranked": true,
       "passed": 13,
       "failed": 1280,
@@ -20165,7 +20165,7 @@
         "pre-plus-solve": 0.0002544662800137071,
         "pre-amortized": 0.0005219239292803276
       },
-      "created_at": "2026-10-26T00:18:28.902887+00:00"
+      "created_at": "2026-10-26T02:12:40.471068+00:00"
     },
     {
       "submission_id": "full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg3-n64",
@@ -20493,7 +20493,7 @@
       "path": "data/results/spmm/BW1000-gfx936/suitesparse_all/fp64/n8/row-major/AlphaSparse-SpMM-CSR-ALG2/full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg2-n8.csv",
       "source_manifest": "source/spmm/a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717/plugin.json",
       "source_sha256": "a2df57713bcf34fe4585d527934c00e7bf90666317b8ab1b80681e8564e38717",
-      "csv_sha256": "c6c51f25222df08bbc832db6a6753adbb154b1db488ce9c89c9a8094d96af2ed",
+      "csv_sha256": "357999e0c13306a1f4e02cbda07a454664441eaca6a76612335443370a414fb7",
       "public_ranked": true,
       "passed": 4,
       "failed": 1289,
@@ -20506,7 +20506,7 @@
         "pre-plus-solve": 0.0001138840582230408,
         "pre-amortized": 0.00033836282392917005
       },
-      "created_at": "2026-10-26T00:18:28.723924+00:00"
+      "created_at": "2026-10-26T02:12:40.282218+00:00"
     },
     {
       "submission_id": "full-20261009-BW1000-gfx936-spmm-fp64-alphasparse-csr-alg3-n8",
@@ -48028,5 +48028,5 @@
       }
     }
   ],
-  "generated_at": "2026-10-26T10:12:26.046607+08:00"
+  "generated_at": "2026-10-26T11:01:03.033814+08:00"
 }

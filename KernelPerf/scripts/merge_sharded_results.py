@@ -104,6 +104,27 @@ def write_csv(path: Path, fieldnames: list[str], rows: list[dict[str, str]]) -> 
         temporary.unlink(missing_ok=True)
 
 
+def normalize_index_identity(rows: list[dict[str, str]], entry: dict[str, object]) -> None:
+    identity_columns = (
+        "method_id", "method_name", "configuration_id", "candidate_group",
+        "selection_role", "selection_metric", "selected_from", "base_format", "format",
+        "operator_id", "dtype", "backend_id", "hardware", "peak_gflops", "dataset_id",
+        "rhs_columns", "dense_layout", "op_a", "op_b", "alpha", "beta", "input_seed",
+        "ranking_scope",
+    )
+    for column in identity_columns:
+        if column not in entry or entry[column] is None:
+            continue
+        value = entry[column]
+        if isinstance(value, bool):
+            value = "true" if value else "false"
+        else:
+            value = str(value)
+        for row in rows:
+            if column in row:
+                row[column] = value
+
+
 def update_spmm_entry(entry: dict[str, object], rows: list[dict[str, str]], target: Path) -> None:
     passed = [row for row in rows if row.get("status") == "pass"]
     entry["csv_sha256"] = hashlib.sha256(target.read_bytes()).hexdigest()
@@ -195,11 +216,13 @@ def main() -> int:
             existing_fields, existing_rows = read_csv(target)
             if existing_fields != fieldnames:
                 raise ValueError(f"existing CSV columns differ for {filename}")
+            normalize_index_identity(existing_rows, entry)
             validate_metadata(existing_rows, filename)
             selected = latest_rows(existing_rows + selected)
             merged_ids = {str(row.get("matrix_id", "")) for row in selected}
             if not merged_ids <= expected:
                 raise ValueError(f"existing result has unexpected matrices for {filename}")
+            normalize_index_identity(selected, entry)
         if not args.dry_run:
             for row in selected:
                 row["submission_id"] = str(entry["submission_id"])
