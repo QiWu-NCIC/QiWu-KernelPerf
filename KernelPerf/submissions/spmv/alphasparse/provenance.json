@@ -21,6 +21,9 @@
   "upstream_patches": [
     "include/alphasparse/handle.h: move the UTF-8 trailing comment above the typedef so nvcc preserves the opening brace",
     "cuda/kernel/level2/alphasparse_spmv_csr_merge_ginkgo.h and alphasparse_spmv_csr_flat.h: route hard-coded default-stream launches through handle->stream",
+    "cuda/hip/kernel/level2/alphasparse_spmv_csr_flat.h: detect rows crossing an NNZ partition by comparing both CSR row bounds with the actual partition end",
+    "cuda/hip/kernel/level2/alphasparse_spmv_csr_merge_ginkgo.h: bound each merge item loop by its NNZ segment, guard shared row-pointer access at segment end, and prevent terminal row writes past y[num_rows - 1]",
+    "cuda/hip/kernel/level2/qiwu_atomic_add.h: replace float atomicAdd with a CAS loop so subnormal contributions are not flushed to zero",
     "AlphaSparse/Library#31: cache row offsets, keep speculative loads within each analysed row block, use FMA accumulation, and skip reading y when beta is zero"
   ],
   "integration_note": "The adapter uses the upstream row-block analysis and launch geometry. Adaptive preprocessing is outside solve-only timing; all kernels run on the caller stream.",

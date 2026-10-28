@@ -81,6 +81,46 @@ def test_alphasparse_adaptive_fast_load_stays_within_the_row_block():
         assert "col + BLOCK_SIZE - WG_SIZE < block_end" in source
 
 
+def test_alphasparse_flat_handles_rows_crossing_aligned_nnz_boundaries():
+    root = Path("submissions/spmv/alphasparse/upstream")
+    for backend in ("cuda", "hip"):
+        source = (root / backend / "kernel/level2/alphasparse_spmv_csr_flat.h").read_text(
+            encoding="utf-8"
+        )
+        assert "csr_row_ptr[block_end_row] <= block_end_ind" in source
+        assert "csr_row_ptr[block_end_row + 1] > block_end_ind" in source
+        assert "% nnz_per_block" not in source
+
+
+def test_alphasparse_merge_guards_segment_end_and_terminal_output_row():
+    root = Path("submissions/spmv/alphasparse/upstream")
+    for backend in ("cuda", "hip"):
+        source = (root / backend / "kernel/level2/alphasparse_spmv_csr_merge_ginkgo.h").read_text(
+            encoding="utf-8"
+        )
+        assert "start_x < block_num_rows ? shared_row_ptrs[start_x] : T{}" in source
+        assert "row_i < num_rows && start_y < block_num_nnz" in source
+        assert "if (start_x == block_num_rows || ind < temp_row_ptr)" in source
+        assert "if (head && row_i < num_rows)" in source
+
+
+def test_alphasparse_atomic_add_preserves_fp32_subnormals():
+    root = Path("submissions/spmv/alphasparse/upstream")
+    for backend in ("cuda", "hip"):
+        helper = (root / backend / "kernel/level2/qiwu_atomic_add.h").read_text(
+            encoding="utf-8"
+        )
+        flat = (root / backend / "kernel/level2/alphasparse_spmv_csr_flat.h").read_text(
+            encoding="utf-8"
+        )
+        merge = (root / backend / "kernel/level2/alphasparse_spmv_csr_merge_ginkgo.h").read_text(
+            encoding="utf-8"
+        )
+        assert "atomicCAS" in helper
+        assert "qiwu_atomic_add_preserve_subnormal" in flat
+        assert "qiwu_atomic_add_preserve_subnormal" in merge
+
+
 def test_alphasparse_submission_can_select_native_hip():
     from kernelperf.submissions import load_submission_artifacts
 

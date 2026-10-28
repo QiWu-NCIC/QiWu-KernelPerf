@@ -409,6 +409,27 @@ void write_json_number(std::ostream& output, long double value) {
     }
 }
 
+long double output_ulp(long double reference) {
+    const QiwuSpmvScalar stored = static_cast<QiwuSpmvScalar>(reference);
+    QiwuSpmvScalar next = std::nextafter(
+        stored,
+        std::numeric_limits<QiwuSpmvScalar>::infinity()
+    );
+    if (!std::isfinite(static_cast<long double>(next))) {
+        next = std::nextafter(
+            stored,
+            -std::numeric_limits<QiwuSpmvScalar>::infinity()
+        );
+    }
+    const long double spacing = std::abs(
+        static_cast<long double>(next) - static_cast<long double>(stored)
+    );
+    return std::max(
+        spacing,
+        static_cast<long double>(std::numeric_limits<QiwuSpmvScalar>::denorm_min())
+    );
+}
+
 }  // namespace kernelperf
 
 int main() {
@@ -600,12 +621,34 @@ int main() {
         long double max_absolute_error = 0;
         long double max_relative_error = 0;
         long double max_normalized_error = 0;
+        long double max_ulp_guard = 0;
+        long double max_subnormal_guard = 0;
         size_t mismatch_count = 0;
         size_t noise_rows = 0;
+        size_t subnormal_rows = 0;
+        int64_t max_error_row = -1;
+        int64_t max_error_nnz = 0;
+        long double max_error_actual = 0;
+        long double max_error_reference = 0;
+        long double max_error_scale = 0;
+        long double max_error_bound = 0;
+        int64_t first_mismatch_row = -1;
+        int64_t first_mismatch_nnz = 0;
+        long double first_mismatch_actual = 0;
+        long double first_mismatch_reference = 0;
+        long double first_mismatch_scale = 0;
+        long double first_mismatch_bound = 0;
+        long double first_mismatch_absolute_error = 0;
         int64_t max_row_nnz = 0;
         const long double unit_roundoff = static_cast<long double>(
             std::numeric_limits<QiwuSpmvScalar>::epsilon()
         ) / 2.0L;
+        const long double smallest_normal = static_cast<long double>(
+            std::numeric_limits<QiwuSpmvScalar>::min()
+        );
+        const long double denorm_min = static_cast<long double>(
+            std::numeric_limits<QiwuSpmvScalar>::denorm_min()
+        );
         for (int64_t row = 0; row < matrix.rows; ++row) {
             const int32_t begin = matrix.row_offsets[static_cast<size_t>(row)];
             const int32_t end = matrix.row_offsets[static_cast<size_t>(row) + 1];
@@ -635,12 +678,46 @@ int main() {
                 ++noise_rows;
                 continue;
             }
-            max_absolute_error = std::max(max_absolute_error, absolute_error);
+            if (absolute_error > max_absolute_error) {
+                max_absolute_error = absolute_error;
+                max_error_row = row;
+                max_error_nnz = row_nnz;
+                max_error_actual = actual_value;
+                max_error_reference = reference;
+                max_error_scale = scale;
+            }
             max_relative_error = std::max(max_relative_error, relative_error);
             max_normalized_error = std::max(max_normalized_error, normalized_error);
             const long double row_bound = validation_safety_factor *
                 static_cast<long double>(row_nnz) * unit_roundoff;
-            if (normalized_error > row_bound) {
+            const long double ulp_guard = 0.5L * output_ulp(reference);
+            max_ulp_guard = std::max(max_ulp_guard, ulp_guard);
+            const long double relative_bound = row_bound * scale;
+            const bool subnormal_row =
+                (scale > 0.0L && scale < smallest_normal) ||
+                (expected_magnitude > 0.0L && expected_magnitude < smallest_normal);
+            const long double subnormal_guard = subnormal_row
+                ? static_cast<long double>(row_nnz) * denorm_min
+                : 0.0L;
+            if (subnormal_row) {
+                ++subnormal_rows;
+            }
+            max_subnormal_guard = std::max(max_subnormal_guard, subnormal_guard);
+            const long double absolute_bound =
+                relative_bound + subnormal_guard + ulp_guard;
+            if (absolute_error == max_absolute_error) {
+                max_error_bound = absolute_bound;
+            }
+            if (absolute_error > absolute_bound) {
+                if (first_mismatch_row < 0) {
+                    first_mismatch_row = row;
+                    first_mismatch_nnz = row_nnz;
+                    first_mismatch_actual = actual_value;
+                    first_mismatch_reference = reference;
+                    first_mismatch_scale = scale;
+                    first_mismatch_bound = absolute_bound;
+                    first_mismatch_absolute_error = absolute_error;
+                }
                 ++mismatch_count;
             }
         }
@@ -701,11 +778,42 @@ int main() {
         write_json_number(std::cout, max_normalized_error);
         std::cout
                   << ",\"mismatch_count\":" << mismatch_count
-                  << ",\"validation_rule\":\"dynamic-row-bound\""
+                  << ",\"validation_rule\":\"dynamic-row-bound-plus-subnormal-guard-plus-output-ulp\""
                   << ",\"validation_safety_factor\":" << validation_safety_factor
                   << ",\"unit_roundoff\":" << static_cast<double>(unit_roundoff)
+                  << ",\"max_ulp_guard\":";
+        write_json_number(std::cout, max_ulp_guard);
+        std::cout
+                  << ",\"max_subnormal_guard\":";
+        write_json_number(std::cout, max_subnormal_guard);
+        std::cout
                   << ",\"max_row_nnz\":" << max_row_nnz
                   << ",\"noise_rows\":" << noise_rows
+                  << ",\"subnormal_rows\":" << subnormal_rows
+                  << ",\"max_error_row\":" << max_error_row
+                  << ",\"max_error_nnz\":" << max_error_nnz
+                  << ",\"max_error_actual\":";
+        write_json_number(std::cout, max_error_actual);
+        std::cout << ",\"max_error_reference\":";
+        write_json_number(std::cout, max_error_reference);
+        std::cout << ",\"max_error_scale\":";
+        write_json_number(std::cout, max_error_scale);
+        std::cout << ",\"max_error_bound\":";
+        write_json_number(std::cout, max_error_bound);
+        std::cout
+                  << ",\"first_mismatch_row\":" << first_mismatch_row
+                  << ",\"first_mismatch_nnz\":" << first_mismatch_nnz
+                  << ",\"first_mismatch_actual\":";
+        write_json_number(std::cout, first_mismatch_actual);
+        std::cout << ",\"first_mismatch_reference\":";
+        write_json_number(std::cout, first_mismatch_reference);
+        std::cout << ",\"first_mismatch_scale\":";
+        write_json_number(std::cout, first_mismatch_scale);
+        std::cout << ",\"first_mismatch_bound\":";
+        write_json_number(std::cout, first_mismatch_bound);
+        std::cout << ",\"first_mismatch_absolute_error\":";
+        write_json_number(std::cout, first_mismatch_absolute_error);
+        std::cout
                   << ",\"reference_precision\":\"" << reference_precision_name() << "\""
                   << ",\"output_precision\":\"" << data_type_name() << "\""
                   << ",\"warmup\":" << warmup

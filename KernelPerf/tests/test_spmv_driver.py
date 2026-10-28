@@ -53,6 +53,20 @@ def test_managed_runner_uses_the_public_plugin_contract():
     assert "cudaEventElapsedTime" in source
 
 
+def test_managed_runner_uses_subnormal_and_output_ulp_guards_for_validation():
+    driver = benchmark()
+    source = driver._source(make_kernel(), driver.operators()[0])
+
+    assert "std::nextafter" in source
+    assert "dynamic-row-bound-plus-subnormal-guard-plus-output-ulp" in source
+    assert "relative_bound = row_bound * scale" in source
+    assert "std::numeric_limits<QiwuSpmvScalar>::denorm_min()" in source
+    assert "const long double subnormal_guard" in source
+    assert "relative_bound + subnormal_guard + ulp_guard" in source
+    assert "first_mismatch_row" in source
+    assert "first_mismatch_absolute_error" in source
+
+
 def test_managed_runner_does_not_embed_uploaded_source():
     driver = benchmark()
     candidate = "\ufeff" + KERNEL_SOURCE

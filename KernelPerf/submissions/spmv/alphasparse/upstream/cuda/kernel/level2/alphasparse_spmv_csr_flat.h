@@ -4,6 +4,7 @@
 #include "alphasparse/types.h" 
 #include "alphasparse_spmv_csr_vector.h"
 #include "alphasparse/common.h"
+#include "qiwu_atomic_add.h"
 
 template <typename T>
 __device__ static T lower_bound_int_flat(const T *t, T l, T r, T target)
@@ -58,7 +59,7 @@ __device__ void flat_reduce_direct(
         {
             sum += shared_data[i];
         }
-        atomicAdd(&y[row_i], alpha * sum);
+        qiwu_atomic_add_preserve_subnormal(&y[row_i], alpha * sum);
     }
 }
 
@@ -96,7 +97,7 @@ __device__ void flat_reduce_in_vector(
         // store value
         if (tid_in_vec == 0)
         {
-            atomicAdd(&y[row_i], alpha * sum);
+            qiwu_atomic_add_preserve_subnormal(&y[row_i], alpha * sum);
         }
     }
 }
@@ -181,8 +182,10 @@ __global__ void spmv_flat(
     // }
 
     __syncthreads();
-    if ((csr_row_ptr[block_end_row] % nnz_per_block) != 0 ||
-        block_start_row == block_end_row)
+    const bool row_crosses_block_end = block_end_row < m &&
+        csr_row_ptr[block_end_row] <= block_end_ind &&
+        csr_row_ptr[block_end_row + 1] > block_end_ind;
+    if (row_crosses_block_end || block_start_row == block_end_row)
     {
         block_end_row = min(block_end_row + 1, m);
     }

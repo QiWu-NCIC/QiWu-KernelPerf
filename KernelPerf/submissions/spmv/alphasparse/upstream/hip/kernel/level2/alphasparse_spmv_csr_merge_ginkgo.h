@@ -2,6 +2,7 @@
 #pragma once
 
 #include "alphasparse.h"
+#include "qiwu_atomic_add.h"
 
 #define ITEMS_PER_THREAD 8
 #define SPMV_MERGE_BLOCK_SIZE 512
@@ -91,16 +92,16 @@ __global__ __launch_bounds__(SPMV_MERGE_BLOCK_SIZE) void merge_path_spmv(
     T ind = block_start_y + start_y;
     T row_i = block_start_x + start_x;
     U value = U{};
-    T temp_row_ptr = shared_row_ptrs[start_x];
+    T temp_row_ptr = start_x < block_num_rows ? shared_row_ptrs[start_x] : T{};
 #pragma unroll
-    for (T i = 0; i < IPT && row_i < num_rows; i++)
+    for (T i = 0; i < IPT && row_i < num_rows && start_y < block_num_nnz; i++)
     {
         // if (start_x == block_num_rows)
         // {
         //     printf("i:%d, tid:%d, bid:%d, y[row_i]:%f, value:%f, ind:%d, start_x:%d, start_y:%d, block_num_nnz:%d, row_i:%d, block_num_rows:%d, num_rows:%d, shared_val[start_y]:%f, shared_col_idxs[start_y]:%d, shared_row_ptrs[start_x]:%d\n",
         //            i, threadIdx.x, blockIdx.x, y[row_i], value, ind, start_x, start_y, block_num_nnz, row_i, block_num_rows, num_rows, shared_val[start_y], shared_col_idxs[start_y], shared_row_ptrs[start_x]);
         // }
-        if (ind < temp_row_ptr || start_x == block_num_rows)
+        if (start_x == block_num_rows || ind < temp_row_ptr)
         {
 
             value += shared_val[start_y] * __ldg(&x[shared_col_idxs[start_y]]);
@@ -111,21 +112,21 @@ __global__ __launch_bounds__(SPMV_MERGE_BLOCK_SIZE) void merge_path_spmv(
         {
             if (value != U{})
             {
-                atomicAdd(&y[row_i], alpha * value);
+                qiwu_atomic_add_preserve_subnormal(&y[row_i], alpha * value);
                 value = U{};
             }
             start_x++;
             row_i++;
-            temp_row_ptr = shared_row_ptrs[start_x];
+            temp_row_ptr = start_x < block_num_rows ? shared_row_ptrs[start_x] : T{};
         }
     }
     // 140647.7
     const cooperative_groups::thread_block_tile<WARP_SIZE> tile_block =
         cooperative_groups::tiled_partition<WARP_SIZE>(g);
     bool head = segment_scan<WARP_SIZE>(tile_block, row_i, value);
-    if (head)
+    if (head && row_i < num_rows)
     {
-        atomicAdd(&y[row_i], alpha * value);
+        qiwu_atomic_add_preserve_subnormal(&y[row_i], alpha * value);
     }
 }
 
