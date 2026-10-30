@@ -56,7 +56,8 @@
           <span class="protocol-label">Correctness</span>
           <strong>Independent CPU CSR reference</strong>
           <code>&rho;<sub>i,q</sub> = |C<sub>i,q</sub> &minus; C<sub>ref,i,q</sub>| / s<sub>i,q</sub> &le; {{ benchmarkProtocol.safetyFactor }} &middot; nnz<sub>i</sub> &middot; u</code>
-          <p>Host <code>long double</code> accumulates the reference; FP32/FP64 output is checked with <code>|error| &le; C&middot;nnz<sub>i</sub>&middot;u&middot;s<sub>i,q</sub></code>. Zero-scale elements require zero output.</p>
+          <p><em>ref</em> is stored as host <code>long double</code> for both dtypes; products are promoted before accumulation. Outputs use their declared FP32 or FP64 precision.</p>
+          <p>If <em>s<sub>i,q</sub></em> = 0, <em>C<sub>i,q</sub></em> must be zero.</p>
         </div>
         <div class="protocol-item">
           <span class="protocol-label">Terms</span>

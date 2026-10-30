@@ -4,6 +4,12 @@
 
 `failure_reason` is empty for passing rows. Failed rows use the retained validation diagnostics, execution stage, and error/log message where available. Legacy rows without a retained diagnostic are explicitly marked `historical reason unavailable`; the reason is never inferred from the matrix or method name.
 
+Comparison exclusions in `KernelPerf/config/datasets.json` are a separate,
+operator/dtype-specific presentation policy. Excluded matrices remain in the
+source CSV with their original status and reason. They contribute neither to
+the comparison score nor its coverage denominator; the page discloses their
+count and identities. An exclusion is not a validation pass.
+
 `operations` is the operation count used for the reported performance. For SpMV it is `2 * nnz`. `solve_gflops = operations / (solve_ms * 1e6)`. `solve_only_efficiency_percent = solve_gflops / peak_gflops * 100`; the field name explicitly records that this efficiency uses `solve_ms` only. `preprocess_ms` is reported separately and is included only when the UI time mode explicitly selects `pre+solve` or `pre/iteration+solve`.
 
 The evaluator runs 5 untimed warmups and 20 timed solves. Correctness is a separate CPU CSR solve. For row `i`, it uses `s_i = sum_j(abs(a_ij*x_j))` and accepts `abs(y_i-y_ref_i) / s_i <= C*n_i*u`, where `C=4`, `n_i` is the row length, and `u = eps(float)/2` or `eps(double)/2`. No subnormal or output-ULP allowance is added. Both FP32 and FP64 reference rows use host `long double` accumulation, with products promoted to `long double` before accumulation. Numerical-noise rows (`n_i*u*kappa_i >= 1`) are reported separately; zero-scale rows still require zero output. The implementation is documented in the repository README and `KernelPerf/benchmarks/spmv/template.cu`.

@@ -155,6 +155,15 @@ solve-only efficiency, geometric means and coverage from the CSV data. A
 method with at least 90% successful cases for both FP32 and FP64 is rankable;
 partial methods remain visible with their failed-case count.
 
+Dataset comparison exclusions are declared by operator and dtype in
+`KernelPerf/config/datasets.json`. The full-corpus SpMV comparison excludes six
+reviewed FP32 numerical-range cases uniformly across every platform and method,
+including BEST and SELL parameter selection. They are omitted from scores,
+coverage denominators and plots; the page displays the exclusion count and
+matrix list. Exclusion does not certify correctness. Diagnostic validation and
+original CSV records, including failures, remain unchanged and downloadable.
+FP64, SpMM and the sample datasets retain their existing comparison sets.
+
 The published catalog uses the same identity in its directory layout:
 `databank/public/data/results/<operator>/<backend>/<dataset>/` for ranked
 results and `databank/public/data/candidate-pool/<operator>/<backend>/<dataset>/`

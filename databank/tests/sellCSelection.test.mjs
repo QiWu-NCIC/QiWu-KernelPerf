@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import fs from "node:fs";
+import { comparisonMatrixCount, isComparisonExcluded } from "../src/utils/contestCoverage.js";
 import {
   isPublicSpmvSellRow,
   sellCConfiguration,
@@ -75,4 +77,22 @@ test("a C candidate with missing matrix rows cannot become the public winner", (
   const winners = sellCWinnerByScope(input, (row) => row.score, () => 100);
 
   assert.equal(winners.size, 0);
+});
+
+test("SELL selection uses the same dtype-specific exclusions and denominator as ranking", () => {
+  const datasets = JSON.parse(fs.readFileSync(new URL("../../KernelPerf/config/datasets.json", import.meta.url), "utf8"));
+  const rows = ["alg1", "default"].flatMap((algorithm) => ["fp32", "fp64"].flatMap((dtype) => [4, 8].flatMap((c) => [
+    ...rowsFor(c, algorithm, dtype, dtype === "fp32" ? 2898 : 2904, c === 4 ? 20 : 10),
+    ...["ATandT/pre2", "Fluorem/GT01R", "HB/fs_680_1", "MathWorks/Kaufhold", "Sandia/ASIC_320ks", "Tromble/language"]
+      .filter(() => dtype === "fp32")
+      .map((matrix_id) => ({ ...rowsFor(c, algorithm, dtype, 1, c === 8 ? 1e300 : 1)[0], matrix_id })),
+  ]))).map((row) => ({ ...row, dataset_id: "suitesparse_all", operator_id: `spmv.csr.${row.dtype}` }));
+  const original = structuredClone(rows);
+  const winners = sellCWinnerByScope(
+    rows.filter((row) => !isComparisonExcluded(row, datasets)),
+    (row) => row.score,
+    (dataset, observed, dtype) => comparisonMatrixCount(dataset, "spmv", dtype, observed, datasets),
+  );
+  assert.equal(winners.get("A100|suitesparse_all").c, 4);
+  assert.deepEqual(rows, original);
 });

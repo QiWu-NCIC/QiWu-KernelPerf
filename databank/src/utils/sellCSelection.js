@@ -35,7 +35,7 @@ export function sellCWinnerByScope(
 
   const candidates = new Map();
   for (const group of groups.values()) {
-    const expected = Number(expectedCountForDataset(group.scope.split("|").at(-1), group.matrices.size));
+    const expected = Number(expectedCountForDataset(group.scope.split("|").at(-1), group.matrices.size, group.dtype));
     const coverage = expected > 0 ? group.matrices.size / expected : 0;
     const score = geometricMean(group.scores);
     if (coverage < minimumCoverage || score <= 0) continue;

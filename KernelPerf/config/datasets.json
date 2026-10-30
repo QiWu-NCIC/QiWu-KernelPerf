@@ -14,6 +14,21 @@
     "root": "data/datasets/suitesparse",
     "manifest": "config/datasets/suitesparse_all.json",
     "path_template": "{root}/{group}/{name}/{name}.mtx",
+    "comparison_exclusions": {
+      "spmv": {
+        "fp32": {
+          "reason": "FP32 numerical-range cases excluded after relative-bound validation review; exclusion is not a correctness pass.",
+          "matrix_ids": [
+            "ATandT/pre2",
+            "Fluorem/GT01R",
+            "HB/fs_680_1",
+            "MathWorks/Kaufhold",
+            "Sandia/ASIC_320ks",
+            "Tromble/language"
+          ]
+        }
+      }
+    },
     "description": "The current official SuiteSparse statistics collection, including real, integer, pattern, binary, and complex coordinate records."
   },
   {

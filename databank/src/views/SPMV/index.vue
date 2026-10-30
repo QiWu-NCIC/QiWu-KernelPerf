@@ -51,6 +51,12 @@
       <span v-if="error" class="error-text">{{ error }}</span>
     </section>
 
+    <details v-if="activeExclusions.matrix_ids.length" class="table-summary">
+      <summary>{{ activeExclusions.matrix_ids.length }} FP32 matrices excluded from comparisons on all platforms and methods</summary>
+      <p>{{ activeExclusions.reason }} Raw CSV downloads retain all original records and failure reasons.</p>
+      <ul><li v-for="matrixId in activeExclusions.matrix_ids" :key="matrixId"><code>{{ matrixId }}</code></li></ul>
+    </details>
+
     <section class="protocol-section" aria-labelledby="protocol-title">
       <div class="protocol-heading">
         <div>
@@ -70,7 +76,8 @@
           <span class="protocol-label">Correctness</span>
           <strong>Independent CPU CSR reference</strong>
           <code>&rho;<sub>i</sub> = |y<sub>i</sub> &minus; y<sub>ref,i</sub>| / s<sub>i</sub> &le; C &middot; n<sub>i</sub> &middot; u</code>
-          <p>Host <code>long double</code> accumulates the reference. Zero-scale rows require zero output.</p>
+          <p><em>ref</em> is stored as host <code>long double</code> for both dtypes; products are promoted before accumulation.</p>
+          <p>If <em>s<sub>i</sub></em> = 0, <em>y<sub>i</sub></em> must be zero.</p>
         </div>
         <div class="protocol-item">
           <span class="protocol-label">Terms</span>
@@ -157,7 +164,7 @@
               <td>{{ formatMilliseconds(item.geomeanPreprocessMs) }}</td>
               <td>{{ formatMilliseconds(item.geomeanSolveMs) }}</td>
               <td>{{ formatMilliseconds(item.geomeanEffectiveMs) }}</td>
-              <td>{{ item.passCount }}/{{ item.expectedCaseCount }}<small v-if="item.failedCount">{{ item.failedCount }} failed</small><small v-if="item.missingCount">{{ item.missingCount }} missing results</small></td>
+              <td>{{ item.passCount }}/{{ item.expectedCaseCount }}<small v-if="item.failedCount">{{ item.failedCount }} failed</small><small v-if="item.missingCount">{{ item.missingCount }} missing results</small><small v-if="item.excludedCount">{{ item.excludedCount }} excluded</small></td>
             </tr>
           </tbody>
         </table>
@@ -253,7 +260,7 @@ import JSZip from "jszip";
 import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } from "vue";
 import OperatorTabs from "../../components/OperatorTabs.vue";
 import { drawContestScatter } from "../../utils/contestCharts.js";
-import { expectedMatrixCount } from "../../utils/contestCoverage.js";
+import { comparisonExclusions, comparisonMatrixCount, isComparisonExcluded } from "../../utils/contestCoverage.js";
 import { isPublicSpmvSellRow, sellCWinnerByScope } from "../../utils/sellCSelection.js";
 import { selectContestEntries } from "../../utils/contestData.js";
 import { deriveCusparseCsrBest } from "./cusparseCsrBest.mjs";
@@ -353,16 +360,18 @@ const scopedRows = computed(() => rows.value.filter((row) => {
   if (filters.dataset && row.dataset_id !== filters.dataset) return false;
   return true;
 }));
+const activeExclusions = computed(() => comparisonExclusions(filters.dataset, "spmv", "fp32", datasetSpecs));
+const comparisonRows = computed(() => scopedRows.value.filter((row) => !isComparisonExcluded(row, datasetSpecs)));
 
 // Derive the cuSPARSE CSR per-matrix winner in the browser so the contest
 // shows the same solve-only selection that is used for the other BEST rows.
 const displayRows = computed(() => {
   const winners = sellCWinnerByScope(
-    scopedRows.value,
+    comparisonRows.value,
     efficiency,
-    (dataset, observed) => expectedMatrixCount(dataset, observed, datasetSpecs),
+    (dataset, observed, dtype) => comparisonMatrixCount(dataset, "spmv", dtype, observed, datasetSpecs),
   );
-  const source = scopedRows.value.filter((row) => (
+  const source = comparisonRows.value.filter((row) => (
     isPublicSpmvSellRow(row, winners)
   ));
   const derived = deriveCusparseCsrBest(source);
@@ -705,13 +714,15 @@ const ranking = computed(() => {
       const coverageByDtype = ["fp32", "fp64"].map((dtype) => {
         const expected = requiredMatrices.get([item.backendId, item.operatorFamily, item.dataset, dtype].join("|"));
         const actual = item.matricesByDtype.get(dtype);
-        const expectedCount = expectedMatrixCount(item.dataset, expected?.size || 0, datasetSpecs);
+        const expectedCount = comparisonMatrixCount(item.dataset, item.operatorFamily, dtype, expected?.size || 0, datasetSpecs);
         return expectedCount ? (actual?.size || 0) / expectedCount : 0;
       });
       const expectedCaseCount = ["fp32", "fp64"].reduce((sum, dtype) => {
         const expected = requiredMatrices.get([item.backendId, item.operatorFamily, item.dataset, dtype].join("|"));
-        return sum + expectedMatrixCount(item.dataset, expected?.size || 0, datasetSpecs);
+        return sum + comparisonMatrixCount(item.dataset, item.operatorFamily, dtype, expected?.size || 0, datasetSpecs);
       }, 0);
+      const excludedCount = dtypes.reduce((sum, dtype) => sum
+        + comparisonExclusions(item.dataset, item.operatorFamily, dtype, datasetSpecs).matrix_ids.length, 0);
       const coverageRatio = expectedCaseCount ? item.passCount / expectedCaseCount : 0;
       const rankEligible = coverageByDtype.every((value) => value >= 0.9) && scores.length === 2;
       return {
@@ -727,6 +738,7 @@ const ranking = computed(() => {
         coverageRatio,
         coverageByDtype,
         expectedCaseCount,
+        excludedCount,
         failedCount: item.failedCount,
         missingCount: Math.max(0, expectedCaseCount - item.caseCount),
         rankEligible,
