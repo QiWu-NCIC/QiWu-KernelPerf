@@ -69,7 +69,7 @@
       "total": 2904,
       "passed": 2892,
       "failed": 12,
-      "csv_sha256": "61e2183d10fd49f1232bf5fbb12f9797594a5f136cba8c8626d2a0a5ee1308b2",
+      "csv_sha256": "2fd130ca6da2e85d9d61473793ee748557436c9aafcae6d808a23463e94d1220",
       "public_ranked": true
     },
     {
@@ -95,7 +95,7 @@
       "total": 2904,
       "passed": 2898,
       "failed": 6,
-      "csv_sha256": "954ecf192f8d436ae44e2fe14d404bbc2a1b5d4243ee1a2b4f058845117fdd86",
+      "csv_sha256": "2de37884c41adfaaeadd4006e90ef508282425d0e0e1ec86df05129eec4c6b30",
       "public_ranked": true
     },
     {
@@ -496,7 +496,7 @@
       "created_at": "2026-10-05T07:21:49.306134+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "a213a5248b18b8608db7b2d618a942652ca95f4780b9cace54bab9732e0e4082",
+      "csv_sha256": "b30e4639f1aef937eba5fcc456c59a0ea458ce47265454f1f4017adb20afb170",
       "total": 2904,
       "passed": 2892,
       "failed": 12
@@ -521,7 +521,7 @@
       "created_at": "2026-10-05T20:05:49.363085+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "03abff73b263d6782bf3157479fabc8bc431549512d385d1f50aba2c2b110e40",
+      "csv_sha256": "054ca3d58763377a24c053973812ca86b6c59c97aa775110ff28e9b967a7a944",
       "total": 2904,
       "passed": 2898,
       "failed": 6
@@ -3258,7 +3258,7 @@
       "created_at": "2026-10-25T22:25:31.910605+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "7b7489c58c5553d740a244abc70dc295940bd41f9387593670e5c08ba3a28ae8",
+      "csv_sha256": "8a94ede4390fc47d902fcac0c6b087345a5719d7a071c144547ccb718b05cee6",
       "total": 2904,
       "passed": 2889,
       "failed": 15
@@ -3283,7 +3283,7 @@
       "created_at": "2026-10-25T22:46:34.303730+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "bac070193056f2f164b30735022a87834c4ff4b6ce58371551f49e78d4a44ba1",
+      "csv_sha256": "b720ee0077e57cce63e6a135ca811ac2a882e93b35acd7a800e80412126baa04",
       "total": 2904,
       "passed": 2895,
       "failed": 9
@@ -3311,7 +3311,7 @@
       "total": 2904,
       "passed": 2889,
       "failed": 15,
-      "csv_sha256": "e4f7ada6a4701bf1af574b5ef2264d1e3b128d27cb2a5628422f27e66799d296",
+      "csv_sha256": "88eb7b4460086ed6e68c8f2f978724482f7d84f37bc8dee8cd8b2f842894ff34",
       "public_ranked": true
     },
     {
@@ -3337,7 +3337,7 @@
       "total": 2904,
       "passed": 2895,
       "failed": 9,
-      "csv_sha256": "04a20e5139b2eaffa2ae2024603b0f9a3917fa3183462d1431abb7b5a0202da4",
+      "csv_sha256": "a26c266057699affe38260171640227f8978b3d619f1ffb03b5c01fb409a204d",
       "public_ranked": true
     },
     {
@@ -3360,7 +3360,7 @@
       "created_at": "2026-10-25T22:26:41.051174+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "a08c3f172b3a08c7a72f7a952dfb306cdbcf70458a1af58745e9391607f5fe29",
+      "csv_sha256": "37f8d7a82496ae823c9b548f92d7292aa05aef13009bb75dbbe1f7ec68f28314",
       "total": 2904,
       "passed": 2888,
       "failed": 16
@@ -3385,7 +3385,7 @@
       "created_at": "2026-10-06T03:49:50.530263+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "d6a3d00243555dc2e5ef2b9c1fb2f97c07c6b4e2b4bd355de682c218de43bb73",
+      "csv_sha256": "97719507cbbaed2946670bca4c95c44bc695bf670656c46dadf240a79eac357b",
       "total": 2904,
       "passed": 2895,
       "failed": 9
@@ -3410,7 +3410,7 @@
       "created_at": "2026-10-25T22:26:45.062920+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "e6837d0c12751c4458eb7f0453531822f88f309bcd67408b25c8bf44b6bf39cc",
+      "csv_sha256": "4b8cde7bca757c43441a7426bb1d919a3b84ea12cf6c4cba2b3e4e3d935ba298",
       "total": 2904,
       "passed": 2888,
       "failed": 16
@@ -3435,7 +3435,7 @@
       "created_at": "2026-10-06T04:24:08.354614+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "e7d091d0500744f84d89b47e5d659129011aed8b5c5b23ad2f2cb2910e57b0cd",
+      "csv_sha256": "c7237a8c443d974197edff352569a74feff3a97ef195875aabed6b43f3628f50",
       "total": 2904,
       "passed": 2895,
       "failed": 9
@@ -3460,7 +3460,7 @@
       "created_at": "2026-10-25T22:26:49.066876+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "ee8bfcf88bbd5a73fac3882ff50c231350ca80eee621ad987fcf5869cd56b277",
+      "csv_sha256": "2b416d5a628a87c0a42c775157674d1e4ceefede7d4da969f80f852c31302101",
       "total": 2904,
       "passed": 2888,
       "failed": 16
@@ -3485,7 +3485,7 @@
       "created_at": "2026-10-07T08:12:05.162682+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "10a949acafbe517c5f24731e735eec23272d1ba1f4d7fe1757ad27f0d951d92e",
+      "csv_sha256": "d9a91388b72eec98a7adfc281997d81a06ac986cf18788877a6867bdc7cb89b1",
       "total": 2904,
       "passed": 2895,
       "failed": 9
@@ -3510,7 +3510,7 @@
       "created_at": "2026-10-25T22:26:37.059109+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "7c588ab1baf0ad17d79644837d51084ff1715cbdd48b71646bdc4898c9503f5e",
+      "csv_sha256": "213fe163b0cd0b3e183e4bdd68ccbeea5142996cbc8e86fe7960ce4e23e83bf3",
       "total": 2904,
       "passed": 2889,
       "failed": 15
@@ -3535,7 +3535,7 @@
       "created_at": "2026-10-23T08:28:14.881338+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "598882e678a9c477e6e05250d7734c9c5d802fad64e9c002b6ccbe17caa6c4f9",
+      "csv_sha256": "fd063d7038ee9760138c4dc98889d54ad36f8e95574eed1c7c6844247e661338",
       "total": 2904,
       "passed": 2895,
       "failed": 9
@@ -3560,7 +3560,7 @@
       "created_at": "2026-10-25T22:26:33.000638+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "ab40414862fe01a87c998c10de22e1dcef3db2b80bba36d5850a2b2211006e15",
+      "csv_sha256": "a3e48a8b30987d0ee63728a41161a8063b36ce230a6c031eff9730491dd4f02c",
       "total": 2904,
       "passed": 2867,
       "failed": 37
@@ -3585,7 +3585,7 @@
       "created_at": "2026-10-25T22:28:23.458151+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "c7c57796b423eb5058b12859e5d80e175ce00c8f4e818046a1b233f23467f743",
+      "csv_sha256": "4ec8954e0e394991af20b08b145b98ca1998f3feefddfe7eeea54e5777c5c74b",
       "total": 2904,
       "passed": 2874,
       "failed": 30
@@ -3610,7 +3610,7 @@
       "created_at": "2026-10-26T07:44:16.655640+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "6aa24011a48f61b70c06b84e288e66f4bf28bb8e6ef132e4fb670d8592b97f43",
+      "csv_sha256": "625a725b4974c28bee8ef8a172f0d01a21eba2cac33ea525981bb13498a85187",
       "total": 2904,
       "passed": 2888,
       "failed": 16
@@ -3635,7 +3635,7 @@
       "created_at": "2026-10-25T22:06:05.921324+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "599b76f15a1b2c05e7ad3f665e9e52ce007d4dd5f053c106e2985cccef4de952",
+      "csv_sha256": "fe1f40964172e71dfa5fdd17fdae1069be7accb9ad49815e7cd57c8e023c80f2",
       "total": 2904,
       "passed": 2894,
       "failed": 10
@@ -3660,7 +3660,7 @@
       "created_at": "2026-10-26T08:04:31.904478+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "91236c20b3756fa20a66126ef4735333a7c303c010802b1bfd0a2dc9ad78a201",
+      "csv_sha256": "52ad1a2af4ae5363e9d8d472655a49b25801a352eee2c9c8907a9b5ad69b15b4",
       "total": 2904,
       "passed": 2889,
       "failed": 15
@@ -3685,7 +3685,7 @@
       "created_at": "2026-10-25T22:26:24.898974+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "3a2800515a5a65db5da73e2ecd6a974201935cb1e6d1046c12d1d092a16ec574",
+      "csv_sha256": "1ca65c5c4b4c4a1b96185f4b113f1c5f6fd5b74b184e177884207714c2acb864",
       "total": 2904,
       "passed": 2895,
       "failed": 9
@@ -3710,7 +3710,7 @@
       "created_at": "2026-10-25T22:28:56.941429+00:00",
       "source_sha256": "9b9237a1a9ec6adbb6a3f8acfce9462d46fdac72a1494be2a28c73312e31bd49",
       "source_manifest": "source/9b9237a1a9ec6adbb6a3f8acfce9462d46fdac72a1494be2a28c73312e31bd49/plugin.json",
-      "csv_sha256": "d75d03e08ea82c63c5ab8ecdb203adf4e4e73cd04a00038d5829e0e66a16a15a",
+      "csv_sha256": "ddc43951b62ac2b82da027a00f6d855915756196ecf039e2129d529b724fe61f",
       "total": 2904,
       "passed": 2889,
       "failed": 15
@@ -3735,7 +3735,7 @@
       "created_at": "2026-10-12T14:53:59.234140+00:00",
       "source_sha256": "9b9237a1a9ec6adbb6a3f8acfce9462d46fdac72a1494be2a28c73312e31bd49",
       "source_manifest": "source/9b9237a1a9ec6adbb6a3f8acfce9462d46fdac72a1494be2a28c73312e31bd49/plugin.json",
-      "csv_sha256": "e68ff0a4ddf725746a371a29bc2430f8a064760fe137049c5cd4c97910b4d5b7",
+      "csv_sha256": "1dbd2a565cf4289705fdb1cfd9c787d59ef43cff7aedfae3aab0320a4975410c",
       "total": 2904,
       "passed": 2895,
       "failed": 9
@@ -3760,7 +3760,7 @@
       "created_at": "2026-10-25T22:29:11.418938+00:00",
       "source_sha256": "9b9237a1a9ec6adbb6a3f8acfce9462d46fdac72a1494be2a28c73312e31bd49",
       "source_manifest": "source/9b9237a1a9ec6adbb6a3f8acfce9462d46fdac72a1494be2a28c73312e31bd49/plugin.json",
-      "csv_sha256": "06c10189e108ad270689049937f3be2d83d5cb17376d2dc72aa3d7ee061e5dd7",
+      "csv_sha256": "7bc75e88e7b5d349c128b2a2536df5e1b9cf040e10dc7f679ddadde33bb77e71",
       "total": 2904,
       "passed": 2889,
       "failed": 15
@@ -3785,7 +3785,7 @@
       "created_at": "2026-10-14T09:13:54.240027+00:00",
       "source_sha256": "9b9237a1a9ec6adbb6a3f8acfce9462d46fdac72a1494be2a28c73312e31bd49",
       "source_manifest": "source/9b9237a1a9ec6adbb6a3f8acfce9462d46fdac72a1494be2a28c73312e31bd49/plugin.json",
-      "csv_sha256": "bb0be7aa8e8a540cfc6e89cbadeafb52aefa0676a0ef754cac51ea4d50790153",
+      "csv_sha256": "01341ce009d84aa570e22374192a9242c0148c4c3f29dc7709eb48c4a1ed0070",
       "total": 2904,
       "passed": 2895,
       "failed": 9
@@ -3810,7 +3810,7 @@
       "created_at": "2026-10-25T22:29:04.159724+00:00",
       "source_sha256": "9b9237a1a9ec6adbb6a3f8acfce9462d46fdac72a1494be2a28c73312e31bd49",
       "source_manifest": "source/9b9237a1a9ec6adbb6a3f8acfce9462d46fdac72a1494be2a28c73312e31bd49/plugin.json",
-      "csv_sha256": "6a5999fe7c6b29d9d21d806447f2a6088697356bbacfbae0d0b2bec53bc39564",
+      "csv_sha256": "7a13e80adbbebba4638301d5dba7c668795549f431b6c00eac838c4147a8596b",
       "total": 2904,
       "passed": 2889,
       "failed": 15
@@ -3835,7 +3835,7 @@
       "created_at": "2026-10-14T08:15:55.279737+00:00",
       "source_sha256": "9b9237a1a9ec6adbb6a3f8acfce9462d46fdac72a1494be2a28c73312e31bd49",
       "source_manifest": "source/9b9237a1a9ec6adbb6a3f8acfce9462d46fdac72a1494be2a28c73312e31bd49/plugin.json",
-      "csv_sha256": "a6866f3c2945d4297ea803c6d82a862e3278ed651be37aa3aeb76f3f18a3c018",
+      "csv_sha256": "be910a4a0272aa53f2a300f264c88c612844ce8f49056e64db54dccb142579ea",
       "total": 2904,
       "passed": 2894,
       "failed": 10
@@ -3860,7 +3860,7 @@
       "created_at": "2026-10-11T00:13:57.926822+00:00",
       "source_sha256": "9b9237a1a9ec6adbb6a3f8acfce9462d46fdac72a1494be2a28c73312e31bd49",
       "source_manifest": "source/9b9237a1a9ec6adbb6a3f8acfce9462d46fdac72a1494be2a28c73312e31bd49/plugin.json",
-      "csv_sha256": "1a4d6a1fc81937f61fcf0d89d8a5047917a645f65a74d86da08b6e625c20a9f7",
+      "csv_sha256": "9a3dd591558ae52c55555b7749d452a8287b1c3de7b2ee0d4a8dbb9a2f36b952",
       "total": 2904,
       "passed": 2889,
       "failed": 15,
@@ -3886,7 +3886,7 @@
       "created_at": "2026-10-12T14:53:59.234140+00:00",
       "source_sha256": "9b9237a1a9ec6adbb6a3f8acfce9462d46fdac72a1494be2a28c73312e31bd49",
       "source_manifest": "source/9b9237a1a9ec6adbb6a3f8acfce9462d46fdac72a1494be2a28c73312e31bd49/plugin.json",
-      "csv_sha256": "f5d116a4171a767f4d270c634ea5bd64c0273d5784464758ff5fa4f2eb8df196",
+      "csv_sha256": "94f053a049a32f4b741351245230d7c7a93eed7438a39c6fa78a9dbb36574ba9",
       "total": 2904,
       "passed": 2895,
       "failed": 9,
@@ -4458,7 +4458,7 @@
       "created_at": "2026-10-26T06:52:35.980587+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "48a17eeb4f415332017ca9b78558babf2950982bb79fd95299af8d944093bc78",
+      "csv_sha256": "3cbb960d6b5335ea027fda5772e15bf760bea20dfa8da7e0c4040102548bedc7",
       "total": 2904,
       "passed": 2891,
       "failed": 13
@@ -4483,7 +4483,7 @@
       "created_at": "2026-10-25T16:59:18.553004+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "9c8ae179903206261d07f588fbd9c392704ce311fdcdcab11f4c40a0a3830945",
+      "csv_sha256": "07077248ff6e97445b56deaaf64a0162719f829dc34df25c1da63908b9e20dcd",
       "total": 2904,
       "passed": 2872,
       "failed": 32
@@ -4511,7 +4511,7 @@
       "total": 2904,
       "passed": 2891,
       "failed": 13,
-      "csv_sha256": "8f76734cd3f11efdf99d37ea9481b41a7f86ce46b419de978660a1648ee939e7",
+      "csv_sha256": "6b52cf2e1d31981142e5505d49804500bebd24df9537f9cbe7fe494c21d41e2e",
       "public_ranked": true
     },
     {
@@ -4537,7 +4537,7 @@
       "total": 2904,
       "passed": 2897,
       "failed": 7,
-      "csv_sha256": "f8fd0c450d413ce391d0aa965dea3d3ce9c797902a800cc5dd7fb170cd8bb8b3",
+      "csv_sha256": "2ada9264f415da8cf40c49ed58ffb41ae2287847c79bf62986a93778c0cea91f",
       "public_ranked": true
     },
     {
@@ -4560,7 +4560,7 @@
       "created_at": "2026-10-26T07:52:52.965218+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "094668cc83b3141fb8bff9ec8469782506a68e9a5a602e527c37b1377bc269c8",
+      "csv_sha256": "81955fad06d0a64ead5214796e3237b5b336858e90e81177e8c20a8e07619573",
       "total": 2904,
       "passed": 2890,
       "failed": 14
@@ -4585,7 +4585,7 @@
       "created_at": "2026-10-25T15:59:03.441070+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "bec074cd5475563ebbefcc446793376458803ddb1f440d3522876f1b3b5de5a8",
+      "csv_sha256": "b249ac29b190b34be9b398dd58716e7391a42dc8f654a3e3f3922dae5009b2b6",
       "total": 2904,
       "passed": 2895,
       "failed": 9
@@ -4610,7 +4610,7 @@
       "created_at": "2026-10-26T08:12:57.866665+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "0aac1aa02cd2d5d6037797f685c4e0da97cea79ab856b6ec4480f4c5f0baafe8",
+      "csv_sha256": "ae0f2a06c32edf5719b71f8e27acea23b49193a63173c7bc1cac745c9ec11150",
       "total": 2904,
       "passed": 2890,
       "failed": 14
@@ -4635,7 +4635,7 @@
       "created_at": "2026-10-25T16:13:44.777337+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "79a85614806e962d25ea44b8ed1d7ae9f93acf0035df10b901ed561ae453dc70",
+      "csv_sha256": "aed124066c2ec9eaeddb0879201ca43cd8f82bd5c298297ef33cd92a47c7cb5d",
       "total": 2904,
       "passed": 2895,
       "failed": 9
@@ -4660,7 +4660,7 @@
       "created_at": "2026-10-26T08:33:03.677114+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "045ed32cf00d06a5686fec830b64ed2e6967601d7217a8a976d5be8c57bfabcc",
+      "csv_sha256": "ef0f2d44d58249934eb7dcdb0cb49f5233d47f06ff029b556d6817fe8886e98b",
       "total": 2904,
       "passed": 2890,
       "failed": 14
@@ -4685,7 +4685,7 @@
       "created_at": "2026-10-24T11:37:27.294561+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "95985e6ea2aae0a34896857026db4e3640a14224d7edd921ee4014a7036cb1f7",
+      "csv_sha256": "6d9306e4e40886bf5b01c1a797b5aafb02d437b95f896e60553b9675408ada09",
       "total": 2904,
       "passed": 2892,
       "failed": 12
@@ -4710,7 +4710,7 @@
       "created_at": "2026-10-26T07:32:47.724922+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "609c1ccfc238eecaf057a90fc5dccf70e18200391f51db117007c57cdb5fa557",
+      "csv_sha256": "ec43458dedff4921ed564f6fcee54cdd2f015f2a0bc0329e542e51e6e4621937",
       "total": 2904,
       "passed": 2891,
       "failed": 13
@@ -4735,7 +4735,7 @@
       "created_at": "2026-10-25T15:45:24.368047+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "062d8eb6985186112e9c09ed3e8e4bd8942b6f72c611d4ee81ebb3d115f92c27",
+      "csv_sha256": "c465832a3bdbb2a319803813262eb522288b964ac94c4d4c580b872cec27a643",
       "total": 2904,
       "passed": 2893,
       "failed": 11
@@ -4760,7 +4760,7 @@
       "created_at": "2026-10-26T07:12:41.537875+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "d03a68019ad9b1412dd46c6a5e3add32fde4eb8c3d1187cc800ac15c19bb3383",
+      "csv_sha256": "26d481e7b7d8f74b0c0968db198939d55f4afb8106517bdad6d6df2ebce64c0b",
       "total": 2904,
       "passed": 2886,
       "failed": 18
@@ -4785,7 +4785,7 @@
       "created_at": "2026-10-25T17:16:16.456253+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "779a9099b70a21b38932603f723556c99cf3bef82e6f422eda3dc03ea9a5b1d2",
+      "csv_sha256": "6995d2410bdb591b1e2ec3306ec664aba6117063a0e67d097e0bb5d4d55d6bf2",
       "total": 2904,
       "passed": 2896,
       "failed": 8
@@ -4810,7 +4810,7 @@
       "created_at": "2026-10-26T06:12:17.332001+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "61ecd71db9bab69364d3a5c70ec18e8aaf2ed2477e50f38452bed6ee314533b2",
+      "csv_sha256": "fd923ee9ab399554676f6c491a3c7381b24d224212aad454f9330b361121ad06",
       "total": 2904,
       "passed": 2891,
       "failed": 13
@@ -4835,7 +4835,7 @@
       "created_at": "2026-10-25T16:26:08.910696+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "90c76a460cd526466ddd7f9fd6c1b3f05c45c5fb07241272058964acd1ee2579",
+      "csv_sha256": "9c0f64efae0b2553330288f62494b90318c1a832083324e0c51ab87eb2327e2d",
       "total": 2904,
       "passed": 2897,
       "failed": 7
@@ -4860,7 +4860,7 @@
       "created_at": "2026-10-26T06:32:30.536308+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "0c4e34ed7b62c92b2c3a45332a1eac06d4ad426dc94c24aef91a1461f1fdf8f6",
+      "csv_sha256": "affc54373291f9457333f3dbfdc9f64d27122aa1bedbfb1d91a63e6665c10739",
       "total": 2904,
       "passed": 2891,
       "failed": 13
@@ -4885,7 +4885,7 @@
       "created_at": "2026-10-25T16:43:03.369022+00:00",
       "source_sha256": "0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca",
       "source_manifest": "source/0cf1fa4afffb1a77ed96445daf255408ca4037120bad2a95d2d43d69e71b33ca/plugin.json",
-      "csv_sha256": "1b4a95e0b4c0af583c434628f8e4423db36ad239acfdfaea4e71e47f74c1ba7e",
+      "csv_sha256": "42a163270f607fd93d8436a80db6ce72c1c386de8fa800a5e6dede94ed50cd92",
       "total": 2904,
       "passed": 2897,
       "failed": 7
@@ -4910,7 +4910,7 @@
       "created_at": "2026-10-26T05:53:51.206591+00:00",
       "source_sha256": "5e010ee684dfff2e4f633d1e20aeb9a788f8a5ed65665aa84b2696e0e71c224b",
       "source_manifest": "source/5e010ee684dfff2e4f633d1e20aeb9a788f8a5ed65665aa84b2696e0e71c224b/plugin.json",
-      "csv_sha256": "825d54eb3f984231e3e54ec064dd4b2bf138bd4666d61c0df3b917a09d223469",
+      "csv_sha256": "d8c4269e35a6f4e3041bd43675e1abab2d23e6c223bdf142a81c1254709b89eb",
       "total": 2904,
       "passed": 2890,
       "failed": 14
@@ -4935,7 +4935,7 @@
       "created_at": "2026-10-16T17:41:51.438406+00:00",
       "source_sha256": "5e010ee684dfff2e4f633d1e20aeb9a788f8a5ed65665aa84b2696e0e71c224b",
       "source_manifest": "source/5e010ee684dfff2e4f633d1e20aeb9a788f8a5ed65665aa84b2696e0e71c224b/plugin.json",
-      "csv_sha256": "130dfa4feb94fb8f4897e0a61e9086312bb1f9b7bc9ee0113077fdfc9bf7f413",
+      "csv_sha256": "85c3f56b72b0162ba22f266c1d8458519dd84bcfddf5ef8b71b0a05deb11289d",
       "total": 2904,
       "passed": 2895,
       "failed": 9
@@ -4960,7 +4960,7 @@
       "created_at": "2026-10-26T05:53:49.214583+00:00",
       "source_sha256": "518b62225ee049d009fc59d6ce378143e395c7af73c3a8648d5797f09e06f2db",
       "source_manifest": "source/518b62225ee049d009fc59d6ce378143e395c7af73c3a8648d5797f09e06f2db/plugin.json",
-      "csv_sha256": "dcfefa00eec7edbbcc2fa361429e484ccda7d485eeec976e6973dba9017c8d5b",
+      "csv_sha256": "26fa31dc26e7590dd1e24db2fb2d73e747a7bf1d9e672991b80564cb3122b0b9",
       "total": 2904,
       "passed": 2882,
       "failed": 22
@@ -4985,7 +4985,7 @@
       "created_at": "2026-10-16T17:06:43.277078+00:00",
       "source_sha256": "518b62225ee049d009fc59d6ce378143e395c7af73c3a8648d5797f09e06f2db",
       "source_manifest": "source/518b62225ee049d009fc59d6ce378143e395c7af73c3a8648d5797f09e06f2db/plugin.json",
-      "csv_sha256": "6e0517a53e5f6512b0cdd53b8b8cb347bf24ac45478e14d611fc3ed25d989c02",
+      "csv_sha256": "3d07bf44188087c27bdd46270ffe9fec2ee353bec75c5efca2560cc32508daeb",
       "total": 2904,
       "passed": 2894,
       "failed": 10
@@ -5010,7 +5010,7 @@
       "created_at": "2026-10-26T05:54:20.273987+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "1406bef1b7dcd5fa1540dfe5e31f003b555ce05fb76ad36ebdeaffd1f00a03ee",
+      "csv_sha256": "f720632b1958b46a44d04ce77e7a16a090322cf254df551da84be937e76e583e",
       "total": 2904,
       "passed": 2888,
       "failed": 16
@@ -5035,7 +5035,7 @@
       "created_at": "2026-10-17T11:59:33.177078+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "c90e844e74dad5670332ace41f3ca666c97939be5b9ea5b35c655200986a2aa4",
+      "csv_sha256": "297a0865d1f70b55ebea30a33df32accce4b8f37d23c3779ca8fa36f1032a335",
       "total": 1815,
       "passed": 1812,
       "failed": 3
@@ -5060,7 +5060,7 @@
       "created_at": "2026-10-26T05:54:46.001068+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "25d122f3c37bde119afa6d5bfbb6b4c0cdcbd73d26102654b18dd618daf6dc28",
+      "csv_sha256": "2f367e82b2dd27002ba8550f2db075ddbad92ce10e495b2b34f5bca2a64b037a",
       "total": 2904,
       "passed": 2885,
       "failed": 19
@@ -5085,7 +5085,7 @@
       "created_at": "2026-10-17T12:13:31.785869+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "9a5f2a3cc490c00da8de49c3aaa0c4c9ca5ecebe99d79b36b4cc2fff9d07a0b6",
+      "csv_sha256": "3fef5c2339dd402dc248bba71b00217ab2fd725dd0230f15110f1885b24e7ac0",
       "total": 1815,
       "passed": 1809,
       "failed": 6
@@ -5110,7 +5110,7 @@
       "created_at": "2026-10-26T05:53:53.656768+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "4c2aad8c096d6f49eeeae19256666b163a045b29d34f59947bfe1e227754eb18",
+      "csv_sha256": "0acfcc6c7bc9c65ff97cbccc9a3c845879f811961f02b568b3c01ffd5b76408b",
       "total": 2904,
       "passed": 2888,
       "failed": 16
@@ -5135,7 +5135,7 @@
       "created_at": "2026-10-17T11:47:52.940151+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "0baf7db5e54bac657bc055823f806acf92d82eb451b90c7f56f839c372e9141f",
+      "csv_sha256": "735c42194d4dac5ea03b44fd9f414c0eab363f5b238234fd3da2a9b89022c151",
       "total": 1815,
       "passed": 1811,
       "failed": 4
@@ -5160,7 +5160,7 @@
       "created_at": "2026-10-25T17:34:13.978169+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "bf2181b731033ef4f7dcdf6ac52420b37e023b799c61ada1e8fa5df94e8dacd4",
+      "csv_sha256": "608ad3adbfed16a57dcd25958fc317d09a33b2ef3d980c03766c73689bf0e66c",
       "total": 2542,
       "passed": 2533,
       "failed": 9
@@ -5185,7 +5185,7 @@
       "created_at": "2026-10-17T12:55:18.450651+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "f8cf46164949918cf21dc3ef153890621fc34ff746607bf017cb6b46e14ceac4",
+      "csv_sha256": "9b34e3148f8ee7527f1178e10b954de5d1610bb8de4ef8cb93d293f5f49c7f5c",
       "total": 1633,
       "passed": 1630,
       "failed": 3
@@ -5210,7 +5210,7 @@
       "created_at": "2026-10-25T17:34:45.665670+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "06f4c87ac10c325497c5f4c5dc666fad48b1094bd25dca83a2568157641c724f",
+      "csv_sha256": "d978fb4b267379b930f402c5d6c10a54ecd0f9fef34f207451e69c412cafb8bc",
       "total": 2542,
       "passed": 2533,
       "failed": 9
@@ -5235,7 +5235,7 @@
       "created_at": "2026-10-17T13:04:27.434706+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "de80f1d6815d192f5cbac45d2dd1f1a45e6a8f32362b20988d12914ebf9c6f0c",
+      "csv_sha256": "790021b881cbac231f12c1be07461d6f9d6abf1bc615f4f743a6f6c15b5b36a8",
       "total": 1633,
       "passed": 1632,
       "failed": 1
@@ -5260,7 +5260,7 @@
       "created_at": "2026-10-25T17:33:45.910799+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "0d3415b65c373a5998bc99c6db355c1ac5f2531e010884ae17f1f6ca4dd7d1d4",
+      "csv_sha256": "837af8006f21ed9e37795237ab97b062b8c304557acf56e3975db7c2ee711740",
       "total": 2542,
       "passed": 2533,
       "failed": 9
@@ -5285,7 +5285,7 @@
       "created_at": "2026-10-17T12:46:10.423487+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "d41d7f604db18091427c407bf1ff5193028d0a7dd1b306c96ac71018b077f895",
+      "csv_sha256": "058df2b79a4606fb5fcd3b5033199d9cbb5a959d358c4c874d00c72c1080602e",
       "total": 1633,
       "passed": 1630,
       "failed": 3
@@ -5310,7 +5310,7 @@
       "created_at": "2026-10-25T17:32:49.688276+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "152768fcb0488f4319111e0cdcf4bcc7b0327203fe8961ddc382704ead334c88",
+      "csv_sha256": "337575b71a1259b2a80df35a0472552612ec2dd0ecb299b53766b88a804cd1a5",
       "total": 2723,
       "passed": 2711,
       "failed": 12
@@ -5335,7 +5335,7 @@
       "created_at": "2026-10-17T12:41:13.122531+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "8af342b4448b0aace22eba8368fbb8919bdff0d322e512cf581e92d26566c7fb",
+      "csv_sha256": "bf0bc8ffa750725df15f50b3bfcf9409859021640fd2abc779325c1c61d5df2f",
       "total": 1815,
       "passed": 1812,
       "failed": 3
@@ -5360,7 +5360,7 @@
       "created_at": "2026-10-25T17:33:17.895883+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "5a91bb84a40c5338d92eb31d958c6317df114b4445840233b77c12068ab27675",
+      "csv_sha256": "a7741507c535fe97aea27189c81726ad74dc3b716ecec3db39781d7570cd9bb3",
       "total": 2542,
       "passed": 2532,
       "failed": 10
@@ -5385,7 +5385,7 @@
       "created_at": "2026-10-17T12:42:49.809997+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "a4c0b560338a63149d6deb6ae56b1b2038b30f8d62f94f9ed3cec353946bb55e",
+      "csv_sha256": "0680e8b92baec73f919b7c44cd8974c592069d67eb02da13d000c5f8a6ddf880",
       "total": 1815,
       "passed": 1814,
       "failed": 1
@@ -5410,7 +5410,7 @@
       "created_at": "2026-10-26T05:55:10.784509+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "b9766a6852aa42002f86f2768c359b022b952d6498c5868dddbb780849dd915a",
+      "csv_sha256": "27b5ce476c739753d2988b84a4d19a757a422389342954bbbcf57c5059801545",
       "total": 2904,
       "passed": 2890,
       "failed": 14
@@ -5435,7 +5435,7 @@
       "created_at": "2026-10-17T12:27:22.830418+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "f8ceb9fa81ca75dc4074a7a36e9bd84033784e3eb6c074ffb2aa6bfcb20f4b3a",
+      "csv_sha256": "c0e819df4c6d122cf864dc5e8022b495129b454932481fee0b3ea75c32a333eb",
       "total": 1815,
       "passed": 1812,
       "failed": 3
@@ -5460,7 +5460,7 @@
       "created_at": "2026-10-26T02:02:00.262493+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "678b4e0c6dd1698811a8b352285bb961fd7704ca6f049c59260e2d1de902b772",
+      "csv_sha256": "114abc150c5ec3ce3f5bdc2925e7aa7929c72988afa0572a58087197bba3ce7b",
       "total": 2542,
       "passed": 2519,
       "failed": 23
@@ -5485,7 +5485,7 @@
       "created_at": "2026-10-26T02:46:32.291551+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "2bb733ac7e08888549bfb27978249e0bcfd4a7a23d47265746b442211098be31",
+      "csv_sha256": "7944644c5ba435fd0348325951824f955bdfb7ae4e1873e534c1007faa07e830",
       "total": 1451,
       "passed": 1449,
       "failed": 2
@@ -5510,7 +5510,7 @@
       "created_at": "2026-10-25T17:38:34.573698+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "db7c784f827ed36174d7e9cf937d52e9949828c86a35e1046453cae28eaff53e",
+      "csv_sha256": "deee5907778b0a65209dc8e45b402e3f0f4e17a5e3f53cb2c540890ad89170e5",
       "total": 2542,
       "passed": 2528,
       "failed": 14
@@ -5535,7 +5535,7 @@
       "created_at": "2026-10-18T17:11:35.158248+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "51ae7bc6f234528f13dd7a73ddf5151d0f8fca500c66af7a240c8c53e9af097a",
+      "csv_sha256": "12909c7a2d7227c09728fe6b2d230b1c9d8275a04cedfd8458213ed4ee99be54",
       "total": 1451,
       "passed": 1451,
       "failed": 0
@@ -5560,7 +5560,7 @@
       "created_at": "2026-10-26T02:38:33.812265+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "7e52823983b84d31c49568e9b225a514c25640d43af0a2c6377c13b72b8d3afe",
+      "csv_sha256": "2d355ff22cdd7fda95836389e86289fe4876e1febb92490b9b5218d9ae23d056",
       "total": 1997,
       "passed": 1914,
       "failed": 83
@@ -5585,7 +5585,7 @@
       "created_at": "2026-10-25T22:48:00.758718+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "7b3a893d61a6b91b24ccf5752e52315e430bb276d51988971ca7bc8847bccf94",
+      "csv_sha256": "1ca275c53b6461410a55be1a128dbb07a4630c9df570031841498868613fe51c",
       "total": 1451,
       "passed": 1401,
       "failed": 50
@@ -5610,7 +5610,7 @@
       "created_at": "2026-10-26T02:29:46.634637+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "a58284af7835ca0134b857d613a1d37a62fdf787fd86ef229e8974f2ff471757",
+      "csv_sha256": "4f81ac6ee2bfcc6595e66a30efb397276dceda271e39b66d6b7579ad0d7ea34c",
       "total": 2356,
       "passed": 2258,
       "failed": 98
@@ -5635,7 +5635,7 @@
       "created_at": "2026-10-26T01:43:54.690360+00:00",
       "source_sha256": "66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23",
       "source_manifest": "source/66e0842cde8056240b7b0ac48c2aa766c1fa445b7935430db4a0380349e11d23/plugin.json",
-      "csv_sha256": "0f34c5e187174ad6daf54b82832e1764dc4c47cb4ad0df6901c3480f2db80814",
+      "csv_sha256": "b09d3033ee69edfba25fcfa106ffd3d7efcdbffe44e067894de3568080eef675",
       "total": 1451,
       "passed": 1401,
       "failed": 50
@@ -5660,7 +5660,7 @@
       "created_at": "2026-10-22T04:06:15.079275+00:00",
       "source_sha256": "e186d1193b07cafff57b2d6c7dcb6bb49fcd6f37959cd0cc98769cf4dff76ce0",
       "source_manifest": "source/e186d1193b07cafff57b2d6c7dcb6bb49fcd6f37959cd0cc98769cf4dff76ce0/plugin.json",
-      "csv_sha256": "6bea58e8e07f1a205a19deb012eeefccb1ce7885ca913e390f73801726f15cf4",
+      "csv_sha256": "0886bd71ad569205964b1e4961ac98c2ebe03e61724214dad1561a5d6c9d2899",
       "total": 2904,
       "passed": 178,
       "failed": 2726,
@@ -5686,7 +5686,7 @@
       "created_at": "2026-10-22T04:11:18.299753+00:00",
       "source_sha256": "e186d1193b07cafff57b2d6c7dcb6bb49fcd6f37959cd0cc98769cf4dff76ce0",
       "source_manifest": "source/e186d1193b07cafff57b2d6c7dcb6bb49fcd6f37959cd0cc98769cf4dff76ce0/plugin.json",
-      "csv_sha256": "3cb0604f96e67f01ed99f785d7a8533a0bbdb98808aa10de820cfd207b4d75a0",
+      "csv_sha256": "3b05de21a95d6f67fa224c0e03d5b6bf32368ad57554b91a3d1212655027bcf8",
       "total": 2904,
       "passed": 177,
       "failed": 2727,
@@ -5712,7 +5712,7 @@
       "created_at": "2026-10-22T04:06:15.079275+00:00",
       "source_sha256": "e186d1193b07cafff57b2d6c7dcb6bb49fcd6f37959cd0cc98769cf4dff76ce0",
       "source_manifest": "source/e186d1193b07cafff57b2d6c7dcb6bb49fcd6f37959cd0cc98769cf4dff76ce0/plugin.json",
-      "csv_sha256": "d7a254009599a2f1d5d2030edb4da481cc3c9e70e1e8e7290fd335cbffc057c1",
+      "csv_sha256": "d0ff81d17f365b864307e63e0aab7e5a9fca0fae451401923e7b177523dc4fe5",
       "total": 2904,
       "passed": 178,
       "failed": 2726,
@@ -5738,7 +5738,7 @@
       "created_at": "2026-10-22T04:11:18.299753+00:00",
       "source_sha256": "e186d1193b07cafff57b2d6c7dcb6bb49fcd6f37959cd0cc98769cf4dff76ce0",
       "source_manifest": "source/e186d1193b07cafff57b2d6c7dcb6bb49fcd6f37959cd0cc98769cf4dff76ce0/plugin.json",
-      "csv_sha256": "6254c1c15bd3a47f11fd0fdf07158cc766c673b2ce2dd064bf93f87a5f54c38e",
+      "csv_sha256": "b619feca1ea81c60d3b58456177e924b77f9c91da4c18655af8b2a2bfffa6d00",
       "total": 2904,
       "passed": 177,
       "failed": 2727,
@@ -7975,7 +7975,7 @@
       "total": 2904,
       "passed": 2892,
       "failed": 12,
-      "csv_sha256": "d1edc6f8d5981321c3ae107c62701dcd0a29ce843259eaf4dc98713936f5c571",
+      "csv_sha256": "73d14142087cec11c08d28a838f699b7f97de4039e878267caa56a2d4b259524",
       "public_ranked": true
     },
     {
@@ -8001,7 +8001,7 @@
       "total": 2904,
       "passed": 2898,
       "failed": 6,
-      "csv_sha256": "b1c34de0941050cd49e829fdf44dded9294398e01abd1b29c6946e1c4fe321ff",
+      "csv_sha256": "317713e7e13fde30b206cd3a30caae12843e64db24d9cdd789d3b5ff19f076e1",
       "public_ranked": true
     },
     {

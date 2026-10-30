@@ -2,6 +2,8 @@
 
 `schema_version=2` identifies the `kernelperf-spmv-v2` row contract. Version 2 names the efficiency field `solve_only_efficiency_percent` so its timing scope is explicit. The schema version is independent of CUDA, cuSPARSE, and submission versions.
 
+`failure_reason` is empty for passing rows. Failed rows use the retained validation diagnostics, execution stage, and error/log message where available. Legacy rows without a retained diagnostic are explicitly marked `historical reason unavailable`; the reason is never inferred from the matrix or method name.
+
 `operations` is the operation count used for the reported performance. For SpMV it is `2 * nnz`. `solve_gflops = operations / (solve_ms * 1e6)`. `solve_only_efficiency_percent = solve_gflops / peak_gflops * 100`; the field name explicitly records that this efficiency uses `solve_ms` only. `preprocess_ms` is reported separately and is included only when the UI time mode explicitly selects `pre+solve` or `pre/iteration+solve`.
 
 The evaluator runs 5 untimed warmups and 20 timed solves. Correctness is a separate CPU CSR solve. For row `i`, it uses `s_i = sum_j(abs(a_ij*x_j))`, `relative_bound_i = 4*n_i*u*s_i`, and `ulp_guard_i = 0.5*ulp(y_ref_i)` for the actual output dtype. For rows whose row scale or reference is subnormal, it adds `subnormal_guard_i = n_i*denorm_min(output_dtype)` for internal subnormal roundings. It accepts `abs(y_i-y_ref_i) <= relative_bound_i + subnormal_guard_i + ulp_guard_i`, where `n_i` is the row length and `u = eps(float)/2` or `eps(double)/2`. Both FP32 and FP64 reference rows use host `long double` accumulation, with products promoted to `long double` before accumulation. Numerical-noise rows (`n_i*u*kappa_i >= 1`) are reported separately; zero-scale rows still require zero output. The implementation is documented in the repository README and `KernelPerf/benchmarks/spmv/template.cu`.
@@ -20,7 +22,7 @@ For real-valued SpMM, `operations = 2 * nnz * rhs_columns`. Each row records
 solve-only, preprocess-plus-solve, and preprocess-per-iteration-plus-solve
 timings and their corresponding performance fields. Passing rows require a
 versioned library name, while failed rows retain `validation_status`,
-`error_type`, `failure_stage`, error text, failed-element counts, and NaN/Inf
+`error_type`, `failure_stage`, `failure_reason`, error text, failed-element counts, and NaN/Inf
 counts. BEST rows are per-matrix selections scoped by platform, dtype, RHS,
 layout, candidate group, and timing metric; non-ranked aliases such as an
 explicit cuSPARSE DEFAULT configuration remain downloadable but are excluded

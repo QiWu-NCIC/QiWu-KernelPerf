@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
+import { validateFailureReason } from "./failure-reason.mjs";
 
 const root = path.resolve(process.argv[2] || "public");
 const failures = [];
@@ -85,8 +86,25 @@ function parseCsv(text) {
   }
   return result;
 }
+const checkedFailureReasons = new Set();
 function readCsv(file) {
   const [headers = [], ...rows] = parseCsv(fs.readFileSync(file, "utf8"));
+  if (!checkedFailureReasons.has(file)) {
+    checkedFailureReasons.add(file);
+    const statusIndex = headers.indexOf("status");
+    const reasonIndex = headers.indexOf("failure_reason");
+    if (reasonIndex < 0) failures.push(`missing failure reason column: ${file}`);
+    else {
+      for (const [index, row] of rows.entries()) {
+        try {
+          validateFailureReason({ status: row[statusIndex], failure_reason: row[reasonIndex] });
+        } catch (error) {
+          failures.push(`${file}:${index + 2}: ${error.message}`);
+          break;
+        }
+      }
+    }
+  }
   return { headers, rows };
 }
 const publicKeys = new Set();
@@ -184,6 +202,9 @@ for (const entry of candidateManifest.submissions || []) {
   if (!headers.includes("solve_only_efficiency_percent")) {
     failures.push(`missing solve-only efficiency column: ${entry.path}`);
   }
+  if (!headers.includes("failure_reason")) {
+    failures.push(`missing failure reason column: ${entry.path}`);
+  }
   if (rows.some((row) => row[schemaIndex] !== "2")) failures.push(`invalid schema row: ${entry.path}`);
   const matrixIndex = headers.indexOf("matrix_id");
   const statuses = headers.indexOf("status");
@@ -249,6 +270,9 @@ for (const entry of manifest.submissions || []) {
   const baseFormatIndex = headers.indexOf("base_format");
   if (!headers.includes("solve_only_efficiency_percent")) {
     failures.push(`missing solve-only efficiency column: ${entry.path}`);
+  }
+  if (!headers.includes("failure_reason")) {
+    failures.push(`missing failure reason column: ${entry.path}`);
   }
   const isCusparseCsrBest = entry.method_id === "cusparse-csr-best";
   if (entry.base_format !== "manual-selection" && !isCusparseCsrBest) {
@@ -326,9 +350,11 @@ for (const [key, configurations] of observedCandidateScopes) {
   }
 }
 for (const file of walkCsv(path.join(publicRoot, "data", "results", "spmv"))) {
+  if (!checkedFailureReasons.has(file)) readCsv(file);
   if (!publicPaths.has(path.resolve(file))) failures.push(`unindexed public CSV: ${file}`);
 }
 for (const file of walkCsv(path.join(publicRoot, "data", "candidate-pool"))) {
+  if (!checkedFailureReasons.has(file)) readCsv(file);
   if (!candidatePaths.has(path.resolve(file))) failures.push(`unindexed candidate CSV: ${file}`);
 }
 const result = {

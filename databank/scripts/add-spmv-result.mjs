@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { validateFailureReason } from "./failure-reason.mjs";
 
 const RESULT_COLUMNS = [
   "schema_version", "submission_id", "method_id", "method_name", "configuration_id",
@@ -7,7 +8,7 @@ const RESULT_COLUMNS = [
   "operator_id", "dtype", "backend_id", "hardware", "peak_gflops", "job_id",
   "dataset_id", "matrix_id", "matrix_name", "rows", "cols", "nnz", "status", "operations",
   "preprocess_ms", "solve_ms", "solve_gflops", "solve_only_efficiency_percent",
-  "timestamp", "source_kind",
+  "timestamp", "source_kind", "failure_reason",
 ];
 const ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/;
 const args = process.argv.slice(2);
@@ -81,6 +82,7 @@ const identityColumns = [
 const matrixIds = new Set();
 rows.forEach((row, index) => {
   const line = index + 2;
+  validateFailureReason(row);
   identityColumns.filter((column) => headers.includes(column)).forEach((column) => {
     if (row[column] !== first[column]) {
       throw new Error("line " + line + " has inconsistent " + column);

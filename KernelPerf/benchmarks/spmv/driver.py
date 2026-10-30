@@ -582,7 +582,10 @@ class SpmvBenchmark(Benchmark):
                 stdout=completed.stdout,
                 stderr=completed.stderr,
             ) from exc
+        measurement_metadata = measurement.get("metadata", {})
         status = CaseStatus.passed if measurement["valid"] else CaseStatus.error
+        failed_elements = int(measurement_metadata.get("mismatch_count", 0))
+        validation_status = "pass" if measurement["valid"] else "precision-error"
         operations = float(measurement.get("operations", 2 * matrix.nnz))
         info = backend.info()
         algorithm = driver_config.get("algorithm")
@@ -627,8 +630,10 @@ class SpmvBenchmark(Benchmark):
                 "validation": {
                     "method": str(self.options["validation_method"]),
                     "passed": measurement["valid"],
+                    "status": validation_status,
+                    "failed_elements": failed_elements,
                 },
-                "measurement": measurement.get("metadata", {}),
+                "measurement": measurement_metadata,
                 "stdout_tail": completed.stdout[-4000:],
                 "stderr_tail": completed.stderr[-4000:],
             },

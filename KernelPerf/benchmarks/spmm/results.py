@@ -5,6 +5,7 @@ import io
 from datetime import datetime, timezone
 from typing import Any
 
+from kernelperf.benchmark import failure_reason
 from kernelperf.results import slug
 
 
@@ -24,7 +25,7 @@ SPMM_RESULT_COLUMNS = [
     "runtime_version", "driver_version", "timestamp", "source_kind",
     "selected_configuration_id", "nan_elements", "inf_elements", "error",
     "error_type", "failure_stage",
-    "warmup", "iterations", "validation_safety_factor", "public_ranked",
+    "warmup", "iterations", "validation_safety_factor", "public_ranked", "failure_reason",
 ]
 
 
@@ -184,6 +185,12 @@ def make_spmm_submission(
             "iterations": measurement.get("iterations", operator.metadata["driver_config"]["iterations"]),
             "validation_safety_factor": measurement.get("validation_safety_factor", 4.0),
             "public_ranked": str(bool(implementation.get("public_ranked", True))).lower(),
+            "failure_reason": failure_reason({
+                **result_metadata,
+                "validation_status": validation_status,
+                "validation": validation,
+                "measurement": measurement,
+            }) if result["status"] != "pass" else "",
         })
 
     entry = {

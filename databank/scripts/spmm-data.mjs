@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { validateFailureReason } from "./failure-reason.mjs";
 
 export const schema = "kernelperf-spmm-v3";
 export const timingColumns = {
@@ -19,7 +20,7 @@ export const requiredColumns = [...identityColumns,
   "preprocess_ms", ...Object.values(timingColumns), "solve_gflops", "pre_plus_solve_gflops",
   "pre_amortized_gflops", "solve_only_efficiency_percent", "pre_plus_solve_efficiency_percent",
   "pre_amortized_efficiency_percent", "library_version", "cpu_model", "selected_configuration_id",
-  "error", "error_type", "failure_stage", "warmup", "iterations", "validation_safety_factor", "public_ranked",
+  "error", "error_type", "failure_stage", "warmup", "iterations", "validation_safety_factor", "public_ranked", "failure_reason",
 ];
 
 export function configurationLabel(configurationId) {
@@ -86,6 +87,7 @@ export function validateRows(rows, { official = true } = {}) {
   const matrices = new Set();
   const close = (actual, expected) => Math.abs(actual - expected) <= Math.max(1e-12, Math.abs(expected) * 1e-8);
   for (const row of rows) {
+    validateFailureReason(row);
     for (const name of identityColumns) if (row[name] !== first[name]) throw new Error("mixed identity: " + name);
     if (row.schema_version !== "3" || row.operator_id !== "spmm.csr." + row.dtype) throw new Error("invalid SpMM schema/operator");
     if (!["fp32", "fp64"].includes(row.dtype)) throw new Error("unsupported dtype");

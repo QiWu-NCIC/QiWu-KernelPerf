@@ -50,6 +50,33 @@ from the current canonical submission. When an implementation changes, keep
 the evaluated hash unchanged; retain a separate submission directory if the
 historical implementation must remain directly buildable.
 
-Run `npm run audit:spmv` before publishing. The evaluator's
+## Failure diagnostics
+
+SpMV and SpMM CSVs include `failure_reason`. Passing rows leave it empty;
+failed and error rows contain a bounded diagnostic from validation metadata,
+structured driver logs, compiler/runtime logs, or the reported exception.
+Paths and credential-like values are redacted from the summary. Original
+status, timings and measurements are not changed when enriching diagnostics.
+
+For archived results, run the backfill utility from `KernelPerf/`:
+
+```bash
+python scripts/backfill_failure_reasons.py \
+  --data-root ../databank/public/data \
+  --database-root /path/to/archived-evaluator-databases \
+  --report /path/outside/repository/failure-reasons.json
+```
+
+The default is a dry run; add `--write` to update CSVs and their existing index
+hashes. Matching requires the same job, platform, operator, matrix, status,
+timestamp and configuration; SpMM also requires the same RHS count and layout.
+An older retry is not accepted as evidence for a newer failure. Missing or
+conflicting historical evidence is explicitly marked `historical reason
+unavailable`, never guessed. Existing diagnostics are preserved unless
+`--refresh` is explicitly requested. The report lists unresolved files.
+The utility verifies every original CSV field and row count before replacing
+a file; it does not modify source snapshots or BEST selection.
+
+Run `npm run audit:all` before publishing. The evaluator's
 `KernelPerf/data/` directory is ignored runtime state; its exports use the same
 suite/backend/dataset partition before manual import.

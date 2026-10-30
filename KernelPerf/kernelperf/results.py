@@ -9,7 +9,7 @@ RESULT_COLUMNS = [
     "operator_id", "dtype", "backend_id", "hardware", "peak_gflops", "job_id",
     "dataset_id", "matrix_id", "matrix_name", "rows", "cols", "nnz", "status", "operations",
     "preprocess_ms", "solve_ms", "solve_gflops", "solve_only_efficiency_percent",
-    "timestamp", "source_kind",
+    "timestamp", "source_kind", "failure_reason",
 ]
 
 

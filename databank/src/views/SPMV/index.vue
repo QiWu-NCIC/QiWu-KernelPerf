@@ -70,8 +70,8 @@
           <span class="protocol-label">Correctness</span>
           <strong>Independent CPU CSR reference</strong>
           <code>&rho;<sub>i</sub> = |y<sub>i</sub> &minus; y<sub>ref,i</sub>| / s<sub>i</sub> &le; C &middot; n<sub>i</sub> &middot; u</code>
-          <p><em>ref</em> is stored as host <code>long double</code> for both dtypes; products are promoted before accumulation.</p>
-          <p>If <em>s<sub>i</sub></em> = 0, <em>y<sub>i</sub></em> must be zero.</p>
+          <p>Host <code>long double</code> accumulates the reference. Acceptance is <code>|error| &le; C&middot;n<sub>i</sub>&middot;u&middot;s<sub>i</sub></code>, with <code>n<sub>i</sub>&middot;denorm_min</code> for subnormal rows and <code>0.5&middot;ULP(y<sub>ref,i</sub>)</code> for output rounding; zero-scale rows require zero output.</p>
+          <p>NaN/Inf, runtime, dimension, and precision failures remain visible in the source CSV.</p>
         </div>
         <div class="protocol-item">
           <span class="protocol-label">Terms</span>
@@ -285,11 +285,10 @@ const submissionsUrl = `${repositoryUrl}/tree/main/KernelPerf/submissions`;
 const resultSubmissionsUrl = `${repositoryUrl}/upload/main/databank/result-submissions/spmv`;
 const protocolSources = [
   { label: "KernelPerf/config/benchmarks.json:22", path: "KernelPerf/config/benchmarks.json", line: 22 },
-  { label: "KernelPerf/benchmarks/spmv/template.cu:225", path: "KernelPerf/benchmarks/spmv/template.cu", line: 225 },
-  { label: "KernelPerf/benchmarks/spmv/template.cu:528", path: "KernelPerf/benchmarks/spmv/template.cu", line: 528 },
-  { label: "KernelPerf/benchmarks/spmv/template.cu:563", path: "KernelPerf/benchmarks/spmv/template.cu", line: 563 },
-  { label: "KernelPerf/benchmarks/spmv/template.cu:609", path: "KernelPerf/benchmarks/spmv/template.cu", line: 609 },
-  { label: "KernelPerf/benchmarks/spmv/driver.py:532", path: "KernelPerf/benchmarks/spmv/driver.py", line: 532 },
+  { label: "KernelPerf/benchmarks/spmv/template.cu:230", path: "KernelPerf/benchmarks/spmv/template.cu", line: 230 },
+  { label: "KernelPerf/benchmarks/spmv/template.cu:643", path: "KernelPerf/benchmarks/spmv/template.cu", line: 643 },
+  { label: "KernelPerf/benchmarks/spmv/template.cu:781", path: "KernelPerf/benchmarks/spmv/template.cu", line: 781 },
+  { label: "KernelPerf/benchmarks/spmv/driver.py:516", path: "KernelPerf/benchmarks/spmv/driver.py", line: 516 },
 ];
 
 function sourceFileUrl(source) {

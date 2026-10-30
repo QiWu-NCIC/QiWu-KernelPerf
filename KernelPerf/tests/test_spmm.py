@@ -212,6 +212,7 @@ def test_driver_scores_each_rhs_and_retains_failures(tmp_path):
             row = next(csv.DictReader(io.StringIO(csv_content)))
             assert row["error_type"] == "BenchmarkDriverError"
             assert row["failure_stage"] == "setup"
+            assert row["failure_reason"] == "setup: matrix dimensions mismatch"
         if status == CaseStatus.error:
             assert all(result.metadata["validation"]["status"] == "precision-error" for result in results)
             assert all(result.metadata["validation"]["failed_elements"] == 3 for result in results)

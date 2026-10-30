@@ -10,6 +10,10 @@ from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from kernelperf.benchmark import failure_reason
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -88,6 +92,17 @@ def latest_rows(rows: list[dict[str, str]]) -> list[dict[str, str]]:
         if previous is None or row_key(row) > row_key(previous):
             selected[matrix_id] = row
     return list(selected.values())
+
+
+def ensure_failure_reason(fieldnames: list[str], rows: list[dict[str, str]]) -> list[str]:
+    if "failure_reason" not in fieldnames:
+        fieldnames.append("failure_reason")
+    for row in rows:
+        if row.get("status") == "pass":
+            row["failure_reason"] = ""
+            continue
+        row["failure_reason"] = failure_reason(row)
+    return fieldnames
 
 
 def write_csv(path: Path, fieldnames: list[str], rows: list[dict[str, str]]) -> None:
@@ -175,11 +190,13 @@ def main() -> int:
         rows: list[dict[str, str]] = []
         for path in paths:
             current_fields, current_rows = read_csv(path)
+            ensure_failure_reason(current_fields, current_rows)
             if fieldnames is None:
                 fieldnames = current_fields
             elif current_fields != fieldnames:
                 raise ValueError(f"inconsistent columns for {filename}: {path}")
             rows.extend(current_rows)
+        ensure_failure_reason(fieldnames or [], rows)
         validate_metadata(rows, filename)
         selected = latest_rows(rows)
         ids = {str(row.get("matrix_id", "")) for row in selected}
@@ -214,6 +231,7 @@ def main() -> int:
             continue
         if partial:
             existing_fields, existing_rows = read_csv(target)
+            ensure_failure_reason(existing_fields, existing_rows)
             if existing_fields != fieldnames:
                 raise ValueError(f"existing CSV columns differ for {filename}")
             normalize_index_identity(existing_rows, entry)

@@ -30,6 +30,19 @@ def test_latest_rows_prefers_pass_then_latest_failure():
     assert selected["b"]["status"] == "fail"
 
 
+def test_failure_reason_normalization_handles_old_and_new_headers():
+    old_fields = ["matrix_id", "status", "error", "failure_stage"]
+    new_fields = old_fields + ["failure_reason"]
+    old_rows = [{"matrix_id": "a", "status": "fail", "error": "out of memory",
+                 "failure_stage": "setup"}]
+    new_rows = [{"matrix_id": "b", "status": "pass", "error": "",
+                 "failure_stage": "", "failure_reason": "stale reason"}]
+    assert merge_sharded_results.ensure_failure_reason(old_fields, old_rows) == new_fields
+    merge_sharded_results.ensure_failure_reason(new_fields, new_rows)
+    assert old_rows[0]["failure_reason"] == "setup: out of memory"
+    assert new_rows[0]["failure_reason"] == ""
+
+
 def test_merge_keeps_full_matrix_set_and_normalizes_submission_id(tmp_path, monkeypatch):
     input_root = tmp_path / "exports"
     public_root = tmp_path / "public"

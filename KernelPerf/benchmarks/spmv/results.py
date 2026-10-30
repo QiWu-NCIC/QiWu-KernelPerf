@@ -5,6 +5,7 @@ import io
 from datetime import datetime, timezone
 from typing import Any
 
+from kernelperf.benchmark import failure_reason
 from kernelperf.results import RESULT_COLUMNS, slug
 
 
@@ -82,6 +83,7 @@ def make_spmv_submission(
             "solve_only_efficiency_percent": efficiency,
             "timestamp": result["timestamp"],
             "source_kind": source_kind,
+            "failure_reason": failure_reason(result_metadata) if result["status"] != "pass" else "",
         })
 
     entry = {

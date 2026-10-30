@@ -3,12 +3,27 @@ from __future__ import annotations
 import csv
 from pathlib import Path
 
+import pytest
+
+from kernelperf.benchmark import BenchmarkDriverError, failure_metadata
 from kernelperf.exports import LocalResultExporter
 from kernelperf.models import BenchmarkResult, CaseStatus, JobRecord, JobStatus, KernelArtifact
 from kernelperf.runtime import create_runtime
 
 
-def test_successful_spmv_job_is_exported_as_canonical_csv(tmp_path):
+@pytest.mark.parametrize(
+    ("status", "metadata", "reason"),
+    [
+        (CaseStatus.passed, {}, ""),
+        (CaseStatus.failed, failure_metadata(BenchmarkDriverError(
+            "spmv-lifecycle", "run", "process exited with returncode=1",
+            stderr='{"stage":"setup","error":"out of memory"}',
+        )), "setup: out of memory"),
+        (CaseStatus.error, {"validation": {"status": "precision-error", "failed_elements": 2}},
+         "precision validation failed: failed_elements=2"),
+    ],
+)
+def test_completed_spmv_job_is_exported_as_canonical_csv(tmp_path, status, metadata, reason):
     runtime_obj = create_runtime(database_path=tmp_path / "perf.sqlite", result_exports_path=tmp_path / "exports")
     backend = runtime_obj.backends.backends()[0].info()
     operator = runtime_obj.benchmarks.get("spmv").operators()[0]
@@ -41,11 +56,12 @@ def test_successful_spmv_job_is_exported_as_canonical_csv(tmp_path):
         cols=10,
         nnz=20,
         kernel_name=kernel.name,
+        status=status,
         preprocess_ms=2.0,
         runtime_ms=0.5,
         gflops=0.00008,
         arithmetic_intensity=0.0,
-        metadata={"operations": 40, "dtype": operator.dtype},
+        metadata={"operations": 40, "dtype": operator.dtype, **metadata},
     ))
     exporter = LocalResultExporter(
         tmp_path / "exports",
@@ -67,6 +83,8 @@ def test_successful_spmv_job_is_exported_as_canonical_csv(tmp_path):
     assert "efficiency_percent" not in rows[0]
     assert rows[0]["base_format"] == "sell"
     assert rows[0]["matrix_id"] == "group/matrix"
+    assert rows[0]["status"] == status.value
+    assert rows[0]["failure_reason"] == reason
     assert not list(result_path.parent.glob("*.tmp"))
     assert exporter.export_job(job) == paths
 

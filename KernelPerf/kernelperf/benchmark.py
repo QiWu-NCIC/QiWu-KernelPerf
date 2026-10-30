@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib
 import json
+import re
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Any
@@ -40,7 +41,132 @@ def failure_metadata(error: Exception) -> dict[str, Any]:
                 "stderr_tail": error.stderr[-4000:],
             }
         )
+    metadata["failure_reason"] = failure_reason(metadata)
     return metadata
+
+
+_DIAGNOSTIC_RE = re.compile(
+    r"\b(?:error|failed|failure|exception|out[ -]of[ -]memory|"
+    r"illegal memory|invalid argument|unsupported|timed out|timeout)\b",
+    re.IGNORECASE,
+)
+_POSIX_PATH_RE = re.compile(r"(?<![\w])/(?:[A-Za-z0-9._-]+/)+[A-Za-z0-9._-]*")
+_WINDOWS_PATH_RE = re.compile(r"(?<![\w])[A-Za-z]:[\\/](?:[^\s'\"]+[\\/])*[^\s'\"]*")
+_SECRET_RE = re.compile(
+    r"(?i)\b(?:password|passwd|token|secret|identity_file|private_key)\s*[=:]\s*[^\s,;]+"
+)
+
+
+def _sanitize_failure_text(value: Any) -> str:
+    text = str(value or "").replace("\x1b", "").strip()
+    text = _SECRET_RE.sub(lambda match: match.group(0).split("=")[0].split(":")[0] + "=<redacted>", text)
+    text = _POSIX_PATH_RE.sub("<path>", text)
+    text = _WINDOWS_PATH_RE.sub("<path>", text)
+    text = re.sub(r"Command .+ timed out after ([0-9.]+) seconds", r"benchmark command timed out after \1 seconds", text)
+    return text
+
+
+def _structured_log_reason(metadata: dict[str, Any]) -> str:
+    for log_key in ("stderr_tail", "stdout_tail"):
+        for line in reversed(str(metadata.get(log_key) or "").splitlines()):
+            try:
+                record = json.loads(line.strip())
+            except (json.JSONDecodeError, TypeError):
+                continue
+            if isinstance(record, dict) and record.get("error"):
+                log_error = _sanitize_failure_text(record["error"])
+                log_stage = _sanitize_failure_text(record.get("stage"))
+                return f"{log_stage}: {log_error}" if log_stage else log_error
+    return ""
+
+
+def _text_log_reason(metadata: dict[str, Any]) -> str:
+    for log_key in ("stderr_tail", "stdout_tail"):
+        lines = str(metadata.get(log_key) or "").splitlines()
+        for line in reversed(lines):
+            candidate = _sanitize_failure_text(line)
+            if re.match(r"^\d+ (?:errors?|warnings?) (?:detected|generated)", candidate, re.IGNORECASE):
+                continue
+            if candidate and _DIAGNOSTIC_RE.search(candidate):
+                return candidate
+    return ""
+
+
+def failure_reason(metadata: dict[str, Any]) -> str:
+    """Return a stable, human-readable reason for a failed result."""
+    existing = _sanitize_failure_text(metadata.get("failure_reason"))
+    if existing and not existing.startswith("historical reason unavailable"):
+        return existing[:512]
+    validation = metadata.get("validation") or {}
+    validation_status = str(
+        validation.get("status")
+        or validation.get("evaluation_status")
+        or metadata.get("validation_status")
+        or metadata.get("accuracy_status")
+        or ""
+    )
+    measurement = metadata.get("measurement") or {}
+    accuracy_reason = _sanitize_failure_text(metadata.get("accuracy_reason"))
+    failed_elements = validation.get("failed_elements", metadata.get("failed_elements", measurement.get("failed_elements", 0)))
+    invalid_elements = validation.get("invalid_elements", metadata.get("invalid_elements", measurement.get("invalid_elements", 0)))
+    nan_elements = metadata.get("nan_elements", measurement.get("nan_elements", 0))
+    inf_elements = metadata.get("inf_elements", measurement.get("inf_elements", 0))
+    mismatch_count = measurement.get("mismatch_count", metadata.get("mismatch_count", 0))
+
+    if accuracy_reason:
+        return accuracy_reason[:512]
+
+    def count(value: Any) -> int:
+        try:
+            return max(0, int(value or 0))
+        except (TypeError, ValueError, OverflowError):
+            return 0
+
+    failed_count = count(failed_elements)
+    invalid_count = count(invalid_elements)
+    nan_count = count(nan_elements)
+    inf_count = count(inf_elements)
+    mismatch_count_value = count(mismatch_count)
+    if (
+        validation_status in {"invalid-output", "non-finite-output"}
+        or invalid_count > 0
+        or nan_count > 0
+        or inf_count > 0
+    ):
+        return (
+            f"invalid output: invalid_elements={invalid_count}, "
+            f"NaN={nan_count}, Inf={inf_count}"
+        )[:512]
+    if validation_status in {"precision-error", "accuracy-error"} or failed_count > 0 or mismatch_count_value > 0:
+        details = []
+        if failed_count or mismatch_count_value:
+            details.append(f"failed_elements={failed_count or mismatch_count_value}")
+        first_row = measurement.get("first_mismatch_row", metadata.get("first_mismatch_row"))
+        if first_row not in (None, "", -1, "-1"):
+            details.append(f"first_mismatch_row={first_row}")
+            for key in ("first_mismatch_absolute_error", "first_mismatch_bound"):
+                value = measurement.get(key, metadata.get(key))
+                if value not in (None, ""):
+                    details.append(f"{key}={value}")
+        return ("precision validation failed" + (f": {', '.join(details)}" if details else ""))[:512]
+    structured_reason = _structured_log_reason(metadata)
+    if structured_reason:
+        return structured_reason[:512]
+
+    text_reason = _text_log_reason(metadata)
+    if text_reason:
+        stage = _sanitize_failure_text(metadata.get("failure_stage"))
+        return (f"{stage}: {text_reason}" if stage else text_reason)[:512]
+
+    error = _sanitize_failure_text(metadata.get("error"))
+    stage = _sanitize_failure_text(metadata.get("failure_stage"))
+    if error and stage:
+        return f"{stage}: {error}"[:512]
+    if error:
+        return error[:512]
+    if stage:
+        return stage[:512]
+    return "historical reason unavailable (not present in retained result metadata or logs)"
 
 
 class Benchmark(ABC):

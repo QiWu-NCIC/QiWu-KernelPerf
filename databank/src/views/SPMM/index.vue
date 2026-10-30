@@ -56,8 +56,8 @@
           <span class="protocol-label">Correctness</span>
           <strong>Independent CPU CSR reference</strong>
           <code>&rho;<sub>i,q</sub> = |C<sub>i,q</sub> &minus; C<sub>ref,i,q</sub>| / s<sub>i,q</sub> &le; {{ benchmarkProtocol.safetyFactor }} &middot; nnz<sub>i</sub> &middot; u</code>
-          <p><em>ref</em> is stored as host <code>long double</code> for both dtypes; products are promoted before accumulation. Outputs use their declared FP32 or FP64 precision.</p>
-          <p>If <em>s<sub>i,q</sub></em> = 0, <em>C<sub>i,q</sub></em> must be zero. NaN, Inf, runtime, dimension, and precision failures remain visible in source CSVs.</p>
+          <p>Host <code>long double</code> accumulates the reference; FP32/FP64 output is checked with <code>|error| &le; C&middot;nnz<sub>i</sub>&middot;u&middot;s<sub>i,q</sub></code>. Zero-scale elements require zero output.</p>
+          <p>NaN/Inf, runtime, dimension, and precision failures remain visible in the source CSV.</p>
         </div>
         <div class="protocol-item">
           <span class="protocol-label">Terms</span>
@@ -220,11 +220,11 @@ const submissionsUrl = `${repositoryUrl}/tree/main/KernelPerf/submissions/spmm`;
 const resultSubmissionsUrl = `${repositoryUrl}/upload/main/databank/result-submissions/spmm`;
 const protocolSources = [
   { label: "KernelPerf/config/benchmarks.json:106", path: "KernelPerf/config/benchmarks.json", line: 106 },
-  { label: "KernelPerf/benchmarks/spmm/template.cu:499", path: "KernelPerf/benchmarks/spmm/template.cu", line: 499 },
-  { label: "KernelPerf/benchmarks/spmm/template.cu:518", path: "KernelPerf/benchmarks/spmm/template.cu", line: 518 },
-  { label: "KernelPerf/benchmarks/spmm/template.cu:621", path: "KernelPerf/benchmarks/spmm/template.cu", line: 621 },
-  { label: "KernelPerf/benchmarks/spmm/driver.py:654", path: "KernelPerf/benchmarks/spmm/driver.py", line: 654 },
-  { label: "KernelPerf/benchmarks/spmm/driver.py:913", path: "KernelPerf/benchmarks/spmm/driver.py", line: 913 },
+  { label: "KernelPerf/benchmarks/spmm/template.cu:253", path: "KernelPerf/benchmarks/spmm/template.cu", line: 253 },
+  { label: "KernelPerf/benchmarks/spmm/template.cu:560", path: "KernelPerf/benchmarks/spmm/template.cu", line: 560 },
+  { label: "KernelPerf/benchmarks/spmm/template.cu:675", path: "KernelPerf/benchmarks/spmm/template.cu", line: 675 },
+  { label: "KernelPerf/benchmarks/spmm/driver.py:619", path: "KernelPerf/benchmarks/spmm/driver.py", line: 619 },
+  { label: "KernelPerf/benchmarks/spmm/driver.py:882", path: "KernelPerf/benchmarks/spmm/driver.py", line: 882 },
 ];
 const rows = ref([]);
 const submissionEntries = ref([]);
