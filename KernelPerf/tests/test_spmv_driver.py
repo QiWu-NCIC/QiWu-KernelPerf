@@ -53,16 +53,25 @@ def test_managed_runner_uses_the_public_plugin_contract():
     assert "cudaEventElapsedTime" in source
 
 
-def test_managed_runner_uses_subnormal_and_output_ulp_guards_for_validation():
+@pytest.mark.parametrize("operator_index", [0, 1])
+def test_managed_runner_uses_only_dynamic_relative_row_bound_for_validation(operator_index):
     driver = benchmark()
-    source = driver._source(make_kernel(), driver.operators()[0])
+    operator = driver.operators()[operator_index]
+    source = driver._source(
+        make_kernel(metadata={"operator_id": operator.op_id, "base_format": "csr"}),
+        operator,
+    )
 
-    assert "std::nextafter" in source
-    assert "dynamic-row-bound-plus-subnormal-guard-plus-output-ulp" in source
-    assert "relative_bound = row_bound * scale" in source
-    assert "std::numeric_limits<QiwuSpmvScalar>::denorm_min()" in source
-    assert "const long double subnormal_guard" in source
-    assert "relative_bound + subnormal_guard + ulp_guard" in source
+    assert "dynamic-row-bound" in source
+    assert "if (normalized_error > row_bound)" in source
+    assert "absolute_error / scale" in source
+    assert "static_cast<long double>(row_nnz) * unit_roundoff" in source
+    assert "absolute_error == 0.0L ? 0.0L : std::numeric_limits<long double>::infinity()" in source
+    assert "absolute_bound = row_bound * scale" in source
+    assert "std::nextafter" not in source
+    assert "denorm_min" not in source
+    assert "subnormal_guard" not in source
+    assert "ulp_guard" not in source
     assert "first_mismatch_row" in source
     assert "first_mismatch_absolute_error" in source
 

@@ -70,7 +70,7 @@
           <span class="protocol-label">Correctness</span>
           <strong>Independent CPU CSR reference</strong>
           <code>&rho;<sub>i</sub> = |y<sub>i</sub> &minus; y<sub>ref,i</sub>| / s<sub>i</sub> &le; C &middot; n<sub>i</sub> &middot; u</code>
-          <p>Host <code>long double</code> accumulates the reference. Acceptance is <code>|error| &le; C&middot;n<sub>i</sub>&middot;u&middot;s<sub>i</sub></code>, with <code>n<sub>i</sub>&middot;denorm_min</code> for subnormal rows and <code>0.5&middot;ULP(y<sub>ref,i</sub>)</code> for output rounding; zero-scale rows require zero output.</p>
+          <p>Host <code>long double</code> accumulates the reference. Zero-scale rows require zero output.</p>
         </div>
         <div class="protocol-item">
           <span class="protocol-label">Terms</span>
@@ -285,8 +285,8 @@ const resultSubmissionsUrl = `${repositoryUrl}/upload/main/databank/result-submi
 const protocolSources = [
   { label: "KernelPerf/config/benchmarks.json:22", path: "KernelPerf/config/benchmarks.json", line: 22 },
   { label: "KernelPerf/benchmarks/spmv/template.cu:230", path: "KernelPerf/benchmarks/spmv/template.cu", line: 230 },
-  { label: "KernelPerf/benchmarks/spmv/template.cu:643", path: "KernelPerf/benchmarks/spmv/template.cu", line: 643 },
-  { label: "KernelPerf/benchmarks/spmv/template.cu:781", path: "KernelPerf/benchmarks/spmv/template.cu", line: 781 },
+  { label: "KernelPerf/benchmarks/spmv/template.cu:619", path: "KernelPerf/benchmarks/spmv/template.cu", line: 619 },
+  { label: "KernelPerf/benchmarks/spmv/template.cu:737", path: "KernelPerf/benchmarks/spmv/template.cu", line: 737 },
   { label: "KernelPerf/benchmarks/spmv/driver.py:516", path: "KernelPerf/benchmarks/spmv/driver.py", line: 516 },
 ];
 
