@@ -57,7 +57,6 @@
           <strong>Independent CPU CSR reference</strong>
           <code>&rho;<sub>i,q</sub> = |C<sub>i,q</sub> &minus; C<sub>ref,i,q</sub>| / s<sub>i,q</sub> &le; {{ benchmarkProtocol.safetyFactor }} &middot; nnz<sub>i</sub> &middot; u</code>
           <p>Host <code>long double</code> accumulates the reference; FP32/FP64 output is checked with <code>|error| &le; C&middot;nnz<sub>i</sub>&middot;u&middot;s<sub>i,q</sub></code>. Zero-scale elements require zero output.</p>
-          <p>NaN/Inf, runtime, dimension, and precision failures remain visible in the source CSV.</p>
         </div>
         <div class="protocol-item">
           <span class="protocol-label">Terms</span>

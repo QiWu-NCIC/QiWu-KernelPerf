@@ -71,7 +71,6 @@
           <strong>Independent CPU CSR reference</strong>
           <code>&rho;<sub>i</sub> = |y<sub>i</sub> &minus; y<sub>ref,i</sub>| / s<sub>i</sub> &le; C &middot; n<sub>i</sub> &middot; u</code>
           <p>Host <code>long double</code> accumulates the reference. Acceptance is <code>|error| &le; C&middot;n<sub>i</sub>&middot;u&middot;s<sub>i</sub></code>, with <code>n<sub>i</sub>&middot;denorm_min</code> for subnormal rows and <code>0.5&middot;ULP(y<sub>ref,i</sub>)</code> for output rounding; zero-scale rows require zero output.</p>
-          <p>NaN/Inf, runtime, dimension, and precision failures remain visible in the source CSV.</p>
         </div>
         <div class="protocol-item">
           <span class="protocol-label">Terms</span>
